@@ -4,7 +4,11 @@ import LogedInSection from './Pages/LogedInSection/LogedInSection';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import SignUpPage from './Pages/SignUpPage/SignUpPage';
+
+import OTPverification from './Pages/SignUpPage/OTPverification';
+
 import ForgotPassword from './Pages/LoginPage/ForgotPassword';
+
 
 function App() {
   return (
@@ -14,6 +18,9 @@ function App() {
           <Route path='/' exact Component={LogedInSection} />
           <Route path='/login' Component={LoginPage} />
           <Route path='/signup' Component={SignUpPage} />
+
+          <Route path='/otp' Component={OTPverification} />
+
           <Route path='/forgot' Component={ForgotPassword} />
 
         </Routes>
