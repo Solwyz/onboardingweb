@@ -7,7 +7,7 @@ import SignUpPage from './Pages/SignUpPage/SignUpPage';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App font-AnekLatin">
       <Router>
         <Routes>
           <Route path='/' exact Component={LogedInSection} />

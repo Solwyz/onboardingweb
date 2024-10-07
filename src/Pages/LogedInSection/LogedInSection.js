@@ -1,9 +1,13 @@
 import React from 'react'
+import Logout from "../../Assets/power-off-solid.svg"
 
 function LogedInSection() {
   return (
     <div>
-      <div className='font-AnekLatin text-[45px] text-yellow-900'>User Logged</div>
+      <div className=' flex gap-3'>
+        <div>Ruthin</div>
+        <button className='border rounded-lg p-2'>logout</button>
+      </div>
     </div>
   )
 }
