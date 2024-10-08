@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function LoginPage() {
-  const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameError, setUsernameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const navigate = useNavigate();
@@ -14,14 +14,17 @@ function LoginPage() {
 
     let isValid = true;
 
-    setUsernameError("");
+    setPhoneError("");
     setPasswordError("");
 
-    const validUsername = "user@example.com";
-    const validPassword = "123";
+    const validPhoneNumber = "1234567890"; // Dummy valid phone number for validation
+    const validPassword = "123"; // Dummy valid password for validation
 
-    if (username !== validUsername) {
-      setUsernameError("Username does not exist.");
+    if (phoneNumber.length !== 10) {
+      setPhoneError("Please enter a valid 10-digit phone number.");
+      isValid = false;
+    } else if (phoneNumber !== validPhoneNumber) {
+      setPhoneError("Phone number does not exist.");
       isValid = false;
     }
 
@@ -31,8 +34,26 @@ function LoginPage() {
     }
 
     if (isValid) {
-
       navigate("/");
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    // Allow only numeric characters and prevent non-numeric input
+    if (!/[0-9]/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete") {
+      e.preventDefault();
+      setPhoneError("Please enter numbers only.");
+    } else {
+      setPhoneError(""); // Clear the error when valid input is detected
+    }
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    // Update the value only if it's 10 digits or fewer
+    if (value.length <= 10) {
+      setPhoneNumber(value);
+      setPhoneError(""); // Clear error when valid input is detected
     }
   };
 
@@ -44,18 +65,20 @@ function LoginPage() {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Username
+              Phone Number
             </label>
             <input
-              type="email"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="text"
+              value={phoneNumber}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              maxLength="10"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email"
+              placeholder="Enter your phone number"
               required
             />
-            {usernameError && (
-              <p className="text-red-600 text-sm mt-1">{usernameError}</p>
+            {phoneError && (
+              <p className="text-red-600 text-sm mt-1">{phoneError}</p>
             )}
           </div>
 
