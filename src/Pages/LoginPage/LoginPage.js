@@ -17,8 +17,8 @@ function LoginPage() {
     setPhoneError("");
     setPasswordError("");
 
-    const validPhoneNumber = "1234567890"; // Dummy valid phone number for validation
-    const validPassword = "123"; // Dummy valid password for validation
+    const validPhoneNumber = "1234567890"; 
+    const validPassword = "123"; 
 
     if (phoneNumber.length !== 10) {
       setPhoneError("Please enter a valid 10-digit phone number.");
@@ -39,21 +39,25 @@ function LoginPage() {
   };
 
   const handleKeyDown = (e) => {
-    // Allow only numeric characters and prevent non-numeric input
     if (!/[0-9]/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete") {
       e.preventDefault();
       setPhoneError("Please enter numbers only.");
     } else {
-      setPhoneError(""); // Clear the error when valid input is detected
+      setPhoneError(""); 
     }
   };
 
   const handleChange = (e) => {
     const value = e.target.value;
-    // Update the value only if it's 10 digits or fewer
     if (value.length <= 10) {
       setPhoneNumber(value);
-      setPhoneError(""); // Clear error when valid input is detected
+      setPhoneError(""); 
+    }
+  };
+
+  const handleBlur = () => {
+    if (phoneNumber.length !== 10) {
+      setPhoneError("Please enter a valid 10-digit phone number.");
     }
   };
 
@@ -72,6 +76,7 @@ function LoginPage() {
               value={phoneNumber}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
+              onBlur={handleBlur} 
               maxLength="10"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your phone number"
