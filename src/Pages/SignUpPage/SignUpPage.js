@@ -116,83 +116,83 @@ function SignUpPage() {
 
     return (
         <div>
-            <div>
-                <div className='text-center text-[24px] font-semibold mt-20'>Create Account</div>
+            <div className='mt-24 w-[600px] border-2 shadow-lg rounded-md mx-auto pt-4 pb-20'>
+                <div className='text-center text-[24px] font-semibold mt-8'>Create Account</div>
                 {isVerified ?
-                    <div className='mt-8 w-[600px] border-2 rounded mx-auto p-4'>
+                    <div>
                         <div className='text-center'>
-                            <div className='font-medium'>{otpMessage} :</div>
+                            <div className='font-medium mt-8'>{otpMessage} :</div>
                             <input type='text' className='border border-black w-[250px] mt-4'></input>
                         </div>
                         <div className='flex justify-center mt-6'>
-                            <button className='bg-blue-500 px-3 py-2 text-white rounded-lg'>Verify</button>
+                            <button className='bg-blue-600 shadow-lg px-3 py-2 text-white rounded-lg'>Verify</button>
                         </div>
                     </div>
                     :
-                    <form onSubmit={handleSubmit} className='mt-8 w-[600px] border-2 rounded mx-auto p-4'>
+                    <form onSubmit={handleSubmit}>
 
-                        <div className='mx-8 mt-4 text-[16px] flex justify-between'>
+                        <div className='mx-12 mt-8 text-[16px] flex justify-between'>
                             <label>Company name : </label>
-                            <input className='border w-[250px]' type='text' name='companyName' value={formData.companyName} onChange={handleChange}></input>
+                            <input className='border rounded w-[250px]' type='text' name='companyName' value={formData.companyName} onChange={handleChange}></input>
                         </div>
-                        {errors.companyName && <div className=' mx-8 text-red-600 text-right'>{errors.companyName}</div>}
+                        {errors.companyName && <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.companyName}</div>}
 
 
-                        <div className='mx-8 mt-4 text-[16px] flex justify-between'>
+                        <div className='mx-12 mt-4 text-[16px] flex justify-between'>
                             <label>Branch name : </label>
-                            <input className='border w-[250px]' type='text' name='branchName' value={formData.branchName} onChange={handleChange}></input>
+                            <input className='border rounded w-[250px]' type='text' name='branchName' value={formData.branchName} onChange={handleChange}></input>
 
                         </div>
-                        {errors.branchName && <div className=' mx-8 text-red-600 text-right'>{errors.branchName}</div>}
+                        {errors.branchName && <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.branchName}</div>}
 
-                        <div className='mx-8 mt-4 text-[16px] flex justify-between'>
+                        <div className='mx-12 mt-4 text-[16px] flex justify-between'>
                             <label>Company address 1 : </label>
-                            <input className='border w-[250px]' type='text' name='companyAddress1' value={formData.companyAddress1} onChange={handleChange}></input>
+                            <input className='border rounded w-[250px]' type='text' name='companyAddress1' value={formData.companyAddress1} onChange={handleChange}></input>
 
                         </div>
-                        {errors.companyAddress1 && <div className=' mx-8 text-red-600 text-right'>{errors.companyAddress1}</div>}
+                        {errors.companyAddress1 && <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.companyAddress1}</div>}
 
-                        <div className='mx-8 mt-4 text-[16px] flex justify-between'>
+                        <div className='mx-12 mt-4 text-[16px] flex justify-between'>
                             <label>Company address 2 : </label>
-                            <input className='border w-[250px]' type='text' name='companyAddress2' value={formData.companyAddress2} onChange={handleChange}></input>
+                            <input className='border rounded w-[250px]' type='text' name='companyAddress2' value={formData.companyAddress2} onChange={handleChange}></input>
 
                         </div>
-                        {errors.companyAddress2 && <div className=' mx-8 text-red-600 text-right'>{errors.companyAddress2}</div>}
+                        {errors.companyAddress2 && <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.companyAddress2}</div>}
 
-                        <div className='mx-8 mt-4 text-[16px] flex justify-between'>
+                        <div className='mx-12 mt-4 text-[16px] flex justify-between'>
                             <label>Phone number : </label>
-                            <input className='border w-[250px]' type='text' name='phoneNumber' value={formData.phoneNumber} onChange={handleChange}></input>
+                            <input className='border rounded w-[250px]' type='text' name='phoneNumber' value={formData.phoneNumber} onChange={handleChange}></input>
 
                         </div>
-                        {errors.phoneNumber && <div className=' mx-8 text-red-600 text-right'>{errors.phoneNumber}</div>}
+                        {errors.phoneNumber && <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.phoneNumber}</div>}
 
-                        <div className='mx-8 mt-4 text-[16px] flex justify-between'>
+                        <div className='mx-12 mt-4 text-[16px] flex justify-between'>
                             <label>Email : </label>
-                            <input className='border w-[250px]' type='text' name='email' value={formData.email} onChange={handleChange}></input>
+                            <input className='border rounded w-[250px]' type='text' name='email' value={formData.email} onChange={handleChange}></input>
 
                         </div>
-                        {errors.email && <div className=' mx-8 text-red-600 text-right'>{errors.email}</div>}
+                        {errors.email && <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.email}</div>}
 
-                        <div className='mx-8 mt-4 text-[16px] flex justify-between'>
+                        <div className='mx-12 mt-4 text-[16px] flex justify-between'>
                             <label>Password : </label>
-                            <input className='border w-[250px]' type='password' name='password' value={formData.password} onChange={handleChange}></input>
+                            <input className='border rounded w-[250px]' type='password' name='password' value={formData.password} onChange={handleChange}></input>
 
                         </div>
-                        {errors.password && <div className=' mx-8 text-red-600 text-right'>{errors.password}</div>}
+                        {errors.password && <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.password}</div>}
 
-                        <div className='mx-8 mt-4 text-[16px] flex justify-between'>
+                        <div className='mx-12 mt-4 text-[16px] flex justify-between'>
                             <label>Confirm Password : </label>
-                            <input className='border w-[250px]' type='password' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange}></input>
+                            <input className='border rounded w-[250px]' type='password' name='confirmPassword' value={formData.confirmPassword} onChange={handleChange}></input>
 
                         </div>
-                        {errors.confirmPassword && <div className=' mx-8 text-red-600 text-right'>{errors.confirmPassword}</div>}
+                        {errors.confirmPassword && <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.confirmPassword}</div>}
 
-                        <div className='mx-8 mt-4 text-[16px] flex justify-between'>
+                        <div className='mx-12 mt-4 text-[16px] flex justify-between'>
                             <label>Income Certificate (Optional) : </label>
-                            <input className='border w-[250px]' type='file' name='incomeCertificate' value={formData.incomeCertificate} onChange={handleChange}></input>
+                            <input className='border rounded w-[250px]' type='file' name='incomeCertificate' value={formData.incomeCertificate} onChange={handleChange}></input>
                         </div>
-                        <div className='flex justify-center mt-6'>
-                            <button type='submit' className='bg-blue-500 px-3 py-2 text-white rounded-lg'>Submit</button>
+                        <div className='flex justify-center mt-8'>
+                            <button type='submit' className='bg-blue-600 shadow-lg px-3 py-2 text-white rounded-lg'>Submit</button>
                         </div>
                     </form>
                 }
