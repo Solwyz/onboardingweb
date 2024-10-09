@@ -6,6 +6,7 @@ import {
 } from 'react-icons/fa';
 import LeaveManagement from '../../Components/DashboardComponents/LeaveManagement/LeaveManagement';
 import EmployeeInformation from '../../Components/DashboardComponents/EmployeeInformation/EmployeeInformation';
+import AttendanceManagement from '../../Components/DashboardComponents/AttendanceManagement/AttendanceManagement';
 
 function LogedInSection() {
   const [expandedSection, setExpandedSection] = useState(null);
@@ -49,7 +50,7 @@ function LogedInSection() {
       case 'leave':
         return <LeaveManagement />;
       case 'attendance':
-        return <div>Attendance content...</div>;
+        return <div><AttendanceManagement/></div>;
       case 'payroll':
         return <div>Details about Payroll...</div>;
       case 'performance':
