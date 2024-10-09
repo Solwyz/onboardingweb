@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome, FaUser, FaProjectDiagram, FaCalendarAlt, FaTasks, FaFileAlt, FaFileInvoice, FaSignOutAlt, FaChevronDown } from 'react-icons/fa'; // Example icons
+import AttendanceManagement from '../../Components/LoginPageComponents/AttendanceManagement/AttendanceManagement';
 
 function LogedInSection() {
   const [expandedSection, setExpandedSection] = useState(null);
@@ -50,7 +51,7 @@ function LogedInSection() {
       case 'leave':
         return <div>Details about Leave Management...</div>;
       case 'attendance':
-        return <div>Details about Attendance...</div>;
+        return <div><AttendanceManagement/></div>;
       case 'payroll':
         return <div>Details about Payroll...</div>;
       case 'performance':
