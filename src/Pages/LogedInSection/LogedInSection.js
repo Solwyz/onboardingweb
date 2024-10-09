@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome, FaUser, FaProjectDiagram, FaCalendarAlt, FaTasks, FaFileAlt, FaFileInvoice, FaSignOutAlt, FaChevronDown } from 'react-icons/fa'; // Example icons
+import LeaveManagement from '../../Components/DashboardComponents/LeaveManagement/LeaveManagement';
 
 
 function LogedInSection() {
@@ -49,7 +50,7 @@ function LogedInSection() {
       case 'employee':
         return <div>Details about Employee Information...</div>;
       case 'leave':
-        return <div>Details about Leave Management...</div>;
+        return <div><LeaveManagement/></div>;
       case 'attendance':
         return <div></div>;
       case 'payroll':
