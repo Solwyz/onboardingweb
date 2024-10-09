@@ -171,8 +171,8 @@ function LogedInSection() {
         </div>
 
         {/* Content Section */}
-        <div className="flex-grow flex justify-center items-center p-8 bg-gray-100">
-          <div className="text-center">
+        <div className="">
+          <div className="">
             {renderContent()}
           </div>
         </div>
