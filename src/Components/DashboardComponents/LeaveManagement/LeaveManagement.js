@@ -11,7 +11,7 @@ function LeaveManagement() {
     startDate: "",
     endDate: "",
     reason: "",
-    approvingManager: "Nikhila Echi",
+    approvingManager: "Nikhila Eachiyyee",
     leaveStatus: "Pending",
     leaveHistory: [
       {
