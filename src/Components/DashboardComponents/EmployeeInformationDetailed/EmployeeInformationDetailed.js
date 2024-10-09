@@ -42,6 +42,10 @@ function EmployeeInformationDetailed() {
     if (name === 'phoneNumbers' && value && !/^[0-9]*$/.test(value)) {
       error = 'Alternative Phone Number must contain only numbers.';
     }
+   
+    if(name === 'personalEmail' && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      error = 'Enter a valid email address';
+    }
 
     return error;
   };
