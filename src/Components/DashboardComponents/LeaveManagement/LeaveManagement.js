@@ -3,11 +3,15 @@ import React, { useState } from "react";
 function LeaveManagement() {
   const [leaveData, setLeaveData] = useState({
     leaveType: "",
-    leaveBalance: 10,
+    leaveBalance: {
+      Sick: 10,
+      Casual: 5,
+      Vacation: 15,
+    },
     startDate: "",
     endDate: "",
     reason: "",
-    approvingManager: "",
+    approvingManager: "Nikhila Echi",
     leaveStatus: "Pending",
     leaveHistory: [
       {
@@ -25,6 +29,13 @@ function LeaveManagement() {
     ],
   });
 
+  const calculateLeaveDays = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const diffTime = Math.abs(end - start);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Including both start and end date
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setLeaveData({
@@ -35,28 +46,58 @@ function LeaveManagement() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newLeaveEntry = {
-      leaveType: leaveData.leaveType,
-      startDate: leaveData.startDate,
-      endDate: leaveData.endDate,
-      leaveStatus: "Pending",
-    };
 
-    setLeaveData((prevState) => ({
-      ...prevState,
-      leaveHistory: [...prevState.leaveHistory, newLeaveEntry],
-      leaveType: "",
-      startDate: "",
-      endDate: "",
-      reason: "",
-      approvingManager: "",
-    }));
+    const leaveDays = calculateLeaveDays(leaveData.startDate, leaveData.endDate);
+    const updatedBalance = leaveData.leaveBalance[leaveData.leaveType] - leaveDays;
 
-    alert("Leave request submitted!");
+    if (updatedBalance >= 0) {
+      const newLeaveEntry = {
+        leaveType: leaveData.leaveType,
+        startDate: leaveData.startDate,
+        endDate: leaveData.endDate,
+        leaveStatus: "Pending",
+      };
+
+      setLeaveData((prevState) => ({
+        ...prevState,
+        leaveBalance: {
+          ...prevState.leaveBalance,
+          [leaveData.leaveType]: updatedBalance,
+        },
+        leaveHistory: [...prevState.leaveHistory, newLeaveEntry],
+        leaveType: "",
+        startDate: "",
+        endDate: "",
+        reason: "",
+      }));
+
+      alert("Leave request submitted!");
+    } else {
+      alert("Insufficient leave balance.");
+    }
   };
 
   return (
-    <div className="min-h-screen w-[1260px]">
+    <div className="min-h-screen w-full">
+      {/* Leave Dashboard */}
+      <div className="w-full p-4 bg-gray-100 shadow-md mb-6">
+        <h3 className="text-2xl font-semibold mb-2">Leave Dashboard</h3>
+        <div className="flex gap-4">
+          <div className="bg-blue-100 p-4 rounded-lg">
+            <h4 className="font-semibold text-blue-700">Sick Leave</h4>
+            <p className="text-xl">{leaveData.leaveBalance.Sick} days</p>
+          </div>
+          <div className="bg-green-100 p-4 rounded-lg">
+            <h4 className="font-semibold text-green-700">Casual Leave</h4>
+            <p className="text-xl">{leaveData.leaveBalance.Casual} days</p>
+          </div>
+          <div className="bg-yellow-100 p-4 rounded-lg">
+            <h4 className="font-semibold text-yellow-700">Vacation Leave</h4>
+            <p className="text-xl">{leaveData.leaveBalance.Vacation} days</p>
+          </div>
+        </div>
+      </div>
+
       <div className="w-8xl mx-auto p-8 rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Leave Management
@@ -83,19 +124,7 @@ function LeaveManagement() {
                 </select>
               </div>
 
-              <div className="mb-4">
-                <label className="block mb-2 font-semibold">Leave Balance</label>
-                <input
-                  type="number"
-                  name="leaveBalance"
-                  value={leaveData.leaveBalance}
-                  onChange={handleInputChange}
-                  disabled
-                  className="w-full p-3 rounded border border-gray-300 bg-gray-200"
-                />
-              </div>
-
-              {/* Start Date and End Date on the same line */}
+              {/* Start Date and End Date */}
               <div className="mb-4 flex flex-col md:flex-row justify-between gap-4">
                 <div className="flex-1">
                   <label className="block mb-2 font-semibold">Start Date</label>
@@ -141,7 +170,7 @@ function LeaveManagement() {
                   name="approvingManager"
                   value={leaveData.approvingManager}
                   onChange={handleInputChange}
-                  required
+                  disabled
                   className="w-full p-3 rounded border border-gray-300"
                 />
               </div>
