@@ -233,7 +233,7 @@ function EmployeeInformationDetailed() {
           {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber}</span>}
         </div>
         <div>
-          <label className="block">Alternative Phone Number:</label>
+          <label className="block">Emergancy Contact Information:</label>
           <input
             type="text"
             name="phoneNumbers"
