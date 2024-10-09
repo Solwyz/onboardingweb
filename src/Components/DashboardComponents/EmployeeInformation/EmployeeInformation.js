@@ -12,7 +12,7 @@ function EmployeeInformation() {
     <div className='h-full w-full'>
       {!showWhitePage ? (
         <button
-          className='border p-3 rounded-lg bg-blue-900 text-white font-medium hover:bg-blue-700 duration-1000 flex justify-end'
+          className='border p-3 rounded-lg bg-blue-900 text-white font-medium hover:bg-blue-700 duration-1000 translate-x-[1095px]'
           onClick={handleAddEmployeeClick}
         >
           + Add Employee
