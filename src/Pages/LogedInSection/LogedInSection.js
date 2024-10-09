@@ -163,8 +163,10 @@ function LogedInSection() {
           </div>
         </div>
 
+
         <div className="flex-grow flex justify-center p-8 bg-white overflow-y-auto">
           <div className="w-full">
+
             {renderContent()}
           </div>
         </div>
