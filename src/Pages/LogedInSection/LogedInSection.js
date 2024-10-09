@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaHome, FaUser, FaProjectDiagram, FaCalendarAlt, FaTasks, FaFileAlt, FaFileInvoice, FaSignOutAlt, FaChevronDown } from 'react-icons/fa'; // Example icons
 import LeaveManagement from '../../Components/DashboardComponents/LeaveManagement/LeaveManagement';
 
+
 function LogedInSection() {
   const [expandedSection, setExpandedSection] = useState(null);
   const [isSidebarExpanded, setSidebarExpanded] = useState(false);
