@@ -10,6 +10,9 @@ import OTPverification from './Pages/SignUpPage/OTPverification';
 import ForgotPassword from './Pages/LoginPage/ForgotPassword';
 
 
+import EmployeeInformation from './Components/DashboardComponents/EmployeeInformation/EmployeeInformation';
+
+
 function App() {
   return (
     <div className="App font-AnekLatin">
@@ -20,6 +23,9 @@ function App() {
           <Route path='/signup' Component={SignUpPage} />
 
           <Route path='/otp' Component={OTPverification} />
+
+        <Route path='/add-employee' element={EmployeeInformation} />
+      
 
           <Route path='/forgot' Component={ForgotPassword} />
 
