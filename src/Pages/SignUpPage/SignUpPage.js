@@ -101,6 +101,12 @@ function SignUpPage() {
     });
   };
 
+  const handleKeyDown = (e) => {
+    if (!/[0-9]/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete") {
+      e.preventDefault();
+    }
+  };
+
   const validateForm = () => {
     let formErrors = {};
 
@@ -251,6 +257,7 @@ function SignUpPage() {
                 className='border rounded w-[250px]'
                 type='text'
                 name='phoneNumber'
+                onKeyDown={handleKeyDown}
                 value={formData.phoneNumber}
                 onChange={handleChange}
               />
