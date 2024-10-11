@@ -8,6 +8,9 @@ import SignUpPage from './Pages/SignUpPage/SignUpPage';
 import ForgotPassword from './Pages/LoginPage/ForgotPassword';
 
 
+import EmployeeInformation from './Components/DashboardComponents/EmployeeInformation/EmployeeInformation';
+
+
 function App() {
   return (
     <div className="App font-AnekLatin">
@@ -16,6 +19,12 @@ function App() {
           <Route path='/' exact Component={LogedInSection} />
           <Route path='/login' Component={LoginPage} />
           <Route path='/signup' Component={SignUpPage} />
+
+
+
+        <Route path='/add-employee' element={EmployeeInformation} />
+      
+
 
           <Route path='/forgot' Component={ForgotPassword} />
 
