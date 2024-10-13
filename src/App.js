@@ -22,8 +22,8 @@ function App() {
 
 
 
-        <Route path='/add-employee' element={EmployeeInformation} />
-      
+          <Route path='/add-employee' element={EmployeeInformation} />
+
 
 
           <Route path='/forgot' Component={ForgotPassword} />
