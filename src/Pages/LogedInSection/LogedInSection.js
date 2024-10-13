@@ -7,6 +7,7 @@ import {
 import LeaveManagement from '../../Components/DashboardComponents/LeaveManagement/LeaveManagement';
 import EmployeeInformation from '../../Components/DashboardComponents/EmployeeInformation/EmployeeInformation';
 import AttendanceManagement from '../../Components/DashboardComponents/AttendanceManagement/AttendanceManagement';
+import PerformanceManagement from '../../Components/DashboardComponents/PerformanceManagement/PerformanceManagement';
 
 function LogedInSection() {
   const [expandedSection, setExpandedSection] = useState(null);
@@ -54,7 +55,7 @@ function LogedInSection() {
       case 'payroll':
         return <div>Details about Payroll...</div>;
       case 'performance':
-        return <div>Details about Performance Management...</div>;
+        return <div><PerformanceManagement/></div>;
       case 'recruitment':
         return <div>Details about Recruitment & Onboarding...</div>;
       case 'training':

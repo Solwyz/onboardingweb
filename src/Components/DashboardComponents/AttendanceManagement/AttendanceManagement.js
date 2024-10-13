@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 function AttendanceManagement() {
-  const attendanceData = [
+
+  const dailyAttendanceData = [
     {
       date: "2024-10-09",
       clockIn: "09:00 AM",
@@ -10,65 +11,49 @@ function AttendanceManagement() {
       workShift: "Morning",
       overtime: "1h",
       status: "Present",
-      lateMarking: "no"
+      lateMarking: "no",
+      year: 2024,
+      month: "October",
     },
     {
       date: "2024-10-08",
       clockIn: "09:30 AM",
       clockOut: "05:00 PM",
-      totalHours: "7.5h",
+      totalHours: "8h",
       workShift: "Morning",
       overtime: "0h",
       status: "Present",
-      lateMarking: "no"
-    }
-  ];
-
-  const monthlyData = [
-    {
+      lateMarking: "no",
       year: 2024,
       month: "October",
-      totalHoursWorked: "160 hr",
-      workShift: "Morning",
-      overtimeHours: "8 hr",
-      attendanceStatus: "90%",
-      lateMarking: 2,
-      leaveDays: 1
     },
     {
+      date: "2024-11-01",
+      clockIn: "09:15 AM",
+      clockOut: "05:30 PM",
+      totalHours: "8h",
+      workShift: "Night",
+      overtime: "0.5h",
+      status: "Present",
+      lateMarking: "yes",
       year: 2024,
       month: "November",
-      totalHoursWorked: "140 hr",
-      workShift: "Night",
-      overtimeHours: "4 hr",
-      attendanceStatus: "85%",
-      lateMarking: 3,
-      leaveDays: 4
     },
-    {
-      year: 2025,
-      month: "January",
-      totalHoursWorked: "150 hr",
-      workShift: "Morning",
-      overtimeHours: "6 hr",
-      attendanceStatus: "92%",
-      lateMarking: 1,
-      leaveDays: 2
-    }
+    
   ];
 
-  const [selectedDate, setSelectedDate] = useState(attendanceData[0].date);
+  const [selectedDate, setSelectedDate] = useState(dailyAttendanceData[0].date);
   const [selectedYear, setSelectedYear] = useState(2024);
   const [selectedMonth, setSelectedMonth] = useState("October");
 
   // Find the attendance record based on the selected date
-  const attendanceForSelectedDate = attendanceData.find(
+  const attendanceForSelectedDate = dailyAttendanceData.find(
     (record) => record.date === selectedDate
   );
 
-  // Find the attendance record based on the selected year and month
-  const attendanceForSelectedMonth = monthlyData.find(
-    (data) => data.year === selectedYear && data.month === selectedMonth
+  // Find all attendance records for the selected year and month
+  const attendanceForSelectedMonth = dailyAttendanceData.filter(
+    (record) => record.year === selectedYear && record.month === selectedMonth
   );
 
   return (
@@ -140,7 +125,7 @@ function AttendanceManagement() {
       )}
 
       {/* Monthly report section */}
-      <div className="text-2xl font-bold text-gray-800 mb-4 mt-32 text-center">Monthly Attendance Report</div>
+      <div className="text-2xl font-bold text-gray-800 mb-4 mt-32 text-center">Daily Attendance Report for {selectedMonth} {selectedYear}</div>
 
       <div className="mb-8 flex items-center justify-center">
         <label className="text-lg font-medium mr-4" htmlFor="attendanceYear">Select Year:</label>
@@ -176,46 +161,35 @@ function AttendanceManagement() {
         </select>
       </div>
 
-      {/* Display monthly attendance report */}
-      {attendanceForSelectedMonth ? (
+      {/* Display daily attendance records for the selected month */}
+      {attendanceForSelectedMonth.length > 0 ? (
         <div className="overflow-x-auto mb-8">
           <table className="min-w-full bg-gray-50 rounded-lg shadow-md">
+            <thead>
+              <tr className='bg-slate-300'>
+                <th className="px-6 py-4 font-medium text-gray-700">Date</th>
+                <th className="px-6 py-4 font-medium text-gray-700">Clock-In</th>
+                <th className="px-6 py-4 font-medium text-gray-700">Clock-Out</th>
+                <th className="px-6 py-4 font-medium text-gray-700">Total Hours Worked</th>
+                <th className="px-6 py-4 font-medium text-gray-700">Work Shift</th>
+                <th className="px-6 py-4 font-medium text-gray-700">Overtime Hours</th>
+                <th className="px-6 py-4 font-medium text-gray-700">Attendance Status</th>
+                <th className="px-6 py-4 font-medium text-gray-700">Late Marking</th>
+              </tr>
+            </thead>
             <tbody>
-              <tr className="border-b">
-                <td className="px-6 py-4 font-medium text-gray-700">Month</td>
-                <td className="px-6 py-4">:</td>
-                <td className="px-6 py-4">{attendanceForSelectedMonth.month}</td>
-              </tr>
-              <tr className="border-b">
-                <td className="px-6 py-4 font-medium text-gray-700">Total Hours Worked</td>
-                <td className="px-6 py-4">:</td>
-                <td className="px-6 py-4">{attendanceForSelectedMonth.totalHoursWorked}</td>
-              </tr>
-              <tr className="border-b">
-                <td className="px-6 py-4 font-medium text-gray-700">Work Shift</td>
-                <td className="px-6 py-4">:</td>
-                <td className="px-6 py-4">{attendanceForSelectedMonth.workShift}</td>
-              </tr>
-              <tr className="border-b">
-                <td className="px-6 py-4 font-medium text-gray-700">Overtime Hours</td>
-                <td className="px-6 py-4">:</td>
-                <td className="px-6 py-4">{attendanceForSelectedMonth.overtimeHours}</td>
-              </tr>
-              <tr className="border-b">
-                <td className="px-6 py-4 font-medium text-gray-700">Attendance Status</td>
-                <td className="px-6 py-4">:</td>
-                <td className="px-6 py-4">{attendanceForSelectedMonth.attendanceStatus}</td>
-              </tr>
-              <tr className="border-b">
-                <td className="px-6 py-4 font-medium text-gray-700">Late Marking</td>
-                <td className="px-6 py-4">:</td>
-                <td className="px-6 py-4">{attendanceForSelectedMonth.lateMarking}</td>
-              </tr>
-              <tr>
-                <td className="px-6 py-4 font-medium text-gray-700">Leave Days</td>
-                <td className="px-6 py-4">:</td>
-                <td className="px-6 py-4">{attendanceForSelectedMonth.leaveDays}</td>
-              </tr>
+              {attendanceForSelectedMonth.map((day, index) => (
+                <tr key={index} className="border-b text-center">
+                  <td className="px-6 py-4">{day.date}</td>
+                  <td className="px-6 py-4">{day.clockIn}</td>
+                  <td className="px-6 py-4">{day.clockOut}</td>
+                  <td className="px-6 py-4">{day.totalHours}</td>
+                  <td className="px-6 py-4">{day.workShift}</td>
+                  <td className="px-6 py-4">{day.overtime}</td>
+                  <td className="px-6 py-4">{day.status}</td>
+                  <td className="px-6 py-4">{day.lateMarking}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
