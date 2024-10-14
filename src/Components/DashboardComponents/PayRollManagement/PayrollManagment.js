@@ -18,9 +18,11 @@ const AdminPayrollForm = () => {
   const [selectedDeductions, setSelectedDeductions] = useState({});
   const [allowanceAmounts, setAllowanceAmounts] = useState({});
   const [deductionAmounts, setDeductionAmounts] = useState({});
-  
+
+
+
   // State for the bonus
-  const [bonus, setBonus] = useState("");
+  const [bonus, setBonus] = useState(0);
 
   // State to track if payroll is created
   const [isPayrollCreated, setIsPayrollCreated] = useState(false);
@@ -92,7 +94,7 @@ const AdminPayrollForm = () => {
   // Handle bonus changes
   const handleBonusChange = (e) => {
     const { value } = e.target;
-    setBonus(Number(value));
+    setBonus(value ? Number(value) : "");
   };
 
   // Validate inputs
@@ -114,11 +116,11 @@ const AdminPayrollForm = () => {
     const totalAllowances = Object.keys(selectedAllowances)
       .filter((allowance) => selectedAllowances[allowance])
       .reduce((acc, curr) => acc + (allowanceAmounts[curr] || 0), 0);
-    
+
     const totalDeductions = Object.keys(selectedDeductions)
       .filter((deduction) => selectedDeductions[deduction])
       .reduce((acc, curr) => acc + (deductionAmounts[curr] || 0), 0);
-    
+
     const calculatedNetPay = Number(payroll.BasicSalary) + totalAllowances + bonus - totalDeductions;
 
     // Set the net pay
@@ -127,7 +129,7 @@ const AdminPayrollForm = () => {
       NetPay: calculatedNetPay,
       allowances: allowanceAmounts,
       deductions: deductionAmounts,
-      bonus: bonus,
+      bonus: bonus || 0, // Ensure bonus is saved correctly
     };
 
     // Add the created payroll to the payslip history
@@ -182,150 +184,148 @@ const AdminPayrollForm = () => {
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Admin - Create Payroll</h1>
+    <div className="p-6 w-full mx-auto">
+      <h1 className="text-2xl font-bold mb-6">Payroll</h1>
 
       {/* Payroll Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block font-medium">Employee Name:</label>
-          <input
-            type="text"
-            name="EmployeeName"
-            value={payroll.EmployeeName}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full rounded"
-            required
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="space-y-7">
+        <div className='flex justify-center items-center'>
+          <div>
+            <label className="block font-medium">Employee Name:</label>
+            <input
+              type="text"
+              name="EmployeeName"
+              value={payroll.EmployeeName}
+              onChange={handleChange}
+              className="border border-gray-300 p-2 w-[500px] rounded input-no-spinner"
+              required
+            />
+          </div>
 
-        <div>
-          <label className="block font-medium">Basic Salary:</label>
-          <input
-            type="number"
-            name="BasicSalary"
-            value={payroll.BasicSalary}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full rounded"
-            required
-            style={{ appearance: 'none' }} // Remove spinner
-          />
+          <div className='ml-5'>
+            <label className="block font-medium">Basic Salary:</label>
+            <input
+              type="number"
+              name="BasicSalary"
+              value={payroll.BasicSalary}
+              onChange={handleChange}
+              className="border border-gray-300 p-2 w-[500px] rounded input-no-spinner"
+              required
+            />
+          </div>
         </div>
+        <div className='flex justify-center items-center'>
+          <div>
+            <label className="block font-medium">Bonus:</label>
+            <input
+              type="number"
+              value={bonus}
+              onChange={handleBonusChange}
+              className="border border-gray-300 p-2 w-[500px] rounded input-no-spinner"
+              required
+            />
+          </div>
+          <div className='ml-5'>
+            <label className="block font-medium">Pay Period:</label>
+            <select
+              name="PayPeriod"
+              value={payroll.PayPeriod}
+              onChange={handleChange}
+              className="border border-gray-300 p-2 w-[500px] rounded input-no-spinner"
+              required
+            >
+              <option value="">Select Pay Period</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Weekly">Weekly</option>
+            </select>
+          </div>
 
-        <div>
-          <label className="block font-medium">Bonus:</label>
-          <input
-            type="number"
-            value={bonus}
-            onChange={handleBonusChange}
-            className="border border-gray-300 p-2 w-full rounded"
-            required
-            style={{ appearance: 'none' }} // Remove spinner
-          />
         </div>
-
-        <div>
-          <label className="block font-medium">Allowances:</label>
-          {allowancesOptions.map((allowance) => (
-            <div key={allowance} className="flex items-center mb-2">
-              <input
-                type="checkbox"
-                name={allowance}
-                checked={selectedAllowances[allowance] || false}
-                onChange={handleAllowanceChange}
-              />
-              <label className="flex-1 ml-2">{allowance}:</label>
-              {selectedAllowances[allowance] && (
+        <div className='flex justify-center items-center'>
+          <div>
+            <label className="block font-medium">Allowances:</label>
+            {allowancesOptions.map((allowance) => (
+              <div key={allowance} className="flex items-center mb-2">
                 <input
-                  type="number"
+                  type="checkbox"
                   name={allowance}
-                  value={allowanceAmounts[allowance] || ''}
-                  onChange={handleAllowanceAmountChange}
-                  className="border border-gray-300 p-2 w-20 rounded"
-               
-                  style={{ appearance: 'none' }} // Remove spinner
+                  checked={selectedAllowances[allowance] || false}
+                  onChange={handleAllowanceChange}
                 />
-              )}
-            </div>
-          ))}
-        </div>
+                <label className="flex-1 ml-2">{allowance}:</label>
+                {selectedAllowances[allowance] && (
+                  <input
+                    type="number"
+                    name={allowance}
+                    value={allowanceAmounts[allowance] || ''}
+                    onChange={handleAllowanceAmountChange}
+                    className="border border-gray-300 p-2 w-20 rounded input-no-spinner text-center ml-12"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
 
-        <div>
-          <label className="block font-medium">Deductions:</label>
-          {deductionsOptions.map((deduction) => (
-            <div key={deduction} className="flex items-center mb-2">
-              <input
-                type="checkbox"
-                name={deduction}
-                checked={selectedDeductions[deduction] || false}
-                onChange={handleDeductionChange}
-              />
-              <label className="flex-1 ml-2">{deduction}:</label>
-              {selectedDeductions[deduction] && (
+          <div className='ml-[450px]'>
+            <label className="block font-medium ">Deductions:</label>
+            {deductionsOptions.map((deduction) => (
+              <div key={deduction} className="flex items-center mb-2">
                 <input
-                  type="number"
+                  type="checkbox"
                   name={deduction}
-                  value={deductionAmounts[deduction] || ''}
-                  onChange={handleDeductionAmountChange}
-                  className="border border-gray-300 p-2 w-20 rounded"
-             
-                  style={{ appearance: 'none' }} // Remove spinner
+                  checked={selectedDeductions[deduction] || false}
+                  onChange={handleDeductionChange}
                 />
-              )}
-            </div>
-          ))}
+                <label className="flex-1 ml-2">{deduction}:</label>
+                {selectedDeductions[deduction] && (
+                  <input
+                    type="number"
+                    name={deduction}
+                    value={deductionAmounts[deduction] || ''}
+                    onChange={handleDeductionAmountChange}
+                    className="border border-gray-300 p-2 w-20 rounded input-no-spinner text-center ml-12"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div>
-          <label className="block font-medium">Pay Period:</label>
-          <select
-            name="PayPeriod"
-            value={payroll.PayPeriod}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full rounded"
-            required
-          >
-            <option value="">Select Pay Period</option>
-            <option value="Monthly">Monthly</option>
-            <option value="Weekly">Weekly</option>
-          </select>
-        </div>
 
-        <div>
-          <label className="block font-medium">Bank Account:</label>
-          <input
-            type="text"
-            name="BankAccount"
-            value={payroll.BankAccount}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full rounded"
-            required
-          />
-        </div>
+        <div className='flex justify-center items-center'>
+          <div>
+            <label className="block font-medium">Bank Account:</label>
+            <input
+              type="number"
+              name="BankAccount"
+              value={payroll.BankAccount}
+              onChange={handleChange}
+              className="border border-gray-300 p-2 w-[500px] rounded appearance-none"
+              required
+            />
+          </div>
 
-        <div>
-          <label className="block font-medium">Tax ID:</label>
-          <input
-            type="text"
-            name="TaxId"
-            value={payroll.TaxId}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full rounded"
-            required
-          />
+          <div className='ml-5'>
+            <label className="block font-medium">Tax ID:</label>
+            <input
+              type="text"
+              name="TaxId"
+              value={payroll.TaxId}
+              onChange={handleChange}
+              className="border border-gray-300 p-2 w-[500px]  rounded input-no-spinner"
+              required
+            />
+          </div>
         </div>
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-        >
-          Create Payroll
-        </button>
+        <div className='flex justify-center items-center'>
+          <button type="submit" className="bg-[#141454] text-white px-4 py-2 rounded   font-semibold">
+            Save
+          </button>
+        </div>
       </form>
 
-      {/* Display payroll details after creation */}
-      {isPayrollCreated && (
-        <div className="mt-6 p-4 border border-green-400 rounded bg-green-50">
+      {isPayrollCreated && payslipHistory.length > 0 && (
+        <div className="mt-6 p-4 border border-[#141454] rounded bg-blue-50">
           <h2 className="text-xl font-semibold mb-4">Payroll Created</h2>
 
           {/* Payroll table */}
@@ -333,20 +333,20 @@ const AdminPayrollForm = () => {
             <tbody>
               <tr>
                 <td className="py-2 px-4 border">Employee Name:</td>
-                <td className="py-2 px-4 border">{payroll.EmployeeName}</td>
+                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].EmployeeName}</td>
               </tr>
               <tr>
                 <td className="py-2 px-4 border">Basic Salary:</td>
-                <td className="py-2 px-4 border">{payroll.BasicSalary}</td>
+                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].BasicSalary}</td>
               </tr>
               <tr>
                 <td className="py-2 px-4 border">Bonus:</td>
-                <td className="py-2 px-4 border">{bonus}</td>
+                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].bonus || 0}</td>
               </tr>
               <tr>
                 <td className="py-2 px-4 border">Allowances:</td>
                 <td className="py-2 px-4 border">
-                  {Object.entries(allowanceAmounts)
+                  {Object.entries(payslipHistory[payslipHistory.length - 1].allowances)
                     .map(([allowance, amount]) => `${allowance}: ${amount}`)
                     .join(', ') || 'None'}
                 </td>
@@ -354,68 +354,37 @@ const AdminPayrollForm = () => {
               <tr>
                 <td className="py-2 px-4 border">Deductions:</td>
                 <td className="py-2 px-4 border">
-                  {Object.entries(deductionAmounts)
+                  {Object.entries(payslipHistory[payslipHistory.length - 1].deductions)
                     .map(([deduction, amount]) => `${deduction}: ${amount}`)
                     .join(', ') || 'None'}
                 </td>
               </tr>
               <tr>
                 <td className="py-2 px-4 border">Net Pay:</td>
-                <td className="py-2 px-4 border">{payroll.NetPay}</td>
+                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].NetPay}</td>
               </tr>
               <tr>
                 <td className="py-2 px-4 border">Pay Period:</td>
-                <td className="py-2 px-4 border">{payroll.PayPeriod}</td>
+                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].PayPeriod}</td>
               </tr>
               <tr>
                 <td className="py-2 px-4 border">Bank Account:</td>
-                <td className="py-2 px-4 border">{payroll.BankAccount}</td>
+                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].BankAccount}</td>
               </tr>
               <tr>
                 <td className="py-2 px-4 border">Tax ID:</td>
-                <td className="py-2 px-4 border">{payroll.TaxId}</td>
+                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].TaxId}</td>
               </tr>
             </tbody>
           </table>
+          <button
+            onClick={() => generatePDF(payslipHistory[payslipHistory.length - 1])}
+            className="mt-4 bg-[#141454] text-white px-4 py-2 rounded"
+          >
+            Download Payslip
+          </button>
         </div>
       )}
-
-      {/* Payslip History Section */}
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">Payslip History</h2>
-
-        {payslipHistory.length > 0 ? (
-          <table className="min-w-full bg-white border border-gray-200">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 border">Employee Name</th>
-                <th className="py-2 px-4 border">Pay Period</th>
-                <th className="py-2 px-4 border">Net Pay</th>
-                <th className="py-2 px-4 border">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {payslipHistory.map((payroll, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-4 border">{payroll.EmployeeName}</td>
-                  <td className="py-2 px-4 border">{payroll.PayPeriod}</td>
-                  <td className="py-2 px-4 border">{payroll.NetPay}</td>
-                  <td className="py-2 px-4 border">
-                    <button
-                      onClick={() => generatePDF(payroll)}
-                      className="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600"
-                    >
-                      Download PDF
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No payslips created yet.</p>
-        )}
-      </div>
     </div>
   );
 };
