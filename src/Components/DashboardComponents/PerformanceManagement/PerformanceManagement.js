@@ -56,7 +56,7 @@ function PerformanceManagement() {
             <h2 className="text-3xl font-bold text-gray-800 mb-6 mt-4 text-center">Performance Management</h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Goal Setting */}
+               
                 <div>
                     <label className="block font-semibold text-gray-700">Goal Setting</label>
                     <input
@@ -82,7 +82,7 @@ function PerformanceManagement() {
                     {/* {errors.kpis && <p className="text-red-500 text-sm">{errors.kpis}</p>} */}
                 </div>
 
-                {/* Appraisal Cycle */}
+                
                 <div>
                     <label className="block font-semibold text-gray-700">Appraisal Cycle</label>
                     <select
@@ -97,7 +97,7 @@ function PerformanceManagement() {
                     {/* {errors.appraisalCycle && <p className="text-red-500 text-sm">{errors.appraisalCycle}</p>} */}
                 </div>
 
-                {/* Appraisal Date */}
+                
                 <div>
                     <label className="block font-semibold text-gray-700">Appraisal Date</label>
                     <input
@@ -110,7 +110,7 @@ function PerformanceManagement() {
                     {/* {errors.appraisalDate && <p className="text-red-500 text-sm">{errors.appraisalDate}</p>} */}
                 </div>
 
-                {/* Appraiser Name */}
+                
                 <div>
                     <label className="block font-semibold text-gray-700">Appraiser Name</label>
                     <input
@@ -123,7 +123,7 @@ function PerformanceManagement() {
                     {/* {errors.appraiserName && <p className="text-red-500 text-sm">{errors.appraiserName}</p>} */}
                 </div>
 
-                {/* Feedback/Comments */}
+                
                 <div>
                     <label className="block font-semibold text-gray-700">Feedback/Comments</label>
                     <textarea
@@ -135,7 +135,7 @@ function PerformanceManagement() {
                     {/* {errors.feedback && <p className="text-red-500 text-sm">{errors.feedback}</p>} */}
                 </div>
 
-                {/* Overall Performance Rating */}
+                
                 <div>
                     <label className="block font-semibold text-gray-700">Overall Performance Rating (0-10)</label>
                     <input
@@ -150,7 +150,7 @@ function PerformanceManagement() {
                     {/* {errors.overallRating && <p className="text-red-500 text-sm">{errors.overallRating}</p>} */}
                 </div>
 
-                {/* Action Plan for Improvement */}
+                
                 <div>
                     <label className="block font-semibold text-gray-700">Action Plan for Improvement</label>
                     <textarea
@@ -162,7 +162,7 @@ function PerformanceManagement() {
                     {/* {errors.actionPlan && <p className="text-red-500 text-sm">{errors.actionPlan}</p>} */}
                 </div>
 
-                {/* Training and Development Plans */}
+                
                 <div>
                     <label className="block font-semibold text-gray-700">Training and Development Plans</label>
                     <textarea
@@ -174,7 +174,7 @@ function PerformanceManagement() {
                     {/* {errors.trainingPlan && <p className="text-red-500 text-sm">{errors.trainingPlan}</p>} */}
                 </div>
 
-                {/* Submit Button */}
+                
                 <div className="text-center">
                     <button
                         type="submit"

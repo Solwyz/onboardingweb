@@ -46,12 +46,12 @@ function AttendanceManagement() {
   const [selectedYear, setSelectedYear] = useState(2024);
   const [selectedMonth, setSelectedMonth] = useState("October");
 
-  // Find the attendance record based on the selected date
+  
   const attendanceForSelectedDate = dailyAttendanceData.find(
     (record) => record.date === selectedDate
   );
 
-  // Find all attendance records for the selected year and month
+  
   const attendanceForSelectedMonth = dailyAttendanceData.filter(
     (record) => record.year === selectedYear && record.month === selectedMonth
   );
@@ -60,7 +60,7 @@ function AttendanceManagement() {
     <div className="container border mx-auto p-8 bg-white shadow-lg rounded-lg">
       <div className="text-3xl font-bold text-gray-800 mb-6 mt-4 text-center">Attendance Management</div>
 
-      {/* Date picker */}
+      
       <div className="mb-8 flex items-center justify-center">
         <label className="text-lg font-medium mr-4" htmlFor="attendanceDate">Select Date:</label>
         <input
@@ -72,7 +72,7 @@ function AttendanceManagement() {
         />
       </div>
 
-      {/* Display daily attendance data */}
+      
       {attendanceForSelectedDate ? (
         <div className="overflow-x-auto mb-8">
           <table className="min-w-full bg-gray-50 rounded-lg shadow-md">
@@ -124,7 +124,7 @@ function AttendanceManagement() {
         <div className="text-lg text-gray-400 text-center mt-20 mb-8">No attendance data available for the selected date.</div>
       )}
 
-      {/* Monthly report section */}
+      
       <div className="text-2xl font-bold text-gray-800 mb-4 mt-32 text-center">Daily Attendance Report for {selectedMonth} {selectedYear}</div>
 
       <div className="mb-8 flex items-center justify-center">
@@ -161,7 +161,7 @@ function AttendanceManagement() {
         </select>
       </div>
 
-      {/* Display daily attendance records for the selected month */}
+      
       {attendanceForSelectedMonth.length > 0 ? (
         <div className="overflow-x-auto mb-8">
           <table className="min-w-full bg-gray-50 rounded-lg shadow-md">
