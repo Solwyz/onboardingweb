@@ -1,3 +1,13 @@
 textarea {
     resize: none;
   }
+  /* CSS to remove input field spinner */
+input[type="number"].input-no-spinner {
+  -moz-appearance: textfield; 
+}
+
+input[type="number"].input-no-spinner::-webkit-inner-spin-button,
+input[type="number"].input-no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none; 
+  margin: 0; 
+}
