@@ -47,7 +47,7 @@ function PerformanceManagement() {
     const handleSubmit = (e) => {
         
         if (validateForm()) {
-            console.log(formData); // Handle form submission logic here
+            console.log(formData); 
         }
     };
 
@@ -69,7 +69,7 @@ function PerformanceManagement() {
                     {/* {errors.goalSetting && <p className="text-red-500 text-sm">{errors.goalSetting}</p>} */}
                 </div>
 
-                {/* KPIs */}
+                
                 <div>
                     <label className="block font-semibold text-gray-700">Key Performance Indicators (KPIs)</label>
                     <input
