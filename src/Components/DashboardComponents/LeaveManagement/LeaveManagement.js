@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
+
 
 function LeaveManagement() {
   const [leaveData, setLeaveData] = useState({
@@ -29,15 +32,17 @@ function LeaveManagement() {
     ],
   });
 
-  // Function to calculate difference in days
+  const [showConfirmCard, setShowConfirmCard] = useState(false);
+  const [leaveDaysToSubmit, setLeaveDaysToSubmit] = useState(0);
+
   const calculateLeaveDays = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
     const diffTime = end - start;
     if (diffTime >= 0) {
-      return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Including both start and end date
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
     }
-    return 0; // Invalid range
+    return 0;
   };
 
   const handleInputChange = (e) => {
@@ -48,19 +53,23 @@ function LeaveManagement() {
     });
   };
 
-  // Disable past dates
   const today = new Date().toISOString().split("T")[0];
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const leaveDays = calculateLeaveDays(leaveData.startDate, leaveData.endDate);
-    const updatedBalance = leaveData.leaveBalance[leaveData.leaveType] - leaveDays;
 
     if (leaveDays === 0) {
-      alert("Invalid date range. Please check your start and end dates.");
+      toast.error("Invalid date range. Please check your start and end dates.");
       return;
     }
+
+    setLeaveDaysToSubmit(leaveDays);
+    setShowConfirmCard(true);
+  };
+
+  const confirmLeaveRequest = () => {
+    const updatedBalance = leaveData.leaveBalance[leaveData.leaveType] - leaveDaysToSubmit;
 
     if (updatedBalance >= 0) {
       const newLeaveEntry = {
@@ -83,18 +92,22 @@ function LeaveManagement() {
         reason: "",
       }));
 
-      alert("Leave request submitted!");
+      toast.success("Leave request submitted successfully!");
     } else {
-      alert("Insufficient leave balance.");
+      toast.error("Insufficient leave balance.");
     }
+
+    setShowConfirmCard(false);
   };
 
-  // Check if all form fields are filled
+  const cancelLeaveRequest = () => {
+    setShowConfirmCard(false);
+  };
+
   const isFormValid = leaveData.leaveType && leaveData.startDate && leaveData.endDate && leaveData.reason;
 
   return (
     <div className="min-h-screen w-full">
-      {/* Leave Dashboard */}
       <div className="w-full p-4 bg-gray-100 shadow-md mb-6">
         <h3 className="text-2xl font-semibold mb-2">Leave Dashboard</h3>
         <div className="flex gap-4">
@@ -111,7 +124,6 @@ function LeaveManagement() {
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Leave Management</h2>
 
         <div className="flex flex-col md:flex-row gap-6">
-          {/* Leave Request Form */}
           <div className="flex-1 p-6 bg-gray-50 rounded-lg shadow-sm">
             <h3 className="text-xl font-semibold mb-4">Request Leave</h3>
             <form onSubmit={handleSubmit}>
@@ -133,7 +145,6 @@ function LeaveManagement() {
                 </select>
               </div>
 
-              {/* Start Date and End Date */}
               <div className="mb-4 flex flex-col md:flex-row justify-between gap-4">
                 <div className="flex-1">
                   <label className="block mb-2 font-semibold">Start Date</label>
@@ -143,7 +154,7 @@ function LeaveManagement() {
                     value={leaveData.startDate}
                     onChange={handleInputChange}
                     required
-                    min={today} // Disable past dates including today
+                    min={today}
                     className="w-full p-3 rounded border border-gray-300"
                   />
                 </div>
@@ -156,7 +167,7 @@ function LeaveManagement() {
                     value={leaveData.endDate}
                     onChange={handleInputChange}
                     required
-                    min={leaveData.startDate || today} // Disable past dates and ensure end date is after start date
+                    min={leaveData.startDate || today}
                     className="w-full p-3 rounded border border-gray-300"
                   />
                 </div>
@@ -188,53 +199,60 @@ function LeaveManagement() {
 
               <button
                 type="submit"
-                className={`w-full py-2 text-white font-semibold rounded-lg transition duration-200 ${
-                  isFormValid
-                    ? "bg-blue-600 hover:bg-blue-700"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
-                disabled={!isFormValid} // Disable submit button if form is not valid
+                className={`w-full py-3 rounded-lg font-bold ${isFormValid ? "bg-indigo-600 text-white" : "bg-gray-400 text-gray-200 cursor-not-allowed"}`}
+                disabled={!isFormValid}
               >
                 Submit Leave Request
               </button>
             </form>
           </div>
 
-          {/* Leave History Section */}
-          <div className="flex-1 p-6 bg-gray-50 rounded-lg shadow-sm">
+          <div className="flex-1 p-6 bg-white rounded-lg shadow-sm">
             <h3 className="text-xl font-semibold mb-4">Leave History</h3>
-            {leaveData.leaveHistory.length > 0 ? (
-              <ul className="divide-y divide-gray-300">
-                {leaveData.leaveHistory.map((leave, index) => (
-                  <li key={index} className="py-4">
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-700">
-                        {leave.leaveType} Leave
-                      </span>
-                      <span
-                        className={`${
-                          leave.leaveStatus === "Approved"
-                            ? "text-green-600"
-                            : leave.leaveStatus === "Rejected"
-                            ? "text-red-600"
-                            : "text-yellow-600"
-                        } font-semibold`}
-                      >
-                        {leave.leaveStatus}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-600">
-                      From {leave.startDate} to {leave.endDate}
+            <ul className="space-y-4">
+              {leaveData.leaveHistory.length === 0 ? (
+                <p className="text-gray-600">No leave history found.</p>
+              ) : (
+                leaveData.leaveHistory.map((leave, idx) => (
+                  <li key={idx} className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <h4 className="font-semibold">
+                      {leave.leaveType} Leave: {leave.startDate} to {leave.endDate}
+                    </h4>
+                    <p className={`font-bold ${leave.leaveStatus === 'Approved' ? 'text-green-600' : leave.leaveStatus === 'Rejected' ? 'text-red-600' : 'text-yellow-600'}`}>
+                      {leave.leaveStatus}
                     </p>
                   </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-gray-600">No leave history available.</p>
-            )}
+                ))
+              )}
+            </ul>
           </div>
         </div>
       </div>
+
+      {/* Confirmation Card */}
+      {showConfirmCard && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+            <h3 className="font-semibold text-[22px] mb-4 text-center">Submit this leave request?</h3>
+            <div className="flex justify-center gap-4">
+              <button
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-100"
+                onClick={confirmLeaveRequest}
+              >
+                Yes
+              </button>
+              <button
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-100"
+                onClick={cancelLeaveRequest}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <ToastContainer position="top-center" />
     </div>
   );
 }
