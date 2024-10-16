@@ -1,198 +1,94 @@
 import React, { useState } from 'react';
+import TeamPlanner from "../../Assets/Superadmin/group.svg";
+import Portfolio from "../../Assets/Superadmin/person.svg";
+import MySchedule from "../../Assets/Superadmin/Frame.svg";
+import ResourcePools from "../../Assets/Superadmin/library_add.svg";
+import ProjectList from "../../Assets/Superadmin/folder_data.svg";
+import Goal from "../../Assets/Superadmin/send.svg";
+import RoadMap from "../../Assets/Superadmin/moving.svg";
+import Report from "../../Assets/Superadmin/lab_profile.svg";
+import Integration from "../../Assets/Superadmin/integration_instructions.svg";
+import Manage from "../../Assets/Superadmin/manage_history.svg";
+import Help from "../../Assets/Superadmin/info.svg";
+import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
+import Test from '../../Components/Test/Test';
+
+
 
 const ResourcePool = () => {
-  const [activeTab, setActiveTab] = useState('Departments');  // Tracks tab in Resource Pool section
-  const [activeSidebar, setActiveSidebar] = useState('Resource Pool');  // Tracks sidebar item
-  const [searchQuery, setSearchQuery] = useState('');
-  const [departments, setDepartments] = useState(['HR', 'Engineering', 'Marketing']);
-  const [newDepartment, setNewDepartment] = useState('');
-  const [filter, setFilter] = useState('');
-  const [showModal, setShowModal] = useState(false);
+  const [activeSidebar, setActiveSidebar] = useState('Resource Pool'); // Tracks sidebar item
 
-  // Handle tab switching inside Resource Pool
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
+  // Sidebar menu items with corresponding icons
+  const sidebarItems = [
+    { name: 'Team Planner', icon: TeamPlanner },
+    { name: 'Portfolio', icon: Portfolio },
+    { name: 'My Schedule', icon: MySchedule },
+    { name: 'Resource Pool', icon: ResourcePools },
+    { name: 'Project List', icon: ProjectList },
+    { name: 'Goal', icon: Goal },
+    { name: 'Roadmap', icon: RoadMap },
+    { name: 'Reports', icon: Report },
+    { name: 'Integration', icon: Integration },
+    { name: 'Manage', icon: Manage },
+    { name: 'Help', icon: Help }
+  ];
 
   // Handle sidebar switching
   const handleSidebarClick = (section) => {
     setActiveSidebar(section);
-    if (section !== 'Resource Pool') {
-      // Reset tabs when leaving Resource Pool section
-      setActiveTab('');
+  };
+
+  // Function to render the appropriate component based on activeSidebar
+  const renderContent = () => {
+    switch (activeSidebar) {
+      case 'Team Planner':
+        return <div><Test/></div>;
+      case 'Portfolio':
+        return <div>Select a section from the sidebar</div>;
+      case 'My Schedule':
+        return <div>Select a section from the sidebar</div>;
+      case 'Resource Pool':
+        return <div>Select a section from the sidebar</div>;
+      case 'Project List':
+        return <div>Select a section from the sidebar</div>;
+      case 'Goal':
+        return <div>Select a section from the sidebar</div>;
+      case 'Roadmap':
+        return <div>Select a section from the sidebar</div>;
+      case 'Reports':
+        return <div>Select a section from the sidebar</div>;
+      default:
+        return <div>Select a section from the sidebar</div>;
     }
   };
-
-  // Handle search
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  // Add a new department
-  const handleAddDepartment = () => {
-    if (newDepartment.trim()) {
-      setDepartments([...departments, newDepartment]);
-      setNewDepartment('');
-      setShowModal(false);
-    }
-  };
-
-  // Apply filters
-  const applyFilter = (items) => {
-    return items.filter((item) => item.toLowerCase().includes(filter.toLowerCase()));
-  };
-
-  // Filter departments by search and applied filters
-  const filteredDepartments = applyFilter(
-    departments.filter((dep) => dep.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
 
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <aside className="w-64 bg-purple-900 text-white p-4">
+      <aside className="w-[333px] bg-[#2B2342] text-white p-4 fixed top-0 left-0 h-screen overflow-y-auto">
         <ul className="space-y-4">
-          {['Team Planner', 'Portfolio', 'My Schedule', 'Resource Pool', 'Project List', 'Goal', 'Roadmap', 'Reports', 'Integration', 'Manage', 'Help'].map(
-            (section) => (
-              <li
-                key={section}
-                onClick={() => handleSidebarClick(section)}
-                className={`p-2 rounded-lg cursor-pointer ${
-                  activeSidebar === section ? 'bg-purple-700' : ''
-                }`}
-              >
-                {section}
-              </li>
-            )
-          )}
+          {sidebarItems.map((item) => (
+            <li
+              key={item.name}
+              onClick={() => handleSidebarClick(item.name)}
+              className={`py-3 px-4 rounded-[32px] cursor-pointer flex items-center ${
+                activeSidebar === item.name ? 'bg-[#655B83]' : ''
+              }`}
+            >
+              <img src={item.icon} alt={`${item.name} Icon`} className="w-6 h-6 mr-4" />
+              {item.name}
+              <img src={RightArrow} alt="Right Arrow" className="w-4 h-4 ml-auto" />
+            </li>
+          ))}
         </ul>
+        <div></div>
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 p-4">
-        {activeSidebar === 'Resource Pool' && (
-          <>
-            {/* Tab Navigation for Resource Pool */}
-            <div className="flex space-x-4 mb-4">
-              {['Departments', 'Resource', 'Roles'].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => handleTabClick(tab)}
-                  className={`px-4 py-2 border-b-2 ${
-                    activeTab === tab ? 'border-blue-500' : 'border-transparent hover:border-blue-500'
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-
-            {/* Search and filter bar */}
-            <div className="flex space-x-4 mb-4">
-              <button
-                onClick={() => setShowModal(true)}
-                className="bg-gray-100 text-blue-500 px-4 py-2 rounded"
-              >
-                + Add department
-              </button>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                placeholder="Search"
-                className="bg-gray-100 text-blue-500 px-4 py-2 rounded"
-              />
-              <input
-                type="text"
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                placeholder="Filter"
-                className="bg-gray-100 text-blue-500 px-4 py-2 rounded"
-              />
-            </div>
-
-            {/* Main content based on active tab */}
-            <div className="bg-white h-full rounded-lg border border-gray-200 p-4">
-              {activeTab === 'Departments' && (
-                <div>
-                  <h2 className="text-xl font-bold mb-4">Departments</h2>
-                  <ul className="list-disc pl-6">
-                    {filteredDepartments.length ? (
-                      filteredDepartments.map((dep, idx) => <li key={idx}>{dep}</li>)
-                    ) : (
-                      <li>No departments found.</li>
-                    )}
-                  </ul>
-                </div>
-              )}
-              {activeTab === 'Resource' && (
-                <div>
-                  <h2 className="text-xl font-bold">Resource Tab</h2>
-                  {/* Content for Resource Tab */}
-                </div>
-              )}
-              {activeTab === 'Roles' && (
-                <div>
-                  <h2 className="text-xl font-bold">Roles Tab</h2>
-                  {/* Content for Roles Tab */}
-                </div>
-              )}
-            </div>
-          </>
-        )}
-
-        {activeSidebar === 'Team Planner' && (
-          <div>
-            <h2 className="text-xl font-bold">Team Planner Section</h2>
-            {/* Add Team Planner specific content here */}
-          </div>
-        )}
-
-        {activeSidebar === 'Portfolio' && (
-          <div>
-            <h2 className="text-xl font-bold">Portfolio Section</h2>
-            {/* Add Portfolio specific content here */}
-          </div>
-        )}
-
-        {activeSidebar === 'My Schedule' && (
-          <div>
-            <h2 className="text-xl font-bold">My Schedule Section</h2>
-            {/* Add My Schedule specific content here */}
-          </div>
-        )}
-
-        {/* Add similar content blocks for other sidebar items (Project List, Goal, etc.) */}
-
-        {/* Modal for adding department */}
-        {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-6 rounded-lg">
-              <h2 className="text-lg font-bold mb-4">Add Department</h2>
-              <input
-                type="text"
-                value={newDepartment}
-                onChange={(e) => setNewDepartment(e.target.value)}
-                placeholder="Department Name"
-                className="border p-2 mb-4 w-full"
-              />
-              <div className="flex space-x-4">
-                <button
-                  onClick={handleAddDepartment}
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                  Add
-                </button>
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="bg-gray-200 px-4 py-2 rounded"
-                >
-                  Canc
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+      <main className="flex-1 p-4 ml-[333px]">
+        <h2 className="text-xl font-bold"></h2>
+        {/* Render the appropriate content */}
+        {renderContent()}
       </main>
     </div>
   );

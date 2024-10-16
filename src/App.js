@@ -11,7 +11,11 @@ import ForgotPassword from './Pages/LoginPage/ForgotPassword';
 import EmployeeInformation from './Components/DashboardComponents/EmployeeInformation/EmployeeInformation';
 import SuperAdmin from './Pages/SuperAdmin/SuperAdmin';
 import Roles from './Components/SuperAdminComponents/ResourcePoolComponents/Roles/Roles';
+
 import Department from './Components/SuperAdminComponents/ResourcePoolComponents/Department/Department';
+
+import Resource from './Components/SuperAdminComponents/ResourcePoolComponents/Resource/Resource';
+
 
 
 function App() {
@@ -28,6 +32,8 @@ function App() {
           <Route path='/department' Component={Department} />
 
 
+
+          <Route path='/resource' Component={Resource} /> 
         </Routes>
       </Router>
     </div>
