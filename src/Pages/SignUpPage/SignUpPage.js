@@ -94,7 +94,7 @@ function SignUpPage() {
       [name]: value,
     });
 
-    // Update specific field error
+    
     setErrors({
       ...errors,
       [name]: newError,
@@ -323,7 +323,7 @@ function SignUpPage() {
                 className={`bg-blue-600 shadow-lg px-3 py-2 text-white rounded-lg ${!isFormValid ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 type='submit'
-                disabled={!isFormValid} // Disable button if form is not valid
+                disabled={!isFormValid} 
               >
                 Submit
               </button>
