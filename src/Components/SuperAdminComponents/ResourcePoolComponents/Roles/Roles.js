@@ -1,87 +1,110 @@
-import React from 'react'
+import React, { useState } from 'react';
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';  
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';  
 
 function Roles() {
-  return (
-    <div className="p-4  ">
-      <div className="flex text-sm font-semibold ">
-        <a href="#" className="hover:underline text-[#498EF6]">Resource Pool</a> <img src={arrowIcon} alt="icon1" /> <span>Role</span>
-      </div>
+  const [isModified, setIsModified] = useState(false); 
 
+  const handleInputChange = () => {
+    setIsModified(true); 
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+   
+    setIsModified(false);
+  };
+
+  return (
+    <div className="p-4 ml-[16px]">
+      <div className="flex text-[20px] font-normal mt-[24px]">
+        <a href="#" className="text-[#498EF6]">Resource Pool</a> 
+        <img src={arrowIcon} className='ml-[10px]' alt="icon1" /> 
+        <span className='ml-[8px]'>Role</span>
+      </div>
 
       <div className="flex justify-between items-center mt-6">
-
-        <button className="text-red-500 text-sm flex  hover:underline">
-        <img src={deleteIcon} alt="icon2" />
-
+        <button className="text-[#E94E4E] text-[14px] font-normal flex">
+          <img src={deleteIcon} alt="icon2" />
           Delete Role
         </button>
-        <div className="mt-6">
-          <button className="text-blue-500 text-sm hover:underline">Back</button>
+        <div className="mt-6 justify-end">
+          <button className="font-normal text-[16px] text-[#3003BB]">Back</button>
         </div>
       </div>
 
-
-      <div className="bg-white max-w-full h-[280px] mt-[16px]  shadow-lg "> 
-       <h1 className="text-lg mt-[24px] ml-[24px] font-semibold">General</h1>
-       <form className="grid grid-cols-2 gap-6">
-      
-        <div className='ml-[24px] mt-[36px]'>
-          <label className="block text-sm font-medium text-gray-700 ">Name</label>
-          <input
-            type="text"
-            className="block w-[250px] border rounded-[8px] mt-[8px]  py-2 px-3 focus:outline-none "
-            value="India"
-            readOnly
-          />
-        </div>
-
-       
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Resource Manager</label>
-          <select className="block w-full border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-            <option>Arjun Das</option>
-         
-          </select>
-        </div>
-
+      <div className="bg-white w-auto h-auto mt-[16px] shadow-lg p-[24px] rounded-lg"> 
+        <h1 className="text-lg font-semibold">General</h1>
         
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
-          <select className="block w-full border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-            <option>Development</option>
-          
-          </select>
-        </div>
+        <form onSubmit={handleSubmit} className=" mt-[36px]">
+          <div className='flex gap-4'>
+            <div className="mb-4">
+              <label className="block text-sm font-normal text-[#373737]">Name</label>
+              <input
+                type="text"
+                className="block w-[247px] h-[48px] border border-[#E6E6E7] rounded-[8px] text-sm font-normal text-[#696A70] mt-[8px] py-2 px-3 focus:outline-none"
+                defaultValue="India"
+                onChange={handleInputChange}
+              />
+            </div>
+  
+            <div className="mb-4 ">
+              <label className="block text-sm font-normal text-[#373737]">Resource Manager</label>
+              <select
+                className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
+                defaultValue="Arjun Das"
+                onChange={handleInputChange} 
+              >
+                <option>Arjun Das</option>
+              </select>
+            </div>
+          </div>
 
-     
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Office</label>
-          <input
-            type="text"
-            className="block w-full border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            value="India"
-            readOnly
-          />
-        </div>
+          <div className=" flex gap-4 mt-[24px]">
+            <div>
+              <label className="block text-sm font-normal text-[#373737]">Department</label>
+              <select
+                className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
+                defaultValue="Development"
+                onChange={handleInputChange}
+              >
+                <option>Development</option>
+              </select>
+            </div>
 
-      
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Value Stream</label>
-          <input
-            type="text"
-            className="block w-full border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            value="India"
-            readOnly
-          />
-        </div>
-      </form>
+            <div>
+              <label className="block text-sm font-normal text-[#373737]">Office</label>
+              <input
+                type="text"
+                className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
+                defaultValue="India"
+                onChange={handleInputChange} 
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-normal text-[#373737]">Value Stream</label>
+              <input
+                type="text"
+                className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
+                defaultValue="India"
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end mt-[24px] mr-[24px] mb-[24px] col-span-2">
+            <button
+              type="submit"
+              disabled={!isModified} 
+              className={`bg-[#232E42] w-[107px] h-[48px] text-white font-medium px-6 py-2 rounded-[8px] ${!isModified ? 'opacity-50 cursor-not-allowed' : ''}`}>
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
-
-
     </div>
-  )
+  );
 }
 
-export default Roles
+export default Roles;
