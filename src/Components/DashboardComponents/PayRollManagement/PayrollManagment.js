@@ -188,7 +188,7 @@ const AdminPayrollForm = () => {
     });
 
     doc.text(`Bank Account: ${payrollData.BankAccount}`, 20, doc.previousAutoTable.finalY + 20);
-    doc.text(`Tax ID: ${payrollData.TaxId}`, 20, doc.previousAutoTable.finalY + 30);
+    doc.text(`IFSC Code: ${payrollData.TaxId}`, 20, doc.previousAutoTable.finalY + 30);
 
     doc.save(`Payslip_${payrollData.EmployeeName}.pdf`);
   };
@@ -322,14 +322,14 @@ const AdminPayrollForm = () => {
           </div>
 
           <div className='ml-5'>
-            <label className="block font-medium">Tax ID:</label>
+            <label className="block font-medium">IFSC Code:</label>
             <input
               type="text"
               name="TaxId"
               value={payroll.TaxId}
               onChange={handleChange}
               className="border border-gray-300 p-2 w-[500px]  rounded input-no-spinner"
-             placeholder='Tax Id'
+             placeholder='IFSC Code'
             />
           </div>
         </div> 
@@ -342,74 +342,14 @@ const AdminPayrollForm = () => {
               isFormValid ? 'bg-[#141454] text-white' : 'bg-gray-300 cursor-not-allowed opacity-50 text-gray-600'
             }`}
             disabled={!isFormValid}
+            onClick={() => generatePDF(payslipHistory[payslipHistory.length - 1])}
           >
-            Save
+            Save & Download Payslip
           </button>
         </div>
       </form>
 
-      {isPayrollCreated && payslipHistory.length > 0 && (
-        <div className="mt-6 p-4 border border-[#141454] rounded bg-blue-50">
-          <h2 className="text-xl font-semibold mb-4">Payroll Created</h2>
 
-          {/* Payroll table */}
-          <table className="min-w-full bg-white border border-gray-200">
-            <tbody>
-              <tr>
-                <td className="py-2 px-4 border">Employee Name:</td>
-                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].EmployeeName}</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-4 border">Basic Salary:</td>
-                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].BasicSalary}</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-4 border">Bonus:</td>
-                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].bonus || 0}</td>
-              </tr>
-              <tr>
-  <td className="py-2 px-4 border">Allowances:</td>
-  <td className="py-2 px-4 border">
-    {Object.entries(payslipHistory[payslipHistory.length - 1].allowances)
-      .map(([allowance, amount]) => `${allowance}: ${amount}`)
-      .join(', ') || 'None'}
-  </td>
-</tr>
-<tr>
-  <td className="py-2 px-4 border">Deductions:</td>
-  <td className="py-2 px-4 border">
-    {Object.entries(payslipHistory[payslipHistory.length - 1].deductions)
-      .map(([deduction, amount]) => `${deduction}: ${amount}`)
-      .join(', ') || 'None'}
-  </td>
-</tr>
-
-              <tr>
-                <td className="py-2 px-4 border">Net Pay:</td>
-                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].NetPay}</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-4 border">Pay Period:</td>
-                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].PayPeriod}</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-4 border">Bank Account:</td>
-                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].BankAccount}</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-4 border">Tax ID:</td>
-                <td className="py-2 px-4 border">{payslipHistory[payslipHistory.length - 1].TaxId}</td>
-              </tr>
-            </tbody>
-          </table>
-          <button
-            onClick={() => generatePDF(payslipHistory[payslipHistory.length - 1])}
-            className="mt-4 bg-[#141454] text-white px-4 py-2 rounded"
-          >
-            Download Payslip
-          </button>
-        </div>
-      )}
     </div>
   );
 };
