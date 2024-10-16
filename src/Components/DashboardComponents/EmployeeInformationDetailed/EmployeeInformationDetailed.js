@@ -8,7 +8,7 @@ const fieldOptions = {
   EmploymentStatus: ['Active', 'Inactive'],
 };
 
-function EmployeeInformationDetailed({ onSubmit }) {
+function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   const [formData, setFormData] = useState({
     EmployeeId: '',
     FirstName: '',
@@ -20,7 +20,7 @@ function EmployeeInformationDetailed({ onSubmit }) {
     BloodGroup: '',
     PersonalEmail: '',
     PhoneNumber: '',
-    EmergencyContactNumber: '',  
+    EmergencyContactNumber: '',
     Address: '',
     Department: '',
     TemporaryAddress: '',
@@ -37,6 +37,13 @@ function EmployeeInformationDetailed({ onSubmit }) {
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const { setShowForm } = useContext(contextItems);
+
+  useEffect(() => {
+    // Pre-fill the form with employee data if provided
+    if (employee) {
+      setFormData(employee);
+    }
+  }, [employee]);
 
   const validateField = (name, value) => {
     if (!value && name !== 'EmployeePhoto') {
@@ -99,15 +106,26 @@ function EmployeeInformationDetailed({ onSubmit }) {
     setIsFormValid(isValid && Object.values(errors).every((error) => !error));
   }, [formData, errors]);
 
+  const handleBackClick = () => {
+    setShowForm(false); // Hide the form and go back to the list
+  };
+
   return (
     <form onSubmit={handleSubmit} className="bg-gray-100 p-8 rounded-lg max-w-5xl mx-auto">
       <h2 className="text-lg font-semibold mb-4 text-center">Employee Information</h2>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {Object.keys(formData).map((key) => (
           <div key={key}>
             <label className="block">{key.replace(/([A-Z])/g, ' $1')}:</label>
             {fieldOptions[key] ? (
-              <select name={key} value={formData[key]} onChange={handleChange} className="border w-full p-2">
+              <select
+                name={key}
+                value={formData[key]}
+                onChange={handleChange}
+                className={`border w-full p-2 ${errors[key] ? 'border-red-500' : ''}`}
+                disabled={viewMode} // Disable when in view mode
+              >
                 <option value="">Select {key.replace(/([A-Z])/g, ' $1')}</option>
                 {fieldOptions[key].map((option) => (
                   <option key={option} value={option}>{option}</option>
@@ -121,6 +139,7 @@ function EmployeeInformationDetailed({ onSubmit }) {
                 onChange={handleChange}
                 onKeyPress={key === 'PhoneNumber' || key === 'EmergencyContactNumber' ? handleKeyPress : null}
                 className={`border w-full p-2 ${errors[key] ? 'border-red-500' : ''}`}
+                disabled={viewMode} // Disable when in view mode
               />
             )}
             {errors[key] && <span className="text-red-500">{errors[key]}</span>}
@@ -128,20 +147,36 @@ function EmployeeInformationDetailed({ onSubmit }) {
         ))}
         <div>
           <label className="block">Employee Photo:</label>
-          <input type="file" name="EmployeePhoto" onChange={handleFileChange} className="w-full" />
+          <input
+            type="file"
+            name="EmployeePhoto"
+            onChange={handleFileChange}
+            className="w-full"
+            disabled={viewMode} // Disable when in view mode
+          />
           {formData.EmployeePhoto && <span>{formData.EmployeePhoto.name}</span>}
           {errors.EmployeePhoto && <span className="text-red-500">{errors.EmployeePhoto}</span>}
         </div>
       </div>
 
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-between mt-6">
         <button
-          type="submit"
-          className={`bg-[#141454] text-white px-6 py-2 rounded ${isFormValid ? 'hover:bg-[#353599]' : 'bg-[#9999a7] opacity-50 cursor-not-allowed'}`}
-          disabled={!isFormValid}
+          type="button"
+          onClick={handleBackClick}
+          className="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-700"
         >
-          Submit
+          Back
         </button>
+
+        {!viewMode && (
+          <button
+            type="submit"
+            className={`bg-[#141454] text-white px-6 py-2 rounded ${isFormValid ? 'hover:bg-[#353599]' : 'bg-[#9999a7] opacity-50 cursor-not-allowed'}`}
+            disabled={!isFormValid}
+          >
+            Submit
+          </button>
+        )}
       </div>
     </form>
   );
