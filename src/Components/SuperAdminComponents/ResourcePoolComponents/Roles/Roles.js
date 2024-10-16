@@ -1,11 +1,11 @@
 import React from 'react'
 
-function SuperAdmin() {
+function Roles() {
   return (
     <div>
-    
+      hii app
     </div>
   )
 }
 
-export default SuperAdmin
+export default Roles
