@@ -187,7 +187,7 @@ const ResourcePool = () => {
                   onClick={() => setShowModal(false)}
                   className="bg-gray-200 px-4 py-2 rounded"
                 >
-                  Cancel
+                  Canc
                 </button>
               </div>
             </div>
