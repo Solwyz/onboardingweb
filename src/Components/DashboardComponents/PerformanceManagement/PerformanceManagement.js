@@ -137,7 +137,7 @@ function PerformanceManagement() {
 
                 
                 <div>
-                    <label className="block font-semibold text-gray-700">Overall Performance Rating (0-10)</label>
+                    <label className="block font-semibold text-gray-700">Overall Performance Rating (1-10)</label>
                     <input
                         type="number"
                         name="overallRating"
