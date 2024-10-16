@@ -31,22 +31,22 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
     TeamDivision: '',
     WorkLocation: '',
     EmploymentStatus: 'Active',
-    EmployeePhoto: null,
+    ProfilePhoto: null, // Add profile photo to the form data
   });
 
+  const [photoPreview, setPhotoPreview] = useState(null);
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const { setShowForm } = useContext(contextItems);
 
   useEffect(() => {
-    // Pre-fill the form with employee data if provided
     if (employee) {
       setFormData(employee);
     }
   }, [employee]);
 
   const validateField = (name, value) => {
-    if (!value && name !== 'EmployeePhoto') {
+    if (!value && name !== 'ProfilePhoto') {
       return `${name.replace(/([A-Z])/g, ' $1')} is required.`;
     }
     if (name === 'PhoneNumber' || name === 'EmergencyContactNumber') {
@@ -61,9 +61,13 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'PhoneNumber' || name === 'EmergencyContactNumber') {
-      const numericValue = value.replace(/\D/g, ''); // Allow only digits
+    const { name, value, files } = e.target;
+    if (name === 'ProfilePhoto' && files[0]) {
+      const photo = files[0];
+      setFormData({ ...formData, ProfilePhoto: photo });
+      setPhotoPreview(URL.createObjectURL(photo)); // Preview photo
+    } else if (name === 'PhoneNumber' || name === 'EmergencyContactNumber') {
+      const numericValue = value.replace(/\D/g, '');
       setFormData({ ...formData, [name]: numericValue });
       setErrors({ ...errors, [name]: validateField(name, numericValue) });
     } else {
@@ -80,12 +84,6 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
     }
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({ ...formData, EmployeePhoto: file });
-    setErrors({ ...errors, EmployeePhoto: file ? '' : 'Employee photo is required.' });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = Object.keys(formData).reduce((acc, key) => {
@@ -100,9 +98,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   };
 
   useEffect(() => {
-    const isValid = Object.keys(formData).every((key) => {
-      return (formData[key] !== '' || key === 'EmployeePhoto') && (key !== 'EmployeePhoto' || formData.EmployeePhoto !== null);
-    });
+    const isValid = Object.keys(formData).every((key) => formData[key] !== '');
     setIsFormValid(isValid && Object.values(errors).every((error) => !error));
   }, [formData, errors]);
 
@@ -132,31 +128,39 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                 ))}
               </select>
             ) : (
-              <input
-                type={key === 'DateOfBirth' || key === 'JoiningDate' ? 'date' : key === 'PersonalEmail' ? 'email' : 'text'}
-                name={key}
-                value={formData[key]}
-                onChange={handleChange}
-                onKeyPress={key === 'PhoneNumber' || key === 'EmergencyContactNumber' ? handleKeyPress : null}
-                className={`border w-full p-2 ${errors[key] ? 'border-red-500' : ''}`}
-                disabled={viewMode} // Disable when in view mode
-              />
+              key === 'ProfilePhoto' ? (
+                <>
+                  <input
+                    type="file"
+                    name={key}
+                    accept="image/*"
+                    onChange={handleChange}
+                    className={`border w-full p-2 ${errors[key] ? 'border-red-500' : ''}`}
+                    disabled={viewMode} // Disable when in view mode
+                  />
+                  {photoPreview && (
+                    <img
+                      src={photoPreview}
+                      alt="Profile Preview"
+                      className="mt-2 w-32 h-32 object-cover rounded-full"
+                    />
+                  )}
+                </>
+              ) : (
+                <input
+                  type={key === 'DateOfBirth' || key === 'JoiningDate' ? 'date' : key === 'PersonalEmail' ? 'email' : 'text'}
+                  name={key}
+                  value={formData[key]}
+                  onChange={handleChange}
+                  onKeyPress={key === 'PhoneNumber' || key === 'EmergencyContactNumber' ? handleKeyPress : null}
+                  className={`border w-full p-2 ${errors[key] ? 'border-red-500' : ''}`}
+                  disabled={viewMode} // Disable when in view mode
+                />
+              )
             )}
             {errors[key] && <span className="text-red-500">{errors[key]}</span>}
           </div>
         ))}
-        <div>
-          <label className="block">Employee Photo:</label>
-          <input
-            type="file"
-            name="EmployeePhoto"
-            onChange={handleFileChange}
-            className="w-full"
-            disabled={viewMode} // Disable when in view mode
-          />
-          {formData.EmployeePhoto && <span>{formData.EmployeePhoto.name}</span>}
-          {errors.EmployeePhoto && <span className="text-red-500">{errors.EmployeePhoto}</span>}
-        </div>
       </div>
 
       <div className="flex justify-between mt-6">
