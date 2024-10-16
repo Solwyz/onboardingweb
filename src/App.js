@@ -15,6 +15,7 @@ import Roles from './Components/SuperAdminComponents/ResourcePoolComponents/Role
 import Department from './Components/SuperAdminComponents/ResourcePoolComponents/Department/Department';
 
 import Resource from './Components/SuperAdminComponents/ResourcePoolComponents/Resource/Resource';
+import ResourcePool from './Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
 
 
 
@@ -30,6 +31,8 @@ function App() {
           <Route path='/forgot' Component={ForgotPassword} />
           <Route path='/role' Component={Roles} />
           <Route path='/department' Component={Department} />
+          <Route path='/resource-pool' Component={ResourcePool} />
+
 
 
 
