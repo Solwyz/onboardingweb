@@ -382,7 +382,7 @@ function Resource({onBack}) {
         </div>
       </form>
 
-      <ResourceList/>
+      {/* <ResourceList/> */}
 
     </div>
   );
