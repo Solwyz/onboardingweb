@@ -380,7 +380,7 @@ function Resource() {
         </div>
       </form>
 
-      <ResourceList/>
+      {/* <ResourceList/> */}
 
     </div>
   );
