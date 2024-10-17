@@ -13,6 +13,8 @@ import Help from "../../Assets/Superadmin/info.svg";
 import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
 import Test from '../../Components/Test/Test';
 import LeftArrow from '../../Assets/Superadmin/arrow_left.svg';
+import ResourcePoool from '../../Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
+
 
 const ResourcePool = () => {
   const [activeSidebar, setActiveSidebar] = useState('Resource Pool'); // Tracks sidebar item
@@ -46,6 +48,7 @@ const ResourcePool = () => {
       case 'Portfolio':
       case 'My Schedule':
       case 'Resource Pool':
+        return <div><ResourcePoool/></div>
       case 'Project List':
       case 'Goal':
       case 'Roadmap':
