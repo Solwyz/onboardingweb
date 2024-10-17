@@ -16,7 +16,7 @@ function Resource() {
     lastName: '',
     resourceKey: '',
     primaryRole: 'UI/UX Designer',
-    resourceManager: 'Male',
+    resourceManager: '',
     calendar: '',
     resourceType: '',
     startDate: '',
@@ -187,15 +187,14 @@ function Resource() {
               </div>
               <div className='mt-6'>
                 <div className='text-[14px]'>Resource Manager</div>
-                <select
+                <input
+                  type='text'
                   name='resourceManager'
                   value={formData.resourceManager}
                   onChange={handleFormChange}
                   className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
                 >
-                  <option value='Male'>Male</option>
-                  <option value='Female'>Female</option>
-                </select>
+                </input>
               </div>
               <div className='mt-6'>
                 <div className='text-[14px]'>Calendar</div>
