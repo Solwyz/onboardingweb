@@ -14,7 +14,7 @@ function Roles({ onBack }) {
 
   const [isModified, setIsModified] = useState(false); 
 
-  
+  // Handles input field changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -24,12 +24,23 @@ function Roles({ onBack }) {
     setIsModified(true);
   };
 
- 
+  // Handles form submission and saves data to localStorage
   const handleSubmit = (event) => {
-    event.preventDefault();
-  
+    event.preventDefault(); // Prevent page reload on form submission
+
+    // Fetch existing data from localStorage
+    const existingData = JSON.parse(localStorage.getItem('RoleData')) || [];
+
+    // Add new form data to existing data
+    const updatedData = [...existingData, formData];
+
+    // Save the updated data array to localStorage only when form is submitted
+    localStorage.setItem('RoleData', JSON.stringify(updatedData));
+
     console.log('Form data submitted:', formData);
-    setIsModified(false); 
+
+    // Reset the isModified state
+    setIsModified(false);
   };
 
   return (
@@ -46,18 +57,18 @@ function Roles({ onBack }) {
           Delete Role
         </button>
         <div className="mt-6 justify-end">
-        <button 
-          onClick={onBack}  
-          className="font-normal text-[16px] text-[#3003BB]">
-          Back
-        </button>
-      </div>
+          <button 
+            onClick={onBack}  
+            className="font-normal text-[16px] text-[#3003BB]">
+            Back
+          </button>
+        </div>
       </div>
 
       <div className="bg-white w-auto h-auto mt-[16px] shadow-lg p-[24px] rounded-lg"> 
         <h1 className="text-lg font-semibold">General</h1>
         
-        <form onSubmit={handleSubmit} className=" mt-[36px]">
+        <form onSubmit={handleSubmit} className="mt-[36px]">
           <div className='flex gap-4'>
             <div className="mb-4">
               <label className="block text-sm font-normal text-[#373737]">Name</label>
