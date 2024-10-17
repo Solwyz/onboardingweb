@@ -5,24 +5,24 @@ import AddIcon from "../../../Assets/Superadmin/add.svg";
 import Resource from './Resource/Resource';
 import Department from './Department/Department';
 import Roles from './Roles/Roles';
+
 import Close from '../../../Assets/Superadmin/close.svg'
 import ResourceList from './Resource/ResourceList';
+
 
 function ResourcePool() {
   const [activeTab, setActiveTab] = useState('Departments');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState(''); 
+  const [modalType, setModalType] = useState('');
   const [departments, setDepartments] = useState([]);
   const [resources, setResources] = useState([]);
   const [roles, setRoles] = useState([]);
-  const [newItem, setNewItem] = useState(''); 
+  const [newItem, setNewItem] = useState('');
 
-  
   const toggleModal = (type = '') => {
-    setModalType(type); 
+    setModalType(type);
     setIsModalOpen(!isModalOpen);
   };
-
 
   const handleAddItem = () => {
     if (newItem) {
@@ -33,12 +33,26 @@ function ResourcePool() {
       } else if (modalType === 'Role') {
         setRoles([...roles, newItem]);
       }
-      setNewItem(''); 
-      toggleModal(); 
+      setNewItem('');
+      toggleModal();
     }
   };
 
- 
+  const handleDepartmentBackClick = () => {
+    setIsModalOpen(true);  
+    setModalType('Department'); 
+  };
+
+  const handleRolesBackClick = () => {
+    setIsModalOpen(true);  
+    setModalType('Role');  
+  };
+  
+  const handleResourcesBackClick = () => {
+    setIsModalOpen(true);  
+    setModalType('Resource');  
+  };
+
   const renderContent = () => {
     if (activeTab === 'Departments' && departments.length === 0) {
       return <div className="text-center p-4 text-gray-500">No departments added yet.</div>;
@@ -50,11 +64,11 @@ function ResourcePool() {
 
     switch (activeTab) {
       case 'Departments':
-        return <div className="p-4"><Department /></div>;
+        return <div className="p-4"><Department onBack={handleDepartmentBackClick} /></div>;
       case 'Resource':
-        return <div className="py-4"><Resource /></div>;
+        return <div className="p-4"><Department onBack={handleResourcesBackClick} /></div>;
       case 'Roles':
-        return <div className="p-4"><Roles /></div>;
+        return <div className="p-4"><Roles onBack={handleRolesBackClick} /></div>;
       default:
         return null;
     }
@@ -62,7 +76,6 @@ function ResourcePool() {
 
   return (
     <div className="ml-[16px]">
-    
       <div className="flex mt-[16px] h-[48px] bg-white shadow w-[528px] font-normal text-[16px] text-[#080723] justify-start">
         {['Departments', 'Resource', 'Roles'].map((tab) => (
           <button
@@ -75,7 +88,6 @@ function ResourcePool() {
         ))}
       </div>
 
-    
       <div className="flex items-center border-1 mt-4 space-x-2">
         {activeTab === 'Departments' && (
           <button
@@ -126,12 +138,10 @@ function ResourcePool() {
         </div>
       </div>
 
-   
       <div className="mt-4 bg-white">
         {renderContent()}
       </div>
 
-    
       {isModalOpen && (
         <div className="fixed inset-0 bg-neutral-800 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white w-[504px] px-6 py-4  shadow-lg">
