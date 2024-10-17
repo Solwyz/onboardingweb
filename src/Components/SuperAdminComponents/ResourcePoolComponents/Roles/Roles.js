@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';  
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';  
 
-function Roles() {
+function Roles({ onBack }) {  
   const [isModified, setIsModified] = useState(false); 
 
   const handleInputChange = () => {
@@ -11,7 +11,6 @@ function Roles() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-   
     setIsModified(false);
   };
 
@@ -29,8 +28,12 @@ function Roles() {
           Delete Role
         </button>
         <div className="mt-6 justify-end">
-          <button className="font-normal text-[16px] text-[#3003BB]">Back</button>
-        </div>
+        <button 
+          onClick={onBack}  
+          className="font-normal text-[16px] text-[#3003BB]">
+          Back
+        </button>
+      </div>
       </div>
 
       <div className="bg-white w-auto h-auto mt-[16px] shadow-lg p-[24px] rounded-lg"> 
