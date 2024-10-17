@@ -3,15 +3,33 @@ import deleteIcon from '../../../../Assets/Superadmin/delete.svg';
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';  
 
 function Roles({ onBack }) {  
+ 
+  const [formData, setFormData] = useState({
+    name: 'India',
+    resourceManager: 'Arjun Das',
+    department: 'Development',
+    office: 'India',
+    valueStream: 'India',
+  });
+
   const [isModified, setIsModified] = useState(false); 
 
-  const handleInputChange = () => {
-    setIsModified(true); 
+  
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+    setIsModified(true);
   };
 
+ 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setIsModified(false);
+  
+    console.log('Form data submitted:', formData);
+    setIsModified(false); 
   };
 
   return (
@@ -45,33 +63,39 @@ function Roles({ onBack }) {
               <label className="block text-sm font-normal text-[#373737]">Name</label>
               <input
                 type="text"
+                name="name"
                 className="block w-[247px] h-[48px] border border-[#E6E6E7] rounded-[8px] text-sm font-normal text-[#696A70] mt-[8px] py-2 px-3 focus:outline-none"
-                defaultValue="India"
+                value={formData.name}
                 onChange={handleInputChange}
               />
             </div>
   
-            <div className="mb-4 ">
+            <div className="mb-4">
               <label className="block text-sm font-normal text-[#373737]">Resource Manager</label>
               <select
+                name="resourceManager"
                 className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
-                defaultValue="Arjun Das"
+                value={formData.resourceManager}
                 onChange={handleInputChange} 
               >
-                <option>Arjun Das</option>
+                <option value="Arjun Das">Arjun Das</option>
+                <option value="Sharma">Sharma</option>
               </select>
             </div>
           </div>
 
-          <div className=" flex gap-4 mt-[24px]">
+          <div className="flex gap-4 mt-[24px]">
             <div>
               <label className="block text-sm font-normal text-[#373737]">Department</label>
               <select
+                name="department"
                 className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
-                defaultValue="Development"
+                value={formData.department}
                 onChange={handleInputChange}
               >
-                <option>Development</option>
+                <option value="Development">Development</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Finance">Finance</option>
               </select>
             </div>
 
@@ -79,8 +103,9 @@ function Roles({ onBack }) {
               <label className="block text-sm font-normal text-[#373737]">Office</label>
               <input
                 type="text"
+                name="office"
                 className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
-                defaultValue="India"
+                value={formData.office}
                 onChange={handleInputChange} 
               />
             </div>
@@ -89,8 +114,9 @@ function Roles({ onBack }) {
               <label className="block text-sm font-normal text-[#373737]">Value Stream</label>
               <input
                 type="text"
+                name="valueStream"
                 className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
-                defaultValue="India"
+                value={formData.valueStream}
                 onChange={handleInputChange}
               />
             </div>
