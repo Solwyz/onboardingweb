@@ -17,10 +17,10 @@ import ResourcePoool from '../../Components/SuperAdminComponents/ResourcePoolCom
 
 
 const ResourcePool = () => {
-  const [activeSidebar, setActiveSidebar] = useState('Resource Pool'); // Tracks sidebar item
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true); // Tracks if sidebar is expanded
+  const [activeSidebar, setActiveSidebar] = useState('Resource Pool'); 
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true); 
 
-  // Sidebar menu items with corresponding icons
+ 
   const sidebarItems = [
     { name: 'Team Planner', icon: TeamPlanner },
     { name: 'Portfolio', icon: Portfolio },
@@ -35,12 +35,11 @@ const ResourcePool = () => {
     { name: 'Help', icon: Help }
   ];
 
-  // Handle sidebar switching
+
   const handleSidebarClick = (section) => {
     setActiveSidebar(section);
   };
 
-  // Function to render the appropriate component based on activeSidebar
   const renderContent = () => {
     switch (activeSidebar) {
       case 'Team Planner':
@@ -66,7 +65,7 @@ const ResourcePool = () => {
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar */}
+
       <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[333px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 fixed top-0 left-0 h-screen overflow-y-auto`}>
         <ul className="space-y-3">
           {sidebarItems.map((item) => (
@@ -90,10 +89,10 @@ const ResourcePool = () => {
         </div>
       </aside>
 
-      {/* Main content */}
+      
       <main className={`flex-1 p-4 transition-all duration-300 ${isSidebarExpanded ? 'ml-[333px]' : 'ml-[80px]'}`}>
         <h2 className="text-xl font-bold"></h2>
-        {/* Render the appropriate content */}
+     
         {renderContent()}
       </main>
     </div>
