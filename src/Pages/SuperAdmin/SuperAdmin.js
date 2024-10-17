@@ -11,7 +11,7 @@ import Integration from "../../Assets/Superadmin/integration_instructions.svg";
 import Manage from "../../Assets/Superadmin/manage_history.svg";
 import Help from "../../Assets/Superadmin/info.svg";
 import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
-import Test from '../../Components/Test/Test';
+
 import LeftArrow from '../../Assets/Superadmin/arrow_left.svg';
 import ResourcePoool from '../../Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
 
@@ -44,15 +44,21 @@ const ResourcePool = () => {
   const renderContent = () => {
     switch (activeSidebar) {
       case 'Team Planner':
-        return <div><Test /></div>;
+        return <div>team Planner</div>;
       case 'Portfolio':
+        return <div>Portfolio</div>;
       case 'My Schedule':
+        return <div>My Schedule</div>;
       case 'Resource Pool':
         return <div><ResourcePoool/></div>
       case 'Project List':
+        return <div>Project List</div>;
       case 'Goal':
+        return <div>Goal</div>;
       case 'Roadmap':
+        return <div>Roadmap</div>;
       case 'Reports':
+        return <div>Report</div>;
       default:
         return <div>Select a section from the sidebar</div>;
     }
