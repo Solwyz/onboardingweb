@@ -117,12 +117,12 @@ function Resource() {
           <img src={deleteIcon} alt="icon2" />
           Delete Department
         </button>
-        <div className="mt-6 justify-end">
+        <div className=" justify-end">
           <button className="font-normal text-[16px] text-[#3003BB]">Back</button>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='mt-4'>
         <div className='flex justify-between p-6 border shadow'>
           <div>
             <div className='text-[20px] font-medium'>General</div>
