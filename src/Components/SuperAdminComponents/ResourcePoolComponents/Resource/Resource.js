@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import dummyImg from '../../../../Assets/Superadmin/DummyImage.png'
 
 function Resource() {
   const [image, setImage] = useState(null);
@@ -7,6 +8,7 @@ function Resource() {
   const [emailError, setEmailError] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [postalCodeError, setPostalCodeError] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -25,26 +27,30 @@ function Resource() {
     skills: ''
   });
 
+  // const dummyImage = 'https://via.placeholder.com/180';
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-
     if (!file) {
-      setPreview(null);
+      setPreview(dummyImg);
       setImage(null);
       return;
     }
-
     setImage(file);
-
     const reader = new FileReader();
     reader.onloadend = () => setPreview(reader.result);
     reader.readAsDataURL(file);
   };
 
+  useEffect(() => {
+    // Set the initial dummy image preview
+    setPreview(dummyImg);
+  }, []);
+
+  
   const handleEmailChange = (e) => {
     const value = e.target.value;
     setEmail(value);
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (value && !emailRegex.test(value)) {
       setEmailError('Invalid email format');
@@ -56,7 +62,6 @@ function Resource() {
   const handlePostalCodeChange = (e) => {
     const value = e.target.value;
     setPostalCode(value);
-
     const postalCodeRegex = /^\d{4,}$/;
     if (value && !postalCodeRegex.test(value)) {
       setPostalCodeError('Postal code must be at least 4 digits');
@@ -72,28 +77,36 @@ function Resource() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (emailError || postalCodeError) {
       alert('Please fix the errors before submitting the form.');
       return;
     }
-
     const dataToSubmit = {
       ...formData,
       email,
       postalCode,
       image: image ? image.name : 'No image selected'
     };
-
     console.log('Form data:', dataToSubmit);
   };
+
+  // Validation check for the entire form
+  useEffect(() => {
+    const allFieldsFilled = Object.values(formData).every((field) => field.trim() !== '') && email.trim() !== '' && postalCode.trim() !== '';
+    const noErrors = !emailError && !postalCodeError;
+
+    if (allFieldsFilled && noErrors) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [formData, email, postalCode, emailError, postalCodeError]);
 
   return (
     <form onSubmit={handleSubmit}>
       <div className='flex justify-between p-6 border shadow'>
         <div>
           <div className='text-[20px] font-medium'>General</div>
-
           <div className='flex gap-4'>
             <div className='mt-6'>
               <div className='text-[14px]'>First Name</div>
@@ -200,22 +213,34 @@ function Resource() {
         </div>
 
         <div>
-          <div className='mt-6'>
-            <div className='text-[14px]'>Upload Photo</div>
-            <input
-              type='file'
-              accept='image/*'
-              onChange={handleImageChange}
-              className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
-            />
+
+          <div className=''>
+            <div>
             {preview && (
               <img
                 src={preview}
                 alt='Preview'
-                className='mt-4 w-[100px] h-[100px] object-cover'
+                className='w-[180px] h-[180px] object-cover rounded border'
               />
             )}
+            </div>
+            <label
+              htmlFor='imageUpload'
+              className='cursor-pointer rounded mt-2  flex items-center justify-center text-[12px] text-[#7386C3]'
+            >
+              {preview && image ? 'Change Photo' : 'Upload Photo'}
+            </label>
+            <input
+              type='file'
+              id='imageUpload'
+              accept='image/*'
+              onChange={handleImageChange}
+              className='hidden'
+            />
+            
           </div>
+
+
         </div>
       </div>
 
@@ -245,18 +270,6 @@ function Resource() {
         </div>
 
         <div className='flex gap-4'>
-          <div className='mt-6'>
-            <div className='text-[14px]'>Country</div>
-            <select
-              name='country'
-              value={formData.country}
-              onChange={handleFormChange}
-              className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
-            >
-              <option value='India'>India</option>
-              <option value='UAE'>UAE</option>
-            </select>
-          </div>
           <div className='mt-6'>
             <div className='text-[14px]'>Postal Code</div>
             <input
@@ -325,7 +338,13 @@ function Resource() {
         </div>
 
         <div className='flex justify-end mt-8'>
-          <button type='submit' className='w-[107px] h-[48px] rounded text-white bg-[#2B2342]'>Submit</button>
+          <button
+            type='submit'
+            className={`w-[107px] h-[48px] rounded text-white ${isFormValid ? 'bg-[#2B2342]' : 'bg-gray-400 cursor-not-allowed'}`}
+            disabled={!isFormValid}
+          >
+            Submit
+          </button>
         </div>
       </div>
     </form>
