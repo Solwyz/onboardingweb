@@ -66,7 +66,7 @@ function ResourcePool() {
       case 'Departments':
         return <div className="p-4"><Department onBack={handleDepartmentBackClick} /></div>;
       case 'Resource':
-        return <div className="p-4"><Department onBack={handleResourcesBackClick} /></div>;
+        return <div className="p-4"><Resource onBack={handleResourcesBackClick} /></div>;
       case 'Roles':
         return <div className="p-4"><Roles onBack={handleRolesBackClick} /></div>;
       default:
