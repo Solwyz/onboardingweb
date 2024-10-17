@@ -10,19 +10,19 @@ import Close from '../../../Assets/Superadmin/close.svg'
 function ResourcePool() {
   const [activeTab, setActiveTab] = useState('Departments');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState(''); // To determine if adding department, resource, or role
+  const [modalType, setModalType] = useState(''); 
   const [departments, setDepartments] = useState([]);
   const [resources, setResources] = useState([]);
   const [roles, setRoles] = useState([]);
-  const [newItem, setNewItem] = useState(''); // General input for the modal
+  const [newItem, setNewItem] = useState(''); 
 
-  // Handle opening and closing of the modal
+  
   const toggleModal = (type = '') => {
-    setModalType(type); // Set type of modal (department, resource, or role)
+    setModalType(type); 
     setIsModalOpen(!isModalOpen);
   };
 
-  // Handle item addition (department, resource, role)
+
   const handleAddItem = () => {
     if (newItem) {
       if (modalType === 'Department') {
@@ -32,12 +32,12 @@ function ResourcePool() {
       } else if (modalType === 'Role') {
         setRoles([...roles, newItem]);
       }
-      setNewItem(''); // Clear input field
-      toggleModal(); // Close modal
+      setNewItem(''); 
+      toggleModal(); 
     }
   };
 
-  // Render content based on active tab
+ 
   const renderContent = () => {
     if (activeTab === 'Departments' && departments.length === 0) {
       return <div className="text-center p-4 text-gray-500">No departments added yet.</div>;
@@ -61,7 +61,7 @@ function ResourcePool() {
 
   return (
     <div className="ml-[16px]">
-      {/* Tab Navigation */}
+    
       <div className="flex mt-[16px] h-[48px] bg-white shadow w-[528px] font-normal text-[16px] text-[#080723] justify-start">
         {['Departments', 'Resource', 'Roles'].map((tab) => (
           <button
@@ -74,7 +74,7 @@ function ResourcePool() {
         ))}
       </div>
 
-      {/* Add buttons for each tab */}
+    
       <div className="flex items-center border-1 mt-4 space-x-2">
         {activeTab === 'Departments' && (
           <button
@@ -125,12 +125,12 @@ function ResourcePool() {
         </div>
       </div>
 
-      {/* Render Content */}
+   
       <div className="mt-4 bg-white">
         {renderContent()}
       </div>
 
-      {/* Modal */}
+    
       {isModalOpen && (
         <div className="fixed inset-0 bg-neutral-800 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white w-[504px] px-6 py-4  shadow-lg">
