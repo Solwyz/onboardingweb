@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import dummyImg from '../../../../Assets/Superadmin/DummyImage.png'
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';
+import ResourceList from './ResourceList';
 
 function Resource() {
   const [image, setImage] = useState(null);
@@ -77,19 +78,31 @@ function Resource() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    
     if (emailError || postalCodeError) {
       alert('Please fix the errors before submitting the form.');
       return;
     }
+    
     const dataToSubmit = {
       ...formData,
       email,
       postalCode,
-      image: image ? image.name : 'No image selected'
+      image: image ? image.name : 'No image selected',
     };
-    console.log('Form data:', dataToSubmit);
+    
+    // Retrieve any existing data from localStorage
+    const existingData = JSON.parse(localStorage.getItem('resourceData')) || [];
+    
+    // Add new data to the existing data array
+    const updatedData = [...existingData, dataToSubmit];
+    
+    // Save the updated data array to localStorage
+    localStorage.setItem('resourceData', JSON.stringify(updatedData));
+    
+    console.log('Form data saved:', dataToSubmit);
   };
+  
 
  
   useEffect(() => {
@@ -366,6 +379,9 @@ function Resource() {
           </div>
         </div>
       </form>
+
+      <ResourceList/>
+
     </div>
   );
 }
