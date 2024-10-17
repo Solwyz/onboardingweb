@@ -3,7 +3,7 @@ import dummyImg from '../../../../Assets/Superadmin/DummyImage.png'
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';
 
-function Resource() {
+function Resource({onBack}) {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [email, setEmail] = useState('');
@@ -117,9 +117,11 @@ function Resource() {
           <img src={deleteIcon} alt="icon2" />
           Delete Department
         </button>
-        <div className=" justify-end">
-          <button className="font-normal text-[16px] text-[#3003BB]">Back</button>
-        </div>
+        <button 
+          onClick={onBack}
+          className="font-normal text-[16px] text-[#3003BB]">
+          Back
+        </button>
       </div>
 
       <form onSubmit={handleSubmit} className='mt-4'>

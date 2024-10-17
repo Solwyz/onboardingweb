@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';  
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';  
 
-function Department() {
+function Department({ onBack }) {
   const [isModified, setIsModified] = useState(false); 
 
   const handleInputChange = () => {
@@ -11,7 +11,6 @@ function Department() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-   
     setIsModified(false);
   };
 
@@ -29,14 +28,18 @@ function Department() {
           Delete Department
         </button>
         <div className="mt-6 justify-end">
-          <button className="font-normal text-[16px] text-[#3003BB]">Back</button>
-        </div>
+        <button 
+          onClick={onBack}  
+          className="font-normal text-[16px] text-[#3003BB]">
+          Back
+        </button>
+      </div>
       </div>
 
       <div className="bg-white w-auto h-auto mt-[16px] shadow-lg p-[24px] rounded-lg"> 
         <h1 className="text-lg font-semibold">General</h1>
         
-        <form onSubmit={handleSubmit} className=" mt-[36px]">
+        <form onSubmit={handleSubmit} className="mt-[36px]">
           <div className='flex gap-4'>
             <div className="mb-4">
               <label className="block text-sm font-normal text-[#373737]">Name</label>
@@ -60,9 +63,7 @@ function Department() {
             </div>
           </div>
 
-          <div className=" flex gap-4 mt-[24px]">
-            
-
+          <div className="flex gap-4 mt-[24px]">
             <div>
               <label className="block text-sm font-normal text-[#373737]">Office</label>
               <input
