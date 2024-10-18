@@ -15,6 +15,17 @@ import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
 import LeftArrow from '../../Assets/Superadmin/arrow_left.svg';
 import ResourcePoool from '../../Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
 
+<<<<<<< Updated upstream
+=======
+const Navbar = () => {
+  return (
+    <nav className="bg-[#2B2342] text-white p-4 shadow-md">
+      <h1 className="text-2xl font-bold">Resource Management</h1>
+   
+    </nav>
+  );
+};
+>>>>>>> Stashed changes
 
 const ResourcePool = () => {
   const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
