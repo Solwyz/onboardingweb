@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';  
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';  
 
 function Roles({ onBack }) {  
- 
   const [formData, setFormData] = useState({
-    name: 'India',
-    resourceManager: 'Arjun Das',
-    department: 'Development',
-    office: 'India',
-    valueStream: 'India',
+    name: '',
+    resourceManager: '',
+    department: '',
+    office: '',
+    valueStream: ''
   });
 
-  const [isModified, setIsModified] = useState(false); 
+  const [rolesData, setRolesData] = useState([]);
+  const [isModified, setIsModified] = useState(false);
 
-  
+  // Enable submit only if all fields are filled
+  const isFormValid = formData.name && formData.resourceManager && formData.department && formData.office && formData.valueStream;
+
+  // Load saved roles from localStorage on component mount
+  useEffect(() => {
+    const savedRoles = JSON.parse(localStorage.getItem('RoleData')) || [];
+    setRolesData(savedRoles);
+  }, []);
+
+  // Handles input field changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -24,12 +33,28 @@ function Roles({ onBack }) {
     setIsModified(true);
   };
 
- 
+  // Handles form submission and saves data to localStorage
   const handleSubmit = (event) => {
-    event.preventDefault();
-  
-    console.log('Form data submitted:', formData);
-    setIsModified(false); 
+    
+
+    // Append new form data to the existing roles array
+    const updatedRoles = [...rolesData, formData];
+
+    // Save the updated roles array to localStorage
+    localStorage.setItem('RoleData', JSON.stringify(updatedRoles));
+
+    // Update state with the new list of roles
+    setRolesData(updatedRoles);
+    
+    // Reset form and isModified state
+    setFormData({
+      name: '',
+      resourceManager: '',
+      department: '',
+      office: '',
+      valueStream: ''
+    });
+    setIsModified(false);
   };
 
   return (
@@ -46,18 +71,18 @@ function Roles({ onBack }) {
           Delete Role
         </button>
         <div className="mt-6 justify-end">
-        <button 
-          onClick={onBack}  
-          className="font-normal text-[16px] text-[#3003BB]">
-          Back
-        </button>
-      </div>
+          <button 
+            onClick={onBack}  
+            className="font-normal text-[16px] text-[#3003BB]">
+            Back
+          </button>
+        </div>
       </div>
 
       <div className="bg-white w-auto h-auto mt-[16px] shadow-lg p-[24px] rounded-lg"> 
         <h1 className="text-lg font-semibold">General</h1>
         
-        <form onSubmit={handleSubmit} className=" mt-[36px]">
+        <form onSubmit={handleSubmit} className="mt-[36px]">
           <div className='flex gap-4'>
             <div className="mb-4">
               <label className="block text-sm font-normal text-[#373737]">Name</label>
@@ -78,6 +103,7 @@ function Roles({ onBack }) {
                 value={formData.resourceManager}
                 onChange={handleInputChange} 
               >
+                <option value="">Select Manager</option>
                 <option value="Arjun Das">Arjun Das</option>
                 <option value="Sharma">Sharma</option>
               </select>
@@ -93,6 +119,7 @@ function Roles({ onBack }) {
                 value={formData.department}
                 onChange={handleInputChange}
               >
+                <option value="">Select Department</option>
                 <option value="Development">Development</option>
                 <option value="Marketing">Marketing</option>
                 <option value="Finance">Finance</option>
@@ -125,8 +152,8 @@ function Roles({ onBack }) {
           <div className="flex justify-end mt-[24px] mr-[24px] mb-[24px] col-span-2">
             <button
               type="submit"
-              disabled={!isModified} 
-              className={`bg-[#232E42] w-[107px] h-[48px] text-white font-medium px-6 py-2 rounded-[8px] ${!isModified ? 'opacity-50 cursor-not-allowed' : ''}`}>
+              disabled={!isFormValid} 
+              className={`bg-[#232E42] w-[107px] h-[48px] text-white font-medium px-6 py-2 rounded-[8px] ${!isFormValid ? 'opacity-50 cursor-not-allowed' : ''}`}>
               Submit
             </button>
           </div>

@@ -8,6 +8,8 @@ import Roles from './Roles/Roles';
 
 import Close from '../../../Assets/Superadmin/close.svg'
 import ResourceList from './Resource/ResourceList';
+import RolesList from './Roles/RolesList';
+import DepartmentList from './Department/DepartmentList';
 
 
 function ResourcePool() {
@@ -55,11 +57,11 @@ function ResourcePool() {
 
   const renderContent = () => {
     if (activeTab === 'Departments' && departments.length === 0) {
-      return <div className="text-center p-4 text-gray-500">No departments added yet.</div>;
+      return <div className="text-center p-4 text-gray-500"><DepartmentList/></div>;
     } else if (activeTab === 'Resource' && resources.length === 0) {
       return <div className="text-center p-4 text-gray-500"><ResourceList /></div>;
     } else if (activeTab === 'Roles' && roles.length === 0) {
-      return <div className="text-center p-4 text-gray-500">No roles added yet.</div>;
+      return <div className="text-center p-4 text-gray-500"><RolesList/></div>;
     }
 
     switch (activeTab) {
