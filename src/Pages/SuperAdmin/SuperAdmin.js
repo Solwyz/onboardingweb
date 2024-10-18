@@ -90,7 +90,7 @@ const SuperAdmin = () => {
           </div>
         </aside>
  
-        <main className={`flex-1 p-4 transition-all duration-300 ${isSidebarExpanded ? '' : 'ml-[80px]'}`}>
+        <main className={`flex-1 p-4 transition-all bg-[#F9F9FB] duration-300 ${isSidebarExpanded ? '' : 'ml-[80px]'}`}>
           <h2 className="text-xl font-bold"></h2>
           {renderContent()}
         </main>
