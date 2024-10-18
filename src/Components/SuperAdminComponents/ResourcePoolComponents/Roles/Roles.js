@@ -5,11 +5,11 @@ import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';
 function Roles({ onBack }) {  
  
   const [formData, setFormData] = useState({
-    name: 'India',
-    resourceManager: 'Arjun Das',
-    department: 'Development',
-    office: 'India',
-    valueStream: 'India',
+    name: '',
+    resourceManager: '',
+    department: '',
+    office: '',
+    valueStream: ''
   });
 
   const [isModified, setIsModified] = useState(false); 
@@ -26,18 +26,12 @@ function Roles({ onBack }) {
 
   // Handles form submission and saves data to localStorage
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent page reload on form submission
+    // Prevent page reload on form submission
 
-    // Fetch existing data from localStorage
-    const existingData = JSON.parse(localStorage.getItem('RoleData')) || [];
+    // Save the current form data to localStorage, replacing previous data
+    localStorage.setItem('RoleData', JSON.stringify([formData]));
 
-    // Add new form data to existing data
-    const updatedData = [...existingData, formData];
-
-    // Save the updated data array to localStorage only when form is submitted
-    localStorage.setItem('RoleData', JSON.stringify(updatedData));
-
-    console.log('Form data submitted:', formData);
+    console.log('Form data saved:', formData);
 
     // Reset the isModified state
     setIsModified(false);
