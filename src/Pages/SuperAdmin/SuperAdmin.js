@@ -11,15 +11,22 @@ import Integration from "../../Assets/Superadmin/integration_instructions.svg";
 import Manage from "../../Assets/Superadmin/manage_history.svg";
 import Help from "../../Assets/Superadmin/info.svg";
 import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
-
 import LeftArrow from '../../Assets/Superadmin/arrow_left.svg';
 import ResourcePoool from '../../Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
+import Header from '../../Components/SuperAdminComponents/Header/Header';
 
+const Navbar = () => {
+  return (
+    <nav className="bg-[#2B2342] text-white p-4 shadow-md">
+      <h1 className="text-2xl font-bold">Resource Management</h1>
+      {/* Add any additional nav links or components here */}
+    </nav>
+  );
+};
 
-const ResourcePool = () => {
+const SuperAdmin = () => {
   const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true); 
-
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const sidebarItems = [
     { name: 'Team Planner', icon: TeamPlanner },
@@ -35,7 +42,6 @@ const ResourcePool = () => {
     { name: 'Help', icon: Help }
   ];
 
-
   const handleSidebarClick = (section) => {
     setActiveSidebar(section);
   };
@@ -43,13 +49,13 @@ const ResourcePool = () => {
   const renderContent = () => {
     switch (activeSidebar) {
       case 'Team Planner':
-        return <div>team Planner</div>;
+        return <div>Team Planner</div>;
       case 'Portfolio':
         return <div>Portfolio</div>;
       case 'My Schedule':
         return <div>My Schedule</div>;
       case 'Resource Pool':
-        return <div><ResourcePoool/></div>
+        return <div><ResourcePoool /></div>;
       case 'Project List':
         return <div>Project List</div>;
       case 'Goal':
@@ -64,39 +70,40 @@ const ResourcePool = () => {
   };
 
   return (
-    <div className="flex h-screen">
-  
-      <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[333px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 fixed top-0 left-0 h-screen overflow-y-auto`}>
-        <ul className="space-y-3">
-          {sidebarItems.map((item) => (
-            <li
-              key={item.name}
-              onClick={() => handleSidebarClick(item.name)}
-              className={`py-3 px-4 rounded-[32px] cursor-pointer flex items-center ${activeSidebar === item.name ? 'bg-[#655B83]' : ''}`}
-            >
-              <img src={item.icon} alt={`${item.name} Icon`} className="w-6 h-6 mr-4" />
-              {isSidebarExpanded && <span>{item.name}</span>}
-              {isSidebarExpanded && <img src={RightArrow} alt="Right Arrow" className="w-4 h-4 ml-auto" />}
-            </li>
-          ))}
-        </ul>
-        <div onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} className="cursor-pointer mt-[110px] ml-6">
-          {isSidebarExpanded ? (
-            <img src={LeftArrow} alt="Collapse Sidebar" />
-          ) : (
-            <img src={RightArrow} alt="Expand Sidebar" />
-          )}
-        </div>
-      </aside>
+    <div className="flex flex-col h-screen">
+      <Header />
 
- 
-      <main className={`flex-1 p-4 transition-all duration-300 ${isSidebarExpanded ? 'ml-[333px]' : 'ml-[80px]'}`}>
-        <h2 className="text-xl font-bold"></h2>
-       
-        {renderContent()}
-      </main>
+      <div className="flex flex-1 overflow-hidden">
+        <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[333px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 h-full`}>
+          <ul className="space-y-3">
+            {sidebarItems.map((item) => (
+              <li
+                key={item.name}
+                onClick={() => handleSidebarClick(item.name)}
+                className={`py-3 px-4 rounded-[32px] cursor-pointer flex items-center ${activeSidebar === item.name ? 'bg-[#655B83]' : ''}`}
+              >
+                <img src={item.icon} alt={`${item.name} Icon`} className="w-6 h-6 mr-4" />
+                {isSidebarExpanded && <span>{item.name}</span>}
+                {isSidebarExpanded && <img src={RightArrow} alt="Right Arrow" className="w-4 h-4 ml-auto" />}
+              </li>
+            ))}
+          </ul>
+          <div onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} className="cursor-pointer mt-[50px] ml-6">
+            {isSidebarExpanded ? (
+              <img src={LeftArrow} alt="Collapse Sidebar" />
+            ) : (
+              <img src={RightArrow} alt="Expand Sidebar" />
+            )}
+          </div>
+        </aside>
+
+        <main className={`flex-1 p-4 transition-all duration-300 ${isSidebarExpanded ? '' : 'ml-[80px]'}`}>
+          <h2 className="text-xl font-bold"></h2>
+          {renderContent()}
+        </main>
+      </div>
     </div>
   );
 };
 
-export default ResourcePool;
+export default SuperAdmin;
