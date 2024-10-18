@@ -4,7 +4,7 @@ import deleteIcon from '../../../../Assets/Superadmin/delete.svg';
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';
 import ResourceList from './ResourceList';
 
-function Resource({onBack}) {
+function Resource({ onBack }) {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [email, setEmail] = useState('');
@@ -30,7 +30,7 @@ function Resource({onBack}) {
     skills: ''
   });
 
- 
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -78,33 +78,33 @@ function Resource({onBack}) {
   };
 
   const handleSubmit = (e) => {
-    
+
     if (emailError || postalCodeError) {
       alert('Please fix the errors before submitting the form.');
       return;
     }
-    
+
     const dataToSubmit = {
       ...formData,
       email,
       postalCode,
       image: image ? image.name : 'No image selected',
     };
-    
+
     // Retrieve any existing data from localStorage
     const existingData = JSON.parse(localStorage.getItem('resourceData')) || [];
-    
+
     // Add new data to the existing data array
     const updatedData = [...existingData, dataToSubmit];
-    
+
     // Save the updated data array to localStorage
     localStorage.setItem('resourceData', JSON.stringify(updatedData));
-    
+
     console.log('Form data saved:', dataToSubmit);
   };
-  
 
- 
+
+
   useEffect(() => {
     const allFieldsFilled = Object.values(formData).every((field) => field.trim() !== '') && email.trim() !== '' && postalCode.trim() !== '';
     const noErrors = !emailError && !postalCodeError;
@@ -130,7 +130,7 @@ function Resource({onBack}) {
           <img src={deleteIcon} alt="icon2" />
           Delete Department
         </button>
-        <button 
+        <button
           onClick={onBack}
           className="font-normal text-[16px] text-[#3003BB]">
           Back
