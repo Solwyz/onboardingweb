@@ -16,6 +16,7 @@ import Department from './Components/SuperAdminComponents/ResourcePoolComponents
 
 import Resource from './Components/SuperAdminComponents/ResourcePoolComponents/Resource/Resource';
 import ResourcePoool from './Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
+import HrTas from './Pages/HrTas/HrTas';
 
 
 
@@ -26,17 +27,11 @@ function App() {
         <Routes>
           <Route path='/hr' Component={LogedInSection} />
           <Route path='/superadmin' Component={SuperAdmin} />
+          <Route path='/hrtas' Component={HrTas} />
           <Route path='/login' Component={LoginPage} />
           <Route path='/signup' Component={SignUpPage} />
           <Route path='/forgot' Component={ForgotPassword} />
-          <Route path='/role' Component={Roles} />
-          <Route path='/department' Component={Department} />
-          <Route path='/resource-pool' Component={ResourcePoool} />
-
-
-
-
-          <Route path='/resource' Component={Resource} /> 
+          
         </Routes>
       </Router>
     </div>
