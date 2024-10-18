@@ -1,34 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';  
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';  
+import DepartmentList from './DepartmentList'; // Adjust the path according to your file structure
 
 function Department({ onBack }) {
-  
   const [formData, setFormData] = useState({
-    name: 'India',
-    resourceManager: 'Arjun Das',
-    office: 'India',
-    valueStream: 'India',
+    name: '',
+    resourceManager: '',
+    office: '',
+    valueStream: ''
   });
 
-  const [isModified, setIsModified] = useState(false); 
+  const [departmentData, setDepartmentData] = useState([]);
+  const [isModified, setIsModified] = useState(false);
 
- 
+  // Enable submit only if all fields are filled
+  const isFormValid = formData.name && formData.resourceManager && formData.office && formData.valueStream;
+
+  // Load saved departments from localStorage on component mount
+  useEffect(() => {
+    const savedDepartment = JSON.parse(localStorage.getItem('DepartmentData')) || [];
+    setDepartmentData(savedDepartment);
+  }, []);
+
+  // Handles input field changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
       [name]: value,
     }));
-    setIsModified(true); 
+    setIsModified(true);
   };
 
-  
+  // Handles form submission and saves data to localStorage
   const handleSubmit = (event) => {
-    event.preventDefault();
+     // Prevent the default form submission
+
+    // Append new form data to the existing department array
+    const updatedDepartment = [...departmentData, formData];
+
+    // Save the updated department array to localStorage
+    localStorage.setItem('DepartmentData', JSON.stringify(updatedDepartment));
+
+    // Update state with the new list of departments
+    setDepartmentData(updatedDepartment);
     
-    console.log('Form data submitted:', formData);
-    setIsModified(false); 
+    // Reset form and isModified state
+    setFormData({
+      name: '',
+      resourceManager: '',
+      office: '',
+      valueStream: ''
+    });
+    setIsModified(false);
   };
 
   return (
@@ -40,17 +65,19 @@ function Department({ onBack }) {
       </div>
 
       <div className="flex justify-between items-center mt-6">
-        <button className="text-[#E94E4E] text-[14px] font-normal flex">
-          <img src={deleteIcon} alt="icon2" />
-          Delete Department
-        </button>
+        <div className="flex">
+          <button className="text-[#E94E4E] text-[14px] font-normal flex">
+            <img src={deleteIcon} alt="icon2" />
+            Delete Department
+          </button>
+        </div>
         <div className="mt-6 justify-end">
-        <button 
-          onClick={onBack}  
-          className="font-normal text-[16px] text-[#3003BB]">
-          Back
-        </button>
-      </div>
+          <button 
+            onClick={onBack}  
+            className="font-normal text-[16px] text-[#3003BB]">
+            Back
+          </button>
+        </div>
       </div>
 
       <div className="bg-white w-auto h-auto mt-[16px] shadow-lg p-[24px] rounded-lg"> 
@@ -77,6 +104,7 @@ function Department({ onBack }) {
                 value={formData.resourceManager}
                 onChange={handleInputChange} 
               >
+                <option value="">Select Manager</option>
                 <option value="Arjun Das">Arjun Das</option>
                 <option value="Sharma">Sharma</option>
               </select>
@@ -110,13 +138,15 @@ function Department({ onBack }) {
           <div className="flex justify-end mt-[24px] mr-[24px] mb-[24px] col-span-2">
             <button
               type="submit"
-              disabled={!isModified} 
-              className={`bg-[#232E42] w-[107px] h-[48px] text-white font-medium px-6 py-2 rounded-[8px] ${!isModified ? 'opacity-50 cursor-not-allowed' : ''}`}>
+              disabled={!isFormValid} 
+              className={`bg-[#232E42] w-[107px] h-[48px] text-white font-medium px-6 py-2 rounded-[8px] ${(!isFormValid) ? 'opacity-50 cursor-not-allowed' : ''}`}>
               Submit
             </button>
           </div>
         </form>
       </div>
+
+     
     </div>
   );
 }
