@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import bar1 from '../../../../Assets/HrTas/employeeForms/form1.png'
 import tickIcon from '../../../../Assets/HrTas/check.svg';
+import ProfessionalDetails from './ProfessionalDetails';
 
 
 
@@ -315,7 +316,7 @@ function BasicDetailsForm() {
 
                     </form>
                 </div>
-                : <div>Proffecsional form</div>
+                : <ProfessionalDetails/>
             }
         </div>
 

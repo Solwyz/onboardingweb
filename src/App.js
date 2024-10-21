@@ -17,7 +17,7 @@ import Department from './Components/SuperAdminComponents/ResourcePoolComponents
 import Resource from './Components/SuperAdminComponents/ResourcePoolComponents/Resource/Resource';
 import ResourcePoool from './Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
 import HrTas from './Pages/HrTas/HrTas';
-import ProfessionalDetails from './Components/HrTAScomponent/Employee/ProfessionalDetails';
+import ProfessionalDetails from './Components/HrTAScomponent/Employee/EmployeeAddForms/ProfessionalDetails';
 
 
 
