@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Home from "../../Assets/HrTas/group.svg";
-import Employee from "../../Assets/HrTas/person.svg";
+import EmployeeIcon from "../../Assets/HrTas/person.svg";
 import ExpenseClaim from "../../Assets/HrTas/Frame (4).svg";
 import Leave from "../../Assets/HrTas/Frame.svg";
 import Attendance from "../../Assets/HrTas/Group (1).svg";
@@ -15,6 +15,7 @@ import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
 
 import LeftArrow from '../../Assets/Superadmin/arrow_left.svg';
 import ResourcePoool from '../../Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
+import Employee from '../../Components/HrTAScomponent/Employee/Employee';
 
 function HrTas() {
   const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
@@ -22,7 +23,7 @@ function HrTas() {
 
   const sidebarItems = [
     { name: 'Home', icon: Home },
-    { name: 'Employee', icon: Employee },
+    { name: 'Employee', icon: EmployeeIcon },
     { name: 'Expense Claim', icon: ExpenseClaim },
     { name: 'Leave', icon: Leave },
     { name: 'Attendance', icon: Attendance },
@@ -45,7 +46,7 @@ function HrTas() {
       case 'Home':
         return <div>Home page</div>;
       case 'Employee':
-        return <div>Portfolio</div>;
+        return <div><Employee/></div>;
       case 'Expense Claim':
         return <div>My Schedule</div>;
       case 'Resource Pool':
