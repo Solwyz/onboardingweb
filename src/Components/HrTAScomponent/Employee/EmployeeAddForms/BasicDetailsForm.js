@@ -95,7 +95,7 @@ function BasicDetailsForm() {
                         <ol className="flex items-center w-[678px]">
                             {/* Step 1 */}
                             <li className="flex flex-col items-start  w-full text-center">
-                                <div className="flex w-full items-center text-[#2B2342] after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
+                                <div className="flex w-full items-center text-[#2B2342] after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
                                     <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
                                         <img src={tickIcon} alt="" className="w-3 h-3" />
                                     </span>
@@ -106,7 +106,7 @@ function BasicDetailsForm() {
                             {/* Step 2 */}
                             <li className="flex flex-col  items-start w-full text-center">
                                 <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
-                                    <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
+                                    <span className="flex items-center justify-center w-5 h-5 bg-[#DCDCDC] rounded-full shrink-0">
                                         <img src={tickIcon} alt="" className="w-3 h-3" />
                                     </span>
                                 </div>
