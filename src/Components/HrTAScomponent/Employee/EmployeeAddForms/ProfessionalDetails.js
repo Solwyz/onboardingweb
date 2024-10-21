@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import tickIcon from '../../../Assets/HrTas/check.svg';
+import tickIcon from '../../../../Assets/HrTas/check.svg';
 
 function ProfessionalDetails() {
     const [formData, setFormData] = useState({
