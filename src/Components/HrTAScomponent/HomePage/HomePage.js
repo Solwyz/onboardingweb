@@ -15,7 +15,7 @@ function HomePage() {
         <h1 className='text-[24px] font-medium '>Welcome Back !!</h1>
     </div>
     <div className='Attendance-section mt-5 flex gap-[17px]'>
-        <div className='w-[355px] h-[132px] bg-[#FFFFFF] px-6 py-4  rounded-lg '>
+        <div className='w-full h-[132px] bg-[#FFFFFF] px-6 py-4  rounded-lg '>
             <h1 className='text-[16px] text-[#1255D0] font-medium   '>Total employee</h1>
             <div className='flex items-center'>
              <img src={Users} alt="" />
@@ -23,7 +23,7 @@ function HomePage() {
              <img className='ml-[132px]' src={Equalizer} alt="" />
             </div>
         </div>
-        <div className='w-[355px] h-[132px] bg-[#FFFFFF] px-6 py-4  rounded-lg '>
+        <div className='w-full h-[132px] bg-[#FFFFFF] px-6 py-4  rounded-lg '>
             <h1 className='text-[16px] text-[#21C331] font-medium   '>Today Present</h1>
             <div className='flex items-center'>
              <img src={Users} alt="" />
@@ -31,7 +31,7 @@ function HomePage() {
              <img className='ml-[132px]' src={EqualizerGreen} alt="" />
             </div>
         </div>
-        <div className='w-[355px] h-[132px] bg-[#FFFFFF] px-6 py-4  rounded-lg '>
+        <div className='w-full h-[132px] bg-[#FFFFFF] px-6 py-4  rounded-lg '>
             <h1 className='text-[16px] text-[#E30707] font-medium   '>Total Leave</h1>
             <div className='flex items-center'>
              <img src={Users} alt="" />

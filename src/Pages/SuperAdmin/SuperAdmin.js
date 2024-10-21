@@ -14,13 +14,11 @@ import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
 import LeftArrow from '../../Assets/Superadmin/arrow_left.svg';
 import ResourcePoool from '../../Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
 import Header from '../../Components/SuperAdminComponents/Header/Header';
- 
 
- 
 const SuperAdmin = () => {
   const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
- 
+
   const sidebarItems = [
     { name: 'Team Planner', icon: TeamPlanner },
     { name: 'Portfolio', icon: Portfolio },
@@ -34,11 +32,11 @@ const SuperAdmin = () => {
     { name: 'Manage', icon: Manage },
     { name: 'Help', icon: Help }
   ];
- 
+
   const handleSidebarClick = (section) => {
     setActiveSidebar(section);
   };
- 
+
   const renderContent = () => {
     switch (activeSidebar) {
       case 'Team Planner':
@@ -61,11 +59,11 @@ const SuperAdmin = () => {
         return <div>Select a section from the sidebar</div>;
     }
   };
- 
+
   return (
     <div className="flex flex-col h-screen">
       <Header />
- 
+
       <div className="flex flex-1 overflow-hidden">
         <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[333px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 h-full`}>
           <ul className="space-y-3">
@@ -89,8 +87,9 @@ const SuperAdmin = () => {
             )}
           </div>
         </aside>
- 
-        <main className={`flex-1 p-4 transition-all bg-[#F9F9FB] duration-300 ${isSidebarExpanded ? '' : 'ml-[80px]'}`}>
+
+   
+        <main className={`flex-1 p-4 overflow-y-auto transition-all bg-[#F9F9FB] duration-300 ${isSidebarExpanded ? '' : 'ml-[80px]'}`}>
           <h2 className="text-xl font-bold"></h2>
           {renderContent()}
         </main>
@@ -98,6 +97,5 @@ const SuperAdmin = () => {
     </div>
   );
 };
- 
+
 export default SuperAdmin;
- 

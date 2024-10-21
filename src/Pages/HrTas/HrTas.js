@@ -19,6 +19,7 @@ import ResourcePoool from '../../Components/SuperAdminComponents/ResourcePoolCom
 import Employee from '../../Components/HrTAScomponent/Employee/Employee';
 
 import HomePage from '../../Components/HrTAScomponent/HomePage/HomePage';
+import Header from '../../Components/SuperAdminComponents/Header/Header';
 
 function HrTas() {
   const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
@@ -32,8 +33,8 @@ function HrTas() {
     { name: 'Attendance', icon: Attendance },
     { name: 'Document', icon: Document },
     { name: 'Incident', icon: Incident },
-    { name: 'Team', icon: Team },
-    { name: 'Payroll', icon: Payroll },
+    { name: 'People', icon: Team },
+  
     { name: 'Employer', icon: Employer },
     { name: 'User Guide', icon: UserGuide },
     { name: 'Help', icon: Help }
@@ -62,10 +63,9 @@ function HrTas() {
         return <div>Roadmap</div>;
       case 'Incident':
         return <div>Report</div>;
-      case 'Team':
+      case 'People':
         return <div>Goal</div>;
-      case 'Payroll':
-        return <div>Roadmap</div>;
+   
       case 'Employer':
         return <div>Report</div>;
       case 'User Guide':
@@ -78,37 +78,39 @@ function HrTas() {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col h-screen">
+      <Header />
 
-      <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[333px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 fixed top-0 left-0 h-screen overflow-y-auto`}>
-        <ul className="space-y-3">
-          {sidebarItems.map((item) => (
-            <li
-              key={item.name}
-              onClick={() => handleSidebarClick(item.name)}
-              className={`py-3 px-4 rounded-[32px] cursor-pointer flex items-center ${activeSidebar === item.name ? 'bg-[#655B83]' : ''}`}
-            >
-              <img src={item.icon} alt={`${item.name} Icon`} className="w-6 h-6 mr-4" />
-              {isSidebarExpanded && <span>{item.name}</span>}
-              {isSidebarExpanded && <img src={RightArrow} alt="Right Arrow" className="w-4 h-4 ml-auto" />}
-            </li>
-          ))}
-        </ul>
-        <div onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} className="cursor-pointer mt-[110px] ml-6">
-          {isSidebarExpanded ? (
-            <img src={LeftArrow} alt="Collapse Sidebar" />
-          ) : (
-            <img src={RightArrow} alt="Expand Sidebar" />
-          )}
-        </div>
-      </aside>
+      <div className="flex flex-1 overflow-hidden">
+        <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[333px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 h-full`}>
+          <ul className="space-y-3">
+            {sidebarItems.map((item) => (
+              <li
+                key={item.name}
+                onClick={() => handleSidebarClick(item.name)}
+                className={`py-3 px-4 rounded-[32px] cursor-pointer flex items-center ${activeSidebar === item.name ? 'bg-[#655B83]' : ''}`}
+              >
+                <img src={item.icon} alt={`${item.name} Icon`} className="w-6 h-6 mr-4" />
+                {isSidebarExpanded && <span>{item.name}</span>}
+                {isSidebarExpanded && <img src={RightArrow} alt="Right Arrow" className="w-4 h-4 ml-auto" />}
+              </li>
+            ))}
+          </ul>
+          <div onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} className="cursor-pointer mt-[50px] ml-6">
+            {isSidebarExpanded ? (
+              <img src={LeftArrow} alt="Collapse Sidebar" />
+            ) : (
+              <img src={RightArrow} alt="Expand Sidebar" />
+            )}
+          </div>
+        </aside>
 
-
-      <main className={`flex-1  transition-all duration-300 ${isSidebarExpanded ? 'ml-[333px]' : 'ml-[80px]'}`}>
-        <h2 className="text-xl font-bold"></h2>
-
-        {renderContent()}
-      </main>
+   
+        <main className={`flex-1  overflow-y-auto transition-all bg-[#F9F9FB] duration-300 ${isSidebarExpanded ? '' : 'ml-[80px]'}`}>
+          <h2 className="text-xl font-bold"></h2>
+          {renderContent()}
+        </main>
+      </div>
     </div>
   )
 }
