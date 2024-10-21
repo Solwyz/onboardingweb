@@ -15,7 +15,10 @@ import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
 
 import LeftArrow from '../../Assets/Superadmin/arrow_left.svg';
 import ResourcePoool from '../../Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
+
 import Employee from '../../Components/HrTAScomponent/Employee/Employee';
+
+import HomePage from '../../Components/HrTAScomponent/HomePage/HomePage';
 
 function HrTas() {
   const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
@@ -44,7 +47,7 @@ function HrTas() {
   const renderContent = () => {
     switch (activeSidebar) {
       case 'Home':
-        return <div>Home page</div>;
+        return <div><HomePage/></div>;
       case 'Employee':
         return <div><Employee/></div>;
       case 'Expense Claim':
@@ -101,7 +104,7 @@ function HrTas() {
       </aside>
 
 
-      <main className={`flex-1 p-4 transition-all duration-300 ${isSidebarExpanded ? 'ml-[333px]' : 'ml-[80px]'}`}>
+      <main className={`flex-1  transition-all duration-300 ${isSidebarExpanded ? 'ml-[333px]' : 'ml-[80px]'}`}>
         <h2 className="text-xl font-bold"></h2>
 
         {renderContent()}
