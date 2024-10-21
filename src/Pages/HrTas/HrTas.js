@@ -49,7 +49,7 @@ function HrTas() {
           case 'My Schedule':
             return <div>My Schedule</div>;
           case 'Resource Pool':
-            return <div><ResourcePoool/></div>
+            return <div>Resource Pool</div>
           case 'Project List':
             return <div>Project List</div>;
           case 'Goal':
