@@ -126,7 +126,7 @@ function ProfessionalDetails() {
                             <div className="">
                                 <h3 className="text-[20px] font-medium">Professional Details</h3>
                             </div>
-                            <div className=' border-b border-[#E6E6E7] w-auto items-center justify-center mt-16px mx-auto'>
+                            <div className=' border-b border-[#E6E6E7] w-auto items-center justify-center mt-[16px] mx-auto'>
 
                             </div>
 
@@ -242,7 +242,7 @@ function ProfessionalDetails() {
                                 <div className="">
                                     <h3 className="text-[20px] font-medium">Employment Terms</h3>
                                 </div>
-                                <div className=' border-b border-[#E6E6E7] w-auto items-center justify-center mt-16px mx-auto'>
+                                <div className=' border-b border-[#E6E6E7] w-auto items-center justify-center mt-[16px] mx-auto'>
 
                                 </div>
 
