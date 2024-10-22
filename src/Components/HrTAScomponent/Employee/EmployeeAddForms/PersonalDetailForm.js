@@ -21,14 +21,14 @@ function PersonalDetailForm() {
         } else {
             setFatherName(''); // Clear father name if "married"
         }
-        handleFormValidation();
+        handleFormValidation(); // Trigger validation after change
     };
 
     // Handle form validation logic
     const handleFormValidation = () => {
         if (
-            (maritalStatus === 'single' && fatherName.trim()) ||
-            (maritalStatus === 'married' && spouseName.trim())
+            (maritalStatus === 'single' && fatherName.trim().length > 0) ||
+            (maritalStatus === 'married' && spouseName.trim().length > 0)
         ) {
             setIsFormValid(true);
         } else {
