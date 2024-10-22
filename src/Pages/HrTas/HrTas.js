@@ -20,8 +20,7 @@ import Employee from '../../Components/HrTAScomponent/Employee/Employee';
 
 import HomePage from '../../Components/HrTAScomponent/HomePage/HomePage';
 import Header from '../../Components/SuperAdminComponents/Header/Header';
-import PhysicalDetailsForm from '../../Components/HrTAScomponent/Employee/EmployeeAddForms/PhysicalDetailsForm';
-import PersonalDetailForm from '../../Components/HrTAScomponent/Employee/EmployeeAddForms/PersonalDetailForm';
+
 
 function HrTas() {
   const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
