@@ -20,6 +20,7 @@ import Employee from '../../Components/HrTAScomponent/Employee/Employee';
 
 import HomePage from '../../Components/HrTAScomponent/HomePage/HomePage';
 import Header from '../../Components/SuperAdminComponents/Header/Header';
+import PhysicalDetailsForm from '../../Components/HrTAScomponent/Employee/EmployeeAddForms/PhysicalDetailsForm';
 
 function HrTas() {
   const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
@@ -109,6 +110,7 @@ function HrTas() {
         <main className={`flex-1  overflow-y-auto transition-all bg-[#F9F9FB] duration-300 ${isSidebarExpanded ? '' : 'ml-[80px]'}`}>
           <h2 className="text-xl font-bold"></h2>
           {renderContent()}
+       
         </main>
       </div>
     </div>
