@@ -14,7 +14,7 @@ function Modal({ onClose, onSubmit }) {
       onSubmit({ headline, description });
       setHeadline('');
       setDescription('');
-      onClose(); // Close modal after submit
+      onClose(); 
     }
   };
 
