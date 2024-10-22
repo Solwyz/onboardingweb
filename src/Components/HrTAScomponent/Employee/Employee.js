@@ -2,31 +2,31 @@ import React, { useState } from 'react';
 import addIcon from '../../../Assets/HrTas/addIcon.svg';
 import editIcon from '../../../Assets/HrTas/edit.svg';
 import searchIcon from '../../../Assets/HrTas/SearchIc.svg';
-import filterIcon from '../../../Assets/HrTas/filterIcon.svg';
+import Dropdown from '../../../Assets/HrTas/drop-down-arrow.svg';
 import deleteIcon from '../../../Assets/HrTas/delete.svg';
 import BasicDetailsForm from './EmployeeAddForms/BasicDetailsForm';
 
 function Employee() {
+  const [employees, setEmployees] = useState([
+    { id: 1, name: 'Aswin Raj', empId: 'T15462566', role: 'Frontend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2546' },
+    { id: 2, name: 'John Doe', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2547' },
+  ]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [showBasicForm, setShowBasicForm] = useState(false);
-  const [editingEmployee, setEditingEmployee] = useState(null); // State to hold employee details for editing
-
-  const employees = [
-    { id: 1, name: 'Aswin Raj', empId: 'T15462566', role: 'Frontend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2546' },
-    { id: 2, name: 'John Doe', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2547' },
-    // Add more entries as needed
-  ];
+  const [editingEmployee, setEditingEmployee] = useState(null);
+  const [departmentFilter, setDepartmentFilter] = useState('');
+  const [roleFilter, setRoleFilter] = useState('');
 
   const handleAddEmployeeClick = () => {
-    setEditingEmployee(null); // Clear editing employee when adding a new employee
+    setEditingEmployee(null); 
     setShowBasicForm(true);
   };
 
   const handleEditEmployeeClick = (employee) => {
-    setEditingEmployee(employee); // Set the employee to be edited
-    setShowBasicForm(true); // Show the form
+    setEditingEmployee(employee); 
+    setShowBasicForm(true);
   };
 
   const handleSelectRow = (id) => {
@@ -47,27 +47,63 @@ function Employee() {
     setSelectAll(!selectAll);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  const handleDeleteSelected = () => {
+    const updatedEmployees = employees.filter(
+      (employee) => !selectedRows.includes(employee.id)
+    );
+    setEmployees(updatedEmployees);
+    setSelectedRows([]);
+  };
+
+  const filteredEmployees = employees.filter((employee) => {
+    const matchesSearch = employee.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+      employee.empId.toLowerCase().includes(searchValue.toLowerCase());
+    const matchesDepartment = departmentFilter === '' || employee.department === departmentFilter;
+    const matchesRole = roleFilter === '' || employee.role === roleFilter;
+
+    return matchesSearch && matchesDepartment && matchesRole;
+  });
+
+  const handleFormSubmit = (newEmployee) => {
+    if (editingEmployee) {
+      setEmployees(
+        employees.map((employee) =>
+          employee.id === newEmployee.id ? newEmployee : employee
+        )
+      );
+    } else {
+      setEmployees([...employees, { ...newEmployee, id: employees.length + 1 }]);
+    }
+    setShowBasicForm(false);
+  };
+
   return (
     <div>
       {!showBasicForm ? (
         <div className="container p-6 shadow-lg bg-white w-auto mx-auto">
           <div className="flex justify-between items-center">
             <h2 className="text-[20px] text-[#232E42] font-medium mt-[40px]">All employees</h2>
-            <button onClick={handleAddEmployeeClick}
-              className="bg-[#2B2342] flex items-center w-[149px] h-[48px] font-normal text-sm mt-[24px] text-white px-4 py-2 rounded-lg">
+            <button
+              onClick={handleAddEmployeeClick}
+              className="bg-[#2B2342] flex items-center w-[149px] h-[48px] font-normal text-sm mt-[24px] text-white px-4 py-2 rounded-lg"
+            >
               <img src={addIcon} className="mr-[8px]" alt="" />
               Add Employee
             </button>
           </div>
-  
+
           <div className="flex mt-[34px]">
             <div className="flex items-center relative">
               <input
                 type="text"
                 value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
+                onChange={handleSearchChange}
                 placeholder="Search Employee"
-                className="border px-[16px] py-[15px] placeholder:translate-x-[10px] rounded-lg w-[584px] h-[48px] focus:outline-none text-[#696A70] text-sm font-normal border-[#E6E6E7]" 
+                className="border px-[16px] py-[15px] placeholder:translate-x-[10px] rounded-lg w-[584px] h-[48px] focus:outline-none text-[#696A70] text-sm font-normal border-[#E6E6E7]"
               />
               {searchValue.length === 0 && (
                 <img
@@ -77,27 +113,39 @@ function Employee() {
                 />
               )}
             </div>
-            <button className="ml-4 w-[90px] flex items-center h-[48px] border border-[#E6E6E7] px-4 py-[7px] text-sm text-[#2C2B2B] font-normal rounded-lg">
-              <img src={filterIcon} alt="" className="mr-[8px]" /> Filter
+            <button
+              className="ml-4 w-[160px] flex items-center h-[48px] border border-[#E6E6E7] px-4 py-[7px] justify-between text-sm text-[#2C2B2B] font-normal rounded-lg"
+              onClick={() => setDepartmentFilter(departmentFilter === 'Development' ? '' : 'Development')}
+            >
+              Department <img src={Dropdown} alt="" className="mr-[8px]" />
+            </button>
+            <button
+              className="ml-4 w-[160px] flex items-center h-[48px] border border-[#E6E6E7] px-4 py-[7px] justify-between text-sm text-[#2C2B2B] font-normal rounded-lg"
+              onClick={() => setRoleFilter(roleFilter === 'Frontend Developer' ? '' : 'Frontend Developer')}
+            >
+              Role <img src={Dropdown} alt="" className="mr-[8px]" />
             </button>
           </div>
-  
+
           <div className="flex justify-end mt-4">
-            <button className="h-[30px] w-[94px] flex items-center text-[#FF0000] text-sm font-normal px-4 py-[7px] rounded-[4px] border border-[#FC4545]">
+            <button
+              onClick={handleDeleteSelected}
+              className="h-[30px] w-[94px] flex items-center text-[#FF0000] text-sm font-normal px-4 py-[7px] rounded-[4px] border border-[#FC4545]"
+            >
               <img src={deleteIcon} alt="" className="mr-[8px]" /> Delete
             </button>
           </div>
-  
-          <div className="overflow-x-auto mt-[16px]">
-            <table className="w-full bg-white border-none rounded-t-2xl">
-              <thead className="bg-[#465062] h-[50px] text-white rounded-t-3xl">
+
+          <div className="overflow-x-auto mt-[16px] rounded-t-lg shadow-lg">
+            <table className="w-full bg-white border-none">
+              <thead className="bg-[#465062] h-[50px] text-white">
                 <tr>
-                  <th className="p-4 text-left">
-                    <input 
+                  <th className="p-4 text-left ">
+                    <input
                       type="checkbox"
                       checked={selectAll}
                       onChange={handleSelectAll}
-                      className="accent-[#232E42]" // Custom checkbox color
+                      className="accent-[#232E42]"
                     />
                   </th>
                   <th className="p-4 text-left font-normal text-sm">S No.</th>
@@ -107,11 +155,11 @@ function Employee() {
                   <th className="p-4 text-left font-normal text-sm">Department</th>
                   <th className="p-4 text-left font-normal text-sm">Location</th>
                   <th className="p-4 text-left font-normal text-sm">Contact</th>
-                  <th className="p-4 text-left font-normal text-sm">Action</th>
+                  <th className="p-4 text-left font-normal text-sm ">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {employees.map((employee, index) => (
+                {filteredEmployees.map((employee, index) => (
                   <tr
                     key={employee.id}
                     className={`h-[50px] ${index % 2 === 0 ? 'bg-white' : 'bg-[#F9F9F9]'} ${selectedRows.includes(employee.id) ? 'text-[#232E42] font-medium' : 'text-[#373737] font-light'}`}
@@ -121,7 +169,7 @@ function Employee() {
                         type="checkbox"
                         checked={selectedRows.includes(employee.id)}
                         onChange={() => handleSelectRow(employee.id)}
-                        onClick={(e) => e.stopPropagation()} // Prevent the row click from triggering selection
+                        onClick={(e) => e.stopPropagation()}
                         className="accent-[#232E42]"
                       />
                     </td>
@@ -139,11 +187,20 @@ function Employee() {
                     </td>
                   </tr>
                 ))}
+                <tr>
+                  <td colSpan="9" className="h-[50px]"></td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
-      ) : <BasicDetailsForm employee={editingEmployee} onClose={() => setShowBasicForm(false)} /> }
+      ) : (
+        <BasicDetailsForm
+          employee={editingEmployee}
+          onClose={() => setShowBasicForm(false)}
+          onSubmit={handleFormSubmit}
+        />
+      )}
     </div>
   );
 }
