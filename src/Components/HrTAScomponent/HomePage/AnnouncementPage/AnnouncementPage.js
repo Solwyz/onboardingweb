@@ -14,7 +14,7 @@ function Modal({ onClose, onSubmit }) {
       onSubmit({ headline, description });
       setHeadline('');
       setDescription('');
-      onClose(); // Close modal after submit
+      onClose(); 
     }
   };
 
@@ -27,7 +27,7 @@ function Modal({ onClose, onSubmit }) {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          <div className="mb-4 mt-6">
             <input
               id="headline"
               type="text"

@@ -8,15 +8,15 @@ import CloseBtn from "../../../../Assets/HrTas/close.svg";
 import DeleteBtn from "../../../../Assets/HrTas/delete.svg";
 import "./ToDoList.css"
 
-// Modal component
+
 const Modal = ({ isOpen, closeModal, addTask }) => {
     const [newTask, setNewTask] = useState('');
 
     const handleSubmit = () => {
         if (newTask.trim() !== '') {
-            addTask(newTask);  // Add the task
-            setNewTask('');    // Clear the input field
-            closeModal();      // Close the modal
+            addTask(newTask);  
+            setNewTask('');    
+            closeModal();     
         }
     };
 
@@ -59,39 +59,39 @@ const Modal = ({ isOpen, closeModal, addTask }) => {
 };
 
 function ToDoListPage() {
-    const [checkedTasks, setCheckedTasks] = useState([]); // Track checked tasks
-    const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
-    const [tasks, setTasks] = useState([]); // State to hold the tasks
+    const [checkedTasks, setCheckedTasks] = useState([]); 
+    const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [tasks, setTasks] = useState([]); 
 
-    // Function to toggle the checkbox for a specific task
+
     const handleCheckToggle = (index) => {
         setCheckedTasks((prevCheckedTasks) => {
             if (prevCheckedTasks.includes(index)) {
-                return prevCheckedTasks.filter(taskIndex => taskIndex !== index); // Uncheck
+                return prevCheckedTasks.filter(taskIndex => taskIndex !== index); 
             } else {
-                return [...prevCheckedTasks, index]; // Check
+                return [...prevCheckedTasks, index]; 
             }
         });
     };
 
-    // Function to delete checked tasks
+    
     const deleteCheckedTasks = () => {
         setTasks((prevTasks) => {
-            return prevTasks.filter((_, index) => !checkedTasks.includes(index)); // Filter out checked tasks
+            return prevTasks.filter((_, index) => !checkedTasks.includes(index)); 
         });
-        setCheckedTasks([]); // Clear the checked tasks after deletion
+        setCheckedTasks([]);
     };
 
     const handleCreateTask = () => {
-        setIsModalOpen(true); // Open the modal
+        setIsModalOpen(true); 
     };
 
     const closeModal = () => {
-        setIsModalOpen(false); // Close the modal
+        setIsModalOpen(false); 
     };
 
     const addTask = (newTask) => {
-        setTasks((prevTasks) => [...prevTasks, newTask]); // Add the new task to the list
+        setTasks((prevTasks) => [...prevTasks, newTask]); 
     };
 
     return (
@@ -102,14 +102,14 @@ function ToDoListPage() {
                     <h1 className='text-[20px] font-medium text-[#1255D0] ml-1'>To-Do List</h1>
                 </div>
                 <div className='flex'>
-                    {/* Delete Checked Button */}
+             
                     <button
                         onClick={deleteCheckedTasks}
                         className='border text-[12px] font-normal flex items-center px-4 py-2 rounded-lg'
                     >
                         <img className='w-4 h-4 mr-1' src={DeleteBtn} alt="" />Delete
                     </button>
-                    {/* Create New Task Button */}
+                
                     <button
                         onClick={handleCreateTask}
                         className='border text-[12px] font-normal flex items-center px-4 py-2 rounded-lg ml-2'
@@ -119,7 +119,7 @@ function ToDoListPage() {
                 </div>
             </div>
 
-            {/* Render tasks */}
+       
             {tasks.length > 0 && (
                 <div className='max-h-[224px] overflow-y-auto custom-scrollbar mr-6 mt-[20px] '>
                     {tasks.map((task, index) => (
@@ -131,7 +131,7 @@ function ToDoListPage() {
                                     className='ml-auto cursor-pointer'
                                     src={checkedTasks.includes(index) ? Checked : Unchecked}
                                     alt="Checkbox"
-                                    onClick={() => handleCheckToggle(index)} // Pass index to identify the task
+                                    onClick={() => handleCheckToggle(index)} 
                                 />
                             </div>
                         </div>
@@ -139,7 +139,7 @@ function ToDoListPage() {
                 </div>
             )}
 
-            {/* Modal */}
+        
             <Modal isOpen={isModalOpen} closeModal={closeModal} addTask={addTask} />
         </div>
     );
