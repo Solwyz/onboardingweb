@@ -18,6 +18,7 @@ import Resource from './Components/SuperAdminComponents/ResourcePoolComponents/R
 import ResourcePoool from './Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
 import HrTas from './Pages/HrTas/HrTas';
 import ProfessionalDetails from './Components/HrTAScomponent/Employee/EmployeeAddForms/ProfessionalDetails';
+import ContactDetailsForm from './Components/HrTAScomponent/Employee/EmployeeAddForms/ContactDetailsForm';
 
 
 
@@ -35,6 +36,8 @@ function App() {
 
 
           <Route path='/prof' Component={ProfessionalDetails} />
+          <Route path='/contact' Component={ContactDetailsForm} />
+
 
 
           
