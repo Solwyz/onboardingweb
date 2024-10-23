@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import tickIcon from '../../../../Assets/HrTas/check.svg';
 import DropDownArrow from "../../../../Assets/HrTas/drop-down-arrow.svg";
+import ContactDetailsForm from './ContactDetailsForm';
 
 function PersonalDetailForm() {
     const [showContactForm, setShowContactForm] = useState(false)
@@ -212,8 +213,8 @@ function PersonalDetailForm() {
                     </button>
                 </div>
             </div>
-        </div> :
-        <div>Contact form here</div> }
+        </div> : <ContactDetailsForm/>
+        }
         </div>
     );
 }

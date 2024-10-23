@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import tickIcon from '../../../../Assets/HrTas/check.svg';
+import PhysicalDetailsForm from './PhysicalDetailsForm';
 
 function ContactDetailsForm() {
     const [showPhysicalForm, setShowPhysicalForm] = useState(false)
@@ -375,7 +376,7 @@ function ContactDetailsForm() {
                         </button>
                     </div>
                 </div>
-            </div> : <div>Physical form here</div>
+            </div> : <PhysicalDetailsForm/>
         }
         </div>
     );
