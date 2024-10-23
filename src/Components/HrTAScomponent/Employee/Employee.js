@@ -145,7 +145,7 @@ function Employee() {
                       type="checkbox"
                       checked={selectAll}
                       onChange={handleSelectAll}
-                      className="accent-[#232E42]"
+                      className="accent-[#373737] w-[16px] h-[16px]"
                     />
                   </th>
                   <th className="p-4 text-left font-normal text-sm">S No.</th>
