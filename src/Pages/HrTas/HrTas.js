@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Home from "../../Assets/HrTas/group.svg";
 import EmployeeIcon from "../../Assets/HrTas/person.svg";
 import ExpenseClaim from "../../Assets/HrTas/Frame (4).svg";
-import Leave from "../../Assets/HrTas/Frame.svg";
+import LeaveIcon from "../../Assets/HrTas/Frame.svg";
 import Attendance from "../../Assets/HrTas/Group (1).svg";
-import Document from "../../Assets/HrTas/lab_profile.svg";
+import DocumentIcon from "../../Assets/HrTas/lab_profile.svg";
 import Incident from "../../Assets/HrTas/Frame (1).svg";
 import Team from "../../Assets/HrTas/Frame (2).svg";
 import Payroll from "../../Assets/HrTas/payments.svg";
@@ -20,6 +20,10 @@ import Employee from '../../Components/HrTAScomponent/Employee/Employee';
 
 import HomePage from '../../Components/HrTAScomponent/HomePage/HomePage';
 import Header from '../../Components/SuperAdminComponents/Header/Header';
+import Document from '../../Components/HrTAScomponent/Document/Document';
+import Leave from '../../Components/HrTAScomponent/Leave/Leave';
+import TimeSheet from '../../Components/HrTAScomponent/TimeSheet/TimeSheet';
+import Recruitment from '../../Components/HrTAScomponent/Recruitment/Recruitment';
 
 
 function HrTas() {
@@ -30,13 +34,13 @@ function HrTas() {
     { name: 'Home', icon: Home },
     { name: 'Employee', icon: EmployeeIcon },
     { name: 'Expense Claim', icon: ExpenseClaim },
-    { name: 'Leave', icon: Leave },
-    { name: 'Attendance', icon: Attendance },
-    { name: 'Document', icon: Document },
+    { name: 'Leave', icon: LeaveIcon },
+    { name: 'Time Sheet', icon: Attendance },
+    { name: 'Document', icon: DocumentIcon },
     { name: 'Incident', icon: Incident },
     { name: 'People', icon: Team },
   
-    { name: 'Employer', icon: Employer },
+    { name: 'Recruitment', icon: Employer },
     { name: 'User Guide', icon: UserGuide },
     { name: 'Help', icon: Help }
   ];
@@ -57,18 +61,18 @@ function HrTas() {
       case 'Resource Pool':
         return <div>Resource Pool</div>
       case 'Leave':
-        return <div>Project List</div>;
-      case 'Attendance':
-        return <div>Goal</div>;
+        return <div><Leave/></div>;
+      case 'Time Sheet':
+        return <div><TimeSheet/></div>;
       case 'Document':
-        return <div>Roadmap</div>;
+        return <div><Document/></div>;
       case 'Incident':
         return <div>Report</div>;
       case 'People':
         return <div>Goal</div>;
    
-      case 'Employer':
-        return <div>Report</div>;
+      case 'Recruitment':
+        return <div><Recruitment/></div>;
       case 'User Guide':
         return <div>Report</div>;
       case 'Help':
