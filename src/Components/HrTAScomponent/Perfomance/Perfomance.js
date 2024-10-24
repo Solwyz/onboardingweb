@@ -19,7 +19,7 @@ function Perfomance() {
 
     const branches = ['HR', 'Development'];
     const shifts = ['Day', 'Night'];
-    const years = Array.from({ length: new Date().getFullYear() - 1999 }, (_, i) => 2000 + i);
+    const years = Array.from({ length: new Date().getFullYear() - 1999 }, (_, i) => 2020 + i);
 
     const handleAddRatingClick = () => {
         setShowTable(true);
@@ -170,13 +170,28 @@ function Perfomance() {
                             )}
                         </div>
                     </div>
+                    {showTable&&
+                    <div className='text-[#696A70]'>
+                        Month
+                        <div className='mt-2'>
+                            <button 
+                                onClick={toggleYearDropdown} 
+                                className='flex border items-center px-4 py-[14px] rounded-lg text-[#696A70]'
+                            >
+                                New <img className='ml-[39px]' src={DropDown} alt="" />
+                            </button>
+                            
+                        </div>
+                    </div>}
                     <div className='text-white'>
+                <div>"</div>
                         <div className='mt-2'>
                             <button className='flex border items-center px-4 py-[14px] rounded-lg text-white bg-[#2B2342]'>
                                 Get Employee List
                             </button>
                         </div>
                     </div>
+                    
                 </div>
 
                 {showTable ? (
