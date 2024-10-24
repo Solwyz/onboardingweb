@@ -74,7 +74,7 @@ function TimeSheet() {
 
   return (
     <div className='bg-[#F8FAFB] pl-4 pt-4 pr-[34px] pb-[73px]'>
-      <div className='bg-[#FFFFFF] w-full px-6 pb-[93px]'>
+      <div className='bg-[#FFFFFF] w-full px-6 pb-[93px] h-screen'>
         <div className='flex justify-between items-center'>
           <div>
             <h2 className='text-[20px] text-[#232E42] font-medium mt-[40px]'>

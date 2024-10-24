@@ -5,7 +5,7 @@ import ExpenseClaim from "../../Assets/HrTas/Frame (4).svg";
 import LeaveIcon from "../../Assets/HrTas/Frame.svg";
 import Attendance from "../../Assets/HrTas/Group (1).svg";
 import DocumentIcon from "../../Assets/HrTas/lab_profile.svg";
-import Incident from "../../Assets/HrTas/Frame (1).svg";
+import PerfomanceIcon from "../../Assets/HrTas/trending_up.svg";
 import Team from "../../Assets/HrTas/Frame (2).svg";
 import Payroll from "../../Assets/HrTas/payments.svg";
 import Employer from "../../Assets/HrTas/Group (2).svg";
@@ -24,8 +24,12 @@ import Document from '../../Components/HrTAScomponent/Document/Document';
 import Leave from '../../Components/HrTAScomponent/Leave/Leave';
 import TimeSheet from '../../Components/HrTAScomponent/TimeSheet/TimeSheet';
 import Recruitment from '../../Components/HrTAScomponent/Recruitment/Recruitment';
+
+import Perfomance from '../../Components/HrTAScomponent/Perfomance/Perfomance';
+
 import People from '../../Components/HrTAScomponent/People/People';
 import HelpPage from '../../Components/HrTAScomponent/help/HelpPage';
+
 
 
 function HrTas() {
@@ -39,7 +43,7 @@ function HrTas() {
     { name: 'Leave', icon: LeaveIcon },
     { name: 'Time Sheet', icon: Attendance },
     { name: 'Document', icon: DocumentIcon },
-    { name: 'Incident', icon: Incident },
+    { name: 'Perfomance', icon: PerfomanceIcon },
     { name: 'People', icon: Team },
   
     { name: 'Recruitment', icon: Employer },
@@ -68,8 +72,8 @@ function HrTas() {
         return <div><TimeSheet/></div>;
       case 'Document':
         return <div><Document/></div>;
-      case 'Incident':
-        return <div>Report</div>;
+      case 'Perfomance':
+        return <div><Perfomance/></div>;
       case 'People':
         return <div><People/></div>;
    
