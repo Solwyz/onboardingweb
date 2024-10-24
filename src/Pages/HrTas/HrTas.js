@@ -25,6 +25,7 @@ import Leave from '../../Components/HrTAScomponent/Leave/Leave';
 import TimeSheet from '../../Components/HrTAScomponent/TimeSheet/TimeSheet';
 import Recruitment from '../../Components/HrTAScomponent/Recruitment/Recruitment';
 import People from '../../Components/HrTAScomponent/People/People';
+import HelpPage from '../../Components/HrTAScomponent/help/HelpPage';
 
 
 function HrTas() {
@@ -77,7 +78,7 @@ function HrTas() {
       case 'User Guide':
         return <div>Report</div>;
       case 'Help':
-        return <div>Report</div>;
+        return <div><HelpPage/></div>;
       default:
         return <div>Select a section from the sidebar</div>;
     }
