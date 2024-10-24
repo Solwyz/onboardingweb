@@ -5,6 +5,7 @@ function Leave() {
     <div className='p-6'>
       <h2 className="text-[20px] font-medium">Leave Request</h2>
       <div className='mt-6'>
+      <div className="overflow-x-auto mt-[16px] rounded-t-lg shadow-lg">
       <table className='w-full'>
         <thead className='bg-[#465062] h-12'>
             <tr className='text-white text-[14px] font-medium'>
@@ -23,6 +24,7 @@ function Leave() {
             <tr></tr>
         </tbody>
       </table>
+      </div>
       </div>
       <div></div>
     </div>
