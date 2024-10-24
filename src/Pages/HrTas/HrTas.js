@@ -24,6 +24,7 @@ import Document from '../../Components/HrTAScomponent/Document/Document';
 import Leave from '../../Components/HrTAScomponent/Leave/Leave';
 import TimeSheet from '../../Components/HrTAScomponent/TimeSheet/TimeSheet';
 import Recruitment from '../../Components/HrTAScomponent/Recruitment/Recruitment';
+import People from '../../Components/HrTAScomponent/People/People';
 
 
 function HrTas() {
@@ -69,7 +70,7 @@ function HrTas() {
       case 'Incident':
         return <div>Report</div>;
       case 'People':
-        return <div>Goal</div>;
+        return <div><People/></div>;
    
       case 'Recruitment':
         return <div><Recruitment/></div>;

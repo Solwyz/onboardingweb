@@ -102,7 +102,7 @@ function Document() {
             type="text"
             placeholder="Search Document"
             className="border border-[#E6E6E7] focus:outline-none text-[#696A70] text-sm font-normal rounded-lg p-2 w-[584px] h-[48px]"
-            onFocus={() => setIsInputFocused(true)}
+            onFocus={() => setIsInputFocused(true)}          
             onBlur={() => setIsInputFocused(false)}
           />
           <button
