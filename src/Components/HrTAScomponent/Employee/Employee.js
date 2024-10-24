@@ -5,11 +5,15 @@ import searchIcon from '../../../Assets/HrTas/SearchIc.svg';
 import Dropdown from '../../../Assets/HrTas/drop-down-arrow.svg';
 import deleteIcon from '../../../Assets/HrTas/delete.svg';
 import BasicDetailsForm from './EmployeeAddForms/BasicDetailsForm';
+import EmployeeDetails from './EmployeeDetails/EmployeeDetails';
 
 function Employee() {
   const [employees, setEmployees] = useState([
     { id: 1, name: 'Aswin Raj', empId: 'T15462566', role: 'Frontend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2546' },
     { id: 2, name: 'John Doe', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2547' },
+    { id: 3, name: 'Ashik cn', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2547' },
+    { id: 4, name: 'Vinessh vj', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2547' },
+    { id: 5, name: 'Nizam Mdu', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2547' }
   ]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
@@ -18,6 +22,11 @@ function Employee() {
   const [editingEmployee, setEditingEmployee] = useState(null);
   const [departmentFilter, setDepartmentFilter] = useState('');
   const [roleFilter, setRoleFilter] = useState('');
+  const [showEmployeeDetails, setShowEmployeeDetails] = useState(false)
+
+  const handleShowEmployeeDetails =()=>{
+    setShowEmployeeDetails(true);
+  }
 
   const handleAddEmployeeClick = () => {
     setEditingEmployee(null); 
@@ -83,6 +92,8 @@ function Employee() {
 
   return (
     <div>
+    {!showEmployeeDetails ? 
+    <div>
       {!showBasicForm ? (
         <div className="container p-6 shadow-lg bg-white w-auto mx-auto">
           <div className="flex justify-between items-center">
@@ -145,7 +156,7 @@ function Employee() {
                       type="checkbox"
                       checked={selectAll}
                       onChange={handleSelectAll}
-                      className="accent-[#232E42]"
+                      className="accent-[#373737] w-[16px] h-[16px]"
                     />
                   </th>
                   <th className="p-4 text-left font-normal text-sm">S No.</th>
@@ -162,6 +173,7 @@ function Employee() {
                 {filteredEmployees.map((employee, index) => (
                   <tr
                     key={employee.id}
+                    onClick={handleShowEmployeeDetails}
                     className={`h-[50px] ${index % 2 === 0 ? 'bg-white' : 'bg-[#F9F9F9]'} ${selectedRows.includes(employee.id) ? 'text-[#232E42] font-medium' : 'text-[#373737] font-light'}`}
                   >
                     <td className="p-4">
@@ -201,6 +213,8 @@ function Employee() {
           onSubmit={handleFormSubmit}
         />
       )}
+    </div> : <EmployeeDetails/>
+  }
     </div>
   );
 }

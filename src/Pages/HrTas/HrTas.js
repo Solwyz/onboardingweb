@@ -24,7 +24,12 @@ import Document from '../../Components/HrTAScomponent/Document/Document';
 import Leave from '../../Components/HrTAScomponent/Leave/Leave';
 import TimeSheet from '../../Components/HrTAScomponent/TimeSheet/TimeSheet';
 import Recruitment from '../../Components/HrTAScomponent/Recruitment/Recruitment';
+
 import Perfomance from '../../Components/HrTAScomponent/Perfomance/Perfomance';
+
+import People from '../../Components/HrTAScomponent/People/People';
+import HelpPage from '../../Components/HrTAScomponent/help/HelpPage';
+
 
 
 function HrTas() {
@@ -70,14 +75,14 @@ function HrTas() {
       case 'Perfomance':
         return <div><Perfomance/></div>;
       case 'People':
-        return <div>Goal</div>;
+        return <div><People/></div>;
    
       case 'Recruitment':
         return <div><Recruitment/></div>;
       case 'User Guide':
         return <div>Report</div>;
       case 'Help':
-        return <div>Report</div>;
+        return <div><HelpPage/></div>;
       default:
         return <div>Select a section from the sidebar</div>;
     }
