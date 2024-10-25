@@ -9,6 +9,13 @@ function LoginPage() {
 
   const navigate = useNavigate();
 
+  // Define user roles and their credentials
+  const credentials = {
+    superadmin: { phone: "1234567890", password: "superadmin" },
+    hrtas: { phone: "1234567890", password: "hrtas" },
+    hrm: { phone: "1234567890", password: "hrm" },
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -17,24 +24,23 @@ function LoginPage() {
     setPhoneError("");
     setPasswordError("");
 
-    const validPhoneNumber = "1234567890"; 
-    const validPassword = "123"; 
-
+    // Validate phone number format
     if (phoneNumber.length !== 10) {
       setPhoneError("Please enter a valid 10-digit phone number.");
       isValid = false;
-    } else if (phoneNumber !== validPhoneNumber) {
-      setPhoneError("Phone number does not exist.");
-      isValid = false;
     }
 
-    if (password !== validPassword) {
-      setPasswordError("Incorrect password.");
-      isValid = false;
-    }
-
+    // Check credentials for all roles
     if (isValid) {
-      navigate("/");
+      if (phoneNumber === credentials.superadmin.phone && password === credentials.superadmin.password) {
+        navigate("/superadmin");
+      } else if (phoneNumber === credentials.hrtas.phone && password === credentials.hrtas.password) {
+        navigate("/hrtas");
+      } else if (phoneNumber === credentials.hrm.phone && password === credentials.hrm.password) {
+        navigate("/hr");
+      } else {
+        setPasswordError("Incorrect phone number or password.");
+      }
     }
   };
 
@@ -43,7 +49,7 @@ function LoginPage() {
       e.preventDefault();
       setPhoneError("Please enter numbers only.");
     } else {
-      setPhoneError(""); 
+      setPhoneError("");
     }
   };
 
@@ -51,7 +57,7 @@ function LoginPage() {
     const value = e.target.value;
     if (value.length <= 10) {
       setPhoneNumber(value);
-      setPhoneError(""); 
+      setPhoneError("");
     }
   };
 
@@ -76,7 +82,7 @@ function LoginPage() {
               value={phoneNumber}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
-              onBlur={handleBlur} 
+              onBlur={handleBlur}
               maxLength="10"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your phone number"

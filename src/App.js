@@ -31,18 +31,9 @@ function App() {
           <Route path='/hr' Component={LogedInSection} />
           <Route path='/superadmin' Component={SuperAdmin} />
           <Route path='/hrtas' Component={HrTas} />
-          <Route path='/login' Component={LoginPage} />
+          <Route path='/' Component={LoginPage} />
           <Route path='/signup' Component={SignUpPage} />
           <Route path='/forgot' Component={ForgotPassword} />
-
-
-          <Route path='/prof' Component={ProfessionalDetails} />
-          <Route path='/contact' Component={ContactDetailsForm} />
-          <Route path='/pers' Component={PersonalDetailForm} />
-
-
-
-          
         </Routes>
       </Router>
     </div>

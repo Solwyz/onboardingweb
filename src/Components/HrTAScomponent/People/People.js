@@ -61,6 +61,7 @@ function People() {
         <div className="mt-[32px]">
           <input
             type="text"
+            
             placeholder="Search Employee"
             className="border border-[#E6E6E7] focus:outline-none text-[#696A70] text-sm font-normal rounded-lg p-2 w-[584px] h-[48px]"
             onChange={(e) => setSearchTerm(e.target.value)}
