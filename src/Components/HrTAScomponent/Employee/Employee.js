@@ -220,6 +220,7 @@ function Employee() {
                 </table>
               </div>
             </div>
+
           ) : (
             <BasicDetailsForm
               employee={editingEmployee}
