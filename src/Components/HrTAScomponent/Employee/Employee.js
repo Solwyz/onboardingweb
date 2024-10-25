@@ -174,7 +174,7 @@ function Employee() {
                   <tr
                     key={employee.id}
                     onClick={handleShowEmployeeDetails}
-                    className={`h-[50px] ${index % 2 === 0 ? 'bg-white' : 'bg-[#F9F9F9]'} ${selectedRows.includes(employee.id) ? 'text-[#232E42] font-medium' : 'text-[#373737] font-light'}`}
+                    className={`h-[50px] cursor-pointer ${index % 2 === 0 ? 'bg-white' : 'bg-[#F9F9F9]'} ${selectedRows.includes(employee.id) ? 'text-[#232E42] font-medium' : 'text-[#373737] font-light'}`}
                   >
                     <td className="p-4">
                       <input
