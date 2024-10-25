@@ -31,7 +31,7 @@ function LogedInSection() {
   };
 
   const handleLogoutPage = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   useEffect(() => {
