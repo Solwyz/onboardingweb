@@ -138,7 +138,7 @@ function Resource({ onBack }) {
       </div>
 
       <form onSubmit={handleSubmit} className='mt-4'>
-        <div className='flex justify-between p-6 border shadow'>
+        <div className='flex justify-between p-6 border shadow text-[#373737]'>
           <div>
             <div className='text-[20px] font-medium'>General</div>
             <div className='flex gap-4'>
@@ -149,7 +149,7 @@ function Resource({ onBack }) {
                   name='firstName'
                   value={formData.firstName}
                   onChange={handleFormChange}
-                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                 />
               </div>
               <div className='mt-6'>
@@ -159,7 +159,7 @@ function Resource({ onBack }) {
                   name='lastName'
                   value={formData.lastName}
                   onChange={handleFormChange}
-                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                 />
               </div>
             </div>
@@ -172,7 +172,7 @@ function Resource({ onBack }) {
                   name='resourceKey'
                   value={formData.resourceKey}
                   onChange={handleFormChange}
-                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                 />
               </div>
               <div className='mt-6'>
@@ -181,7 +181,7 @@ function Resource({ onBack }) {
                   type='text'
                   value={email}
                   onChange={handleEmailChange}
-                  className={`border rounded mt-2 w-[247px] h-[48px] px-[17px] ${emailError ? 'border-red-500' : ''}`}
+                  className={`border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none ${emailError ? 'border-red-500' : ''}`}
                 />
                 {emailError && <div className='text-red-500 text-sm'>{emailError}</div>}
               </div>
@@ -194,7 +194,7 @@ function Resource({ onBack }) {
                   name='primaryRole'
                   value={formData.primaryRole}
                   onChange={handleFormChange}
-                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                 >
                   <option value='UI/UX Designer'>UI/UX Designer</option>
                   <option value='Developer'>Developer</option>
@@ -207,7 +207,7 @@ function Resource({ onBack }) {
                   name='resourceManager'
                   value={formData.resourceManager}
                   onChange={handleFormChange}
-                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                 >
                 </input>
               </div>
@@ -218,7 +218,7 @@ function Resource({ onBack }) {
                   name='calendar'
                   value={formData.calendar}
                   onChange={handleFormChange}
-                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                  className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                 />
               </div>
             </div>
@@ -287,7 +287,7 @@ function Resource({ onBack }) {
                 name='startDate'
                 value={formData.startDate}
                 onChange={handleFormChange}
-                className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
               />
             </div>
             <div className='mt-6'>
@@ -297,7 +297,7 @@ function Resource({ onBack }) {
                 name='terminationDate'
                 value={formData.terminationDate}
                 onChange={handleFormChange}
-                className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
               />
             </div>
           </div>
@@ -309,7 +309,7 @@ function Resource({ onBack }) {
                 type='text'
                 value={postalCode}
                 onChange={handlePostalCodeChange}
-                className={`border rounded mt-2 w-[247px] h-[48px] px-[17px] ${postalCodeError ? 'border-red-500' : ''}`}
+                className={`border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none ${postalCodeError ? 'border-red-500' : ''}`}
               />
               {postalCodeError && <div className='text-red-500 text-sm'>{postalCodeError}</div>}
             </div>
@@ -320,7 +320,7 @@ function Resource({ onBack }) {
                 name='city'
                 value={formData.city}
                 onChange={handleFormChange}
-                className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
               />
             </div>
           </div>
@@ -332,7 +332,7 @@ function Resource({ onBack }) {
                 name='department'
                 value={formData.department}
                 onChange={handleFormChange}
-                className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
               >
                 <option value='Development'>Development</option>
                 <option value='Marketing'>Marketing</option>
@@ -345,7 +345,7 @@ function Resource({ onBack }) {
                 name='office'
                 value={formData.office}
                 onChange={handleFormChange}
-                className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
               />
             </div>
             <div className='mt-6'>
@@ -355,7 +355,7 @@ function Resource({ onBack }) {
                 name='valueStream'
                 value={formData.valueStream}
                 onChange={handleFormChange}
-                className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
               />
             </div>
             <div className='mt-6'>
@@ -365,7 +365,7 @@ function Resource({ onBack }) {
                 name='skills'
                 value={formData.skills}
                 onChange={handleFormChange}
-                className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
               />
             </div>
           </div>
