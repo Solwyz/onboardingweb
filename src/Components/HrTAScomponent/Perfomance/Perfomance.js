@@ -290,22 +290,22 @@ function Perfomance() {
                     </div>
                 ) : (
                     <div className="mt-6">
-                        <table className="w-full mt-4 border-separate text-[16px] border-spacing-0">
+                        <table className="w-full mt-4 border-separate text-[14px] border-spacing-0">
                             <thead className="bg-[#4A5061] text-white rounded-t-lg">
                                 <tr>
-                                    <th className="p-2 text-[14px] font-medium rounded-tl-lg">ID</th>
-                                    <th className="p-2 text-[14px] font-medium">Name</th>
+                                    <th className="p-2 text-[14px] font-normal rounded-tl-lg">ID</th>
+                                    <th className="p-2 text-[14px] font-normal">Name</th>
                                     {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((month, index) => (
-                                        <th key={index} className="p-2 text-[14px] font-medium">{month}</th>
+                                        <th key={index} className="p-2 text-[14px] font-normal">{month}</th>
                                     ))}
-                                    <th className="p-2 text-[14px] font-medium rounded-tr-lg">Total Rating</th>
+                                    <th className="p-2 text-[14px] font-normal rounded-tr-lg">Total Rating</th>
                                 </tr>
                             </thead>
                             <tbody className='text-center'>
                                 {ratingsData.map((entry, index) => (
                                     <tr key={entry.id} className={index % 2 === 0 ? "bg-white" : "bg-[#F8F8F8]"}>
-                                        <td className="p-2 text-[14px] font-medium">{entry.id}</td>
-                                        <td className="p-2 text-[14px] font-medium">{entry.name}</td>
+                                        <td className="p-2 text-[14px] font-normal">{entry.id}</td>
+                                        <td className="p-2 text-[14px] font-normal">{entry.name}</td>
                                         {months.map((month) => {
                                             const rating = entry.ratings[month]; // Get the rating for the specific month
                                             return (
@@ -317,7 +317,7 @@ function Perfomance() {
                                                 </td>
                                             );
                                         })}
-                                        <td className="p-2 text-[14px] font-medium">{calculateTotalRating(Object.values(entry.ratings))}/10</td>
+                                        <td className="p-2 text-[14px] font-normal">{calculateTotalRating(Object.values(entry.ratings))}/10</td>
                                     </tr>
                                 ))}
                             </tbody>
