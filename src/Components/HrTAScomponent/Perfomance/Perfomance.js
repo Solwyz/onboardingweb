@@ -280,6 +280,76 @@ function Perfomance() {
                                         </td>
                                     </tr>
                                 </tbody>
+                                <tbody className='bg-white text-[#232E42] text-center'>
+                                    <tr className='border-b'>
+                                        <td className='p-2 text-[14px] font-medium'>AT62862</td>
+                                        <td className='p-2 text-[14px] font-medium'>Arjun Aloshi</td>
+                                        <td className='p-2 text-[14px] font-medium'>Arjun@gmail.com</td>
+                                        <td className='p-2 text-[14px] font-medium'>Rohan Jose</td>
+                                        <td className='p-2 text-[14px] font-medium'>
+                                            <select
+                                                value={rating}
+                                                onChange={(e) => setRating(e.target.value)}
+                                                className=' p-1'
+                                            >
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td className='p-2 text-[14px] font-medium'>
+                                            <input
+                                                type="text"
+                                                placeholder="Add feedback here"
+                                                value={feedback}
+                                                onChange={(e) => setFeedback(e.target.value)}
+                                                className='p-2 text-[14px] font-medium '
+                                            />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody className='bg-white text-[#232E42] text-center'>
+                                    <tr className='border-b'>
+                                        <td className='p-2 text-[14px] font-medium'>AT62862</td>
+                                        <td className='p-2 text-[14px] font-medium'>Arjun Aloshi</td>
+                                        <td className='p-2 text-[14px] font-medium'>Arjun@gmail.com</td>
+                                        <td className='p-2 text-[14px] font-medium'>Rohan Jose</td>
+                                        <td className='p-2 text-[14px] font-medium'>
+                                            <select
+                                                value={rating}
+                                                onChange={(e) => setRating(e.target.value)}
+                                                className=' p-1'
+                                            >
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td className='p-2 text-[14px] font-medium'>
+                                            <input
+                                                type="text"
+                                                placeholder="Add feedback here"
+                                                value={feedback}
+                                                onChange={(e) => setFeedback(e.target.value)}
+                                                className='p-2 text-[14px] font-medium '
+                                            />
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                             <div className='flex justify-end mt-4'>
                                 <button className='bg-green-600 text-white px-4 py-2 rounded-lg' type='submit'>
