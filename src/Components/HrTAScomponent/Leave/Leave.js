@@ -190,7 +190,7 @@ function Leave() {
 
   return (
     <div className='p-6'>
-      <h2 className="text-[20px] font-medium">Leave Request</h2>
+      <h2 className="text-[20px] font-medium">Leave Requests</h2>
       <div className='bg-white h-screen'>
         <div className='rounded-t-lg overflow-hidden mt-6 py-6 px-4'>
           <div className='rounded-t-lg overflow-hidden'>
