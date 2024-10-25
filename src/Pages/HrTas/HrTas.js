@@ -33,7 +33,7 @@ import HelpPage from '../../Components/HrTAScomponent/help/HelpPage';
 
 
 function HrTas() {
-  const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
+  const [activeSidebar, setActiveSidebar] = useState('Home');
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const sidebarItems = [
