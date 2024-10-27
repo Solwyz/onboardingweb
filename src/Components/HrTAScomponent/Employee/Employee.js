@@ -9,11 +9,11 @@ import EmployeeDetails from './EmployeeDetails/EmployeeDetails';
 
 function Employee() {
   const [employees, setEmployees] = useState([
-    { id: 1, name: 'Aswin Raj', empId: 'T15462566', role: 'Frontend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2546' },
-    { id: 2, name: 'John Doe', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2547' },
-    { id: 3, name: 'Ashik cn', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2547' },
-    { id: 4, name: 'Vinessh vj', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2547' },
-    { id: 5, name: 'Nizam Mdu', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai', contact: '965 966 2547' }
+    { id: 1, firstName: 'Aswin Raj', empId: 'T15462566', role: 'Frontend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2546' },
+    { id: 2, firstName: 'John Doe', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2547' },
+    { id: 3, firstName: 'Ashik cn', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2547' },
+    { id: 4, firstName: 'Vinessh vj', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2547' },
+    { id: 5, firstName: 'Nizam Mdu', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2547' }
   ]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
@@ -33,7 +33,9 @@ function Employee() {
     setShowBasicForm(true);
   };
 
-  const handleEditEmployeeClick = (employee) => {
+  const handleEditEmployeeClick = (e,employee) => {
+    console.log(e)
+    e.stopPropagation();
     setEditingEmployee(employee);
     setShowBasicForm(true);
   };
@@ -70,7 +72,7 @@ function Employee() {
 
   // Filter employees based on search, department, role, and location
   const filteredEmployees = employees.filter((employee) => {
-    const matchesSearch = employee.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+    const matchesSearch = employee.firstName.toLowerCase().includes(searchValue.toLowerCase()) ||
       employee.empId.toLowerCase().includes(searchValue.toLowerCase());
     const matchesCategory = selectedOption === '' || employee[categoryFilter.toLowerCase()] === selectedOption;
 
@@ -200,14 +202,14 @@ function Employee() {
                           />
                         </td>
                         <td className="p-4 text-left text-sm">{index + 1}</td>
-                        <td className="p-4 text-left text-sm">{employee.name}</td>
+                        <td className="p-4 text-left text-sm">{employee.firstName}</td>
                         <td className="p-4 text-left text-sm">{employee.empId}</td>
                         <td className="p-4 text-left text-sm">{employee.role}</td>
                         <td className="p-4 text-left text-sm">{employee.department}</td>
                         <td className="p-4 text-left text-sm">{employee.location}</td>
                         <td className="p-4 text-left text-sm">{employee.contact}</td>
                         <td className="p-4 text-left">
-                          <button onClick={() => handleEditEmployeeClick(employee)}>
+                          <button onClick={(e) => handleEditEmployeeClick(e,employee)}>
                             <img src={editIcon} alt="edit" />
                           </button>
                         </td>
@@ -223,7 +225,7 @@ function Employee() {
 
           ) : (
             <BasicDetailsForm
-              employee={editingEmployee}
+              editingEmployee={editingEmployee}
               onClose={() => setShowBasicForm(false)}
               onSubmit={handleFormSubmit}
             />
