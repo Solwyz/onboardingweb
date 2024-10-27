@@ -5,7 +5,17 @@ import ProfessionalDetails from './ProfessionalDetails';
 
 
 
-function BasicDetailsForm() {
+function BasicDetailsForm({editingEmployee}) {
+
+    useEffect(() => {
+        if(editingEmployee) {
+            setFormData({
+                firstName: editingEmployee.firstName,
+                lastName: editingEmployee.empId,
+                nationality: editingEmployee.nationality
+            });
+        }
+    },[])
 
     const [isFormValid, setIsFormValid] = useState(false)
     const [showProfessionalForm, setShowProfessionalForm] = useState(false)
