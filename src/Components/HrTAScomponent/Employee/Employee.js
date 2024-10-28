@@ -3,7 +3,7 @@ import addIcon from '../../../Assets/HrTas/addIcon.svg';
 import editIcon from '../../../Assets/HrTas/edit.svg';
 import searchIcon from '../../../Assets/HrTas/SearchIc.svg';
 import Dropdown from '../../../Assets/HrTas/drop-down-arrow.svg';
-import deleteIcon from '../../../Assets/HrTas/delete.svg';
+import deleteIcon from '../../../Assets/HrTas/delete (1).svg';
 import BasicDetailsForm from './EmployeeAddForms/BasicDetailsForm';
 import EmployeeDetails from './EmployeeDetails/EmployeeDetails';
 
@@ -16,7 +16,7 @@ function Employee() {
     { id: 5, firstName: 'Nizam Mdu', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2547' }
   ]);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+
   const [searchValue, setSearchValue] = useState('');
   const [showBasicForm, setShowBasicForm] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState(null);
@@ -40,35 +40,15 @@ function Employee() {
     setShowBasicForm(true);
   };
 
-  const handleSelectRow = (id) => {
-    const updatedSelectedRows = selectedRows.includes(id)
-      ? selectedRows.filter((rowId) => rowId !== id)
-      : [...selectedRows, id];
+ 
 
-    setSelectedRows(updatedSelectedRows);
-    setSelectAll(updatedSelectedRows.length === employees.length);
-  };
 
-  const handleSelectAll = () => {
-    if (selectAll) {
-      setSelectedRows([]);
-    } else {
-      setSelectedRows(employees.map((employee) => employee.id));
-    }
-    setSelectAll(!selectAll);
-  };
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
   };
 
-  const handleDeleteSelected = () => {
-    const updatedEmployees = employees.filter(
-      (employee) => !selectedRows.includes(employee.id)
-    );
-    setEmployees(updatedEmployees);
-    setSelectedRows([]);
-  };
+ 
 
   // Filter employees based on search, department, role, and location
   const filteredEmployees = employees.filter((employee) => {
@@ -154,27 +134,13 @@ function Employee() {
                 </select>
               </div>
 
-              <div className="flex justify-end mt-4">
-                <button
-                  onClick={handleDeleteSelected}
-                  className="h-[30px] w-[94px] flex items-center text-[#FF0000] text-sm font-normal px-4 py-[7px] rounded-[4px] border border-[#FC4545]"
-                >
-                  <img src={deleteIcon} alt="" className="mr-[8px]" /> Delete
-                </button>
-              </div>
+          
 
               <div className="overflow-x-auto mt-[16px] rounded-t-lg ">
                 <table className="w-full bg-white border-none">
                   <thead className="bg-[#465062] h-[50px] text-white">
                     <tr>
-                      <th className="p-4 text-left ">
-                        <input
-                          type="checkbox"
-                          checked={selectAll}
-                          onChange={handleSelectAll}
-                          className="accent-[#373737] w-[16px] h-[16px]"
-                        />
-                      </th>
+                   
                       <th className="p-4 text-left font-normal text-sm">S No.</th>
                       <th className="p-4 text-left font-normal text-sm">Name</th>
                       <th className="p-4 text-left font-normal text-sm">Employee ID</th>
@@ -192,15 +158,7 @@ function Employee() {
                         onClick={handleShowEmployeeDetails}
                         className={`h-[50px] cursor-pointer ${index % 2 === 0 ? 'bg-white' : 'bg-[#F9F9F9]'} ${selectedRows.includes(employee.id) ? 'text-[#232E42] font-medium' : 'text-[#373737] font-light'}`}
                       >
-                        <td className="p-4">
-                          <input
-                            type="checkbox"
-                            checked={selectedRows.includes(employee.id)}
-                            onChange={() => handleSelectRow(employee.id)}
-                            onClick={(e) => e.stopPropagation()}
-                            className="accent-[#232E42]"
-                          />
-                        </td>
+                      
                         <td className="p-4 text-left text-sm">{index + 1}</td>
                         <td className="p-4 text-left text-sm">{employee.firstName}</td>
                         <td className="p-4 text-left text-sm">{employee.empId}</td>
@@ -211,6 +169,9 @@ function Employee() {
                         <td className="p-4 text-left">
                           <button onClick={(e) => handleEditEmployeeClick(e,employee)}>
                             <img src={editIcon} alt="edit" />
+                          </button>
+                          <button>
+                            <img className='w-6 h-6 ml-6' src={deleteIcon} alt="" />
                           </button>
                         </td>
                       </tr>

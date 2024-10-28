@@ -1,29 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import CloseBtn from "../../../Assets/HrTas/close.svg";
 
-function TimeSheetModal({ isOpen, onClose, onAdd }) {
+function TimeSheetModal({ isOpen, onClose, onAdd, employeeName }) {
   const initialFormData = {
     date: '',
-    employeeName: 'Aswin Sabu', // Set a default employee name
+    employeeName: employeeName,
     project: '',
     task: '',
     description: '',
     hour: 0,
     minute: 0,
   };
-
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (isOpen) {
-      // Reset form to initial state when modal opens
-      setFormData(initialFormData);
-      setErrors({}); // Clear errors when modal opens
+      setFormData({
+        ...initialFormData,
+        employeeName: employeeName,
+      });
+      setErrors({});
     }
-  }, [isOpen]);
+  }, [isOpen, employeeName]);
 
-  if (!isOpen) return null;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // Add form validation logic here if needed
+
+    onAdd(formData);
+  };
+
+  if (!isOpen) {
+    return null; // Do not render the modal if it is not open
+  }
 
   const validateForm = () => {
     const newErrors = {};
@@ -47,7 +62,7 @@ function TimeSheetModal({ isOpen, onClose, onAdd }) {
 
   const handleDurationChange = (e) => {
     const { name, value } = e.target;
-    // Ensure minute does not exceed 59
+
     if (name === 'minute' && value > 59) return;
 
     setFormData({ ...formData, [name]: parseInt(value) || 0 });
@@ -55,8 +70,8 @@ function TimeSheetModal({ isOpen, onClose, onAdd }) {
 
   const handleSubmit = () => {
     if (validateForm()) {
-      onAdd(formData); // Pass the form data to the parent component
-      onClose(); // Close the modal after submission
+      onAdd(formData);
+      onClose();
     }
   };
 
@@ -69,7 +84,6 @@ function TimeSheetModal({ isOpen, onClose, onAdd }) {
             <img src={CloseBtn} alt="Close" />
           </button>
         </div>
-        {/* Form Inputs */}
         <div className="grid grid-cols-2 gap-4 mb-4 text-[14px] font-normal">
           <div>
             <label>Date</label>
@@ -79,6 +93,7 @@ function TimeSheetModal({ isOpen, onClose, onAdd }) {
               className={`border w-full p-2 rounded-md ${errors.date ? 'border-red-500' : ''}`}
               value={formData.date}
               onChange={handleChange}
+              max={new Date().toISOString().split("T")[0]} 
             />
             {errors.date && <p className="text-red-500 text-sm">{errors.date}</p>}
           </div>

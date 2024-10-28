@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import addIcon from '../../../Assets/HrTas/addIcon.svg';
 import DropDown from '../../../Assets/HrTas/drop-down-arrow.svg';
 import TimeSheetModal from './TimeSheetModal';
@@ -10,10 +10,11 @@ function TimeSheet() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedOption, setSelectedOption] = useState('All Employees');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [timeSheetData, setTimeSheetData] = useState([]); 
-  const [searchQuery, setSearchQuery] = useState(''); 
-  const [filterQuery, setFilterQuery] = useState(''); 
+  const [timeSheetData, setTimeSheetData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterQuery, setFilterQuery] = useState('');
   const [groupBy, setGroupBy] = useState('');
+  const [employeeName, setEmployeeName] = useState('Aswin Sabu');
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -22,6 +23,12 @@ function TimeSheet() {
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setShowDropdown(false);
+
+    if (option === 'My Timesheet') {
+      setEmployeeName('Reshma');
+    } else {
+      setEmployeeName('Aswin Sabu');
+    }
   };
 
   const handleOpenModal = () => {
@@ -42,26 +49,35 @@ function TimeSheet() {
   };
 
   const handleFilterChange = (e) => {
-    setFilterQuery(e.target.value); 
+    setFilterQuery(e.target.value);
   };
 
   const handleGroupChange = (e) => {
-    setGroupBy(e.target.value); 
+    setGroupBy(e.target.value);
   };
 
-  const filteredTimeSheetData = timeSheetData.filter(entry => {
-    return (
-      entry.project.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      entry.task.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      entry.description.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }).filter(entry => {
-    return (
-      entry.project.toLowerCase().includes(filterQuery.toLowerCase()) ||
-      entry.task.toLowerCase().includes(filterQuery.toLowerCase()) ||
-      entry.description.toLowerCase().includes(filterQuery.toLowerCase())
-    );
-  });
+  // Filtered data based on selected option ("My Timesheet" or "All Employees")
+  const filteredTimeSheetData = timeSheetData
+    .filter(entry => {
+      if (selectedOption === 'My Timesheet') {
+        return entry.employeeName === 'Reshma';
+      }
+      return true;
+    })
+    .filter(entry => {
+      return (
+        entry.project.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        entry.task.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        entry.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    })
+    .filter(entry => {
+      return (
+        entry.project.toLowerCase().includes(filterQuery.toLowerCase()) ||
+        entry.task.toLowerCase().includes(filterQuery.toLowerCase()) ||
+        entry.description.toLowerCase().includes(filterQuery.toLowerCase())
+      );
+    });
 
   const groupedTimeSheetData = filteredTimeSheetData.reduce((acc, entry) => {
     const key = groupBy === 'Project' ? entry.project : groupBy === 'Date' ? entry.date : 'Ungrouped';
@@ -85,13 +101,13 @@ function TimeSheet() {
             <div className='relative'>
               <button
                 onClick={toggleDropdown}
-                className='border flex items-center font-normal text-sm mt-[24px] text-[#373737] px-6 py-4 rounded-lg'
+                className='border flex items-center font-normal text-sm mt-[24px] text-[#373737] px-6 py-[10px] rounded-lg'
               >
                 {selectedOption}
                 <img src={DropDown} className='ml-[8px]' alt='Dropdown arrow' />
               </button>
               {showDropdown && (
-                <div className='absolute top-full left-0 w-full bg-white border mt-1 rounded-lg'>
+                <div className='absolute top-full left-0 w-full bg-white border rounded-lg'>
                   {selectedOption !== 'All Employees' && (
                     <div
                       onClick={() => handleOptionSelect('All Employees')}
@@ -113,7 +129,7 @@ function TimeSheet() {
             </div>
             <button
               onClick={handleOpenModal}
-              className='bg-[#2B2342] flex items-center ml-6 font-normal text-sm mt-[24px] text-white px-6 py-4 rounded-lg'
+              className='bg-[#2B2342] flex items-center ml-6 font-normal text-sm mt-[24px] text-white px-6 py-[14px] rounded-lg'
             >
               <img src={addIcon} className='mr-[8px]' alt='Add icon' />
               Create
@@ -121,12 +137,13 @@ function TimeSheet() {
           </div>
         </div>
 
-        {timeSheetData.length === 0 ? (
-          <div className='mt-6 text-center text-[#696A70]'>
+        {filteredTimeSheetData.length === 0 ? (
+          <div className='mt-[300px] justify-center items-center flex text-center text-[#696A70]'>
             No entries available. Click "Create" to add a new timesheet entry.
           </div>
         ) : (
           <>
+            {/* Search, Filter, and Group By */}
             <div className='flex gap-2 text-[14px] placeholder:text-[14px] mt-9'>
               <div className='border rounded-lg w-[232px] py-[14px] pl-4 text-[#696A70] flex'>
                 <img className='mr-2' src={SearchIcon} alt="" />
@@ -161,7 +178,8 @@ function TimeSheet() {
                 </select>
               </div>
             </div>
-            {/* table */}
+
+            {/* TimeSheet Table */}
             <div className='rounded-t-lg overflow-hidden mt-6'>
               <table className='min-w-full bg-white rounded-lg'>
                 <thead className="bg-[#465062] p-4 text-center font-normal text-sm text-white">
@@ -175,31 +193,35 @@ function TimeSheet() {
                   </tr>
                 </thead>
                 <tbody>
-  {Object.entries(groupedTimeSheetData).map(([group, entries], index) => (
-    <React.Fragment key={group}>
-      {entries.map((entry, entryIndex) => (
-        <tr
-          key={entryIndex}
-          className={`${entryIndex % 2 === 0 ? 'bg-white' : 'bg-gray-100'} border-b`}
-        >
-          <td className='p-4 text-center font-normal text-sm'>{entry.date}</td>
-          <td className='p-4 text-center font-normal text-sm'>{entry.employeeName}</td>
-          <td className='p-4 text-center font-normal text-sm'>{entry.project}</td>
-          <td className='p-4 text-center font-normal text-sm'>{entry.task}</td>
-          <td className='p-4 text-center font-normal text-sm'>{entry.description}</td>
-          <td className='p-4 text-center font-normal text-sm'>{`${entry.hour}h ${entry.minute}m`}</td>
-        </tr>
-      ))}
-    </React.Fragment>
-  ))}
-</tbody>
-
+                  {Object.entries(groupedTimeSheetData).map(([group, entries], index) => (
+                    <React.Fragment key={group}>
+                      {entries.map((entry, entryIndex) => (
+                        <tr
+                          key={entryIndex}
+                          className={`${entryIndex % 2 === 0 ? 'bg-white' : 'bg-gray-100'} border-b`}
+                        >
+                          <td className='p-4 text-center font-normal text-sm'>{entry.date}</td>
+                          <td className='p-4 text-center font-normal text-sm'>{entry.employeeName}</td>
+                          <td className='p-4 text-center font-normal text-sm'>{entry.project}</td>
+                          <td className='p-4 text-center font-normal text-sm'>{entry.task}</td>
+                          <td className='p-4 text-center font-normal text-sm'>{entry.description}</td>
+                          <td className='p-4 text-center font-normal text-sm'>{`${entry.hour}h ${entry.minute}m`}</td>
+                        </tr>
+                      ))}
+                    </React.Fragment>
+                  ))}
+                </tbody>
               </table>
             </div>
           </>
         )}
       </div>
-      <TimeSheetModal isOpen={isModalOpen} onClose={handleCloseModal} onAdd={handleAddTimeSheet} />
+      <TimeSheetModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onAdd={handleAddTimeSheet}
+        employeeName={employeeName}
+      />
     </div>
   );
 }
