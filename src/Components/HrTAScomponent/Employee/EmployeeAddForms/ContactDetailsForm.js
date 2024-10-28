@@ -102,7 +102,7 @@ function ContactDetailsForm() {
     
                         {/* Step 2 */}
                         <li className="flex flex-col  items-start w-full text-center">
-                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
+                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
                                 <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
                                     <img src={tickIcon} alt="" className="w-3 h-3" />
                                 </span>
@@ -112,7 +112,7 @@ function ContactDetailsForm() {
     
                         {/* Step 3 */}
                         <li className="flex flex-col items-start w-full text-center">
-                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
+                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
                                 <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
                                     <img src={tickIcon} alt="" className="w-3 h-3" />
     
@@ -123,7 +123,7 @@ function ContactDetailsForm() {
     
                         {/* Step 4 */}
                         <li className="flex flex-col items-start w-full text-center">
-                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
+                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
                                 <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
                                     <img src={tickIcon} alt="" className="w-3 h-3" />
     
@@ -134,7 +134,7 @@ function ContactDetailsForm() {
     
                         {/* Step 5 */}
                         <li className="flex flex-col items-start w-full text-center">
-                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
+                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
                                 <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
                                     <img src={tickIcon} alt="" className="w-3 h-3" />
     
@@ -145,7 +145,7 @@ function ContactDetailsForm() {
     
                         {/* Step 6 */}
                         <li className="flex flex-col items-start w-full text-center">
-                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
+                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
                                 <span className="flex items-center justify-center w-5 h-5 bg-[#DCDCDC] rounded-full shrink-0">
     
     
@@ -183,7 +183,7 @@ function ContactDetailsForm() {
                                     maxLength="10"
                                     value={formData.primaryMobile}
                                     onChange={handleInputChange}
-                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                 />
                             </div>
                             <div className='ml-[16px]'>
@@ -194,7 +194,7 @@ function ContactDetailsForm() {
                                     maxLength="10"
                                     value={formData.secondaryMobile}
                                     onChange={handleInputChange}
-                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                 />
                             </div>
                         </div>
@@ -212,7 +212,7 @@ function ContactDetailsForm() {
                                     name="primaryAddress"
                                     value={formData.primaryAddress}
                                     onChange={handleInputChange}
-                                    className="px-3 mt-2 py-2 border w-[440px] h-[80px] border-[#E6E6E7] focus:outline-none text-[#696A70] text-[14px] font-normal rounded-lg"
+                                    className="px-3 mt-2 py-2 border w-[440px] h-[80px] border-[#E6E6E7] focus:outline-[#A4A4E5] text-[#696A70] text-[14px] font-normal rounded-lg"
                                     rows="2"
                                 />
                                 <div className="flex mt-4">
@@ -224,7 +224,7 @@ function ContactDetailsForm() {
                                             maxLength="6"
                                             value={formData.primaryPincode}
                                             onChange={handleInputChange}
-                                            className="px-3 py-2 border w-[178px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                            className="px-3 py-2 border w-[178px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                         />
                                     </div>
                                     <div className='ml-4'>
@@ -234,7 +234,7 @@ function ContactDetailsForm() {
                                             name="primaryCity"
                                             value={formData.primaryCity}
                                             onChange={handleInputChange}
-                                            className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                            className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                         />
                                     </div>
                                 </div>
@@ -245,7 +245,7 @@ function ContactDetailsForm() {
                                         name="primaryState"
                                         value={formData.primaryState}
                                         onChange={handleInputChange}
-                                        className="px-3 py-2 border w-[178px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                        className="px-3 py-2 border w-[178px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                     />
                                 </div>
                             </div>
@@ -269,7 +269,7 @@ function ContactDetailsForm() {
                                     name="secondaryAddress"
                                     value={sameAsPrimary ? formData.secondaryAddress : ''}
                                     onChange={handleInputChange}
-                                    className="px-3 mt-[6px] py-2 border w-[440px] h-[80px] border-[#E6E6E7] focus:outline-none text-[#696A70] text-[14px] font-normal rounded-lg"
+                                    className="px-3 mt-[6px] py-2 border w-[440px] h-[80px] border-[#E6E6E7] focus:outline-[#A4A4E5] text-[#696A70] text-[14px] font-normal rounded-lg"
                                     rows="2"
                                     disabled={sameAsPrimary}
                                 />
@@ -283,7 +283,7 @@ function ContactDetailsForm() {
                                             value={sameAsPrimary ? formData.secondaryPincode : ''}
                                             onChange={handleInputChange}
                                             disabled={sameAsPrimary}
-                                            className="px-3 py-2 border w-[178px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                            className="px-3 py-2 border w-[178px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                         />
                                     </div>
                                     <div className='ml-[16px]'>
@@ -294,7 +294,7 @@ function ContactDetailsForm() {
                                             value={sameAsPrimary ? formData.secondaryCity : ''}
                                             onChange={handleInputChange}
                                             disabled={sameAsPrimary}
-                                            className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                            className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                         />
                                     </div>
                                 </div>
@@ -306,7 +306,7 @@ function ContactDetailsForm() {
                                         value={sameAsPrimary ? formData.secondaryState : ''}
                                         onChange={handleInputChange}
                                         disabled={sameAsPrimary}
-                                        className="px-3 py-2 border w-[178px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                        className="px-3 py-2 border w-[178px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                     />
                                 </div>
                             </div>
@@ -325,7 +325,7 @@ function ContactDetailsForm() {
                                     name="emergencyFirstName"
                                     value={formData.emergencyFirstName}
                                     onChange={handleInputChange}
-                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                 />
                             </div>
                             <div className='ml-[16px]'>
@@ -335,7 +335,7 @@ function ContactDetailsForm() {
                                     name="emergencyLastName"
                                     value={formData.emergencyLastName}
                                     onChange={handleInputChange}
-                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                 />
                             </div>
                         </div>
@@ -347,7 +347,7 @@ function ContactDetailsForm() {
                                     name="emergencyRelationship"
                                     value={formData.emergencyRelationship}
                                     onChange={handleInputChange}
-                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                 />
                             </div>
                             <div className='ml-[16px]'>
@@ -358,7 +358,7 @@ function ContactDetailsForm() {
                                     maxLength="10"
                                     value={formData.emergencyContactNumber}
                                     onChange={handleInputChange}
-                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-none mt-[8px] rounded-lg"
+                                    className="px-3 py-2 border w-[247px] h-[48px] text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg"
                                 />
                             </div>
                         </div>

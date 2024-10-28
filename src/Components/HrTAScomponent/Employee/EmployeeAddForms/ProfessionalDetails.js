@@ -171,7 +171,7 @@ function ProfessionalDetails() {
                                         value={formData.dateOfJoin}
                                         onChange={handleChange}
                                         max={todayDate}
-                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-none font-normal"
+                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-[#A4A4E5] font-normal"
                                     />
                                 </div>
 
@@ -183,7 +183,7 @@ function ProfessionalDetails() {
                                         value={formData.endOfProbation}
                                         onChange={handleChange}
                                         min={formData.dateOfJoin}
-                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-none font-normal"
+                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-[#A4A4E5] font-normal"
                                     />
                                 </div>
                             </div>
@@ -197,7 +197,7 @@ function ProfessionalDetails() {
                                         value={formData.dateEffective}
                                         onChange={handleChange}
                                         min={formData.dateOfJoin}
-                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-none font-normal"
+                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-[#A4A4E5] font-normal"
                                     />
                                 </div>
 
@@ -208,7 +208,7 @@ function ProfessionalDetails() {
                                         name="jobPosition"
                                         value={formData.jobPosition}
                                         onChange={handleChange}
-                                        className="w-[247px] focus:outline-none px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                        className="w-[247px] focus:outline-[#A4A4E5] px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                     >
                                         <option>Select Your Job Position</option>
 
@@ -223,7 +223,7 @@ function ProfessionalDetails() {
                                         name="lineManager"
                                         value={formData.lineManager}
                                         onChange={handleChange}
-                                        className="w-[247px] focus:outline-none px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                        className="w-[247px] focus:outline-[#A4A4E5] px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                     >
                                         <option>Select Your Line Manager</option>
 
@@ -243,7 +243,7 @@ function ProfessionalDetails() {
                                         name="department"
                                         value={formData.department}
                                         onChange={handleChange}
-                                        className="w-[247px] focus:outline-none px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                        className="w-[247px] focus:outline-[#A4A4E5] px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                     >
                                         <option>Select Your Department</option>
 
@@ -257,7 +257,7 @@ function ProfessionalDetails() {
                                         name="branch"
                                         value={formData.branch}
                                         onChange={handleChange}
-                                        className="w-[247px] focus:outline-none px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                        className="w-[247px] focus:outline-[#A4A4E5] px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                     >
                                         <option>Select Your Branch</option>
 
@@ -271,7 +271,7 @@ function ProfessionalDetails() {
                                         name="level"
                                         value={formData.level}
                                         onChange={handleChange}
-                                        className="w-[247px] focus:outline-none px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                        className="w-[247px] focus:outline-[#A4A4E5] px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                     >
                                         <option>Select Your Level</option>
 
@@ -299,7 +299,7 @@ function ProfessionalDetails() {
                                         value={formData.dateEffective}
                                         onChange={handleChange}
                                         min={formData.dateOfJoin}
-                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-none font-normal"
+                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-[#A4A4E5] font-normal"
                                     />
                                 </div>
 
@@ -309,7 +309,7 @@ function ProfessionalDetails() {
                                             name="jobType"
                                             value={formData.jobType}
                                             onChange={handleChange}
-                                            className="w-[247px] focus:outline-none h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                            className="w-[247px] focus:outline-[#A4A4E5] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                         >
                                             <option>Select Your Job Type</option>
 
@@ -324,7 +324,7 @@ function ProfessionalDetails() {
                                             name="description"
                                             value={formData.description}
                                             onChange={handleChange}
-                                            className="w-[247px] focus:outline-none h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                            className="w-[247px] focus:outline-[#A4A4E5] h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                         />
                                     </div>
                                 </div>
@@ -337,7 +337,7 @@ function ProfessionalDetails() {
                                             name="leaveFlow"
                                             value={formData.leaveFlow}
                                             onChange={handleChange}
-                                            className="w-[247px] focus:outline-none h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                            className="w-[247px] focus:outline-[#A4A4E5] h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                         />
                                     </div>
 
@@ -348,7 +348,7 @@ function ProfessionalDetails() {
                                             name="workday"
                                             value={formData.workday}
                                             onChange={handleChange}
-                                            className="w-[247px] focus:outline-none h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                            className="w-[247px] focus:outline-[#A4A4E5] h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                         />
                                     </div>
 
@@ -358,7 +358,7 @@ function ProfessionalDetails() {
                                             name="holiday"
                                             value={formData.holiday}
                                             onChange={handleChange}
-                                            className="w-[247px] focus:outline-none h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                            className="w-[247px] focus:outline-[#A4A4E5] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                         >
                                             <option>Select Your Holiday Location</option>
 
