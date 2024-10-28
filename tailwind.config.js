@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       fontFamily: {
         AnekLatin: ['Anek Latin','sans-serif'],
+        Popins:['Poppins', 'sans-serif'],
       },
       colors:{
        'gray-textColor': '#AEAEAE'

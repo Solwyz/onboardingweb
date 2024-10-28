@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import signupImg from '../../Assets/signup.png'
 
 function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -68,77 +69,87 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">Sign In</h2>
+    <div className="grid p-6  bg-white ">
+      <div className="flex">
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Phone Number
-            </label>
-            <input
-              type="text"
-              value={phoneNumber}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-              onBlur={handleBlur}
-              maxLength="10"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your phone number"
-              required
-            />
-            {phoneError && (
-              <p className="text-red-600 text-sm mt-1">{phoneError}</p>
-            )}
-          </div>
+        <div>
 
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your password"
-              required
-            />
-            {passwordError && (
-              <p className="text-red-600 text-sm mt-1">{passwordError}</p>
-            )}
-          </div>
+          <img  className="w-[801px] h-[976px]" src={signupImg} alt="" />
 
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex-grow"></div>
-            <Link
-              to="/forgot"
-              className="text-sm text-blue-600 hover:underline hover:text-blue-800"
-            >
-              Forgot Password?
-            </Link>
-          </div>
+        </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition duration-300"
-          >
-            Sign In
-          </button>
+        <div className="ml-[88px] mt-[164px] w-[378px]">
+          <h2 className="text-[36px] text-[#0C1421] font-medium font-Popins text-start">Welcome Back</h2>
+          <p className="text-start font-Popins font-normal mt-[16px]   text-[#444444]">Today is a new day. It's your day. You shape it. <br />
+            Sign in to start managing your projects.</p>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-700">
-              New user?{" "}
+          <form onSubmit={handleSubmit}>
+            <div className="mt-[72px]">
+              <label className="block text-base font-normal text-[#0C1421] font-Popins">Phone Number</label>
+              <input
+                type="text"
+                value={phoneNumber}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                onBlur={handleBlur}
+                maxLength="10"
+                className="w-full mt-2 h-[48px] px-4 py-4 border border-[#D4D7E3] bg-[#F7FBFF] rounded-lg focus:outline-none text-base font-normal placeholder:text-[#8897AD]"
+                placeholder="Enter your phone number"
+                required
+              />
+              {phoneError && (
+                <p className="text-red-600 text-sm mt-1">{phoneError}</p>
+              )}
+            </div>
+
+            <div className="mt-6">
+              <label className="block text-base font-normal text-[#0C1421] font-Popins">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full mt-2 h-[48px] px-4 py-4 border border-[#D4D7E3] bg-[#F7FBFF] rounded-lg focus:outline-none text-base font-normal placeholder:text-[#8897AD]"
+                placeholder="Enter your password"
+                required
+              />
+              {passwordError && (
+                <p className="text-red-600 text-sm mt-1">{passwordError}</p>
+              )}
+            </div>
+
+            <div className="flex justify-between items-center mt-4">
+              <div className="flex-grow"></div>
               <Link
-                to="/signup"
-                className="text-blue-600 hover:underline font-semibold hover:text-blue-800"
+                to="/forgot"
+                className="text-sm text-[#1E4AE9] font-normal font-Popins"
               >
-                Sign Up
+                Forgot Password?
               </Link>
-            </p>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#2B2342] text-white font-normal font-Popins py-2 px-2 rounded-lg mt-6 hover:bg-[#4A3C76]"
+            >
+              Sign In
+            </button>
+
+            <div className="mt-10 text-center">
+              <p className="text-sm font-Popins font-normal text-[#313957]">
+                Don’t have an account?{" "}
+                <Link
+                  to="/signup"
+                  className="text-[#1E4AE9] font-Popins font-normal text-sm"
+                >
+                  Sign Up
+                </Link>
+              </p>
+            </div>
+          </form>
+          <div className="mt-[200px]">
+            <h2 className="items-center text-center font-Popins text-[#959CB6] text-base font-normal"> © {new Date().getFullYear()} ALL RIGHTS RESERVED</h2>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
