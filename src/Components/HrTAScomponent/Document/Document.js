@@ -29,9 +29,10 @@ function Document() {
 
   const [selectedDocuments, setSelectedDocuments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState(''); // Add search term state
   const documentsPerPage = 10;
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -43,7 +44,6 @@ function Document() {
       const newSelected = isAlreadySelected
         ? prevSelected.filter((i) => i !== index)
         : [...prevSelected, index];
-
       return newSelected;
     });
   };
@@ -73,10 +73,16 @@ function Document() {
     );
   };
 
+  // Filter documents by search term
+  const filteredDocuments = documents.filter((doc) =>
+    doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    doc.user.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const indexOfLastDocument = currentPage * documentsPerPage;
   const indexOfFirstDocument = indexOfLastDocument - documentsPerPage;
-  const currentDocuments = documents.slice(indexOfFirstDocument, indexOfLastDocument);
-  const totalPages = Math.ceil(documents.length / documentsPerPage);
+  const currentDocuments = filteredDocuments.slice(indexOfFirstDocument, indexOfLastDocument);
+  const totalPages = Math.ceil(filteredDocuments.length / documentsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -84,12 +90,11 @@ function Document() {
 
   return (
     <div className="p-6">
-      {/* Main Content */}
       <div className="bg-white w-full h-[930px] px-6 py-[24px] shadow-lg">
         <div className="flex justify-between items-center">
           <h1 className="text-[20px] text-[#232E42] font-medium mt-[40px]">Document Request</h1>
           <button
-            onClick={toggleModal} // Open modal when clicked
+            onClick={toggleModal}
             className="bg-[#2B2342] flex items-center w-[115px] h-[48px] font-normal text-sm mt-[24px] text-white px-4 py-2 rounded-lg"
           >
             <img src={addIcon} className="mr-[8px]" alt="Create" />
@@ -101,25 +106,15 @@ function Document() {
           <input
             type="text"
             placeholder="Search Document"
+            value={searchTerm} // Bind input to search term
+            onChange={(e) => setSearchTerm(e.target.value)} // Update search term
             className="border border-[#E6E6E7] focus:outline-none text-[#696A70] text-sm font-normal rounded-lg p-2 w-[584px] h-[48px]"
-            onFocus={() => setIsInputFocused(true)}          
+            onFocus={() => setIsInputFocused(true)}
             onBlur={() => setIsInputFocused(false)}
           />
-          <button
-            className="border border-[#E6E6E7] flex items-center font-normal text-sm text-[#2C2B2B] p-2 ml-2 rounded-lg w-[87px] h-[48px]"
-          >
+          <button className="border border-[#E6E6E7] flex items-center font-normal text-sm text-[#2C2B2B] p-2 ml-2 rounded-lg w-[87px] h-[48px]">
             <img src={filterIcon} className="mr-2" alt="Filter" />
             Filter
-          </button>
-        </div>
-
-        <div className="flex justify-end mt-4">
-          <button
-            className={`h-[30px] w-[94px] flex items-center cursor-pointer text-[#FF0000] text-sm font-normal px-4 py-[7px] rounded-[4px] border border-[#FC4545]`}
-            onClick={deleteSelectedDocuments}
-            disabled={!areAnySelected}
-          >
-            <img src={deleteIcon} alt="" className="mr-[8px]" /> Delete
           </button>
         </div>
 
@@ -191,8 +186,8 @@ function Document() {
         </div>
 
         {/* Pagination */}
-        {documents.length > documentsPerPage && (
-          <div className=" flex justify-end align-middle mb-6 ">
+        {filteredDocuments.length > documentsPerPage && (
+          <div className="flex justify-end align-middle mb-6 ">
             <button
               onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
               className={`p-2 ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
@@ -300,7 +295,6 @@ function Document() {
                 ></textarea>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex justify-end mt-8">
                 <button
                   type="button"

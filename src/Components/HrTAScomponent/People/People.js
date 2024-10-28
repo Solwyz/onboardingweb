@@ -31,12 +31,12 @@ function People() {
   const [currentPage, setCurrentPage] = useState(1);
   const employeesPerPage = 10;
 
-  // Filtered employees by search term
+  // Filter employees based on search term
   const filteredEmployees = employees.filter((employee) =>
     employee.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Calculate total pages based on employees count
+  // Calculate total pages
   const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
 
   // Get the current page employees
@@ -48,7 +48,6 @@ function People() {
   // Pagination handlers
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-    // Scroll to top after page change
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -61,10 +60,12 @@ function People() {
         <div className="mt-[32px]">
           <input
             type="text"
-            
             placeholder="Search Employee"
             className="border border-[#E6E6E7] focus:outline-none text-[#696A70] text-sm font-normal rounded-lg p-2 w-[584px] h-[48px]"
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // Reset to the first page on a new search
+            }}
           />
         </div>
         <div className="grid gap-2 mt-4">
