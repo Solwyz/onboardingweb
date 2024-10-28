@@ -28,20 +28,52 @@ function ProfessionalDetails() {
         setIsButtonEnabled(isComplete);
     }, [formData]);
 
+    // Restrict future date selection for dateOfJoin
+    const todayDate = new Date().toISOString().split('T')[0];
+
     // Handle form field changes
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
+
+        // Set constraints for endOfProbation and dateEffective based on dateOfJoin
+        if (name === 'dateOfJoin') {
+            setFormData((prevData) => ({
+                ...prevData,
+                dateOfJoin: value,
+                endOfProbation: '',
+                dateEffective: ''
+            }));
+        } else if (name === 'endOfProbation') {
+            const joinDate = new Date(formData.dateOfJoin);
+            const selectedDate = new Date(value);
+            if (selectedDate > joinDate) {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    endOfProbation: value
+                }));
+            }
+        } else if (name === 'dateEffective') {
+            const joinDate = new Date(formData.dateOfJoin);
+            const selectedDate = new Date(value);
+            if (selectedDate >= joinDate) {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    dateEffective: value
+                }));
+            }
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value
+            }));
+        }
     };
 
     // Handle button click
     const handleNext = () => {
         console.log(formData); // Log the form data to the console
-        setShowSalaryForm(true)
-    };
+        setShowSalaryForm(true);
+    };;
 
     return (
         <div>
@@ -131,13 +163,14 @@ function ProfessionalDetails() {
                             </div>
 
                             <div className='flex mt-[16px]'>
-                                <div className=''>
-                                    <label className="block text-sm text-[#373737] font-normal">Date of Join</label>
+                            <div>
+                                    <label className="block text-sm text-[#373737] font-normal">Date of Joined</label>
                                     <input
                                         type="date"
                                         name="dateOfJoin"
                                         value={formData.dateOfJoin}
                                         onChange={handleChange}
+                                        max={todayDate}
                                         className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-none font-normal"
                                     />
                                 </div>
@@ -149,7 +182,8 @@ function ProfessionalDetails() {
                                         name="endOfProbation"
                                         value={formData.endOfProbation}
                                         onChange={handleChange}
-                                        className="w-[247px] focus:outline-none h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                        min={formData.dateOfJoin}
+                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-none font-normal"
                                     />
                                 </div>
                             </div>
@@ -162,9 +196,11 @@ function ProfessionalDetails() {
                                         name="dateEffective"
                                         value={formData.dateEffective}
                                         onChange={handleChange}
-                                        className="w-[247px] focus:outline-none h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                        min={formData.dateOfJoin}
+                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-none font-normal"
                                     />
                                 </div>
+
 
                                 <div className='ml-[16px]'>
                                     <label className="block text-sm font-normal text-[#373737]">Job Position</label>
@@ -180,17 +216,25 @@ function ProfessionalDetails() {
                                     </select>
                                 </div>
 
+
                                 <div className='ml-[16px]'>
                                     <label className="block text-sm font-normal text-[#373737]">Line Manager</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="lineManager"
                                         value={formData.lineManager}
                                         onChange={handleChange}
                                         className="w-[247px] focus:outline-none px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
-                                    />
+                                    >
+                                        <option>Select Your Line Manager</option>
+
+                                        <option>Vijay T</option>
+                                    </select>
                                 </div>
-                            </div>
+
+
+                                
+
+                            </div> 
 
                             <div className='flex mt-[16px]'>
                                 <div>
@@ -247,16 +291,17 @@ function ProfessionalDetails() {
                                 </div>
 
                                 <div className='flex mt-[16px]'>
-                                    <div>
-                                        <label className="block text-sm text-[#373737] font-normal">Date Effective</label>
-                                        <input
-                                            type="date"
-                                            name="dateEffective"
-                                            value={formData.dateEffective}
-                                            onChange={handleChange}
-                                            className="w-[247px] focus:outline-none h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
-                                        />
-                                    </div>
+                                <div>
+                                    <label className="block text-sm font-normal text-[#373737]">Date Effective</label>
+                                    <input
+                                        type="date"
+                                        name="dateEffective"
+                                        value={formData.dateEffective}
+                                        onChange={handleChange}
+                                        min={formData.dateOfJoin}
+                                        className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-none font-normal"
+                                    />
+                                </div>
 
                                     <div className='ml-[16px]'>
                                         <label className="block text-sm text-[#373737] font-normal">Job Type</label>
