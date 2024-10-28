@@ -118,7 +118,7 @@ function ContactDetailsForm() {
     
                                 </span>
                             </div>
-                            <span className="mt-2 text-sm font-normal text-[#696A70] ml-[-5px]">Salary</span> {/* Text directly below the circle */}
+                            <span className="mt-2 text-sm font-normal text-[#2B2342] ml-[-5px]">Salary</span> {/* Text directly below the circle */}
                         </li>
     
                         {/* Step 4 */}
@@ -129,29 +129,29 @@ function ContactDetailsForm() {
     
                                 </span>
                             </div>
-                            <span className="mt-2 text-sm font-normal text-[#696A70] ml-[-5px]">Personal</span> {/* Text directly below the circle */}
+                            <span className="mt-2 text-sm font-normal text-[#2B2342] ml-[-10px]">Personal</span> {/* Text directly below the circle */}
                         </li>
     
                         {/* Step 5 */}
                         <li className="flex flex-col items-start w-full text-center">
-                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
+                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
                                 <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
                                     <img src={tickIcon} alt="" className="w-3 h-3" />
     
                                 </span>
                             </div>
-                            <span className="mt-2 text-sm font-normal text-[#696A70] ml-[-5px]">Contact</span> {/* Text directly below the circle */}
+                            <span className="mt-2 text-sm font-normal text-[#2B2342] ml-[-8px]">Contact</span> {/* Text directly below the circle */}
                         </li>
     
                         {/* Step 6 */}
                         <li className="flex flex-col items-start w-full text-center">
-                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
+                            <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
                                 <span className="flex items-center justify-center w-5 h-5 bg-[#DCDCDC] rounded-full shrink-0">
     
     
                                 </span>
                             </div>
-                            <span className="mt-2 text-sm font-normal text-[#696A70] ml-[-5px]">Physical</span> {/* Text directly below the circle */}
+                            <span className="mt-2 text-sm font-normal text-[#696A70] ml-[-8px]">Physical</span> {/* Text directly below the circle */}
                         </li>
     
                         {/* Final Step */}
