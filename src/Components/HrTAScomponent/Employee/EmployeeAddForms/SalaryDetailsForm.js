@@ -153,7 +153,7 @@ function SalaryDetailsForm() {
             <form className='border rounded shadow mt-8 p-6 bg-white pb-32' onSubmit={handleSubmit}>
               <div className='text-[20px] font-medium border-b pb-4'>Salary Details</div>
 
-              <div className='flex gap-4'>
+              <div className='flex gap-4 text-[#373737]'>
                 <div className='mt-6'>
                   <div className='text-[14px]'>Basic Salary</div>
                   <input
@@ -162,7 +162,7 @@ function SalaryDetailsForm() {
                     onKeyDown={handleKeyDown}
                     value={formData.basicSalary}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   />
                 </div>
                 <div className='mt-6'>
@@ -173,12 +173,12 @@ function SalaryDetailsForm() {
                     onKeyDown={handleKeyDown}
                     value={formData.currentSalary}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   />
                 </div>
               </div>
 
-              <div className='flex gap-4'>
+              <div className='flex gap-4 text-[#373737]'>
                 <div className='mt-6'>
                   <div className='text-[14px]'>Next review date</div>
                   <input
@@ -187,12 +187,12 @@ function SalaryDetailsForm() {
                     min={today}
                     value={formData.nextReviewDate}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   />
                 </div>
               </div>
 
-              <div className='flex gap-4'>
+              <div className='flex gap-4 text-[#373737]'>
                 <div className='mt-6'>
                   <div className='text-[14px]'>Earning</div>
                   <input
@@ -201,7 +201,7 @@ function SalaryDetailsForm() {
                     onKeyDown={handleKeyDown}
                     value={formData.earning}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   />
                 </div>
                 <div className='mt-6'>
@@ -212,7 +212,7 @@ function SalaryDetailsForm() {
                     onKeyDown={handleKeyDown}
                     value={formData.deduction}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   />
                 </div>
                 <div className='mt-6'>
@@ -223,7 +223,7 @@ function SalaryDetailsForm() {
                     onKeyDown={handleKeyDown}
                     value={formData.bonus}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   />
                 </div>
                 <div className='mt-6'>
@@ -234,14 +234,14 @@ function SalaryDetailsForm() {
                     onKeyDown={handleKeyDown}
                     value={formData.epf}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   />
                 </div>
               </div>
 
               <div className='text-[20px] font-medium border-b pb-4 mt-8'>Payment</div>
 
-              <div className='flex gap-4'>
+              <div className='flex gap-4 text-[#373737]'>
                 <div className='mt-6'>
                   <div className='text-[14px]'>Bank Name</div>
                   <input
@@ -249,7 +249,7 @@ function SalaryDetailsForm() {
                     name='bankName'
                     value={formData.bankName}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   />
                 </div>
                 <div className='mt-6'>
@@ -260,19 +260,19 @@ function SalaryDetailsForm() {
                     onKeyDown={handleKeyDown}
                     value={formData.bankAccount}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   />
                 </div>
               </div>
 
-              <div className='flex gap-4'>
+              <div className='flex gap-4 text-[#373737]'>
                 <div className='mt-6'>
                   <div className='text-[14px]'>Pay Period</div>
                   <select
                     name='payPeriod'
                     value={formData.payPeriod}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   >
                     <option value='Monthly'>Monthly</option>
                     <option value='Yearly'>Yearly</option>
@@ -284,7 +284,7 @@ function SalaryDetailsForm() {
                     name='method'
                     value={formData.method}
                     onChange={handleFormChange}
-                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   >
                     <option value='Net Banking'>Net Banking</option>
                     <option value='Check'>Check</option>
