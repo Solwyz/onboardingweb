@@ -62,7 +62,6 @@ function BasicDetailsForm({editingEmployee}) {
             nationality &&
             dateOfBirth &&
             panNumber &&
-            passport &&
             designation &&
             department &&
             email &&
@@ -258,7 +257,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='firstName'
                                     value={formData.firstName}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 />
                                 {errors.firstName && (
                                     <div className='text-red-500 text-sm mt-1'>{errors.firstName}</div>
@@ -271,7 +270,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='lastName'
                                     value={formData.lastName}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 />
                             </div>
                         </div>
@@ -283,7 +282,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='gender'
                                     value={formData.gender}
                                     onChange={handleFormChange}
-                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 >
                                     <option value=''>Select Gender</option>
                                     <option value='Male'>Male</option>
@@ -297,7 +296,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='nationality'
                                     value={formData.nationality}
                                     onChange={handleFormChange}
-                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 >
                                     <option value='Indian'>Indian</option>
                                     <option value='UAE'>UAE</option>
@@ -312,7 +311,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     value={formData.dateOfBirth}
                                     onChange={handleFormChange}
                                     max={maxDate}
-                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 />
                             </div>
                         </div>
@@ -327,20 +326,20 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='panNumber'
                                     value={formData.panNumber}
                                     onChange={handleFormChange}
-                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 />
                                 {errors.panNumber && (
                                     <div className='text-red-500 text-sm mt-1'>{errors.panNumber}</div>
                                 )}
                             </div>
                             <div className='mt-6'>
-                                <div className='text-[14px]'>Passport</div>
+                                <div className='text-[14px]'>Passport (Optional)</div>
                                 <input
                                     type='text'
                                     name='passport'
                                     value={formData.passport}
                                     onChange={handleFormChange}
-                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 />
                                 {errors.passport && (
                                     <div className='text-red-500 text-sm mt-1'>{errors.passport}</div>
@@ -357,7 +356,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='designation'
                                     value={formData.designation}
                                     onChange={handleFormChange}
-                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 >
                                     <option value=''>Designation</option>
                                     <option value='Development'>Frontend Developer</option>
@@ -370,7 +369,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='department'
                                     value={formData.department}
                                     onChange={handleFormChange}
-                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 >
                                     <option value=''>Department</option>
                                     <option value='Development'>Web Development</option>
@@ -387,7 +386,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='email'
                                     value={formData.email}
                                     onChange={handleFormChange}
-                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 />
                                 {errors.email && (
                                     <div className='text-red-500 text-sm mt-1'>{errors.email}</div>
