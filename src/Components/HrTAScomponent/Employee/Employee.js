@@ -11,7 +11,7 @@ function Employee() {
   const [employees, setEmployees] = useState([
     { id: 1, firstName: 'Aswin Raj', empId: 'T15462566', role: 'Frontend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2546' },
     { id: 2, firstName: 'John Doe', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2547' },
-    { id: 3, firstName: 'Ashik cn', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2547' },
+    { id: 3, firstName: 'Ashik cn', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'India',nationality: 'Indian', contact: '965 966 2547' },
     { id: 4, firstName: 'Vinessh vj', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2547' },
     { id: 5, firstName: 'Nizam Mdu', empId: 'T15462567', role: 'Backend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2547' }
   ]);
