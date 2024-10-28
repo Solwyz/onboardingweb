@@ -68,6 +68,9 @@ function SalaryDetailsForm() {
     }
   }
 
+  const today = new Date().toISOString().split("T")[0];
+
+
   return (
     <div>
       {!showPersonalForm ?
@@ -181,6 +184,7 @@ function SalaryDetailsForm() {
                   <input
                     type='date'
                     name='nextReviewDate'
+                    min={today}
                     value={formData.nextReviewDate}
                     onChange={handleFormChange}
                     className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
