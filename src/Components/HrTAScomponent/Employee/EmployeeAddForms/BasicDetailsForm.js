@@ -7,7 +7,15 @@ import ProfessionalDetails from './ProfessionalDetails';
 
 function BasicDetailsForm({editingEmployee}) {
 
+    const [maxDate, setMaxDate] = useState('');
+
     useEffect(() => {
+        const today = new Date();
+        const year = today.getFullYear() - 18;
+        const month = (`0${today.getMonth() + 1}`).slice(-2);
+        const day = (`0${today.getDate()}`).slice(-2);
+        setMaxDate(`${year}-${month}-${day}`);
+
         if(editingEmployee) {
             setFormData({
                 firstName: editingEmployee.firstName,
@@ -58,7 +66,10 @@ function BasicDetailsForm({editingEmployee}) {
             designation &&
             department &&
             email &&
-            !errors.email;
+            !errors.email &&
+            !errors.firstName &&
+            !errors.panNumber &&
+            !errors.passport ;
 
         setIsFormValid(isValid);
     }, [formData, errors])
@@ -66,6 +77,21 @@ function BasicDetailsForm({editingEmployee}) {
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email)
+    }
+
+    const validateFirstName = (firstName) => {
+        const firstNameRegex = /^[A-Za-z].*$/;
+        return firstNameRegex.test(firstName);
+    }
+
+    const validatePanNumber =(panNumber)=> {
+        const alphanumericRegex = /^[a-zA-Z0-9]*$/;
+        return alphanumericRegex.test(panNumber);
+    }
+
+    const validatePassport =(passport)=> {
+        const alphanumericRegex = /^[a-zA-Z0-9]*$/;
+        return alphanumericRegex.test(passport);
     }
 
     const handleFormChange = (e) => {
@@ -85,7 +111,51 @@ function BasicDetailsForm({editingEmployee}) {
                 }))
             }
         }
+
+        if (name === 'firstName') {
+            if(!validateFirstName(value)) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    firstName: 'First Name cannot starts with a number'
+                }))
+            } else {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    firstName: ''
+                }))
+            }
+        }
+
+        if(name === 'panNumber') {
+            if(!validatePanNumber(value)) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    panNumber: 'PAN number does not contain special characters'
+                }));
+            } else {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    panNumber: ''
+                }))
+            }
+        }
+
+        if(name === 'passport') {
+            if(!validatePassport(value)) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    passport: 'Passport number does not contain special characters'
+                }));
+            } else {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    passport: ''
+                }))
+            }
+        }
     };
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -180,7 +250,7 @@ function BasicDetailsForm({editingEmployee}) {
                     <form className='border shadow mt-8 p-6' onSubmit={handleSubmit}>
                         <div className='text-[20px] font-medium border-b pb-4'>Basic Details</div>
 
-                        <div className='flex gap-4'>
+                        <div className='flex gap-4 text-[#373737]'>
                             <div className='mt-6'>
                                 <div className='text-[14px]'>First Name</div>
                                 <input
@@ -188,8 +258,11 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='firstName'
                                     value={formData.firstName}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                                 />
+                                {errors.firstName && (
+                                    <div className='text-red-500 text-sm mt-1'>{errors.firstName}</div>
+                                )}
                             </div>
                             <div className='mt-6'>
                                 <div className='text-[14px]'>Last Name</div>
@@ -198,23 +271,24 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='lastName'
                                     value={formData.lastName}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                                 />
                             </div>
                         </div>
 
-                        <div className='flex gap-4'>
+                        <div className='flex gap-4 text-[#373737]'>
                             <div className='mt-6'>
                                 <div className='text-[14px]'>Gender</div>
                                 <select
                                     name='gender'
                                     value={formData.gender}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                                 >
                                     <option value=''>Select Gender</option>
                                     <option value='Male'>Male</option>
                                     <option value='Female'>Female</option>
+                                    <option value='Others'>Others</option>
                                 </select>
                             </div>
                             <div className='mt-6'>
@@ -223,7 +297,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='nationality'
                                     value={formData.nationality}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                                 >
                                     <option value='Indian'>Indian</option>
                                     <option value='UAE'>UAE</option>
@@ -237,14 +311,15 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='dateOfBirth'
                                     value={formData.dateOfBirth}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                                    max={maxDate}
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                                 />
                             </div>
                         </div>
 
                         <div className='text-[20px] font-medium border-b pb-4 mt-8'>ID Proof</div>
 
-                        <div className='flex gap-4'>
+                        <div className='flex gap-4 text-[#373737]'>
                             <div className='mt-6'>
                                 <div className='text-[14px]'>PAN Number</div>
                                 <input
@@ -252,8 +327,11 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='panNumber'
                                     value={formData.panNumber}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                                 />
+                                {errors.panNumber && (
+                                    <div className='text-red-500 text-sm mt-1'>{errors.panNumber}</div>
+                                )}
                             </div>
                             <div className='mt-6'>
                                 <div className='text-[14px]'>Passport</div>
@@ -262,21 +340,24 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='passport'
                                     value={formData.passport}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                                 />
+                                {errors.passport && (
+                                    <div className='text-red-500 text-sm mt-1'>{errors.passport}</div>
+                                )}
                             </div>
                         </div>
 
                         <div className='text-[20px] font-medium border-b pb-4 mt-8'>Job</div>
 
-                        <div className='flex gap-4'>
+                        <div className='flex gap-4 text-[#373737]'>
                             <div className='mt-6'>
                                 <div className='text-[14px]'>Designation</div>
                                 <select
                                     name='designation'
                                     value={formData.designation}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                                 >
                                     <option value=''>Designation</option>
                                     <option value='Development'>Frontend Developer</option>
@@ -289,7 +370,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='department'
                                     value={formData.department}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                                 >
                                     <option value=''>Department</option>
                                     <option value='Development'>Web Development</option>
@@ -298,7 +379,7 @@ function BasicDetailsForm({editingEmployee}) {
                             </div>
                         </div>
 
-                        <div className='flex gap-4'>
+                        <div className='flex gap-4 text-[#373737]'>
                             <div className='mt-6'>
                                 <div className='text-[14px]'>Email</div>
                                 <input
@@ -306,7 +387,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     name='email'
                                     value={formData.email}
                                     onChange={handleFormChange}
-                                    className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
+                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-none'
                                 />
                                 {errors.email && (
                                     <div className='text-red-500 text-sm mt-1'>{errors.email}</div>
