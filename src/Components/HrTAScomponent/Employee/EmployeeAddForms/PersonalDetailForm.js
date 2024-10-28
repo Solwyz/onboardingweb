@@ -161,8 +161,8 @@ function PersonalDetailForm() {
 
                     <div className='flex'>
                         {/* Father Name input */}
-                        <div className='mt-4'>
-                            <div className={`block text-sm font-normal ${maritalStatus === 'married' ? 'text-gray-400' : 'text-[#373737]'}`}>
+                        <div className={`block mt-4 text-sm font-normal ${maritalStatus === 'married' ? 'text-gray-400 hidden' : 'text-[#373737]'}`}>
+                            <div className="">
                                 Father Name
                             </div>
                             <input
@@ -180,8 +180,8 @@ function PersonalDetailForm() {
                         </div>
 
                         {/* Spouse Name input */}
-                        <div className='ml-[16px] mt-4'>
-                            <div className={`block text-sm font-normal ${maritalStatus === 'single' ? 'text-gray-400' : 'text-[#373737]'}`}>
+                        <div className= {`block mt-4 text-sm font-normal ${maritalStatus === 'single' ? 'hidden ' : 'text-[#373737]'}`}>
+                            <div className=''>
                                 Spouse Name
                             </div>
                             <input
@@ -201,7 +201,7 @@ function PersonalDetailForm() {
 
                 </div>
 
-                {/* Next Button */}
+              
                 <div className="flex justify-end mt-[32px]">
                     <button
                         className={`px-6 py-2 w-[92px] h-[48px] text-white font-normal text-sm rounded-md 

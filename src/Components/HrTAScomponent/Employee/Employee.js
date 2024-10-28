@@ -40,15 +40,14 @@ function Employee() {
     setShowBasicForm(true);
   };
 
- 
-
-
+  const handleDeleteEmployee = (e, employeeId) => {
+    e.stopPropagation(); // Prevent row click action when deleting
+    setEmployees(employees.filter(employee => employee.id !== employeeId));
+  };
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
   };
-
- 
 
   // Filter employees based on search, department, role, and location
   const filteredEmployees = employees.filter((employee) => {
@@ -86,7 +85,7 @@ function Employee() {
 
   return (
     <div className='p-6'>
-      {!showEmployeeDetails ?
+      {!showEmployeeDetails ? (
         <div>
           {!showBasicForm ? (
             <div className="container p-6 shadow-lg h-screen  bg-white w-auto mx-auto">
@@ -134,13 +133,10 @@ function Employee() {
                 </select>
               </div>
 
-          
-
               <div className="overflow-x-auto mt-[16px] rounded-t-lg ">
                 <table className="w-full bg-white border-none">
                   <thead className="bg-[#465062] h-[50px] text-white">
                     <tr>
-                   
                       <th className="p-4 text-left font-normal text-sm">S No.</th>
                       <th className="p-4 text-left font-normal text-sm">Name</th>
                       <th className="p-4 text-left font-normal text-sm">Employee ID</th>
@@ -158,7 +154,6 @@ function Employee() {
                         onClick={handleShowEmployeeDetails}
                         className={`h-[50px] cursor-pointer ${index % 2 === 0 ? 'bg-white' : 'bg-[#F9F9F9]'} ${selectedRows.includes(employee.id) ? 'text-[#232E42] font-medium' : 'text-[#373737] font-light'}`}
                       >
-                      
                         <td className="p-4 text-left text-sm">{index + 1}</td>
                         <td className="p-4 text-left text-sm">{employee.firstName}</td>
                         <td className="p-4 text-left text-sm">{employee.empId}</td>
@@ -167,11 +162,11 @@ function Employee() {
                         <td className="p-4 text-left text-sm">{employee.location}</td>
                         <td className="p-4 text-left text-sm">{employee.contact}</td>
                         <td className="p-4 text-left">
-                          <button onClick={(e) => handleEditEmployeeClick(e,employee)}>
+                          <button onClick={(e) => handleEditEmployeeClick(e, employee)}>
                             <img src={editIcon} alt="edit" />
                           </button>
-                          <button>
-                            <img className='w-6 h-6 ml-6' src={deleteIcon} alt="" />
+                          <button onClick={(e) => handleDeleteEmployee(e, employee.id)}>
+                            <img className="w-6 h-6 ml-6" src={deleteIcon} alt="delete" />
                           </button>
                         </td>
                       </tr>
@@ -183,7 +178,6 @@ function Employee() {
                 </table>
               </div>
             </div>
-
           ) : (
             <BasicDetailsForm
               editingEmployee={editingEmployee}
@@ -191,8 +185,10 @@ function Employee() {
               onSubmit={handleFormSubmit}
             />
           )}
-        </div> : <EmployeeDetails />
-      }
+        </div>
+      ) : (
+        <EmployeeDetails />
+      )}
     </div>
   );
 }
