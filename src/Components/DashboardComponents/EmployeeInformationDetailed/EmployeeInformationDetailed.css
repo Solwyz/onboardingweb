@@ -1,0 +1,92 @@
+.employee-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+  }
+  
+  .form-left {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .photo-placeholder {
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .change-photo-btn {
+    margin-top: 10px;
+    color: #007bff;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .change-photo-btn:hover {
+    text-decoration: underline;
+  }
+  
+  .form-footer {
+    grid-column: span 2;
+    text-align: right;
+  }
+  
+  .submit-btn {
+    background-color: #141454;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submit-btn:disabled {
+    background-color: #9999a7;
+    cursor: not-allowed;
+  }
+  

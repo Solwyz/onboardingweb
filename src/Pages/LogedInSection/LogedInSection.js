@@ -81,7 +81,7 @@ function LogedInSection() {
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
-        <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[250px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 h-full`}>
+        <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[333px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 h-full`}>
           <ul className="space-y-3">
             {sidebarItems.map((item) => (
               <li
