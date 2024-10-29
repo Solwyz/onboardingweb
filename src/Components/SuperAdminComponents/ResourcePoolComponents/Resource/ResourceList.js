@@ -10,30 +10,34 @@ function ResourceList() {
   }, []);
 
   return (
-    <div className='mt-8'>
+    <div className='mt-4'>
       
-
-      <table className='table-auto w-full mt-4 border'>
-
-        <thead>
-          <tr className='bg-[#465062] h-[48px] text-white text-[16px]'>
-            <th className='font-light'>Name</th>
-            <th className='font-light'>Primary Role</th>
-            <th className='font-light'>Resource Manager</th>
-            <th className='font-light'>Office</th>
-          </tr>
-        </thead>
-        <tbody>
-          {resourceData.map((resource, index) => (
-            <tr key={index} className='text-center'>
-              <td className='px-4 py-2 border-b'>{resource.firstName}</td>
-              <td className='px-4 py-2 border-b'>{resource.primaryRole}</td>
-              <td className='px-4 py-2 border-b'>{resource.resourceManager}</td>
-              <td className='px-4 py-2 border-b'>{resource.city}</td>
+<div className='overflow-x-auto bg-white rounded-t-lg'>
+  
+        <table className='w-full border-none h-screen'>
+  
+          <thead className='bg-[#465062] h-[50px] text-white'>
+            <tr className='bg-[#465062] h-[48px] text-white text-[16px]'>
+              <th className='p-4 text-left font-normal text-sm'>Name</th>
+              <th className='p-4 text-left font-normal text-sm'>Primary Role</th>
+              <th className='p-4 text-left font-normal text-sm'>Resource Manager</th>
+              <th className='p-4 text-left font-normal text-sm'>Office</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          
+            {resourceData.map((resource, index) => (
+              <tr key={index} className='border-b hover:bg-[#F9F9F9] text-[#373737] font-light'>
+                <td className='p-4 text-left text-sm'>{resource.firstName}</td>
+                <td className='p-4 text-left text-sm'>{resource.primaryRole}</td>
+                <td className='p-4 text-left text-sm'>{resource.resourceManager}</td>
+                <td className='p-4 text-left text-sm'>{resource.city}</td>
+              </tr>
+            ))
+            }
+          </tbody>
+        </table>
+</div>
     </div>
   );
 }
