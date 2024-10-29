@@ -122,13 +122,13 @@ function EmployeeDetails() {
                 <table className='w-full'>
                     <thead>
                         <tr className='h-12 text-center text-[#969696] border-b'>
-                            <td className={toggleState === 'basic' ? 'border-b-4 border-[#857BA3] cursor-pointer' : 'cursor-pointer'} onClick={() => toggleTab('basic')}>Basic</td>
-                            <td className={toggleState === 'proffesional' ? 'border-b-4 border-[#857BA3] cursor-pointer' : 'cursor-pointer'} onClick={() => toggleTab('proffesional')}>Proffesional</td>
-                            <td className={toggleState === 'salary' ? 'border-b-4 border-[#857BA3] cursor-pointer' : 'cursor-pointer'} onClick={() => toggleTab('salary')}>Salary</td>
-                            <td className={toggleState === 'personal' ? 'border-b-4 border-[#857BA3] cursor-pointer' : 'cursor-pointer'} onClick={() => toggleTab('personal')}>Personal</td>
-                            <td className={toggleState === 'contact' ? 'border-b-4 border-[#857BA3] cursor-pointer' : 'cursor-pointer'} onClick={() => toggleTab('contact')}>Contact</td>
-                            <td className={toggleState === 'physical' ? 'border-b-4 border-[#857BA3] cursor-pointer' : 'cursor-pointer'} onClick={() => toggleTab('physical')}>Physical</td>
-                            <td className={toggleState === 'final' ? 'border-b-4 border-[#857BA3] cursor-pointer' : 'cursor-pointer'} onClick={() => toggleTab('final')}>Final</td>
+                            <td className={toggleState === 'basic' ? 'border-b-4 border-[#857BA3] cursor-pointer w-1/6' : 'cursor-pointer w-1/6'} onClick={() => toggleTab('basic')}>Basic</td>
+                            <td className={toggleState === 'proffesional' ? 'border-b-4 border-[#857BA3] cursor-pointer w-1/6' : 'cursor-pointer w-1/6'} onClick={() => toggleTab('proffesional')}>Proffesional</td>
+                            <td className={toggleState === 'salary' ? 'border-b-4 border-[#857BA3] cursor-pointer w-1/6' : 'cursor-pointer w-1/6'} onClick={() => toggleTab('salary')}>Salary</td>
+                            <td className={toggleState === 'personal' ? 'border-b-4 border-[#857BA3] cursor-pointer w-1/6' : 'cursor-pointer w-1/6'} onClick={() => toggleTab('personal')}>Personal</td>
+                            <td className={toggleState === 'contact' ? 'border-b-4 border-[#857BA3] cursor-pointer w-1/6' : 'cursor-pointer w-1/6'} onClick={() => toggleTab('contact')}>Contact</td>
+                            <td className={toggleState === 'physical' ? 'border-b-4 border-[#857BA3] cursor-pointer w-1/6' : 'cursor-pointer w-1/6'} onClick={() => toggleTab('physical')}>Physical</td>
+                            {/* <td className={toggleState === 'final' ? 'border-b-4 border-[#857BA3] cursor-pointer' : 'cursor-pointer'} onClick={() => toggleTab('final')}>Final</td> */}
                         </tr>
                     </thead>
                 </table>
@@ -140,7 +140,7 @@ function EmployeeDetails() {
                     <div className={toggleState === 'personal' ? 'content active-content' : 'content'}><PersonalDetails employeeDetails={employeeData} /></div>
                     <div className={toggleState === 'contact' ? 'content active-content' : 'content'}><ContactDetails employeeDetails={employeeData} /></div>
                     <div className={toggleState === 'physical' ? 'content active-content' : 'content'}><PhysicalDetails employeeDetails={employeeData} /></div>
-                    <div className={toggleState === 'final' ? 'content active-content' : 'content'}>Final Details here</div>
+                    {/* <div className={toggleState === 'final' ? 'content active-content' : 'content'}>Final Details here</div> */}
                 </div>
 
             </div>

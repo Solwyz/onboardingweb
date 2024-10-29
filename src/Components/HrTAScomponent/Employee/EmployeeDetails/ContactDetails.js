@@ -18,7 +18,7 @@ function ContactDetails({ employeeDetails }) {
                 <tr>
                     <td className='font-medium text-[#373737] py-1 pt-8'>Primary Address :</td>
                     <td className='w-12'></td>
-                    <td className='text-[#696A70]'>{employeeDetails.primaryAddress}</td>
+                    <td className='text-[#696A70] pt-8'>{employeeDetails.primaryAddress}</td>
                 </tr>
                 <tr>
                     <td className='font-medium text-[#373737] py-1'>PIN code :</td>
@@ -38,7 +38,7 @@ function ContactDetails({ employeeDetails }) {
                 <tr>
                     <td className='font-medium text-[#373737] py-1 pt-6'>Secondary Address :</td>
                     <td className='w-12'></td>
-                    <td className='text-[#696A70]'>{employeeDetails.secondaryAddress}</td>
+                    <td className='text-[#696A70] pt-6'>{employeeDetails.secondaryAddress}</td>
                 </tr>
                 <tr>
                     <td className='font-medium text-[#373737] py-1'>PIN code :</td>

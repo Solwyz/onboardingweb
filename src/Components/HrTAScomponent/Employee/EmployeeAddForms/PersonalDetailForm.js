@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import tickIcon from '../../../../Assets/HrTas/check.svg';
 import DropDownArrow from "../../../../Assets/HrTas/drop-down-arrow.svg";
 import ContactDetailsForm from './ContactDetailsForm';
+import BackButton from './BackButton';
 
-function PersonalDetailForm() {
+function PersonalDetailForm({setShowPersonalForm}) {
     const [showContactForm, setShowContactForm] = useState(false)
     const [maritalStatus, setMaritalStatus] = useState('single'); // To manage marital status
     const [fatherName, setFatherName] = useState('');
@@ -124,6 +125,9 @@ function PersonalDetailForm() {
                 </ol>
             </div>
 
+            <div className='flex justify-end mt-6'>
+                <BackButton stateValue={setShowPersonalForm}/>
+            </div>
 
             <div className='Details-form bg-white mt-8 p-6'>
                 <div>
@@ -213,7 +217,7 @@ function PersonalDetailForm() {
                     </button>
                 </div>
             </div>
-        </div> : <ContactDetailsForm/>
+        </div> : <ContactDetailsForm setShowContactForm={setShowContactForm}/>
         }
         </div>
     );

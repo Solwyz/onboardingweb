@@ -4,7 +4,6 @@ import tickIcon from '../../../../Assets/HrTas/check.svg';
 import ProfessionalDetails from './ProfessionalDetails';
 
 
-
 function BasicDetailsForm({editingEmployee}) {
 
     const [maxDate, setMaxDate] = useState('');
@@ -406,7 +405,7 @@ function BasicDetailsForm({editingEmployee}) {
 
                     </form>
                 </div>
-                : <ProfessionalDetails/>
+                : <ProfessionalDetails setShowProfessionalForm={setShowProfessionalForm}/>
             }
         </div>
 

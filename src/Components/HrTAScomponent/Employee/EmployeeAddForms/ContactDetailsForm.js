@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import tickIcon from '../../../../Assets/HrTas/check.svg';
 import PhysicalDetailsForm from './PhysicalDetailsForm';
+import BackButton from './BackButton';
 
-function ContactDetailsForm() {
+function ContactDetailsForm({setShowContactForm}) {
     const [showPhysicalForm, setShowPhysicalForm] = useState(false)
     const [formData, setFormData] = useState({
         primaryMobile: '',
@@ -166,7 +167,9 @@ function ContactDetailsForm() {
                     </ol>
                 </div>
     
-    
+                <div className='flex justify-end mt-6'>
+                    <BackButton stateValue={setShowContactForm}/>
+                </div>
     
     
                 <div className='mx-[24px] mt-[32px] p-6 w-auto bg-white shadow-lg'>
@@ -376,7 +379,7 @@ function ContactDetailsForm() {
                         </button>
                     </div>
                 </div>
-            </div> : <PhysicalDetailsForm/>
+            </div> : <PhysicalDetailsForm showPhysicalForm={showPhysicalForm} setShowPhysicalForm={setShowPhysicalForm}/>
         }
         </div>
     );

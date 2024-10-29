@@ -7,6 +7,8 @@ import deleteIcon from '../../../Assets/HrTas/delete (1).svg';
 import BasicDetailsForm from './EmployeeAddForms/BasicDetailsForm';
 import EmployeeDetails from './EmployeeDetails/EmployeeDetails';
 
+
+
 function Employee() {
   const [employees, setEmployees] = useState([
     { id: 1, firstName: 'Aswin Raj', empId: 'T15462566', role: 'Frontend Developer', department: 'Development', location: 'Dubai',nationality: 'Indian', contact: '965 966 2546' },
@@ -23,6 +25,8 @@ function Employee() {
   const [categoryFilter, setCategoryFilter] = useState('Role'); // State for first dropdown
   const [selectedOption, setSelectedOption] = useState(''); // State for second dropdown
   const [showEmployeeDetails, setShowEmployeeDetails] = useState(false)
+
+  const [showFinalForm, setShowFinalForm] = useState(false)
 
   const handleShowEmployeeDetails = () => {
     setShowEmployeeDetails(true);
