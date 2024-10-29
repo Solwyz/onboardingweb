@@ -217,7 +217,7 @@ function PersonalDetailForm({setShowPersonalForm}) {
                     </button>
                 </div>
             </div>
-        </div> : <ContactDetailsForm/>
+        </div> : <ContactDetailsForm setShowContactForm={setShowContactForm}/>
         }
         </div>
     );
