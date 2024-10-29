@@ -1,9 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  FaHome, FaUser, FaProjectDiagram, FaCalendarAlt, FaTasks, FaFileAlt,
-  FaFileInvoice, FaSignOutAlt, FaChevronDown
-} from 'react-icons/fa';
+import React, { useState } from 'react';
+
+import Employee from "../../Assets/hrm/person.svg"
+import Leave from "../../Assets/hrm/Frame.svg"
+import Attendance from "../../Assets/hrm/Frame (1).svg"
+import Payroll from "../../Assets/hrm/payments.svg"
+import Performance from "../../Assets/hrm/bar_chart.svg"
+import Recruitment from "../../Assets/hrm/person_add.svg"
+import Training from "../../Assets/hrm/network_node.svg"
+import SelfService from "../../Assets/hrm/bookmark_manager.svg"
+import Document  from "../../Assets/hrm/add_notes.svg"
+
+import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
+
+import LeftArrow from '../../Assets/Superadmin/arrow_left.svg';
+
+import Header from '../../Components/SuperAdminComponents/Header/Header';
+
+
 import LeaveManagement from '../../Components/DashboardComponents/LeaveManagement/LeaveManagement';
 import EmployeeInformation from '../../Components/DashboardComponents/EmployeeInformation/EmployeeInformation';
 import AttendanceManagement from '../../Components/DashboardComponents/AttendanceManagement/AttendanceManagement';
@@ -14,42 +27,32 @@ import PayrollManagment from '../../Components/DashboardComponents/PayRollManage
 
 
 function LogedInSection() {
-  const [expandedSection, setExpandedSection] = useState(null);
-  const [activeSection, setActiveSection] = useState('home');
-  const navigate = useNavigate();
-  const dropdownRef = useRef(null);
+  const [activeSidebar, setActiveSidebar] = useState('Home');
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
-  const handleClick = (section) => {
-    setExpandedSection(section);
-    setActiveSection(section);
+  const sidebarItems = [
+    { name: 'employee', icon: Employee },
+    { name: 'leave', icon: Leave },
+    // { name: 'Expense Claim', icon: ExpenseClaim },
+    { name: 'attendance', icon: Attendance },
+    { name: 'payroll', icon: Payroll },
+    { name: 'performance', icon: Performance},
+    { name: 'recruitment', icon: Recruitment },
+    { name: 'training', icon: Training },
+  
+    { name: 'selfService', icon: SelfService },
+    { name: 'document', icon: Document },
+    
+  ];
+
+
+  const handleSidebarClick = (section) => {
+    setActiveSidebar(section);
   };
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleLogoutPage = () => {
-    navigate("/");
-  };
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
 
   const renderContent = () => {
-    switch (expandedSection) {
+    switch (activeSidebar) {
       case 'employee':
         return <EmployeeInformation />;
       case 'leave':
@@ -74,108 +77,40 @@ function LogedInSection() {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
-      <div className='header-section flex gap-3 border-b h-20 items-center justify-end px-5 w-full bg-slate-200'>
-        <div className='relative flex items-center gap-2' ref={dropdownRef}>
-          <div className='text-[16px] font-medium flex items-center'>
-            <FaUser className="mr-3 w-4 h-4" />
-            Ruthin
+    <div className="flex flex-col h-screen">
+      <Header />
+
+      <div className="flex flex-1 overflow-hidden">
+        <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[250px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 h-full`}>
+          <ul className="space-y-3">
+            {sidebarItems.map((item) => (
+              <li
+                key={item.name}
+                onClick={() => handleSidebarClick(item.name)}
+                className={`py-3 px-4 rounded-[32px] cursor-pointer flex items-center ${activeSidebar === item.name ? 'bg-[#655B83]' : ''}`}
+              >
+                <img src={item.icon} alt={`${item.name} Icon`} className="w-6 h-6 mr-4" />
+                {isSidebarExpanded && <span>{item.name}</span>}
+                {isSidebarExpanded && <img src={RightArrow} alt="Right Arrow" className="w-4 h-4 ml-auto" />}
+              </li>
+            ))}
+          </ul>
+          <div onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} className="cursor-pointer mt-[50px] ml-6">
+            {isSidebarExpanded ? (
+              <img src={LeftArrow} alt="Collapse Sidebar" />
+            ) : (
+              <img src={RightArrow} alt="Expand Sidebar" />
+            )}
           </div>
-          <FaChevronDown 
-            className='cursor-pointer w-3 h-3' 
-            onClick={toggleDropdown} 
-          />
-          {isDropdownOpen && (
-            <div className='absolute right-0 mt-[90px] w-fit bg-white shadow-md rounded'>
-              <div
-                className='py-2 px-4 cursor-pointer hover:bg-gray-200 text-end'
-                onClick={handleLogoutPage}
-              >
-                Logout
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+        </aside>
 
-      <div className='flex flex-grow overflow-hidden'>
-        <div className={`w-64 bg-[#141454] text-white flex flex-col justify-between p-4`}>
-          <div className="flex-grow">
-            <ul className="space-y-10 mt-8">
-              <li 
-                className={`flex items-center cursor-pointer hover:text-blue-400 ${activeSection === 'employee' ? 'text-blue-400' : ''}`}
-                onClick={() => handleClick('employee')}
-              >
-                <FaUser className="mr-3" />
-                <span>Employee Information</span>
-              </li>
-              <li 
-                className={`flex items-center cursor-pointer hover:text-blue-400 ${activeSection === 'leave' ? 'text-blue-400' : ''}`}
-                onClick={() => handleClick('leave')}
-              >
-                <FaCalendarAlt className="mr-3" />
-                <span>Leave Management</span>
-              </li>
-              <li 
-                className={`flex items-center cursor-pointer hover:text-blue-400 ${activeSection === 'attendance' ? 'text-blue-400' : ''}`}
-                onClick={() => handleClick('attendance')}
-              >
-                <FaTasks className="mr-3" />
-                <span>Attendance</span>
-              </li>
-              <li 
-                className={`flex items-center cursor-pointer hover:text-blue-400 ${activeSection === 'payroll' ? 'text-blue-400' : ''}`}
-                onClick={() => handleClick('payroll')}
-              >
-                <FaFileInvoice className="mr-3" />
-                <span>Payroll</span>
-              </li>
-              <li 
-                className={`flex items-center cursor-pointer hover:text-blue-400 ${activeSection === 'performance' ? 'text-blue-400' : ''}`}
-                onClick={() => handleClick('performance')}
-              >
-                <FaFileAlt className="mr-3" />
-                <span>Performance Management</span>
-              </li>
-              <li 
-                className={`flex items-center cursor-pointer hover:text-blue-400 ${activeSection === 'recruitment' ? 'text-blue-400' : ''}`}
-                onClick={() => handleClick('recruitment')}
-              >
-                <FaProjectDiagram className="mr-3" />
-                <span>Recruitment & Onboarding</span>
-              </li>
-              <li 
-                className={`flex items-center cursor-pointer hover:text-blue-400 ${activeSection === 'training' ? 'text-blue-400' : ''}`}
-                onClick={() => handleClick('training')}
-              >
-                <FaTasks className="mr-3" />
-                <span>Training</span>
-              </li>
-              <li 
-                className={`flex items-center cursor-pointer hover:text-blue-400 ${activeSection === 'selfService' ? 'text-blue-400' : ''}`}
-                onClick={() => handleClick('selfService')}
-              >
-                <FaUser className="mr-3" />
-                <span>Self-service</span>
-              </li>
-              <li 
-                className={`flex items-center cursor-pointer hover:text-blue-400 ${activeSection === 'document' ? 'text-blue-400' : ''}`}
-                onClick={() => handleClick('document')}
-              >
-                <FaFileAlt className="mr-3" />
-                <span>Document Management</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-
-        <div className="flex-grow flex justify-center p-8 bg-white overflow-y-auto">
-          <div className="w-full">
-
-            {renderContent()}
-          </div>
-        </div>
+   
+        <main className={`flex-1  overflow-y-auto transition-all bg-[#F9F9FB] duration-300 ${isSidebarExpanded ? '' : 'ml-[80px]'}`}>
+          <h2 className="text-xl font-bold"></h2>
+          {renderContent()}
+        
+       
+        </main>
       </div>
     </div>
   );
