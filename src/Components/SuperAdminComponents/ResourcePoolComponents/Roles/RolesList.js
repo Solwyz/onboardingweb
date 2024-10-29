@@ -24,38 +24,39 @@ function RolesList() {
   }, []);
 
   return (
-    <div className='mt-8'>
-      
-      <table className='table-auto w-full mt-4 border'>
-        <thead>
-          <tr className='bg-[#465062] h-[48px] text-white text-[16px]'>
-            <th className='font-light'>Name</th>
-            <th className='font-light'>Resource Manager</th>
-            <th className='font-light'>Department</th>
-            <th className='font-light'>Office</th>
-            <th className='font-light'>Value Stream</th>
+    <div className='mt-4'>
+
+<div className='overflow-x-auto bg-white rounded-t-lg h-screen'>
+  <table className='w-full border-none '>
+    <thead className='bg-[#465062] h-[50px] text-white'>
+      <tr className='bg-[#465062] h-[48px] text-white text-[16px]'>
+        <th className='p-4 text-left font-normal text-sm'>Name</th>
+        <th className='p-4 text-left font-normal text-sm'>Department</th>
+        <th className='p-4 text-left font-normal text-sm'>Resource Manager</th>
+        <th className='p-4 text-left font-normal text-sm'>Office</th>
+      </tr>
+    </thead>
+    <tbody>
+      {RoleData.length > 0 ? (
+        RoleData.map((role, index) => (
+          <tr key={index} className='border-b h-[48px] hover:bg-[#F9F9F9] text-[#373737] font-light'>
+            <td className='p-4 text-left text-sm'>{role.name || 'N/A'}</td>
+            <td className='p-4 text-left text-sm'>{role.department || 'N/A'}</td>
+            <td className='p-4 text-left text-sm'>{role.resourceManager || 'N/A'}</td>
+            <td className='p-4 text-left text-sm'>{role.office || 'N/A'}</td>
           </tr>
-        </thead>
-        <tbody>
-          {RoleData.length > 0 ? (
-            RoleData.map((role, index) => (
-              <tr key={index} className='text-center'>
-                <td className='px-4 py-2 border-b'>{role.name || 'N/A'}</td>
-                <td className='px-4 py-2 border-b'>{role.resourceManager || 'N/A'}</td>
-                <td className='px-4 py-2 border-b'>{role.department || 'N/A'}</td>
-                <td className='px-4 py-2 border-b'>{role.office || 'N/A'}</td>
-                <td className='px-4 py-2 border-b'>{role.valueStream || 'N/A'}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td className='px-4 py-2 border-b text-center' colSpan="5">
-                No roles available
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+        ))
+      ) : (
+        <tr>
+          <td className='p-4 text-center text-sm' colSpan="4">
+            No roles available
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
+
     </div>
   );
 }
