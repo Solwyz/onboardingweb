@@ -1,191 +1,201 @@
 import React, { useEffect, useState } from 'react';
 
 function PerformanceManagement() {
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         goalSetting: '',
         kpis: '',
-        appraisalCycle: 'Quarterly',
+        appraisalCycle: '',
         appraisalDate: '',
-        appraiserName: '',
+        appraiserName: 'Vinay Sharma',
         feedback: '',
-        overallRating: 1,
+        overallRating: '',
         actionPlan: '',
         trainingPlan: ''
-    });
+    };
 
+    const [formData, setFormData] = useState(initialFormData);
     const [errors, setErrors] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false); // New state to track submission attempts
 
     const validateForm = () => {
         let formErrors = {};
-        if (!formData.goalSetting) formErrors.goalSetting = 'Goal setting is required !';
-        if (!formData.kpis) formErrors.kpis = 'KPIs are required !';
-        if (!formData.appraisalCycle) formErrors.appraisalCycle = 'Appraisal Cycle is required !';
-        if (!formData.appraisalDate) formErrors.appraisalDate = 'Appraisal Date is required !';
-        if (!formData.appraiserName) formErrors.appraiserName = 'Appraiser Name is required !';
-        if (!formData.feedback) formErrors.feedback = 'Feedback/Comments are required !';
+        if (!formData.goalSetting) formErrors.goalSetting = 'Goal setting is required!';
+        if (!formData.kpis) formErrors.kpis = 'KPIs are required!';
+        if (!formData.appraisalCycle) formErrors.appraisalCycle = 'Appraisal Cycle is required!';
+        if (!formData.appraisalDate) formErrors.appraisalDate = 'Appraisal Date is required!';
+        if (!formData.feedback) formErrors.feedback = 'Feedback/Comments are required!';
         if (formData.overallRating < 1 || formData.overallRating > 10) formErrors.overallRating = 'Overall Rating must be between 1 and 10';
-        if (!formData.actionPlan) formErrors.actionPlan = 'Action Plan is required !';
-        if (!formData.trainingPlan) formErrors.trainingPlan = 'Training and Development Plans are required !';
+        if (!formData.actionPlan) formErrors.actionPlan = 'Action Plan is required!';
+        if (!formData.trainingPlan) formErrors.trainingPlan = 'Training and Development Plans are required!';
 
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;
-    }
+    };
 
     useEffect(() => {
-        const isFormComplete = validateForm();
-        setIsFormValid(isFormComplete);
-    },[formData])
+        if (isSubmitted) {
+            const isFormComplete = validateForm();
+            setIsFormValid(isFormComplete);
+        }
+    }, [formData, isSubmitted]);
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
-        }, [formData]);
+        });
     };
 
     const handleSubmit = (e) => {
-        
+        e.preventDefault();
+        setIsSubmitted(true); // Set isSubmitted to true on submit attempt
         if (validateForm()) {
-            console.log(formData); 
+            console.log(formData);
+            setFormData(initialFormData);
+            setErrors({});
+            setIsSubmitted(false); // Reset submitted state after form is cleared
+        
         }
     };
 
+    const today = new Date().toISOString().split("T")[0];
     return (
-        <div className="container mx-auto p-8 bg-white shadow-lg rounded-lg">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6 mt-4 text-center">Performance Management</h2>
+        <div className="p-6">
+            <h2 className="text-xl font-medium text-[#232E42]  mt-10 ">Performance Management</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-               
-                <div>
-                    <label className="block font-semibold text-gray-700">Goal Setting</label>
-                    <input
-                        type="text"
-                        name="goalSetting"
-                        value={formData.goalSetting}
-                        onChange={handleChange}
-                        className="w-full mt-2 p-2 border rounded"
-                    />
-                    {/* {errors.goalSetting && <p className="text-red-500 text-sm">{errors.goalSetting}</p>} */}
-                </div>
+            <div className='container p-6 bg-white mt-6'>
+                <form onSubmit={handleSubmit} className="space-y-6">
 
-                
-                <div>
-                    <label className="block font-semibold text-gray-700">Key Performance Indicators (KPIs)</label>
-                    <input
-                        type="text"
-                        name="kpis"
-                        value={formData.kpis}
-                        onChange={handleChange}
-                        className="w-full mt-2 p-2 border rounded"
-                    />
-                    {/* {errors.kpis && <p className="text-red-500 text-sm">{errors.kpis}</p>} */}
-                </div>
+                    <div className=''>
+                        <label className="block text-[#373737] text-sm font-normal">Goal Setting</label>
+                        <textarea
+                            type="text"
+                            name="goalSetting"
+                            value={formData.goalSetting}
+                            onChange={handleChange}
+                            placeholder="Your Goal setting"
+                            className="w-full h-[112px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg  border border-[#E6E6E7]"
+                        />
+                        {errors.goalSetting && <p className="text-red-500 text-sm mt-1">{errors.goalSetting}</p>}
+                    </div>
 
-                
-                <div>
-                    <label className="block font-semibold text-gray-700">Appraisal Cycle</label>
-                    <select
-                        name="appraisalCycle"
-                        value={formData.appraisalCycle}
-                        onChange={handleChange}
-                        className="w-full mt-2 p-2 border rounded"
-                    >
-                        <option value="Quarterly">Quarterly</option>
-                        <option value="Yearly">Yearly</option>
-                    </select>
-                    {/* {errors.appraisalCycle && <p className="text-red-500 text-sm">{errors.appraisalCycle}</p>} */}
-                </div>
+                    <div className='mt-4'>
+                        <label className="block text-[#373737] text-sm font-normal">Key Performance Indicators (KPI)</label>
+                        <textarea
+                            type="text"
+                            name="kpis"
+                            value={formData.kpis}
+                            onChange={handleChange}
+                            placeholder="Add here"
+                            className="w-full h-[80px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border "
+                        />
+                        {errors.kpis && <p className="text-red-500 text-sm mt-1">{errors.kpis}</p>}
+                    </div>
 
-                
-                <div>
-                    <label className="block font-semibold text-gray-700">Appraisal Date</label>
-                    <input
-                        type="date"
-                        name="appraisalDate"
-                        value={formData.appraisalDate}
-                        onChange={handleChange}
-                        className="w-full mt-2 p-2 border rounded"
-                    />
-                    {/* {errors.appraisalDate && <p className="text-red-500 text-sm">{errors.appraisalDate}</p>} */}
-                </div>
+                    <div className='flex'>
+                        <div className=''>
+                            <label className="block text-[#373737] text-sm font-normal">Appraisal Cycle</label>
+                            <select
+                                name="appraisalCycle"
+                                value={formData.appraisalCycle}
+                                onChange={handleChange}
+                                className="w-[251px] h-[48px] p-2 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
+                            >
+                                <option value="Quarterly">Quarterly</option>
+                                <option value="Yearly">Yearly</option>
+                            </select>
+                            {errors.appraisalCycle && <p className="text-red-500 text-sm mt-1">{errors.appraisalCycle}</p>}
+                        </div>
 
-                
-                <div>
-                    <label className="block font-semibold text-gray-700">Appraiser Name</label>
-                    <input
-                        type="text"
-                        name="appraiserName"
-                        value={formData.appraiserName}
-                        onChange={handleChange}
-                        className="w-full mt-2 p-2 border rounded"
-                    />
-                    {/* {errors.appraiserName && <p className="text-red-500 text-sm">{errors.appraiserName}</p>} */}
-                </div>
+                        <div className='ml-10'>
+                            <label className="block text-[#373737] text-sm font-normal">Appraisal Date</label>
+                            <input
+                                type="date"
+                                name="appraisalDate"
+                                value={formData.appraisalDate}
+                                min={today}
+                                onChange={handleChange}
+                                className="w-[251px] h-[48px] p-2 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border "
+                            />
+                            {errors.appraisalDate && <p className="text-red-500 text-sm mt-1">{errors.appraisalDate}</p>}
+                        </div>
 
-                
-                <div>
-                    <label className="block font-semibold text-gray-700">Feedback/Comments</label>
-                    <textarea
-                        name="feedback"
-                        value={formData.feedback}
-                        onChange={handleChange}
-                        className="w-full mt-2 p-2 border rounded"
-                    />
-                    {/* {errors.feedback && <p className="text-red-500 text-sm">{errors.feedback}</p>} */}
-                </div>
+                        <div className='ml-10'>
+                            <label className="block text-[#373737] text-sm font-normal">Appraiser Name</label>
+                            <input
+                                type="text"
+                                name="appraiserName"
+                                value="Vinay Sharma"
+                                readOnly
+                                className="w-[251px] h-[48px] p-2 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
+                            />
+                        </div>
+                    </div>
 
-                
-                <div>
-                    <label className="block font-semibold text-gray-700">Overall Performance Rating (1-10)</label>
-                    <input
-                        type="number"
-                        name="overallRating"
-                        value={formData.overallRating}
-                        onChange={handleChange}
-                        min="1"
-                        max="10"
-                        className="w-full mt-2 p-2 border rounded"
-                    />
-                    {/* {errors.overallRating && <p className="text-red-500 text-sm">{errors.overallRating}</p>} */}
-                </div>
+                    <div className='mt-4'>
+                        <label className="block text-[#373737] text-sm font-normal">Feedback/Comments</label>
+                        <textarea
+                            name="feedback"
+                            value={formData.feedback}
+                            onChange={handleChange}
+                            placeholder="Add your feedback / comments"
+                            className="w-full h-[80px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
+                        />
+                        {errors.feedback && <p className="text-red-500 text-sm mt-1">{errors.feedback}</p>}
+                    </div>
 
-                
-                <div>
-                    <label className="block font-semibold text-gray-700">Action Plan for Improvement</label>
-                    <textarea
-                        name="actionPlan"
-                        value={formData.actionPlan}
-                        onChange={handleChange}
-                        className="w-full mt-2 p-2 border rounded"
-                    />
-                    {/* {errors.actionPlan && <p className="text-red-500 text-sm">{errors.actionPlan}</p>} */}
-                </div>
+                    <div className='mt-4'>
+                        <label className="block text-[#373737] text-sm font-normal">Overall Performance Rating (1-10)</label>
+                        <input
+                            type="number"
+                            name="overallRating"
+                            value={formData.overallRating}
+                            onChange={handleChange}
+                            placeholder="9.5"
+                            min="1"
+                            max="10"
+                            className="w-[251px] h-[48px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
+                        />
+                        {errors.overallRating && <p className="text-red-500 text-sm mt-1">{errors.overallRating}</p>}
+                    </div>
 
-                
-                <div>
-                    <label className="block font-semibold text-gray-700">Training and Development Plans</label>
-                    <textarea
-                        name="trainingPlan"
-                        value={formData.trainingPlan}
-                        onChange={handleChange}
-                        className="w-full mt-2 p-2 border rounded"
-                    />
-                    {/* {errors.trainingPlan && <p className="text-red-500 text-sm">{errors.trainingPlan}</p>} */}
-                </div>
+                    <div className='mt-4'>
+                        <label className="block text-[#373737] text-sm font-normal">Action Plan for Improvement</label>
+                        <textarea
+                            name="actionPlan"
+                            value={formData.actionPlan}
+                            onChange={handleChange}
+                            placeholder="Add action plan"
+                            className="w-full h-[80px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
+                        />
+                        {errors.actionPlan && <p className="text-red-500 text-sm mt-1">{errors.actionPlan}</p>}
+                    </div>
 
-                
-                <div className="text-center">
-                    <button
-                        type="submit"
-                        className={`bg-blue-500 text-white px-6 py-2 rounded ${!isFormValid ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'
-                            }`}
-                        disabled={!isFormValid}
-                    >
-                        Submit
-                    </button>
-                </div>
-            </form>
+                    <div className='mt-4'>
+                        <label className="block text-[#373737] text-sm font-normal">Training and Development Plans</label>
+                        <textarea
+                            name="trainingPlan"
+                            value={formData.trainingPlan}
+                            onChange={handleChange}
+                            placeholder="Add training and development plans"
+                            className="w-full h-[80px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
+                        />
+                        {errors.trainingPlan && <p className="text-red-500 text-sm mt-1">{errors.trainingPlan}</p>}
+                    </div>
+
+                    <div className="mt-[56px]">
+                        <button
+                            type="submit"
+                            className={`bg-[#2B2342] text-white text-[14px] font-normal py-2 px-6 rounded-lg ${isFormValid ? "" : "opacity-50 "
+                                }`}
+                            onClick={isFormValid ? handleSubmit : null}
+                        >
+                            Apply
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

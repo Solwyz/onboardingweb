@@ -221,7 +221,7 @@ function LeaveManagement() {
             </div>
             <div className='mt-[56px]'>
               <button
-                type="button" 
+                type="submit" 
                 className={`bg-[#2B2342] text-white text-[14px] font-normal py-2 px-6 rounded-lg ${isFormValid ? "" : "opacity-50 cursor-not-allowed"
                   }`}
                 onClick={isFormValid ? handleFormSubmit : null} 
