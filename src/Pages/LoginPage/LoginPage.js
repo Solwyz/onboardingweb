@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import signupImg from '../../Assets/signup.png'
+import signupImg from '../../Assets/signup.png';
 
 function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const navigate = useNavigate();
 
@@ -17,11 +18,19 @@ function LoginPage() {
     hrm: { phone: "1234567890", password: "hrm" },
   };
 
+  useEffect(() => {
+    // Check if both phone number and password are filled and valid
+    if (phoneNumber.length === 10 && password !== "") {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [phoneNumber, password]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     let isValid = true;
-
     setPhoneError("");
     setPasswordError("");
 
@@ -69,19 +78,18 @@ function LoginPage() {
   };
 
   return (
-    <div className="grid p-6  bg-white ">
+    <div className="grid p-6 bg-white ">
       <div className="flex">
-
         <div>
-
-          <img  className="w-[801px] h-[976px]" src={signupImg} alt="" />
-
+          <img className="w-[801px] h-[976px]" src={signupImg} alt="" />
         </div>
 
         <div className="ml-[88px] mt-[164px] w-[378px]">
           <h2 className="text-[36px] text-[#0C1421] font-medium font-Popins text-start">Welcome Back</h2>
-          <p className="text-start font-Popins font-normal mt-[16px]   text-[#444444]">Today is a new day. It's your day. You shape it. <br />
-            Sign in to start managing your projects.</p>
+          <p className="text-start font-Popins font-normal mt-[16px] text-[#444444]">
+            Today is a new day. It's your day. You shape it. <br />
+            Sign in to start managing your projects.
+          </p>
 
           <form onSubmit={handleSubmit}>
             <div className="mt-[72px]">
@@ -119,17 +127,17 @@ function LoginPage() {
 
             <div className="flex justify-between items-center mt-4">
               <div className="flex-grow"></div>
-              <Link
-                to="/forgot"
-                className="text-sm text-[#1E4AE9] font-normal font-Popins"
-              >
+              <Link to="/forgot" className="text-sm text-[#1E4AE9] font-normal font-Popins">
                 Forgot Password?
               </Link>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-[#2B2342] text-white font-normal font-Popins py-2 px-2 rounded-lg mt-6 hover:bg-[#4A3C76]"
+              className={`w-full py-2 px-2 rounded-lg mt-6 font-Popins font-normal ${
+                isFormValid ? "bg-[#2B2342] text-white hover:bg-[#4A3C76]" : "bg-[#D0C6EF] text-white cursor-not-allowed"
+              }`}
+              disabled={!isFormValid}
             >
               Sign In
             </button>
@@ -137,17 +145,17 @@ function LoginPage() {
             <div className="mt-10 text-center">
               <p className="text-sm font-Popins font-normal text-[#313957]">
                 Don’t have an account?{" "}
-                <Link
-                  to="/signup"
-                  className="text-[#1E4AE9] font-Popins font-normal text-sm"
-                >
+                <Link to="/signup" className="text-[#1E4AE9] font-Popins font-normal text-sm">
                   Sign Up
                 </Link>
               </p>
             </div>
           </form>
+
           <div className="mt-[200px]">
-            <h2 className="items-center text-center font-Popins text-[#959CB6] text-base font-normal"> © {new Date().getFullYear()} ALL RIGHTS RESERVED</h2>
+            <h2 className="items-center text-center font-Popins text-[#959CB6] text-base font-normal">
+              © {new Date().getFullYear()} ALL RIGHTS RESERVED
+            </h2>
           </div>
         </div>
       </div>
