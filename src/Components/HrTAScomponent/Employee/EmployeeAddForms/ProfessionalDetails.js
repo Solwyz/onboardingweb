@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import tickIcon from '../../../../Assets/HrTas/check.svg';
 import SalaryDetailsForm from './SalaryDetailsForm';
+import BackButton from './BackButton';
 
-function ProfessionalDetails() {
+function ProfessionalDetails({setShowProfessionalForm}) {
     const [showSalaryForm, setShowSalaryForm] = useState(false)
     const [formData, setFormData] = useState({
         dateOfJoin: '',
@@ -151,6 +152,10 @@ function ProfessionalDetails() {
                                 <span className="mt-2 text-sm  font-normal text-[#696A70]">Final</span> {/* Text directly below the circle */}
                             </li>
                         </ol>
+                    </div>
+
+                    <div className='flex justify-end mt-6'>
+                        <BackButton stateValue={setShowProfessionalForm}/>
                     </div>
 
                     <div className='mx-[24px] mt-[32px] p-6 w-auto bg-white shadow-lg'>
@@ -381,7 +386,7 @@ function ProfessionalDetails() {
                         </div>
                     </div>
                 </div>
-                : <SalaryDetailsForm/>
+                : <SalaryDetailsForm setShowSalaryForm={setShowSalaryForm}/>
             }
         </div>
     );

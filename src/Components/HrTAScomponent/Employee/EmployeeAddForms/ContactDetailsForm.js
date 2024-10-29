@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
-import tickIcon from "../../../../Assets/HrTas/check.svg";
-import PhysicalDetailsForm from "./PhysicalDetailsForm";
 
-function ContactDetailsForm() {
-    const [showPhysicalForm, setShowPhysicalForm] = useState(false);
+import React, { useState, useEffect } from 'react';
+import tickIcon from '../../../../Assets/HrTas/check.svg';
+import PhysicalDetailsForm from './PhysicalDetailsForm';
+import BackButton from './BackButton';
+
+function ContactDetailsForm({setShowContactForm}) {
+    const [showPhysicalForm, setShowPhysicalForm] = useState(false)
+
     const [formData, setFormData] = useState({
         primaryMobile: "",
         secondaryMobile: "",
@@ -156,6 +159,7 @@ function ContactDetailsForm() {
                                             {errors.primaryMobile}
                                         </div>
                                     )}
+
                                 </div>
                                 <div className="ml-[16px]">
                                     <label className="block font-normal text-[#373737] text-[14px]">
@@ -467,9 +471,9 @@ function ContactDetailsForm() {
                         </div>
                     </div>
                 </div>
-            ) : (
-                <PhysicalDetailsForm />
-            )}
+            </div> : <PhysicalDetailsForm showPhysicalForm={showPhysicalForm} setShowPhysicalForm={setShowPhysicalForm}/>
+        }
+
         </div>
     );
 }

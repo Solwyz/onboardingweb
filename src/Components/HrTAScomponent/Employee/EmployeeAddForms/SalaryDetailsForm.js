@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import tickIcon from '../../../../Assets/HrTas/check.svg';
 import PersonalDetailForm from './PersonalDetailForm';
+import BackButton from './BackButton';
 
-function SalaryDetailsForm() {
+function SalaryDetailsForm({setShowSalaryForm}) {
 
   const [isFormValid, setIsFormValid] = useState(false)
   const [showPersonalForm, setShowPersonalForm] = useState(false)
@@ -149,6 +150,11 @@ function SalaryDetailsForm() {
               </li>
             </ol>
           </div>
+
+          <div className='flex justify-end mt-6'>
+            <BackButton stateValue={setShowSalaryForm}/>
+          </div>
+
           <div className='p-6'>
             <form className='border rounded shadow mt-8 p-6 bg-white pb-32' onSubmit={handleSubmit}>
               <div className='text-[20px] font-medium border-b pb-4'>Salary Details</div>
@@ -305,7 +311,7 @@ function SalaryDetailsForm() {
             </form>
           </div>
 
-        </div> : <PersonalDetailForm/>
+        </div> : <PersonalDetailForm setShowPersonalForm={setShowPersonalForm}/>
       }
     </div>
   )
