@@ -39,7 +39,7 @@ function HrTas() {
   const sidebarItems = [
     { name: 'Home', icon: Home },
     { name: 'Employee', icon: EmployeeIcon },
-    { name: 'Expense Claim', icon: ExpenseClaim },
+    // { name: 'Expense Claim', icon: ExpenseClaim },
     { name: 'Leave', icon: LeaveIcon },
     { name: 'Time Sheet', icon: Attendance },
     { name: 'Document', icon: DocumentIcon },
@@ -62,8 +62,8 @@ function HrTas() {
         return <div><HomePage/></div>;
       case 'Employee':
         return <div><Employee/></div>;
-      case 'Expense Claim':
-        return <div>My Schedule</div>;
+      // case 'Expense Claim':
+      //   return <div>My Schedule</div>;
       case 'Resource Pool':
         return <div>Resource Pool</div>
       case 'Leave':
