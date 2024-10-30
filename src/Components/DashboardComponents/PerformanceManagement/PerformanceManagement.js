@@ -16,7 +16,7 @@ function PerformanceManagement() {
     const [formData, setFormData] = useState(initialFormData);
     const [errors, setErrors] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false); // New state to track submission attempts
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const validateForm = () => {
         let formErrors = {};
@@ -34,11 +34,9 @@ function PerformanceManagement() {
     };
 
     useEffect(() => {
-        if (isSubmitted) {
-            const isFormComplete = validateForm();
-            setIsFormValid(isFormComplete);
-        }
-    }, [formData, isSubmitted]);
+        const isFormComplete = validateForm();
+        setIsFormValid(isFormComplete);
+    }, [formData]);
 
     const handleChange = (e) => {
         setFormData({
@@ -49,17 +47,17 @@ function PerformanceManagement() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsSubmitted(true); // Set isSubmitted to true on submit attempt
+        setIsSubmitted(true);
         if (validateForm()) {
             console.log(formData);
             setFormData(initialFormData);
             setErrors({});
-            setIsSubmitted(false); // Reset submitted state after form is cleared
-        
+            setIsSubmitted(false);
         }
     };
 
     const today = new Date().toISOString().split("T")[0];
+
     return (
         <div className="p-6">
             <h2 className="text-xl font-medium text-[#232E42]  mt-10 ">Performance Management</h2>
@@ -77,7 +75,7 @@ function PerformanceManagement() {
                             placeholder="Your Goal setting"
                             className="w-full h-[112px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg  border border-[#E6E6E7]"
                         />
-                        {errors.goalSetting && <p className="text-red-500 text-sm mt-1">{errors.goalSetting}</p>}
+                        {isSubmitted && errors.goalSetting && <p className="text-red-500 text-sm mt-1">{errors.goalSetting}</p>}
                     </div>
 
                     <div className='mt-4'>
@@ -90,7 +88,7 @@ function PerformanceManagement() {
                             placeholder="Add here"
                             className="w-full h-[80px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border "
                         />
-                        {errors.kpis && <p className="text-red-500 text-sm mt-1">{errors.kpis}</p>}
+                        {isSubmitted && errors.kpis && <p className="text-red-500 text-sm mt-1">{errors.kpis}</p>}
                     </div>
 
                     <div className='flex'>
@@ -105,7 +103,7 @@ function PerformanceManagement() {
                                 <option value="Quarterly">Quarterly</option>
                                 <option value="Yearly">Yearly</option>
                             </select>
-                            {errors.appraisalCycle && <p className="text-red-500 text-sm mt-1">{errors.appraisalCycle}</p>}
+                            {isSubmitted && errors.appraisalCycle && <p className="text-red-500 text-sm mt-1">{errors.appraisalCycle}</p>}
                         </div>
 
                         <div className='ml-10'>
@@ -118,7 +116,7 @@ function PerformanceManagement() {
                                 onChange={handleChange}
                                 className="w-[251px] h-[48px] p-2 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border "
                             />
-                            {errors.appraisalDate && <p className="text-red-500 text-sm mt-1">{errors.appraisalDate}</p>}
+                            {isSubmitted && errors.appraisalDate && <p className="text-red-500 text-sm mt-1">{errors.appraisalDate}</p>}
                         </div>
 
                         <div className='ml-10'>
@@ -142,7 +140,7 @@ function PerformanceManagement() {
                             placeholder="Add your feedback / comments"
                             className="w-full h-[80px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
                         />
-                        {errors.feedback && <p className="text-red-500 text-sm mt-1">{errors.feedback}</p>}
+                        {isSubmitted && errors.feedback && <p className="text-red-500 text-sm mt-1">{errors.feedback}</p>}
                     </div>
 
                     <div className='mt-4'>
@@ -157,7 +155,7 @@ function PerformanceManagement() {
                             max="10"
                             className="w-[251px] h-[48px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
                         />
-                        {errors.overallRating && <p className="text-red-500 text-sm mt-1">{errors.overallRating}</p>}
+                        {isSubmitted && errors.overallRating && <p className="text-red-500 text-sm mt-1">{errors.overallRating}</p>}
                     </div>
 
                     <div className='mt-4'>
@@ -169,7 +167,7 @@ function PerformanceManagement() {
                             placeholder="Add action plan"
                             className="w-full h-[80px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
                         />
-                        {errors.actionPlan && <p className="text-red-500 text-sm mt-1">{errors.actionPlan}</p>}
+                        {isSubmitted && errors.actionPlan && <p className="text-red-500 text-sm mt-1">{errors.actionPlan}</p>}
                     </div>
 
                     <div className='mt-4'>
@@ -181,15 +179,14 @@ function PerformanceManagement() {
                             placeholder="Add training and development plans"
                             className="w-full h-[80px] p-4 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
                         />
-                        {errors.trainingPlan && <p className="text-red-500 text-sm mt-1">{errors.trainingPlan}</p>}
+                        {isSubmitted && errors.trainingPlan && <p className="text-red-500 text-sm mt-1">{errors.trainingPlan}</p>}
                     </div>
 
                     <div className="mt-[56px]">
-                        <button
+                    <button
                             type="submit"
-                            className={`bg-[#2B2342] text-white text-[14px] font-normal py-2 px-6 rounded-lg ${isFormValid ? "" : "opacity-50 "
-                                }`}
-                            onClick={isFormValid ? handleSubmit : null}
+                            className={`bg-[#2B2342] text-white text-[14px] font-normal py-2 px-6 rounded-lg ${isFormValid ? "" : "opacity-50 cursor-not-allowed"}`}
+                            disabled={!isFormValid} // Disabled if form is not valid
                         >
                             Apply
                         </button>
