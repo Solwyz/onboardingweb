@@ -28,7 +28,7 @@ function DepartmentList() {
       <div className='mt-4 '>
         <div className='overflow-x-auto bg-white rounded-t-lg h-screen'>
   
-          <table className='w-full border-none h-screen'>
+          <table className='w-full border-none '>
             <thead className='bg-[#465062] h-[50px] text-white'>
               <tr className='bg-[#465062] h-[48px] text-white text-[16px]'>
                 <th className='p-4 text-left font-normal text-sm' scope="col">Name</th>
