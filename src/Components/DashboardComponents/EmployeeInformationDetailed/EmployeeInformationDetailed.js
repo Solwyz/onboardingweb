@@ -13,34 +13,19 @@ const fieldOptions = {
 
 function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
 
-  const [maxDate, setMaxDate] = useState('');
 
+  
+    const [formData, setFormData] = useState({
+      EmployeeId: '',
+      FirstName: '',
+      LastName: '',
+      Designation: '',
+      Department: '',
+      WorkLocation: '',
+      PhoneNumber: ''
+    });
 
-  const [formData, setFormData] = useState({
-    EmployeeId: '',
-    FirstName: '',
-    LastName: '',
-    Gender: fieldOptions.Gender[0], // Default to first option
-    DateOfBirth: '',
-    Nationality: '',
-    MaritalStatus: fieldOptions.MaritalStatus[0],
-    BloodGroup: '',
-    PersonalEmail: '',
-    PhoneNumber: '',
-    EmergencyContactNumber: '',
-    Address: '',
-    Department: '',
-    TemporaryAddress: '',
-    Designation: '',
-    JoiningDate: '',
-    EmployeeType: fieldOptions.EmployeeType[0],
-    ReportingManager: '',
-    TeamDivision: '',
-    WorkLocation: '',
-    EmploymentStatus: fieldOptions.EmploymentStatus[0],
-    ProfilePhoto: null,
-  });
-
+    const [maxDate, setMaxDate] = useState('');
   const [photoPreview, setPhotoPreview] = useState(null);
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
@@ -54,10 +39,20 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
         const day = (`0${today.getDate()}`).slice(-2);
         setMaxDate(`${year}-${month}-${day}`);
 
-    if (employee) {
-      setFormData(employee);
-    }
-  }, [employee]);
+        if (employee) {
+          setFormData(employee); // Set form data if editing an existing employee
+        } else {
+          setFormData({
+            EmployeeId: '',
+            FirstName: '',
+            LastName: '',
+            Designation: '',
+            Department: '',
+            WorkLocation: '',
+            PhoneNumber: ''
+          }); // Reset form for adding new employee
+        }
+      }, [employee]);
 
   const validateField = (name, value) => {
     if (!value && name !== 'ProfilePhoto') {
@@ -95,22 +90,29 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
       reader.readAsDataURL(file);
     }
   };
-
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === 'ProfilePhoto' && files[0]) {
-      const photo = files[0];
-      setFormData({ ...formData, ProfilePhoto: photo });
-      setPhotoPreview(URL.createObjectURL(photo));
-    } else if (name === 'PhoneNumber' || name === 'EmergencyContactNumber') {
-      const numericValue = value.replace(/\D/g, '');
-      setFormData({ ...formData, [name]: numericValue });
-      setErrors({ ...errors, [name]: validateField(name, numericValue) });
-    } else {
-      setFormData({ ...formData, [name]: value });
-      setErrors({ ...errors, [name]: validateField(name, value) });
-    }
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
   };
+
+  // const handleChange = (e) => {
+  //   const { name, value, files } = e.target;
+  //   if (name === 'ProfilePhoto' && files[0]) {
+  //     const photo = files[0];
+  //     setFormData({ ...formData, ProfilePhoto: photo });
+  //     setPhotoPreview(URL.createObjectURL(photo));
+  //   } else if (name === 'PhoneNumber' || name === 'EmergencyContactNumber') {
+  //     const numericValue = value.replace(/\D/g, '');
+  //     setFormData({ ...formData, [name]: numericValue });
+  //     setErrors({ ...errors, [name]: validateField(name, numericValue) });
+  //   } else {
+  //     setFormData({ ...formData, [name]: value });
+  //     setErrors({ ...errors, [name]: validateField(name, value) });
+  //   }
+  // };
 
   const handleKeyPress = (e) => {
     const charCode = e.which ? e.which : e.keyCode;
@@ -119,19 +121,22 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
       setErrors({ ...errors, [e.target.name]: 'Please enter numbers only.' });
     }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newErrors = Object.keys(formData).reduce((acc, key) => {
-      acc[key] = validateField(key, formData[key]);
-      return acc;
-    }, {});
-    if (Object.values(newErrors).every((error) => !error)) {
-      onSubmit(formData);
-    } else {
-      setErrors(newErrors);
-    }
+    onSubmit(formData); // Submit form data to parent component
   };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const newErrors = Object.keys(formData).reduce((acc, key) => {
+  //     acc[key] = validateField(key, formData[key]);
+  //     return acc;
+  //   }, {});
+  //   if (Object.values(newErrors).every((error) => !error)) {
+  //     onSubmit(formData);
+  //   } else {
+  //     setErrors(newErrors);
+  //   }
+  // };
 
   useEffect(() => {
     const requiredFields = [
@@ -493,16 +498,23 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
             >
               Back
             </button> */}
-
+{/* 
             {!viewMode && (
         <button
           type="submit"
           className={`bg-[#2B2342] text-white px-6 py-2 rounded ${isFormValid ? 'hover:bg-[#353599]' : 'bg-[#9999a7] opacity-50 cursor-not-allowed'}`}
           disabled={!isFormValid}
+          onClick={handleSubmit}
         >
           Submit
         </button>
-      )}
+      )} */}
+      {!viewMode && (
+          <button type="submit" 
+          className={`bg-[#2B2342] text-[14px] font-normal text-white px-6 py-2 rounded-lg ${isFormValid ? 'hover:bg-[#353599]' : 'bg-[#9999a7] opacity-50 cursor-not-allowed'}`}>
+            {employee ? 'Update Employee' : 'Submit'}
+          </button>
+        )}
           </div>
 
         </div>

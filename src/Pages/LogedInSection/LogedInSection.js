@@ -31,17 +31,17 @@ function LogedInSection() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const sidebarItems = [
-    { name: 'employee', icon: Employee },
-    { name: 'leave', icon: Leave },
+    { name: 'Employer Information', icon: Employee },
+    { name: 'Leave Management', icon: Leave },
     // { name: 'Expense Claim', icon: ExpenseClaim },
-    { name: 'attendance', icon: Attendance },
-    { name: 'payroll', icon: Payroll },
-    { name: 'performance', icon: Performance},
-    { name: 'recruitment', icon: Recruitment },
-    { name: 'training', icon: Training },
+    { name: 'Attendance', icon: Attendance },
+    { name: 'Payroll', icon: Payroll },
+    { name: 'Perfomance Management', icon: Performance},
+    { name: 'Recruiting and Onboarding', icon: Recruitment },
+    { name: 'Training', icon: Training },
   
-    { name: 'selfService', icon: SelfService },
-    { name: 'document', icon: Document },
+    { name: 'Self-Service', icon: SelfService },
+    { name: 'Document Management', icon: Document },
     
   ];
 
@@ -53,23 +53,23 @@ function LogedInSection() {
 
   const renderContent = () => {
     switch (activeSidebar) {
-      case 'employee':
+      case 'Employer Information':
         return <EmployeeInformation />;
-      case 'leave':
+      case 'Leave Management':
         return <LeaveManagement />;
-      case 'attendance':
+      case 'Attendance':
         return <div><AttendanceManagement/></div>;
-      case 'payroll':
+      case 'Payroll':
         return <div><PayrollManagment/></div>;
-      case 'performance':
+      case 'Perfomance Management':
         return <div><PerformanceManagement/></div>;
-      case 'recruitment':
+      case 'Recruiting and Onboarding':
         return <div>Details about Recruitment & Onboarding...</div>;
-      case 'training':
+      case 'Training':
         return <div>Details about Training...</div>;
-      case 'selfService':
+      case 'Self-Service':
         return <div>Details about Self-service...</div>;
-      case 'document':
+      case 'Document Management':
         return <div>Details about Document Management...</div>;
       default:
         return <div>Home</div>;
@@ -81,8 +81,8 @@ function LogedInSection() {
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
-        <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[333px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 h-full`}>
-          <ul className="space-y-3">
+        <aside className={`transition-all duration-300 font-normal ${isSidebarExpanded ? 'w-[333px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 h-full`}>
+          <ul className="space-y-4">
             {sidebarItems.map((item) => (
               <li
                 key={item.name}
