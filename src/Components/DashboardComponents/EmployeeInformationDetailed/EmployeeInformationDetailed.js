@@ -16,10 +16,10 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
     EmployeeId: '',
     FirstName: '',
     LastName: '',
-    Gender: '',
+    Gender: fieldOptions.Gender[0], // Default to first option
     DateOfBirth: '',
     Nationality: '',
-    MaritalStatus: '',
+    MaritalStatus: fieldOptions.MaritalStatus[0],
     BloodGroup: '',
     PersonalEmail: '',
     PhoneNumber: '',
@@ -29,11 +29,11 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
     TemporaryAddress: '',
     Designation: '',
     JoiningDate: '',
-    EmployeeType: 'Permanent',
+    EmployeeType: fieldOptions.EmployeeType[0],
     ReportingManager: '',
     TeamDivision: '',
     WorkLocation: '',
-    EmploymentStatus: 'Active',
+    EmploymentStatus: fieldOptions.EmploymentStatus[0],
     ProfilePhoto: null,
   });
 
@@ -42,7 +42,6 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   const [isFormValid, setIsFormValid] = useState(false);
   const { setShowForm } = useContext(contextItems);
   const departments = ['HR', 'Development', 'Marketing', 'Sales'];
-
 
   useEffect(() => {
     if (employee) {
@@ -64,6 +63,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
     }
     return '';
   };
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -74,7 +74,6 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
     handleChange({ target: { name: 'Department', value: dept } });
     setIsDropdownOpen(false);
   };
-
 
   const handlePhotoUpload = (event) => {
     const file = event.target.files[0];
@@ -125,14 +124,23 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   };
 
   useEffect(() => {
-    const isValid = Object.keys(formData).every((key) => formData[key] !== '');
-    setIsFormValid(isValid && Object.values(errors).every((error) => !error));
+    const requiredFields = [
+      'EmployeeId', 'FirstName', 'LastName', 'Gender', 'DateOfBirth',
+      'Nationality', 'MaritalStatus', 'BloodGroup', 'PersonalEmail',
+      'PhoneNumber', 'EmergencyContactNumber', 'Address', 'Department',
+      'Designation', 'JoiningDate', 'EmployeeType', 'ReportingManager',
+      'TeamDivision', 'WorkLocation', 'EmploymentStatus'
+    ];
+
+    const isValid = requiredFields.every((field) => formData[field]) &&
+      Object.values(errors).every((error) => !error);
+
+    setIsFormValid(isValid);
   }, [formData, errors]);
 
   const handleBackClick = () => {
     setShowForm(false);
   };
-
 
   return (
     <form onSubmit={handleSubmit} className="rounded-lg mx-auto p-8 bg-white">
@@ -149,7 +157,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="EmployeeId"
                   value={formData.EmployeeId}
                   onChange={handleChange}
-                  className={`border w-[527px] p-2 rounded ${errors.EmployeeId ? 'border-red-500' : ''}`}
+                  className={`border w-[527px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.EmployeeId ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.EmployeeId && <p className="text-red-500">{errors.EmployeeId}</p>}
@@ -168,7 +176,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="FirstName"
                   value={formData.FirstName}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.FirstName ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.FirstName ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.FirstName && <p className="text-red-500">{errors.FirstName}</p>}
@@ -180,7 +188,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="LastName"
                   value={formData.LastName}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.LastName ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.LastName ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.LastName && <p className="text-red-500">{errors.LastName}</p>}
@@ -196,7 +204,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="DateOfBirth"
                   value={formData.DateOfBirth}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.DateOfBirth ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.DateOfBirth ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.DateOfBirth && <p className="text-red-500">{errors.DateOfBirth}</p>}
@@ -208,7 +216,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="Nationality"
                   value={formData.Nationality}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.Nationality ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.Nationality ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.Nationality && <p className="text-red-500">{errors.Nationality}</p>}
@@ -219,7 +227,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="Gender"
                   value={formData.Gender}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.Gender ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.Gender ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 >
                   <option value="">Select Gender</option>
@@ -240,7 +248,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="BloodGroup"
                   value={formData.BloodGroup}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.BloodGroup ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.BloodGroup ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.BloodGroup && <p className="text-red-500">{errors.BloodGroup}</p>}
@@ -252,7 +260,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="PersonalEmail"
                   value={formData.PersonalEmail}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.PersonalEmail ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.PersonalEmail ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.PersonalEmail && <p className="text-red-500">{errors.PersonalEmail}</p>}
@@ -263,7 +271,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="MaritalStatus"
                   value={formData.MaritalStatus}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.MaritalStatus ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.MaritalStatus ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 >
                   <option className='text-[14px] text-red-50' value="">Select Marital Status</option>
@@ -285,7 +293,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   value={formData.PhoneNumber}
                   onChange={handleChange}
                   onKeyPress={handleKeyPress}
-                  className={`border w-[251px] p-2 rounded ${errors.PhoneNumber ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.PhoneNumber ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.PhoneNumber && <p className="text-red-500">{errors.PhoneNumber}</p>}
@@ -298,7 +306,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   value={formData.EmergencyContactNumber}
                   onChange={handleChange}
                   onKeyPress={handleKeyPress}
-                  className={`border w-[251px] p-2 rounded ${errors.EmergencyContactNumber ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.EmergencyContactNumber ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.EmergencyContactNumber && <p className="text-red-500">{errors.EmergencyContactNumber}</p>}
@@ -312,7 +320,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                 name="Address"
                 value={formData.Address}
                 onChange={handleChange}
-                className={`border w-[526px] h-[202px] p-2 rounded ${errors.Address ? 'border-red-500' : ''}`}
+                className={`border w-[526px] h-[202px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.Address ? 'border-red-500' : ''}`}
                 disabled={viewMode}
               />
               {errors.Address && <p className="text-red-500">{errors.Address}</p>}
@@ -329,7 +337,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                     name="Department"
                     value={formData.Department}
                     onChange={handleChange}
-                    className={`border w-[251px] py-[13px] px-4 rounded text-[14px] font-normal focus:outline-none ${errors.Department ? 'border-red-500' : ''}`}
+                    className={`border w-[251px] h-[48px] py-[13px] px-4 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.Department ? 'border-red-500' : ''}`}
                     disabled={viewMode}
                     onClick={toggleDropdown} // Toggle dropdown on input click as well
                   />
@@ -367,7 +375,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="Designation"
                   value={formData.Designation}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.Designation ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.Designation ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.Designation && <p className="text-red-500">{errors.Designation}</p>}
@@ -380,7 +388,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="JoiningDate"
                   value={formData.JoiningDate}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.JoiningDate ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.JoiningDate ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.JoiningDate && <p className="text-red-500">{errors.JoiningDate}</p>}
@@ -395,7 +403,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="EmployeeType"
                   value={formData.EmployeeType}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.EmployeeType ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.EmployeeType ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 >
                   <option value="">Select Employee Type</option>
@@ -412,7 +420,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="ReportingManager"
                   value={formData.ReportingManager}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.ReportingManager ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.ReportingManager ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.ReportingManager && <p className="text-red-500">{errors.ReportingManager}</p>}
@@ -424,7 +432,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="TeamDivision"
                   value={formData.TeamDivision}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.TeamDivision ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.TeamDivision ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.TeamDivision && <p className="text-red-500">{errors.TeamDivision}</p>}
@@ -440,7 +448,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="WorkLocation"
                   value={formData.WorkLocation}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.WorkLocation ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.WorkLocation ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
                 {errors.WorkLocation && <p className="text-red-500">{errors.WorkLocation}</p>}
@@ -451,7 +459,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="EmploymentStatus"
                   value={formData.EmploymentStatus}
                   onChange={handleChange}
-                  className={`border w-[251px] p-2 rounded ${errors.EmploymentStatus ? 'border-red-500' : ''}`}
+                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.EmploymentStatus ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 >
                   <option value="">Select Employment Status</option>
@@ -476,14 +484,14 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
             </button> */}
 
             {!viewMode && (
-              <button
-                type="submit"
-                className={`bg-[#141454] text-white px-6 py-2 rounded ${isFormValid ? 'hover:bg-[#353599]' : 'bg-[#9999a7] opacity-50 cursor-not-allowed'}`}
-                disabled={!isFormValid}
-              >
-                Submit
-              </button>
-            )}
+        <button
+          type="submit"
+          className={`bg-[#2B2342] text-white px-6 py-2 rounded ${isFormValid ? 'hover:bg-[#353599]' : 'bg-[#9999a7] opacity-50 cursor-not-allowed'}`}
+          disabled={!isFormValid}
+        >
+          Submit
+        </button>
+      )}
           </div>
 
         </div>
