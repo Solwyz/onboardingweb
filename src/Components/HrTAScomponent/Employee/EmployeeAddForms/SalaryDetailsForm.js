@@ -151,12 +151,12 @@ function SalaryDetailsForm({setShowSalaryForm}) {
             </ol>
           </div>
 
-          <div className='flex justify-end mt-6'>
+          <div className='flex justify-end mt-6 mx-6'>
             <BackButton stateValue={setShowSalaryForm}/>
           </div>
 
           <div className='p-6'>
-            <form className='border rounded shadow mt-8 p-6 bg-white pb-32' onSubmit={handleSubmit}>
+            <form className='border rounded shadow p-6 bg-white pb-32' onSubmit={handleSubmit}>
               <div className='text-[20px] font-medium border-b pb-4'>Salary Details</div>
 
               <div className='flex gap-4 text-[#373737]'>
