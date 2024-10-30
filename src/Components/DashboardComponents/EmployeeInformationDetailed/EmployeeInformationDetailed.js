@@ -12,6 +12,10 @@ const fieldOptions = {
 };
 
 function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
+
+  const [maxDate, setMaxDate] = useState('');
+
+
   const [formData, setFormData] = useState({
     EmployeeId: '',
     FirstName: '',
@@ -44,6 +48,12 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   const departments = ['HR', 'Development', 'Marketing', 'Sales'];
 
   useEffect(() => {
+    const today = new Date();
+        const year = today.getFullYear() - 18;
+        const month = (`0${today.getMonth() + 1}`).slice(-2);
+        const day = (`0${today.getDate()}`).slice(-2);
+        setMaxDate(`${year}-${month}-${day}`);
+
     if (employee) {
       setFormData(employee);
     }
@@ -204,6 +214,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                   name="DateOfBirth"
                   value={formData.DateOfBirth}
                   onChange={handleChange}
+                  max={maxDate}
                   className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.DateOfBirth ? 'border-red-500' : ''}`}
                   disabled={viewMode}
                 />
