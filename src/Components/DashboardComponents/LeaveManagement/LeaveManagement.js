@@ -91,12 +91,14 @@ function LeaveManagement() {
     <div className="p-6 h-screen">
       <div className='flex justify-between'>
         <div className='font-medium text-[#2B2342] text-[20px]'>Leaves</div>
-        <button
-          onClick={handleApplyLeaveClick}
-          className="w-[118px] h-[48px] rounded-lg bg-[#2B2342] text-center text-white text-sm font-normal"
-        >
-          Apply Leave
-        </button>
+        {!showForm && (
+    <button
+      onClick={handleApplyLeaveClick}
+      className="w-[118px] h-[48px] rounded-lg bg-[#2B2342] text-center text-white text-sm font-normal"
+    >
+      Apply Leave
+    </button>
+  )}
       </div>
 
       {/* Leave Summary Cards */}
