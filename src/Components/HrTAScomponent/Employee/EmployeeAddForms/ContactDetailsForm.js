@@ -220,7 +220,7 @@ function ContactDetailsForm({setShowContactForm}) {
                         </ol>
                     </div>
 
-                    <div className='flex justify-end mt-6'>
+                    <div className='flex justify-end mt-6 mx-6'>
                         <BackButton stateValue={setShowContactForm}/>
                     </div>
 
