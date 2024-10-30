@@ -1,355 +1,287 @@
-import React, { useState, useEffect } from 'react';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import React, { useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { saveAs } from "file-saver";
+import Papa from "papaparse";
+import checkedBox from "../../../Assets/HrTas/checkBox.svg";
+import UncheckedBox from "../../../Assets/HrTas/uncheckBox.svg";
 
 const AdminPayrollForm = () => {
   const [payroll, setPayroll] = useState({
-    EmployeeName: '',
-    BasicSalary: '',
-    PayPeriod: '',
-    BankAccount: '',
-    TaxId: '',
-    NetPay: '',
+    EmployeeName: "",
+    BasicSalary: "",
+    Bonus: "",
+    PayPeriod: "",
+    BankAccount: "",
+    IFSCCode: "",
   });
 
   const [selectedAllowances, setSelectedAllowances] = useState({});
-  const [selectedDeductions, setSelectedDeductions] = useState({});
   const [allowanceAmounts, setAllowanceAmounts] = useState({});
+  const [selectedDeductions, setSelectedDeductions] = useState({});
   const [deductionAmounts, setDeductionAmounts] = useState({});
   const [bonus, setBonus] = useState(0);
-  const [isPayrollCreated, setIsPayrollCreated] = useState(false);
-  const [payslipHistory, setPayslipHistory] = useState([]);
-  
-  const allowancesOptions = ['Housing', 'Transport'];
-  const deductionsOptions = ['Tax', 'Insurance'];
-
-  // Error state for form validation
-  const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
+  const [file, setFile] = useState(null); // For file upload
 
-  // Handle form input changes and validation
+  const allowancesOptions = ["Housing", "Transport", "Medical"];
+  const deductionsOptions = ["Tax", "Insurance", "Provident Fund"];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPayroll((prevPayroll) => ({
       ...prevPayroll,
       [name]: value,
     }));
-
-    // Validate inputs on change
     validateField(name, value);
   };
 
   const validateField = (fieldName, value) => {
-    let errorMsg = '';
-    if (!value) {
-      errorMsg = `${fieldName} is required.`;
-    }
-
-    // Update errors state
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [fieldName]: errorMsg,
-    }));
+    setIsFormValid(
+      !!payroll.EmployeeName &&
+      !!payroll.BasicSalary &&
+      !!payroll.BankAccount &&
+      !!payroll.IFSCCode &&
+      !!payroll.PayPeriod
+    );
   };
 
-  const validateForm = () => {
-    const requiredFields = ['EmployeeName', 'BasicSalary', 'PayPeriod', 'BankAccount', 'TaxId'];
-    let formIsValid = true;
-    const newErrors = {};
-
-    requiredFields.forEach((field) => {
-      if (!payroll[field]) {
-        newErrors[field] = `${field} is required.`;
-        formIsValid = false;
-      }
-    });
-
-    setErrors(newErrors);
-    return formIsValid;
-  };
-
-  // Update form validity state when payroll data changes
-  useEffect(() => {
-    setIsFormValid(validateForm());
-  }, [payroll, selectedAllowances, selectedDeductions, bonus]);
-
-  const handleAllowanceChange = (e) => {
-    const { name, checked } = e.target;
-    setSelectedAllowances((prev) => ({
-      ...prev,
-      [name]: checked,
-    }));
-    if (!checked) {
-      setAllowanceAmounts((prev) => ({
-        ...prev,
-        [name]: undefined,
-      }));
+  const handleAllowanceChange = (name) => {
+    setSelectedAllowances((prev) => ({ ...prev, [name]: !prev[name] }));
+    if (selectedAllowances[name]) {
+      setAllowanceAmounts((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
   const handleAllowanceAmountChange = (e) => {
     const { name, value } = e.target;
-    setAllowanceAmounts((prev) => ({
-      ...prev,
-      [name]: Number(value),
-    }));
+    setAllowanceAmounts((prev) => ({ ...prev, [name]: Number(value) }));
   };
 
-  const handleDeductionChange = (e) => {
-    const { name, checked } = e.target;
-    setSelectedDeductions((prev) => ({
-      ...prev,
-      [name]: checked,
-    }));
-    if (!checked) {
-      setDeductionAmounts((prev) => ({
-        ...prev,
-        [name]: undefined,
-      }));
+  const handleDeductionChange = (name) => {
+    setSelectedDeductions((prev) => ({ ...prev, [name]: !prev[name] }));
+    if (selectedDeductions[name]) {
+      setDeductionAmounts((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
   const handleDeductionAmountChange = (e) => {
     const { name, value } = e.target;
-    setDeductionAmounts((prev) => ({
-      ...prev,
-      [name]: Number(value),
-    }));
+    setDeductionAmounts((prev) => ({ ...prev, [name]: Number(value) }));
   };
 
   const handleBonusChange = (e) => {
     const { value } = e.target;
-    setBonus(value ? Number(value) : '');
+    setBonus(value ? Number(value) : "");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!validateForm()) return;
-
-    const totalAllowances = Object.keys(selectedAllowances)
-      .filter((allowance) => selectedAllowances[allowance])
-      .reduce((acc, curr) => acc + (allowanceAmounts[curr] || 0), 0);
-
-    const totalDeductions = Object.keys(selectedDeductions)
-      .filter((deduction) => selectedDeductions[deduction])
-      .reduce((acc, curr) => acc + (deductionAmounts[curr] || 0), 0);
-
-    const calculatedNetPay = Number(payroll.BasicSalary) + totalAllowances + bonus - totalDeductions;
-
-    const newPayroll = {
-      ...payroll,
-      NetPay: calculatedNetPay,
-      allowances: allowanceAmounts,
-      deductions: deductionAmounts,
-      bonus: bonus || 0,
-    };
-
-    setPayslipHistory((prevHistory) => [...prevHistory, newPayroll]);
-    setIsPayrollCreated(true);
-
-    setPayroll({
-      EmployeeName: '',
-      BasicSalary: '',
-      PayPeriod: '',
-      BankAccount: '',
-      TaxId: '',
-      NetPay: '',
-    });
-    setBonus(0);
-    setSelectedAllowances({});
-    setSelectedDeductions({});
-    setAllowanceAmounts({});
-    setDeductionAmounts({});
+    // Form submission logic here
+    alert("Payroll created successfully!");
   };
 
-  const generatePDF = (payrollData) => {
+  const handleDownload = () => {
     const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text('Payslip', 90, 10);
 
-    doc.setFontSize(12);
-    const tableYPosition = 30;
-
-    doc.text(`Employee Name: ${payrollData.EmployeeName}`, 20, tableYPosition);
-    doc.text(`Pay Period: ${payrollData.PayPeriod}`, 20, tableYPosition + 10);
-
-    doc.text('Salary Breakdown', 20, tableYPosition + 20);
+    doc.text("Payroll Data", 14, 16);
     doc.autoTable({
-      startY: tableYPosition + 30,
-      head: [['Description', 'Amount']],
-      body: [
-        ['Basic Salary', payrollData.BasicSalary],
-        ...Object.entries(payrollData.allowances).map(([allowance, amount]) => [allowance, amount]),
-        ['Bonus', payrollData.bonus],
-        ...Object.entries(payrollData.deductions).map(([deduction, amount]) => [deduction, amount]),
-        ['Net Pay', payrollData.NetPay],
-      ],
+      head: [["Employee Name", "Basic Salary", "Bonus", "Pay Period", "Bank Account", "IFSC Code"]],
+      body: [[
+        payroll.EmployeeName,
+        payroll.BasicSalary,
+        bonus,
+        payroll.PayPeriod,
+        payroll.BankAccount,
+        payroll.IFSCCode,
+      ]],
     });
+    
+    doc.save("payroll.pdf");
+  };
 
-    doc.text(`Bank Account: ${payrollData.BankAccount}`, 20, doc.previousAutoTable.finalY + 20);
-    doc.text(`IFSC Code: ${payrollData.TaxId}`, 20, doc.previousAutoTable.finalY + 30);
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
-    doc.save(`Payslip_${payrollData.EmployeeName}.pdf`);
+  const handleUpload = () => {
+    if (file) {
+      Papa.parse(file, {
+        header: true,
+        complete: (results) => {
+          console.log("Parsed Results:", results.data);
+          // Handle the parsed data as needed
+        },
+      });
+    } else {
+      alert("Please select a file to upload");
+    }
   };
 
   return (
-    <div className="p-6 w-full mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Payroll</h1>
-
-      <form onSubmit={handleSubmit} className="space-y-7">
-        {/* Employee Name */}
-        <div className='flex justify-center items-center'>
+    <div className="p-6 w-full mx-auto bg-white shadow-lg rounded-lg">
+      <h1 className="text-[20px] font-medium mb-6">Create Payroll</h1>
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="flex columns-3 gap-10">
           <div>
-            <label className="block font-medium">Employee Name:</label>
+            <label className="block text-[14px] font-normal mb-2">Employee Name</label>
             <input
               type="text"
               name="EmployeeName"
               value={payroll.EmployeeName}
               onChange={handleChange}
-                 className="border border-gray-300 p-2 w-[500px] rounded input-no-spinner"
-              placeholder='Your Name'
+              className="border border-gray-300 py-[15px] px-4  w-[251px] rounded-lg"
+              placeholder="Rahul Raj"
             />
-            
           </div>
-
-          {/* Basic Salary */}
-          <div className='ml-5'>
-            <label className="block font-medium">Basic Salary:</label>
+          <div>
+            <label className="block font-normal text-[14px] mb-2">Basic Salary</label>
             <input
               type="number"
               name="BasicSalary"
               value={payroll.BasicSalary}
               onChange={handleChange}
-                 className="border border-gray-300 p-2 w-[500px] rounded input-no-spinner"
-              placeholder='Amount'
+              className="border border-gray-300 py-[15px] px-4  w-[251px] rounded-lg"
+              placeholder="25000"
             />
-           
           </div>
-        </div>
-
-        <div className='flex justify-center items-center'>
           <div>
-            <label className="block font-medium">Bonus:</label>
+            <label className="block font-normal text-[14px] mb-2">Bonus</label>
             <input
               type="number"
               value={bonus}
               onChange={handleBonusChange}
-              className="border border-gray-300 p-2 w-[500px] rounded input-no-spinner"
-           placeholder='Amount'
+              className="border border-gray-300 py-[15px] px-4  w-[251px] rounded-lg"
+              placeholder="10000"
             />
           </div>
-          <div className='ml-5'>
-            <label className="block font-medium">Pay Period:</label>
-            <select
-              name="PayPeriod"
-              value={payroll.PayPeriod}
-              onChange={handleChange}
-              className="border border-gray-300 p-2 w-[500px] rounded input-no-spinner"
-              required
-            >
-              <option value="">Select Pay Period</option>
-              <option value="Monthly">Monthly</option>
-              <option value="Weekly">Weekly</option>
-            </select>
-          </div>
-
         </div>
-        <div className='flex ml-[70px]'>
-          <div>
-            <label className="block font-medium">Allowances:</label>
+        <div>
+          <label className="block font-normal text-[14px] mb-2">Allowances</label>
+          <div className="flex columns-3 gap-10 font-normal text-[14px]">
             {allowancesOptions.map((allowance) => (
-              <div key={allowance} className="flex items-center mb-2">
+              <div key={allowance}>
+                <div
+                  className="flex items-center cursor-pointer"
+                  onClick={() => handleAllowanceChange(allowance)}
+                >
+                  <img
+                    className="mr-1"
+                    src={selectedAllowances[allowance] ? checkedBox : UncheckedBox}
+                    alt=""
+                  />
+                  {allowance}
+                </div>
                 <input
-                  type="checkbox"
+                  type="number"
+                  placeholder="Amount"
+                  className="border w-[251px] py-[15px] px-4 rounded-lg focus:outline-none mt-2"
                   name={allowance}
-                  checked={selectedAllowances[allowance] || false}
-                  onChange={handleAllowanceChange}
+                  value={allowanceAmounts[allowance] || ""}
+                  onChange={handleAllowanceAmountChange}
+                  disabled={!selectedAllowances[allowance]}
                 />
-                <label className="flex-1 ml-2">{allowance}:</label>
-                {selectedAllowances[allowance] && (
-                  <input
-                    type="number"
-                    name={allowance}
-                    value={allowanceAmounts[allowance] || ''}
-                    onChange={handleAllowanceAmountChange}
-                    className="border border-gray-300 p-2 w-20 rounded input-no-spinner text-center ml-12"
-                    placeholder='Amount'
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className='ml-[450px]'>
-            <label className="block font-medium ">Deductions:</label>
-            {deductionsOptions.map((deduction) => (
-              <div key={deduction} className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  name={deduction}
-                  checked={selectedDeductions[deduction] || false}
-                  onChange={handleDeductionChange}
-                />
-                <label className="flex-1 ml-2">{deduction}:</label>
-                {selectedDeductions[deduction] && (
-                  <input
-                    type="number"
-                    name={deduction}
-                    value={deductionAmounts[deduction] || ''}
-                    onChange={handleDeductionAmountChange}
-                    className="border border-gray-300 p-2 w-20 rounded input-no-spinner text-center ml-12"
-                    placeholder='Amount'
-                  />
-                )}
               </div>
             ))}
           </div>
         </div>
-
-
-        <div className='flex justify-center items-center'>
+        <div>
+          <label className="block font-normal text-[14px] mb-2">Deductions</label>
+          <div className="flex columns-3 gap-10 font-normal text-[14px]">
+            {deductionsOptions.map((deduction) => (
+              <div key={deduction}>
+                <div
+                  className="flex items-center cursor-pointer"
+                  onClick={() => handleDeductionChange(deduction)}
+                >
+                  <img
+                    className="mr-1"
+                    src={selectedDeductions[deduction] ? checkedBox : UncheckedBox}
+                    alt=""
+                  />
+                  {deduction}
+                </div>
+                <input
+                  type="number"
+                  placeholder="Amount"
+                  className="border w-[251px] py-[15px] px-4 rounded-lg focus:outline-none mt-2"
+                  name={deduction}
+                  value={deductionAmounts[deduction] || ""}
+                  onChange={handleDeductionAmountChange}
+                  disabled={!selectedDeductions[deduction]}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-8">
           <div>
-            <label className="block font-medium">Bank Account:</label>
+            <label className="block font-normal text-[14px] mb-2">Bank Account</label>
             <input
               type="number"
               name="BankAccount"
               value={payroll.BankAccount}
               onChange={handleChange}
-              className="border border-gray-300 p-2 w-[500px] rounded input-no-spinner "
-              placeholder='Bank Account Number'
+              className="border border-gray-300 py-[15px] px-4  w-[542px] rounded-lg"
+              placeholder="9992 2563 2541 7895"
             />
           </div>
-
-          <div className='ml-5'>
-            <label className="block font-medium">IFSC Code:</label>
+          <div>
+            <label className="block font-normal text-[14px] mb-2">IFSC Code</label>
             <input
               type="text"
-              name="TaxId"
-              value={payroll.TaxId}
+              name="IFSCCode"
+              value={payroll.IFSCCode}
               onChange={handleChange}
-              className="border border-gray-300 p-2 w-[500px]  rounded input-no-spinner"
-             placeholder='IFSC Code'
+              className="border border-gray-300 py-[15px] px-4  w-[251px] rounded-lg"
+              placeholder="AGGB256178"
             />
           </div>
-        </div> 
-
-        {/* Save Button */}
-        <div className='flex justify-center items-center'>
-          <button
-            type="submit"
-            className={`px-4 py-2 rounded font-semibold ${
-              isFormValid ? 'bg-[#141454] text-white' : 'bg-gray-300 cursor-not-allowed opacity-50 text-gray-600'
-            }`}
-            disabled={!isFormValid}
-            onClick={() => generatePDF(payslipHistory[payslipHistory.length - 1])}
-          >
-            Save & Download Payslip
-          </button>
         </div>
+        <div>
+          <label className="block font-normal text-[14px] mb-2">Pay Period</label>
+          <select
+            name="PayPeriod"
+            value={payroll.PayPeriod}
+            onChange={handleChange}
+            className="border border-gray-300 py-[15px] px-4  w-[251px] rounded-lg"
+          >
+            <option value="">Select Pay Period</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Weekly">Weekly</option>
+          </select>
+        </div>
+        <button
+          type="submit"
+          disabled={!isFormValid}
+          className={`bg-[#2B2342] text-white py-4 px-6 rounded-lg ${!isFormValid ? "opacity-50 bg-gray-300 cursor-not-allowed" : ""
+            }`}
+            onClick={handleDownload}
+        >
+          Create Payroll
+        </button>
+
       </form>
 
-
+      <div className="mt-10 flex w-full justify-between bg-white px-6 py-[30px] shadow-lg">
+    <div>    <h2 className="text-[20px] font-medium ">Upload Payroll Data </h2>
+        <p>Add the payroll here in pdf format.</p></div>
+        <button className="border px-6 py-4 rounded-lg border-[#2B2342]">
+        <label htmlFor="payrollUpload" style={{ cursor: 'pointer', color: '#2B2342' }}>
+  Upload Payroll
+ 
+  <input 
+    type="file" 
+    id="payrollUpload" 
+    onChange={handleFileChange} 
+    style={{ display: 'none' }} 
+    className=""
+  />
+</label>
+        </button>
+     
+       
+      </div>
     </div>
   );
 };
