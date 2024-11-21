@@ -1,35 +1,90 @@
-import React, { useState } from 'react';
-import addIcon from '../../../Assets/HrTas/addIcon.svg';
-import filterIcon from '../../../Assets/HrTas/filterIcon.svg';
-import deleteIcon from '../../../Assets/HrTas/delete.svg';
-import deleteIcon1 from '../../../Assets/HrTas/documentsPage/redDelete.svg';
-import greenTick from '../../../Assets/HrTas/documentsPage/greenTick.svg';
-import xMark from '../../../Assets/HrTas/documentsPage/xMark.svg';
-import addPurple from '../../../Assets/HrTas/documentsPage/addPurple.svg';
-import arrowLeft from '../../../Assets/HrTas/documentsPage/arrowLeft.svg';
-import arrowRight from '../../../Assets/HrTas/documentsPage/arrowRight.svg';
-import CloseBtn from "../../../Assets/HrTas/close.svg"
+import React, { useState } from "react";
+import addIcon from "../../../Assets/HrTas/addIcon.svg";
+import filterIcon from "../../../Assets/HrTas/filterIcon.svg";
+import deleteIcon from "../../../Assets/HrTas/delete.svg";
+import deleteIcon1 from "../../../Assets/HrTas/documentsPage/redDelete.svg";
+import greenTick from "../../../Assets/HrTas/documentsPage/greenTick.svg";
+import xMark from "../../../Assets/HrTas/documentsPage/xMark.svg";
+import addPurple from "../../../Assets/HrTas/documentsPage/addPurple.svg";
+import arrowLeft from "../../../Assets/HrTas/documentsPage/arrowLeft.svg";
+import arrowRight from "../../../Assets/HrTas/documentsPage/arrowRight.svg";
+import CloseBtn from "../../../Assets/HrTas/close.svg";
 
 function Document() {
   const [documents, setDocuments] = useState([
-    { name: 'Upload Passport', user: 'Arjun Das', isApproved: false, isRejected: false },
-    { name: 'Upload Aadhaar', user: 'Leo Das', isApproved: false, isRejected: false },
-    { name: 'Upload Pan', user: 'Vineesh Das', isApproved: false, isRejected: false },
-    { name: 'Upload Bank Ac', user: 'Ruthin Das', isApproved: false, isRejected: false },
-    { name: 'Upload Photo', user: 'Anu Das', isApproved: false, isRejected: false },
-    { name: 'Upload Passport', user: 'Affan Das', isApproved: false, isRejected: false },
-    { name: 'Upload Passport', user: 'Arjun Das', isApproved: false, isRejected: false },
-    { name: 'Upload Passport', user: 'Arjun Das', isApproved: false, isRejected: false },
-    { name: 'Upload Passport', user: 'Arjun Das', isApproved: false, isRejected: false },
-    { name: 'Upload Passport', user: 'Arjun Das', isApproved: false, isRejected: false },
-    { name: 'Upload Passport', user: 'Arjun Das', isApproved: false, isRejected: false },
+    {
+      name: "Upload Passport",
+      user: "Arjun Das",
+      isApproved: false,
+      isRejected: false,
+    },
+    {
+      name: "Upload Aadhaar",
+      user: "Leo Das",
+      isApproved: false,
+      isRejected: false,
+    },
+    {
+      name: "Upload Pan",
+      user: "Vineesh Das",
+      isApproved: false,
+      isRejected: false,
+    },
+    {
+      name: "Upload Bank Ac",
+      user: "Ruthin Das",
+      isApproved: false,
+      isRejected: false,
+    },
+    {
+      name: "Upload Photo",
+      user: "Anu Das",
+      isApproved: false,
+      isRejected: false,
+    },
+    {
+      name: "Upload Passport",
+      user: "Affan Das",
+      isApproved: false,
+      isRejected: false,
+    },
+    {
+      name: "Upload Passport",
+      user: "Arjun Das",
+      isApproved: false,
+      isRejected: false,
+    },
+    {
+      name: "Upload Passport",
+      user: "Arjun Das",
+      isApproved: false,
+      isRejected: false,
+    },
+    {
+      name: "Upload Passport",
+      user: "Arjun Das",
+      isApproved: false,
+      isRejected: false,
+    },
+    {
+      name: "Upload Passport",
+      user: "Arjun Das",
+      isApproved: false,
+      isRejected: false,
+    },
+    {
+      name: "Upload Passport",
+      user: "Arjun Das",
+      isApproved: false,
+      isRejected: false,
+    },
 
     // ... other documents
   ]);
 
   const [selectedDocuments, setSelectedDocuments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState(''); // Add search term state
+  const [searchTerm, setSearchTerm] = useState(""); // Add search term state
   const documentsPerPage = 10;
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +108,9 @@ function Document() {
   };
 
   const deleteSelectedDocuments = () => {
-    setDocuments((prevDocs) => prevDocs.filter((_, i) => !selectedDocuments.includes(i)));
+    setDocuments((prevDocs) =>
+      prevDocs.filter((_, i) => !selectedDocuments.includes(i))
+    );
     setSelectedDocuments([]);
   };
 
@@ -74,14 +131,18 @@ function Document() {
   };
 
   // Filter documents by search term
-  const filteredDocuments = documents.filter((doc) =>
-    doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    doc.user.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredDocuments = documents.filter(
+    (doc) =>
+      doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doc.user.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastDocument = currentPage * documentsPerPage;
   const indexOfFirstDocument = indexOfLastDocument - documentsPerPage;
-  const currentDocuments = filteredDocuments.slice(indexOfFirstDocument, indexOfLastDocument);
+  const currentDocuments = filteredDocuments.slice(
+    indexOfFirstDocument,
+    indexOfLastDocument
+  );
   const totalPages = Math.ceil(filteredDocuments.length / documentsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -92,7 +153,9 @@ function Document() {
     <div className="p-6">
       <div className="bg-white w-full h-[930px] px-6 py-[24px] shadow-lg">
         <div className="flex justify-between items-center">
-          <h1 className="text-[20px] text-[#232E42] font-medium mt-[40px]">Document Request</h1>
+          <h1 className="text-[20px] text-[#232E42] font-medium mt-[40px]">
+            Document Request
+          </h1>
           <button
             onClick={toggleModal}
             className="bg-[#2B2342] flex items-center w-[115px] h-[48px] font-normal text-sm mt-[24px] text-white px-4 py-2 rounded-lg"
@@ -127,50 +190,65 @@ function Document() {
                 return (
                   <tr
                     key={globalIndex}
-                    className={`w-full h-[64px] ${isSelected
-                      ? 'border-l-[10px] border-[#D9CDFF]'
-                      : index % 2 === 0
-                        ? 'bg-[#F9F9F9]'
-                        : 'bg-white'
-                      }`}
+                    className={`w-full h-[64px] ${
+                      isSelected
+                        ? "border-l-[10px] border-[#D9CDFF] bg-transparent"
+                        : index % 2 === 0
+                        ? "bg-[#F9F9F9]"
+                        : "bg-white"
+                    }`}
                   >
                     <td className="text-center align-middle">
-                      <input
+                      {/* <input
                         type="checkbox"
                         className="h-[16px] w-[16px] rounded-full cursor-pointer border-[#AFAFAF] focus:outline-none accent-[#373737]"
                         checked={isSelected}
                         onChange={() => toggleDocumentSelection(globalIndex)}
-                      />
+                      /> */}
                     </td>
                     <td className="ml-[32px] align-middle">
                       <div className="flex items-center">
                         <img src={addPurple} alt="Icon" className="mr-4" />
                         <div>
-                          <div className="text-sm font-medium text-[#373737]">{doc.name}</div>
-                          <div className="text-xs font-medium text-[#9D9D9D]">{doc.user}</div>
+                          <div className="text-sm font-medium text-[#373737]">
+                            {doc.name}
+                          </div>
+                          <div className="text-xs font-medium text-[#9D9D9D]">
+                            {doc.user}
+                          </div>
                         </div>
                       </div>
                     </td>
                     <td className="align-middle text-right">
                       <div className="flex justify-end mr-8">
                         <button
-                          className={`mr-8 ${doc.isApproved || areAnySelected ? 'opacity-50 cursor-not-allowed' : ''
-                            }`}
+                          className={`mr-8 ${
+                            doc.isApproved || areAnySelected
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
                           onClick={() => approveDocument(globalIndex)}
                           disabled={doc.isApproved || areAnySelected}
                         >
                           <img src={greenTick} alt="Approve" />
                         </button>
                         <button
-                          className={`mr-8 ${doc.isRejected || areAnySelected ? 'opacity-50 cursor-not-allowed' : ''
-                            }`}
+                          className={`mr-8 ${
+                            doc.isRejected || areAnySelected
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
                           onClick={() => rejectDocument(globalIndex)}
                           disabled={doc.isRejected || areAnySelected}
                         >
                           <img src={xMark} alt="Reject" />
                         </button>
                         <button
-                          className={`mr-8 ${areAnySelected ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          className={`mr-8 ${
+                            areAnySelected
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
                           onClick={() => deleteDocumentByIndex(globalIndex)}
                           disabled={areAnySelected}
                         >
@@ -190,7 +268,9 @@ function Document() {
           <div className="flex justify-end align-middle mb-6 ">
             <button
               onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
-              className={`p-2 ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
+              className={`p-2 ${
+                currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
+              }`}
               disabled={currentPage === 1}
             >
               <img src={arrowLeft} alt="Previous" />
@@ -199,21 +279,32 @@ function Document() {
               <button
                 key={i}
                 onClick={() => paginate(i + 1)}
-                className={`p-2 rounded-md ${currentPage === i + 1 ? 'text-[#373737] font-normal text-sm' : 'text-[#C8C8C8] text-sm font-normal'}`}
+                className={`p-2 rounded-md ${
+                  currentPage === i + 1
+                    ? "text-[#373737] font-normal text-sm"
+                    : "text-[#C8C8C8] text-sm font-normal"
+                }`}
               >
                 {i + 1}
               </button>
             ))}
             <button
-              onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
-              className={`p-2 ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : ''}`}
+              onClick={() =>
+                paginate(
+                  currentPage < totalPages ? currentPage + 1 : totalPages
+                )
+              }
+              className={`p-2 ${
+                currentPage === totalPages
+                  ? "cursor-not-allowed opacity-50"
+                  : ""
+              }`}
               disabled={currentPage === totalPages}
             >
               <img src={arrowRight} alt="Next" />
             </button>
           </div>
         )}
-
       </div>
 
       {/* Modal Implementation */}
@@ -221,7 +312,9 @@ function Document() {
         <div className="fixed inset-0 bg-black bg-opacity-[57%] flex justify-center items-center">
           <div className="bg-white p-8 shadow-lg w-[834px] h-[524px]">
             <div className="flex items-center justify-between">
-              <h2 className="text-[16px] font-medium text-[#6C55B2]">Document Request</h2>
+              <h2 className="text-[16px] font-medium text-[#6C55B2]">
+                Document Request
+              </h2>
               <button onClick={toggleModal} className="">
                 <img src={CloseBtn} alt="" />
               </button>
@@ -230,9 +323,12 @@ function Document() {
             {/* Form inside modal */}
             <form>
               <div className="mt-8">
-                <div className='flex'>
+                <div className="flex">
                   <div>
-                    <label htmlFor="title" className="block text-sm text-[#373737] font-normal">
+                    <label
+                      htmlFor="title"
+                      className="block text-sm text-[#373737] font-normal"
+                    >
                       Title
                     </label>
                     <input
@@ -243,8 +339,11 @@ function Document() {
                     />
                   </div>
 
-                  <div className='ml-6'>
-                    <label htmlFor="employee" className="block text-sm text-[#373737] font-normal">
+                  <div className="ml-6">
+                    <label
+                      htmlFor="employee"
+                      className="block text-sm text-[#373737] font-normal"
+                    >
                       Employee
                     </label>
                     <input
@@ -256,9 +355,12 @@ function Document() {
                   </div>
                 </div>
 
-                <div className='flex mt-4'>
+                <div className="flex mt-4">
                   <div>
-                    <label htmlFor="format" className="block text-sm text-[#373737] font-normal">
+                    <label
+                      htmlFor="format"
+                      className="block text-sm text-[#373737] font-normal"
+                    >
                       Format
                     </label>
                     <input
@@ -269,8 +371,11 @@ function Document() {
                     />
                   </div>
 
-                  <div className='ml-6'>
-                    <label htmlFor="maxSize" className="block text-sm text-[#373737] font-normal">
+                  <div className="ml-6">
+                    <label
+                      htmlFor="maxSize"
+                      className="block text-sm text-[#373737] font-normal"
+                    >
                       Max Size (In MB)
                     </label>
                     <input
@@ -283,8 +388,11 @@ function Document() {
                 </div>
               </div>
 
-              <div className='mt-4'>
-                <label htmlFor="description" className="block text-sm text-[#373737] font-normal">
+              <div className="mt-4">
+                <label
+                  htmlFor="description"
+                  className="block text-sm text-[#373737] font-normal"
+                >
                   Description
                 </label>
                 <textarea
