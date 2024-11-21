@@ -72,7 +72,7 @@ function LogedInSection() {
       case 'Document Management':
         return <div>Details about Document Management...</div>;
       default:
-        return <div>Home</div>;
+        return <div><EmployeeInformation /></div>;
     }
   };
 
