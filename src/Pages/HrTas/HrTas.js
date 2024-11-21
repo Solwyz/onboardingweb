@@ -47,7 +47,7 @@ function HrTas() {
     { name: 'People', icon: Team },
   
     { name: 'Recruitment', icon: Employer },
-    { name: 'User Guide', icon: UserGuide },
+    // { name: 'User Guide', icon: UserGuide },
     { name: 'Help', icon: Help }
   ];
 
@@ -79,8 +79,8 @@ function HrTas() {
    
       case 'Recruitment':
         return <div><Recruitment/></div>;
-      case 'User Guide':
-        return <div>Report</div>;
+      // case 'User Guide':
+      //   return <div>Report</div>;
       case 'Help':
         return <div><HelpPage/></div>;
       default:

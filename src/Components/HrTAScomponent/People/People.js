@@ -37,7 +37,20 @@ function People() {
   );
 
   // Calculate total pages
- 
+  const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
+
+  // Get the current page employees
+  const currentEmployees = filteredEmployees.slice(
+    (currentPage - 1) * employeesPerPage,
+    currentPage * employeesPerPage
+  );
+
+  // Pagination handlers
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className='p-6'>
       <div className="container bg-white w-full h-[1700px] p-6 shadow-lg">
@@ -116,16 +129,3 @@ function People() {
 }
 
 export default People;
- const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
-
-  // Get the current page employees
-  const currentEmployees = filteredEmployees.slice(
-    (currentPage - 1) * employeesPerPage,
-    currentPage * employeesPerPage
-  );
-
-  // Pagination handlers
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
