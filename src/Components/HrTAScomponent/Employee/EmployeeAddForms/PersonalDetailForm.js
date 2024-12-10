@@ -125,11 +125,11 @@ function PersonalDetailForm({setShowPersonalForm}) {
                 </ol>
             </div>
 
-            <div className='flex justify-end mt-6'>
+            <div className='flex justify-start mt-6'>
                 <BackButton stateValue={setShowPersonalForm}/>
             </div>
 
-            <div className='Details-form bg-white mt-8 p-6'>
+            <div className='Details-form bg-white min-h-[700px] mt-8 p-6'>
                 <div>
                     <h1 className='text-[20px] font-medium'>Personal</h1>
                     <div className='border w-full mt-4'></div>
