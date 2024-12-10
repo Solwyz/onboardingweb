@@ -245,7 +245,7 @@ function BasicDetailsForm({editingEmployee}) {
 
 
                     {/* <img className='w-[532px] h-[42px] mx-auto' src={bar1}></img> */}
-                    <form className='border shadow mt-8 p-6' onSubmit={handleSubmit}>
+                    <form className=' shadow mt-8 p-6 bg-[#FFFFFF]' onSubmit={handleSubmit}>
                         <div className='text-[20px] font-medium border-b pb-4'>Basic Details</div>
 
                         <div className='flex gap-4 text-[#373737]'>
