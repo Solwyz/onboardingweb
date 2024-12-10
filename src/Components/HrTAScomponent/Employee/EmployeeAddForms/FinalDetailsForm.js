@@ -94,7 +94,7 @@ function FinalDetailsForm({setShowFinalForm,showFinalForm}) {
                 </ol>
             </div>
 
-            <div className='flex justify-end mt-6'>            
+            <div className='flex justify-start mt-6'>            
                 <BackButton stateValue={setShowFinalForm}/>
             </div>
 
