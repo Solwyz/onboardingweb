@@ -293,7 +293,7 @@ function SalaryDetailsForm({setShowSalaryForm}) {
                     className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   >
                     <option value='Net Banking'>Net Banking</option>
-                    <option value='Check'>Check</option>
+                    <option value='Cheque'>Cheque</option>
                   </select>
                 </div>
               </div>

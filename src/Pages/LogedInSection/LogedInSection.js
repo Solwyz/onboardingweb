@@ -8,7 +8,7 @@ import Performance from "../../Assets/hrm/bar_chart.svg"
 import Recruitment from "../../Assets/hrm/person_add.svg"
 import Training from "../../Assets/hrm/network_node.svg"
 import SelfService from "../../Assets/hrm/bookmark_manager.svg"
-import Document  from "../../Assets/hrm/add_notes.svg"
+import Document from "../../Assets/hrm/add_notes.svg"
 
 import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
 
@@ -27,7 +27,7 @@ import PayrollManagment from '../../Components/DashboardComponents/PayRollManage
 
 
 function LogedInSection() {
-  const [activeSidebar, setActiveSidebar] = useState('Home');
+  const [activeSidebar, setActiveSidebar] = useState('Employer Information');
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const sidebarItems = [
@@ -36,13 +36,12 @@ function LogedInSection() {
     // { name: 'Expense Claim', icon: ExpenseClaim },
     { name: 'Attendance', icon: Attendance },
     { name: 'Payroll', icon: Payroll },
-    { name: 'Perfomance Management', icon: Performance},
+    { name: 'Perfomance Management', icon: Performance },
     { name: 'Recruiting and Onboarding', icon: Recruitment },
     { name: 'Training', icon: Training },
-  
     { name: 'Self-Service', icon: SelfService },
     { name: 'Document Management', icon: Document },
-    
+
   ];
 
 
@@ -58,11 +57,11 @@ function LogedInSection() {
       case 'Leave Management':
         return <LeaveManagement />;
       case 'Attendance':
-        return <div><AttendanceManagement/></div>;
+        return <div><AttendanceManagement /></div>;
       case 'Payroll':
-        return <div><PayrollManagment/></div>;
+        return <div><PayrollManagment /></div>;
       case 'Perfomance Management':
-        return <div><PerformanceManagement/></div>;
+        return <div><PerformanceManagement /></div>;
       case 'Recruiting and Onboarding':
         return <div>Details about Recruitment & Onboarding...</div>;
       case 'Training':
@@ -104,12 +103,12 @@ function LogedInSection() {
           </div>
         </aside>
 
-   
+
         <main className={`flex-1  overflow-y-auto transition-all bg-[#F9F9FB] duration-300 ${isSidebarExpanded ? '' : 'ml-[80px]'}`}>
           <h2 className="text-xl font-bold"></h2>
           {renderContent()}
-        
-       
+
+
         </main>
       </div>
     </div>
