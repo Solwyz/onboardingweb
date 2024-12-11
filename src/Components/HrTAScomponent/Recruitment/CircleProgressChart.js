@@ -42,7 +42,7 @@ const DonutChart = () => {
   return (
     <div
       className="p-6"
-      style={{ height: '292px', width: '' }} // Set fixed height and width for the container
+      style={{ height: '292px', width: '' }} 
     >
       <Doughnut data={data} options={options} />
     </div>
