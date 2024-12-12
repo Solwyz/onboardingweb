@@ -25,7 +25,7 @@ import IntegrationComponent from '../../Components/SuperAdminComponents/Integrat
 import ManageComponent from '../../Components/SuperAdminComponents/MangeComponent/ManageComponent';
 import HelpComponent from '../../Components/SuperAdminComponents/HelpComponent/HelpComponent';
 const SuperAdmin = () => {
-  const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
+  const [activeSidebar, setActiveSidebar] = useState('Team Planner');
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const sidebarItems = [
@@ -80,7 +80,7 @@ const SuperAdmin = () => {
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
-        <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[333px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 h-full`}>
+        <aside className={`transition-all duration-300 ${isSidebarExpanded ? 'w-[242px]' : 'w-[90px]'} bg-[#2B2342] text-white p-4 h-full`}>
           <ul className="space-y-3">
             {sidebarItems.map((item) => (
               <li
@@ -99,7 +99,7 @@ const SuperAdmin = () => {
               <img src={LeftArrow} alt="Collapse Sidebar" />
             ) : (
               <img src={RightArrow} alt="Expand Sidebar" />
-            )}
+            )}c
           </div>
         </aside>
 
