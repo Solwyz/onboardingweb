@@ -14,7 +14,16 @@ import RightArrow from "../../Assets/Superadmin/arrow_forward_ios.svg";
 import LeftArrow from '../../Assets/Superadmin/arrow_left.svg';
 import ResourcePoool from '../../Components/SuperAdminComponents/ResourcePoolComponents/ResourcePool';
 import Header from '../../Components/SuperAdminComponents/Header/Header';
-
+import TeamPlanerComponent from '../../Components/SuperAdminComponents/TeamPlaner/TeamPlanerComponent';
+import PortfolioComponent from '../../Components/SuperAdminComponents/PortfolioComponent/PortfolioComponent';
+import MyScheduleComponent from '../../Components/SuperAdminComponents/MyScheduleComponent/MyScheduleComponent';
+import ProjectListComponent from '../../Components/SuperAdminComponents/ProjectListComponent/ProjectListComponent';
+import GoalComponent from '../../Components/SuperAdminComponents/GoalComponent/GoalComponent';
+import RoadmapComponent from '../../Components/SuperAdminComponents/RoadmapComponent/RoadmapComponent';
+import ReportComponet from '../../Components/SuperAdminComponents/ReportComponent/ReportComponet';
+import IntegrationComponent from '../../Components/SuperAdminComponents/IntegrationComponent/IntegrationComponent';
+import ManageComponent from '../../Components/SuperAdminComponents/MangeComponent/ManageComponent';
+import HelpComponent from '../../Components/SuperAdminComponents/HelpComponent/HelpComponent';
 const SuperAdmin = () => {
   const [activeSidebar, setActiveSidebar] = useState('Resource Pool');
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
@@ -40,23 +49,29 @@ const SuperAdmin = () => {
   const renderContent = () => {
     switch (activeSidebar) {
       case 'Team Planner':
-        return <div>Team Planner</div>;
+        return <div><TeamPlanerComponent /></div>;
       case 'Portfolio':
-        return <div>Portfolio</div>;
+        return <div><PortfolioComponent /></div>;
       case 'My Schedule':
-        return <div>My Schedule</div>;
+        return <div><MyScheduleComponent /></div>;
       case 'Resource Pool':
         return <div><ResourcePoool /></div>;
       case 'Project List':
-        return <div>Project List</div>;
+        return <div><ProjectListComponent /></div>;
       case 'Goal':
-        return <div>Goal</div>;
+        return <div><GoalComponent /></div>;
       case 'Roadmap':
-        return <div>Roadmap</div>;
+        return <div><RoadmapComponent /></div>;
       case 'Reports':
-        return <div>Report</div>;
-      default:
-        return <div>Select a section from the sidebar</div>;
+        return <div><ReportComponet /></div>;
+      case 'Integration':
+        return <div><IntegrationComponent/></div>;
+      case 'Manage':
+        return <div><ManageComponent/></div>;
+      case 'Help':
+        return <div><HelpComponent/></div>;
+
+
     }
   };
 
@@ -88,7 +103,7 @@ const SuperAdmin = () => {
           </div>
         </aside>
 
-   
+
         <main className={`flex-1 p-4 overflow-y-auto transition-all bg-[#F9F9FB] duration-300 ${isSidebarExpanded ? '' : 'ml-[80px]'}`}>
           <h2 className="text-xl font-bold"></h2>
           {renderContent()}

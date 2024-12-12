@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';  
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';  
-import DepartmentList from './DepartmentList'; // Adjust the path according to your file structure
+import DepartmentList from './DepartmentList'; 
 
 function Department({ onBack }) {
   const [formData, setFormData] = useState({
