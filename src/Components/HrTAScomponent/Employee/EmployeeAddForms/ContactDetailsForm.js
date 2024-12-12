@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import tickIcon from "../../../../Assets/HrTas/check.svg";
 import PhysicalDetailsForm from "./PhysicalDetailsForm";
 import BackButton from "./BackButton";
+import NewProgressive from "./NewProgressive";
 
-function ContactDetailsForm({setShowContactForm}) {
+function ContactDetailsForm({ setShowContactForm }) {
     const [showPhysicalForm, setShowPhysicalForm] = useState(false);
     const [formData, setFormData] = useState({
         primaryMobile: "",
@@ -86,26 +87,26 @@ function ContactDetailsForm({setShowContactForm}) {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-    
+
         // Update field value
         setFormData((prev) => ({ ...prev, [name]: value }));
-    
+
         // Validate the current input
         validateField(name, value);
-    
+
         // Check if all required fields are filled and valid
         const allFieldsFilled = Object.values({
             ...formData,
             [name]: value, // Include the current input value in the check
         }).every((field) => field.trim() !== "");
-    
+
         // Validate mobile numbers
         const primaryMobileValid = formData.primaryMobile.length === 10;
         const secondaryMobileValid = formData.secondaryMobile.length === 10 || formData.secondaryMobile === ""; // Allow empty secondary mobile
-    
+
         // Check if all errors are resolved
         const allValid = Object.values(errors).every((error) => !error);
-    
+
         // Enable the "Next" button if all conditions are met
         setIsNextButtonEnabled(
             allFieldsFilled &&
@@ -113,7 +114,7 @@ function ContactDetailsForm({setShowContactForm}) {
             primaryMobileValid &&
             secondaryMobileValid
         );
-   
+
     };
 
     const handleNextClick = () => {
@@ -127,101 +128,11 @@ function ContactDetailsForm({setShowContactForm}) {
         <div>
             {!showPhysicalForm ? (
                 <div>
-                <div className="flex justify-center">
-                        <ol className="flex items-center mt-[32px] w-[678px]">
-                            {/* Step 1 */}
-                            <li className="flex flex-col items-start  w-full text-center">
-                                <div className="flex w-full items-center text-[#2B2342] after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
-                                    <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
-                                        <img src={tickIcon} alt="" className="w-3 h-3" />
-                                    </span>
-                                </div>
-                                <span className="mt-2 text-sm font-normal  text-[#2B2342] ml-[-5px]">
-                                    Basic
-                                </span>{" "}
-                                {/* Text directly below the circle */}
-                            </li>
-
-                            {/* Step 2 */}
-                            <li className="flex flex-col  items-start w-full text-center">
-                                <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
-                                    <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
-                                        <img src={tickIcon} alt="" className="w-3 h-3" />
-                                    </span>
-                                </div>
-                                <span className="mt-2 text-sm font-normal text-[#2B2342] ml-[-20px]">
-                                    Professional
-                                </span>{" "}
-                                {/* Text directly below the circle */}
-                            </li>
-
-                            {/* Step 3 */}
-                            <li className="flex flex-col items-start w-full text-center">
-                                <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
-                                    <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
-                                        <img src={tickIcon} alt="" className="w-3 h-3" />
-                                    </span>
-                                </div>
-                                <span className="mt-2 text-sm font-normal text-[#2B2342] ml-[-5px]">
-                                    Salary
-                                </span>{" "}
-                                {/* Text directly below the circle */}
-                            </li>
-
-                            {/* Step 4 */}
-                            <li className="flex flex-col items-start w-full text-center">
-                                <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
-                                    <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
-                                        <img src={tickIcon} alt="" className="w-3 h-3" />
-                                    </span>
-                                </div>
-                                <span className="mt-2 text-sm font-normal text-[#2B2342] ml-[-10px]">
-                                    Personal
-                                </span>{" "}
-                                {/* Text directly below the circle */}
-                            </li>
-
-                            {/* Step 5 */}
-                            <li className="flex flex-col items-start w-full text-center">
-                                <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
-                                    <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
-                                        <img src={tickIcon} alt="" className="w-3 h-3" />
-                                    </span>
-                                </div>
-                                <span className="mt-2 text-sm font-normal text-[#2B2342] ml-[-8px]">
-                                    Contact
-                                </span>{" "}
-                                {/* Text directly below the circle */}
-                            </li>
-
-                            {/* Step 6 */}
-                            <li className="flex flex-col items-start w-full text-center">
-                                <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
-                                    <span className="flex items-center justify-center w-5 h-5 bg-[#DCDCDC] rounded-full shrink-0"></span>
-                                </div>
-                                <span className="mt-2 text-sm font-normal text-[#696A70] ml-[-8px]">
-                                    Physical
-                                </span>{" "}
-                                {/* Text directly below the circle */}
-                            </li>
-
-                            {/* Final Step */}
-                            <li className="flex flex-col items-start w-full text-center">
-                                <div className="flex items-center w-full">
-                                    <span className="flex items-center justify-center w-5 h-5 bg-[#DCDCDC] rounded-full shrink-0">
-                                        {/* No tick icon for this step */}
-                                    </span>
-                                </div>
-                                <span className="mt-2 text-sm  font-normal text-[#696A70]">
-                                    Final
-                                </span>{" "}
-                                {/* Text directly below the circle */}
-                            </li>
-                        </ol>
-                    </div>
+                    
+                    <NewProgressive stage={"Contact"}/>
 
                     <div className='flex justify-start mt-6 mx-6'>
-                        <BackButton stateValue={setShowContactForm}/>
+                        <BackButton stateValue={setShowContactForm} />
                     </div>
 
                     <div className="mx-[24px] mt-[32px] p-6 w-auto bg-white shadow-lg">
@@ -564,7 +475,7 @@ function ContactDetailsForm({setShowContactForm}) {
                     </div>
                 </div>
             ) : (
-                <PhysicalDetailsForm setShowPhysicalForm={setShowPhysicalForm}/>
+                <PhysicalDetailsForm setShowPhysicalForm={setShowPhysicalForm} />
             )}
         </div>
     );
