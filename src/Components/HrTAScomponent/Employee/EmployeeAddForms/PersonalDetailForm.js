@@ -3,6 +3,7 @@ import tickIcon from '../../../../Assets/HrTas/check.svg';
 import DropDownArrow from "../../../../Assets/HrTas/drop-down-arrow.svg";
 import ContactDetailsForm from './ContactDetailsForm';
 import BackButton from './BackButton';
+import NewProgressive from './NewProgressive';
 
 function PersonalDetailForm({setShowPersonalForm}) {
     const [showContactForm, setShowContactForm] = useState(false)
@@ -51,79 +52,8 @@ function PersonalDetailForm({setShowPersonalForm}) {
         <div>
         {!showContactForm ? 
         <div className='bg-[#F8FAFB] pl-6 pr-12'>
-            <div className='flex justify-center mt-[32px]'>
-                <ol className="flex items-center w-[678px]">
-                    {/* Step 1 */}
-                    <li className="flex flex-col items-start w-full text-center">
-                        <div className="flex w-full items-center text-[#2B2342] after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
-                            <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
-                                <img src={tickIcon} alt="" className="w-3 h-3" />
-                            </span>
-                        </div>
-                        <span className="mt-2 text-sm font-normal text-[#2B2342] ml-[-5px]">Basic</span>
-                    </li>
-
-                    {/* Step 2 */}
-                    <li className="flex flex-col items-start w-full text-center">
-                        <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
-                            <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
-                                <img src={tickIcon} alt="" className="w-3 h-3" />
-                            </span>
-                        </div>
-                        <span className="mt-2 text-sm font-normal text-[#2B2342] ml-[-20px]">Professional</span>
-                    </li>
-
-                    {/* Step 3 */}
-                    <li className="flex flex-col items-start w-full text-center">
-                        <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#2B2342] after:inline-block">
-                            <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
-                                <img src={tickIcon} alt="" className="w-3 h-3" />
-                            </span>
-                        </div>
-                        <span className="mt-2 text-sm font-normal text-[#696A70] ml-[-5px]">Salary</span>
-                    </li>
-
-                    {/* Step 4 */}
-                    <li className="flex flex-col items-start w-full text-center">
-                        <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
-                            <span className="flex items-center justify-center w-5 h-5 bg-[#2B2342] rounded-full shrink-0">
-                                <img src={tickIcon} alt="" className="w-3 h-3" />
-                            </span>
-                        </div>
-                        <span className="mt-2 text-sm font-normal text-[#696A70] ml-[-5px]">Personal</span>
-                    </li>
-
-                    {/* Step 5 */}
-                    <li className="flex flex-col items-start w-full text-center">
-                        <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
-                            <span className="flex items-center justify-center w-5 h-5 bg-[#DCDCDC] rounded-full shrink-0">
-                                <img src={tickIcon} alt="" className="w-3 h-3" />
-                            </span>
-                        </div>
-                        <span className="mt-2 text-sm font-normal text-[#696A70] ml-[-5px]">Contact</span>
-                    </li>
-
-                    {/* Step 6 */}
-                    <li className="flex flex-col items-start w-full text-center">
-                        <div className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b-[1px] after:border-[#C2C2C2] after:inline-block">
-                            <span className="flex items-center justify-center w-5 h-5 bg-[#DCDCDC] rounded-full shrink-0">
-                                <img src={tickIcon} alt="" className="w-3 h-3" />
-                            </span>
-                        </div>
-                        <span className="mt-2 text-sm font-normal text-[#696A70] ml-[-5px]">Physical</span>
-                    </li>
-
-                    {/* Final Step */}
-                    <li className="flex flex-col items-start w-full text-center">
-                        <div className="flex items-center w-full">
-                            <span className="flex items-center justify-center w-5 h-5 bg-[#DCDCDC] rounded-full shrink-0">
-                                {/* No tick icon for this step */}
-                            </span>
-                        </div>
-                        <span className="mt-2 text-sm font-normal text-[#696A70]">Final</span>
-                    </li>
-                </ol>
-            </div>
+            
+            <NewProgressive stage={"Personal"}/>
 
             <div className='flex justify-start mt-6'>
                 <BackButton stateValue={setShowPersonalForm}/>
