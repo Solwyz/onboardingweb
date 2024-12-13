@@ -28,6 +28,7 @@ ChartJS.register(
 function PortfolioComponent() {
   const barData = {
     labels: ["2019", "2020", "2021", "2022"],
+    
     datasets: [
       {
         label: "Services",
@@ -39,13 +40,15 @@ function PortfolioComponent() {
         data: [1.5, 2.3, 2, 2.2],
         backgroundColor: "#C893FD",
       },
+      
     ],
   };
 
   const barOptions = {
     responsive: true,
         borderRadius: 8,
-         barThickness: 32, 
+         barThickness: 24,
+          borderWidth: 2,
     plugins: {
       legend: {
         display: false,
@@ -54,6 +57,7 @@ function PortfolioComponent() {
         },
       },
       tooltip: {
+        backgroundColor: '#1E1B39',
         callbacks: {
           label: (context) => `${context.dataset.label}: ${context.raw}M`,
         },
@@ -71,7 +75,8 @@ function PortfolioComponent() {
           callback: (value) => `${value}M`,
         },
         grid: {
-          borderDash: [5, 5],
+      
+            borderDash: [5, 5]
         },
       },
     },
@@ -171,6 +176,7 @@ function PortfolioComponent() {
         display: false,
       },
       tooltip: {
+        backgroundColor: '#1E1B39',
         callbacks: {
           label: (context) => ` ${context.raw}`,
         },
@@ -184,16 +190,16 @@ function PortfolioComponent() {
     <div className=" min-h-screen ">
       <div className="grid grid-cols-4   gap-2">
         {/* Monthly Activity Chart */}
-        <div className="bg-white h-[393px] p-6 shadow rounded-lg flex flex-col justify-between">
+        <div className="bg-white h-[393px] px-6 pt-4 pb-6 shadow rounded-lg flex flex-col justify-between">
           <div>
-            <h3 className="text-lg font-semibold">Statistics</h3>
-            <h4 className="text-sm text-gray-600">Monthly Activity</h4>
-            <div className="border-b w-[239px] mx-auto "></div>
+            <h3 className="text-xs text-[#9291A5] font-normal">Statistics</h3>
+            <h4 className="text-xs  text-[#1E1B39] font-bold">Monthly Activity</h4>
+            <div className="border-b mt-[11px] w-full mx-auto "></div>
             <div className="relative h-[160px] mt-4 flex justify-center items-center">
               <Doughnut data={doughnutData} options={doughnutOptions} />
               <div className="absolute text-center">
-                <p className="text-2xl font-bold">1.05</p>
-                <p className="text-sm text-gray-500">Average range</p>
+                <p className="text-2xl text-[#1E1B39] font-bold">1.05</p>
+                <p className="text-xs font-normal text-[#9291A5]">Average range</p>
               </div>
             </div>
           </div>
@@ -205,15 +211,15 @@ function PortfolioComponent() {
               >
                 <div className="flex items-center space-x-2">
                   <span
-                    className="w-3 h-3 rounded-full"
+                    className="w-2 h-2 rounded-full"
                     style={{
                       backgroundColor:
                         doughnutData.datasets[0].backgroundColor[index],
                     }}
                   ></span>
-                  <span className="text-gray-600">{label}</span>
+                  <span className="text-[#615E83] text-xs font-semibold">{label}</span>
                 </div>
-                <span className="font-medium text-gray-800">
+                <span className="font-normal text-xs text-[#9291A5]">
                   {doughnutData.datasets[0].data[index]}
                 </span>
               </div>
@@ -222,9 +228,13 @@ function PortfolioComponent() {
         </div>
 
         {/* Annual Revenue Chart */}
-        <div className="col-span-2 h-[393px] bg-white p-6 shadow rounded-lg">
-          <h3 className="text-lg font-semibold mb-4">Annual Revenue</h3>
-          <Bar data={barData} className=" items-center h-[] " options={barOptions} />
+        <div className="col-span-2 h-[393px] bg-white pl-8 pt-8 py-4 pr-4 shadow rounded-lg">
+        <h3 className="text-xs text-[#9291A5] font-normal">Statistics</h3>
+          <h3 className="text-xs  text-[#1E1B39] font-bold">Annual Revenue</h3>
+          
+          <div className="border-b mt-[11px] w-full mx-auto "></div>
+
+          <Bar data={barData} className=" items-center mt-[14px] " options={barOptions} />
         </div>
 
         {/* Mini Statistics */}
@@ -245,8 +255,9 @@ function PortfolioComponent() {
       <div className="mt-2">
         {/* Total Employees Stats */}
         <div className="bg-white items-center justify-center h-[415px] p-6 shadow rounded-lg">
-          <h3 className="text-lg font-semibold mb-4">Total Employees</h3>
-       <div className="h-[300px]">   <Line data={lineData} options={lineOptions} /></div>
+        <h3 className="text-xs text-[#9291A5] font-normal">Statistics</h3>
+          <h3 className="text-xs  text-[#1E1B39] font-bold">Total Employees</h3>
+       <div  className="h-[300px] mt-8">   <Line data={lineData}  options={lineOptions} /></div>
         </div>
       </div>
     </div>
