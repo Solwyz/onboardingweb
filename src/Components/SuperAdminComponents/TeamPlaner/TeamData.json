@@ -1,0 +1,183 @@
+[
+    {
+      "name": "Human Resource Management",
+      "employees": 12,
+      "subsections": [
+        {
+          "name": "Recruiters",
+          "employees": 6,
+          "teamMembers": [
+            {
+              "name": "Amal Davis",
+              "email": "amaldavis@gmail.com",
+              "experience": "4 Years of Experience",
+              "image": ""
+            },
+            {
+              "name": "John Doe",
+              "email": "johndoe@gmail.com",
+              "experience": "3 Years of Experience",
+              "image": ""
+            },
+            {
+                "name": "Amal Davis",
+                "email": "amaldavis@gmail.com",
+                "experience": "4 Years of Experience",
+                "image": ""
+              },
+              {
+                "name": "John Doe",
+                "email": "johndoe@gmail.com",
+                "experience": "3 Years of Experience",
+                "image": ""
+              },
+              {
+                "name": "Amal Davis",
+                "email": "amaldavis@gmail.com",
+                "experience": "4 Years of Experience",
+                "image": ""
+              },
+              {
+                "name": "John Doe",
+                "email": "johndoe@gmail.com",
+                "experience": "3 Years of Experience",
+                "image": ""
+              }
+          ]
+        },
+        {
+          "name": "Payroll Management",
+          "employees": 6,
+          "teamMembers": [
+            {
+              "name": "Amal Davis",
+              "email": "amaldavis@gmail.com",
+              "experience": "4 Years of Experience",
+              "image": ""
+            },
+            {
+              "name": "John Doe",
+              "email": "johndoe@gmail.com",
+              "experience": "3 Years of Experience",
+              "image": ""
+            },
+            {
+                "name": "Amal Davis",
+                "email": "amaldavis@gmail.com",
+                "experience": "4 Years of Experience",
+                "image": ""
+              },
+              {
+                "name": "John Doe",
+                "email": "johndoe@gmail.com",
+                "experience": "3 Years of Experience",
+                "image": ""
+              },
+              {
+                "name": "Amal Davis",
+                "email": "amaldavis@gmail.com",
+                "experience": "4 Years of Experience",
+                "image": ""
+              },
+              {
+                "name": "John Doe",
+                "email": "johndoe@gmail.com",
+                "experience": "3 Years of Experience",
+                "image": ""
+              }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Technical team",
+      "employees": 24,
+      "subsections": [
+        {
+          "name": "UI UX",
+          "employees": 8,
+          "teamMembers": [
+            {
+              "name": "John Doe",
+              "email": "johndoe@gmail.com",
+              "experience": "3 Years of Experience",
+              "image": ""
+            },
+            {
+              "name": "Amal Davis",
+              "email": "amaldavis@gmail.com",
+              "experience": "4 Years of Experience",
+              "image": ""
+            },
+            {
+              "name": "John Doe",
+              "email": "johndoe@gmail.com",
+              "experience": "3 Years of Experience",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "name": "Front end",
+          "employees": 8,
+          "teamMembers": [   {
+            "name": "Amal Davis",
+            "email": "amaldavis@gmail.com",
+            "experience": "4 Years of Experience",
+            "image": ""
+          }]
+        },
+        {
+          "name": "Backend",
+          "employees": 8,
+          "teamMembers": [   {
+            "name": "Amal Davis",
+            "email": "amaldavis@gmail.com",
+            "experience": "4 Years of Experience",
+            "image": ""
+          },   {
+            "name": "Amal Davis",
+            "email": "amaldavis@gmail.com",
+            "experience": "4 Years of Experience",
+            "image": ""
+          }]
+        }
+      ]
+    },
+    {
+      "name": "Finance",
+      "employees": 14,
+      "subsections": [
+        {
+          "name": "Accountant ",
+          "employees": 8,
+          "teamMembers": []
+        },
+        {
+          "name": "CA",
+          "employees": 6,
+          "teamMembers": []
+        }
+      ]
+    },
+    {
+      "name": "Design",
+      "employees": 1,
+      "subsections": [
+        {
+          "name": "Graphic Designer",
+          "employees": 1,
+          "teamMembers": [
+            {
+              "name": "Amal Davis",
+              "email": "amaldavis@gmail.com",
+              "experience": "4 Years of Experience",
+              "image": ""
+            }
+          ]
+        }
+        
+      ]
+    }
+  ]
+  
