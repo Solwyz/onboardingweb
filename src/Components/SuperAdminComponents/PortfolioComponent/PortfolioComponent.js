@@ -176,7 +176,7 @@ function PortfolioComponent() {
       {
         data: [410, 142, 340, 590],
         backgroundColor: ["#4A3AFF", "#962DFF", "#E0C6FD", "#C6D2FD"],
-        hoverOffset: 25,
+        hoverOffset: 20,
       },
     ],
   };
@@ -194,7 +194,7 @@ function PortfolioComponent() {
         },
       },
     },
-    cutout: "65%",
+    cutout: "60%",
     hoverOffset: 10,
   };
 
