@@ -1,0 +1,30 @@
+.hanging-line {
+  position: relative;
+  padding-left: 40px; 
+}
+
+
+.hanging-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10px; 
+  width: 1.5px; 
+  height: calc(100% - 20px); 
+  background-color: #d3d3d3; 
+}
+
+
+
+.hanging-line-end::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 10px; 
+  width: 30px; 
+  height: 20px; 
+  border: 2px solid #d3d3d3; 
+  border-top: none; 
+  border-right: none; 
+  border-radius: 0 0 0 15px; 
+}

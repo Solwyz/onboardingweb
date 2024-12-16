@@ -99,7 +99,7 @@ const SuperAdmin = () => {
               <img src={LeftArrow} alt="Collapse Sidebar" />
             ) : (
               <img src={RightArrow} alt="Expand Sidebar" />
-            )}c
+            )}
           </div>
         </aside>
 
