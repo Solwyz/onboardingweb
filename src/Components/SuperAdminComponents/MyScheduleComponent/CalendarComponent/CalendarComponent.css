@@ -1,0 +1,36 @@
+.custom-event {
+    background-color: #9797CB !important; /* Change background color */
+    height: 40px !important; /* Adjust event height */
+    line-height: 40px !important; /* Center text vertically */
+    color: #ffffff !important; /* White text color */
+    border-radius: 8px !important; /* Rounded corners */
+    border-color: #9797CB !important;
+    padding-inline: 4px !important; /* Inner padding */
+    text-align: center !important; /* Center align text */
+    font-size: 14px !important; /* Adjust text size */
+    overflow: hidden !important; /* Prevent text overflow */
+  }
+
+
+  .fc-dayHeader {
+    border: none !important; /* Remove borders around the headers */
+    background-color: #F5F7FF; /* Optional: Add a background color for better visibility */
+    text-align: center; /* Center the day names */ 
+  }
+
+  .fc-col-header {
+    height: 56px !important;
+  }
+
+  .fc-col-header-cell {
+    border-right: none !important; 
+    border-left: none !important;
+    background-color: #F5F7FF;
+    align-content: center;
+  }
+
+  .fc-col-header-cell-cushion {
+    font-size: 14px; /* Set the font size for the day names */
+    color: #455FCA ; /* Set the text color for the day names */
+    font-weight: 500 ; /* Optional: Add bold text */
+  }
