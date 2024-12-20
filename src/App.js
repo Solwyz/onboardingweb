@@ -20,6 +20,7 @@ import HrTas from './Pages/HrTas/HrTas';
 import ProfessionalDetails from './Components/HrTAScomponent/Employee/EmployeeAddForms/ProfessionalDetails';
 import ContactDetailsForm from './Components/HrTAScomponent/Employee/EmployeeAddForms/ContactDetailsForm';
 import PersonalDetailForm from './Components/HrTAScomponent/Employee/EmployeeAddForms/PersonalDetailForm';
+import ScrollToTop from './ScrollToTop';
 
 
 
@@ -27,6 +28,7 @@ function App() {
   return (
     <div className="App font-AnekLatin">
       <Router>
+      <ScrollToTop />
         <Routes>
           <Route path='/hr' Component={LogedInSection} />
           <Route path='/superadmin' Component={SuperAdmin} />
