@@ -137,7 +137,7 @@ function ProfessionalDetails({setShowProfessionalForm}) {
                                 </div>
 
 
-                                <div className='ml-[16px]'>
+                                {/* <div className='ml-[16px]'>
                                     <label className="block text-sm font-normal text-[#373737]">Job Position</label>
                                     <select
                                         name="jobPosition"
@@ -149,7 +149,7 @@ function ProfessionalDetails({setShowProfessionalForm}) {
 
                                         <option>Frontend Developer</option>
                                     </select>
-                                </div>
+                                </div> */}
 
 
                                 <div className='ml-[16px]'>
@@ -172,7 +172,7 @@ function ProfessionalDetails({setShowProfessionalForm}) {
                             </div> 
 
                             <div className='flex mt-[16px]'>
-                                <div>
+                                {/* <div>
                                     <label className="block text-sm font-normal text-[#373737]">Department</label>
                                     <select
                                         name="department"
@@ -184,9 +184,9 @@ function ProfessionalDetails({setShowProfessionalForm}) {
 
                                         <option>Web Development</option>
                                     </select>
-                                </div>
+                                </div> */}
 
-                                <div className='ml-[16px]'>
+                                <div className=''>
                                     <label className="block text-sm font-normal text-[#373737]">Branch</label>
                                     <select
                                         name="branch"
@@ -226,7 +226,7 @@ function ProfessionalDetails({setShowProfessionalForm}) {
                                 </div>
 
                                 <div className='flex mt-[16px]'>
-                                <div>
+                                {/* <div>
                                     <label className="block text-sm font-normal text-[#373737]">Date Effective</label>
                                     <input
                                         type="date"
@@ -236,7 +236,7 @@ function ProfessionalDetails({setShowProfessionalForm}) {
                                         min={formData.dateOfJoin}
                                         className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-[#A4A4E5] font-normal"
                                     />
-                                </div>
+                                </div> */}
 
                                     <div className='ml-[16px]'>
                                         <label className="block text-sm text-[#373737] font-normal">Job Type</label>
@@ -262,30 +262,6 @@ function ProfessionalDetails({setShowProfessionalForm}) {
                                             className="w-[247px] focus:outline-[#A4A4E5] h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                                         />
                                     </div>
-                                </div>
-
-                                <div className='flex mt-[16px]'>
-                                    <div>
-                                        <label className="block text-sm text-[#373737] font-normal">Leave Flow</label>
-                                        <input
-                                            type="text"
-                                            name="leaveFlow"
-                                            value={formData.leaveFlow}
-                                            onChange={handleChange}
-                                            className="w-[247px] focus:outline-[#A4A4E5] h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
-                                        />
-                                    </div>
-
-                                    <div className='ml-[16px]'>
-                                        <label className="block text-sm text-[#373737] font-normal">Workday</label>
-                                        <input
-                                            type="text"
-                                            name="workday"
-                                            value={formData.workday}
-                                            onChange={handleChange}
-                                            className="w-[247px] focus:outline-[#A4A4E5] h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
-                                        />
-                                    </div>
 
                                     <div className='ml-[16px]'>
                                         <label className="block text-sm text-[#373737] font-normal">Holiday</label>
@@ -300,6 +276,33 @@ function ProfessionalDetails({setShowProfessionalForm}) {
                                             <option>India</option>
                                         </select>
                                     </div>
+
+                                </div>
+
+                                <div className='flex mt-[16px]'>
+                                    {/* <div>
+                                        <label className="block text-sm text-[#373737] font-normal">Leave Flow</label>
+                                        <input
+                                            type="text"
+                                            name="leaveFlow"
+                                            value={formData.leaveFlow}
+                                            onChange={handleChange}
+                                            className="w-[247px] focus:outline-[#A4A4E5] h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                        />
+                                    </div> */}
+
+                                    {/* <div className='ml-[16px]'>
+                                        <label className="block text-sm text-[#373737] font-normal">Workday</label>
+                                        <input
+                                            type="text"
+                                            name="workday"
+                                            value={formData.workday}
+                                            onChange={handleChange}
+                                            className="w-[247px] focus:outline-[#A4A4E5] h-[48px] mt-[8px] px-[16px] py-[14px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
+                                        />
+                                    </div> */}
+
+                                    
                                 </div>
                             </div>
                         </div>
