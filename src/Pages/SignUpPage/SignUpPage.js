@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import medoLogo from '../../Assets/medoLogo.svg';
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -28,44 +29,44 @@ function SignUpPage() {
     switch (name) {
       case 'companyName':
         if (!value.trim()) {
-          error = 'Company name is required !';
+          error = 'Company name is required!';
         }
         break;
       case 'branchName':
         if (!value.trim()) {
-          error = 'Branch name is required !';
+          error = 'Branch name is required!';
         }
         break;
       case 'companyAddress1':
         if (!value.trim()) {
-          error = 'Company address is required !';
+          error = 'Company address is required!';
         }
         break;
       case 'companyAddress2':
         if (!value.trim()) {
-          error = 'Company address 2 is required !';
+          error = 'Company address 2 is required!';
         }
         break;
       case 'phoneNumber':
         const phoneRegex = /^[0-9]{10}$/;
         if (!value.trim()) {
-          error = 'Phone number is required !';
+          error = 'Phone number is required!';
         } else if (!phoneRegex.test(value)) {
-          error = 'Enter a valid Phone Number !';
+          error = 'Enter a valid Phone Number!';
         }
         break;
       case 'email':
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!value.trim()) {
-          error = 'Email is required !';
+          error = 'Email is required!';
         } else if (!emailRegex.test(value)) {
-          error = 'Enter a valid email address';
+          error = 'Enter a valid email address!';
         }
         break;
       case 'password':
         const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/;
         if (!value.trim()) {
-          error = 'Password is required !';
+          error = 'Password is required!';
         } else if (!passwordRegex.test(value)) {
           error =
             'Password must be at least 6 characters long, contain at least one number and one special character!';
@@ -73,7 +74,7 @@ function SignUpPage() {
         break;
       case 'confirmPassword':
         if (!value.trim()) {
-          error = 'Confirm password is required !';
+          error = 'Confirm password is required!';
         } else if (value !== formData.password) {
           error = 'Passwords do not match!';
         }
@@ -94,26 +95,28 @@ function SignUpPage() {
       [name]: value,
     });
 
-    
     setErrors({
       ...errors,
       [name]: newError,
     });
   };
 
-  const handleKeyDown = (e) => {
-    if (!/[0-9]/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete") {
-      e.preventDefault();
-    }
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      incomeCertificate: e.target.files[0],
+    });
   };
 
   const validateForm = () => {
     let formErrors = {};
 
     for (const field in formData) {
-      const error = validateField(field, formData[field]);
-      if (error) {
-        formErrors[field] = error;
+      if (field !== 'incomeCertificate') {
+        const error = validateField(field, formData[field]);
+        if (error) {
+          formErrors[field] = error;
+        }
       }
     }
 
@@ -131,7 +134,7 @@ function SignUpPage() {
 
   useEffect(() => {
     checkFormValidity();
-  }, [formData, errors])
+  }, [formData, errors]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -140,7 +143,7 @@ function SignUpPage() {
       setOtpMessage(`Enter OTP sent to ${formData.phoneNumber}`);
       setIsVerified(true);
       console.log(formData);
-      console.log('income certificate :', formData.incomeCertificate);
+      console.log('Income certificate:', formData.incomeCertificate);
       setFormData({
         companyName: '',
         branchName: '',
@@ -159,178 +162,152 @@ function SignUpPage() {
   };
 
   const handleOtpVerify = () => {
-    console.log("Verifying OTP:", otp);
-  }
+    console.log('Verifying OTP:', otp);
+    navigate('/');
+  };
 
   return (
-    <div>
-      <div className='mt-24 w-[600px] border-2 shadow-lg rounded-md mx-auto pt-4 pb-20'>
-        <div className='text-center text-[24px] font-semibold mt-8'>Create Account</div>
+    <div className="flex  ">
+    {/* Right Section - Branding */}
+    <div className="flex w-1/2 items-center justify-center p-6">
+        <div className="text-center bg-adminLogin bg-cover w-[801px]  h-[976px] rounded-2xl">
+        <div>
+            {/* <h3 className="text-2xl font-semibold mb-4">Welcome to Medopharm!</h3>
+            <p className="text-lg">Join us to explore great opportunities.</p> */}
+        </div>
+        </div>
+      </div>
+      {/* Left Section - Form */}
+      <div className="w-1/2  p-6">
+        <div className="flex justify-end ">
+          <img src={medoLogo} alt="Medopharm Logo" className="item-end" />
+        </div>
+        <div className="text-center text-2xl font-semibold text-gray-800 mt-[60px]">Create a Free Account</div>
         {isVerified ? (
-          <div>
-            <div className='text-center'>
-              <div className='font-medium mt-8'>{otpMessage} :</div>
-              <input type='number' value={otp} className='border border-black w-[250px] mt-4' onChange={(e) => setOtp(e.target.value)}
-                maxLength={6}>
-              </input>
-              <style jsx>{`
-                input[type='number'] {
-               -moz-appearance: textfield; /* Firefox */
-                 }
-
-                input[type='number']::-webkit-outer-spin-button,
-                input[type='number']::-webkit-inner-spin-button {
-                -webkit-appearance: none; /* Chrome, Safari */
-                margin: 0;
-                }
-              `}</style>
-            </div>
-            <div className='flex justify-center mt-6'>
-              <button className={`bg-blue-600 shadow-lg px-3 py-2 text-white rounded-lg ${!otp ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={handleOtpVerify}
-                disabled={!otp}
-              >
-                Verify
-              </button>
-            </div>
+          <div className="text-center">
+            <div className="text-lg mb-4 text-gray-600">{otpMessage}</div>
+            <input
+              type="number"
+              value={otp}
+              className="border-2 border-gray-300 rounded-lg w-60 px-4 py-2 mb-4 focus:outline-none focus:border-blue-500 transition duration-200"
+              onChange={(e) => setOtp(e.target.value)}
+              maxLength={6}
+            />
+            <button
+              className={`bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 ${!otp ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={handleOtpVerify}
+              disabled={!otp}
+            >
+              Verify
+            </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit}>
-            <div className='mx-12 mt-8 text-[16px] flex justify-between'>
-              <label>Company name : </label>
-              <input
-                className='border rounded w-[250px]'
-                type='text'
-                name='companyName'
-                value={formData.companyName}
-                onChange={handleChange}
-              />
-            </div>
-            {errors.companyName && (
-              <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.companyName}</div>
-            )}
+          <form onSubmit={handleSubmit} className="space-y-4 mt-8">
+  {/* Row 1: Company Name and Branch Name */}
+  <div className="flex space-x-4 ">
+    {[
+      { label: 'Company Name', name: 'companyName' },
+      { label: 'Branch Name', name: 'branchName' },
+    ].map(({ label, name, type = 'text' }) => (
+      <div key={name} className="flex-1">
+        <label className="block text-gray-700 text-sm font-medium mb-2">{label}:</label>
+        <input
+          type={type}
+          name={name}
+          value={formData[name]}
+          onChange={handleChange}
+          className="border-2 border-gray-300 rounded-lg w-full px-4 py-2 focus:outline-none focus:border-blue-500 transition duration-200"
+        />
+        {errors[name] && <div className="text-red-500 text-xs mt-1">{errors[name]}</div>}
+      </div>
+    ))}
+  </div>
 
-            <div className='mx-12 mt-4 text-[16px] flex justify-between'>
-              <label>Branch name : </label>
-              <input
-                className='border rounded w-[250px]'
-                type='text'
-                name='branchName'
-                value={formData.branchName}
-                onChange={handleChange}
-              />
-            </div>
-            {errors.branchName && (
-              <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.branchName}</div>
-            )}
+  {/* Row 2: Company Address 1 and 2 */}
+  {[
+    { label: 'Company Address 1', name: 'companyAddress1' },
+    { label: 'Company Address 2', name: 'companyAddress2' },
+  ].map(({ label, name, type = 'text' }) => (
+    <div key={name}>
+      <label className="block text-gray-700 text-sm font-medium mb-2">{label}:</label>
+      <input
+        type={type}
+        name={name}
+        value={formData[name]}
+        onChange={handleChange}
+        className="border-2 border-gray-300 rounded-lg w-full px-4 py-2 focus:outline-none focus:border-blue-500 transition duration-200"
+      />
+      {errors[name] && <div className="text-red-500 text-xs mt-1">{errors[name]}</div>}
+    </div>
+  ))}
 
-            <div className='mx-12 mt-4 text-[16px] flex justify-between'>
-              <label>Company address 1 : </label>
-              <input
-                className='border rounded w-[250px]'
-                type='text'
-                name='companyAddress1'
-                value={formData.companyAddress1}
-                onChange={handleChange}
-              />
-            </div>
-            {errors.companyAddress1 && (
-              <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.companyAddress1}</div>
-            )}
+  {/* Row 3: Phone Number and Email */}
+  <div className="flex space-x-4">
+    {[
+      { label: 'Phone Number', name: 'phoneNumber', type: 'text' },
+      { label: 'Email', name: 'email', type: 'email' },
+    ].map(({ label, name, type }) => (
+      <div key={name} className="flex-1">
+        <label className="block text-gray-700 text-sm font-medium mb-2">{label}:</label>
+        <input
+          type={type}
+          name={name}
+          value={formData[name]}
+          onChange={handleChange}
+          className="border-2 border-gray-300 rounded-lg w-full px-4 py-2 focus:outline-none focus:border-blue-500 transition duration-200"
+        />
+        {errors[name] && <div className="text-red-500 text-xs mt-1">{errors[name]}</div>}
+      </div>
+    ))}
+  </div>
 
-            <div className='mx-12 mt-4 text-[16px] flex justify-between'>
-              <label>Company address 2 : </label>
-              <input
-                className='border rounded w-[250px]'
-                type='text'
-                name='companyAddress2'
-                value={formData.companyAddress2}
-                onChange={handleChange}
-              />
-            </div>
-            {errors.companyAddress2 && (
-              <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.companyAddress2}</div>
-            )}
+  {/* Row 4: Password and Confirm Password */}
+  {[
+    { label: 'Password', name: 'password', type: 'password' },
+    { label: 'Confirm Password', name: 'confirmPassword', type: 'password' },
+  ].map(({ label, name, type }) => (
+    <div key={name}>
+      <label className="block text-gray-700 text-sm font-medium mb-2">{label}:</label>
+      <input
+        type={type}
+        name={name}
+        value={formData[name]}
+        onChange={handleChange}
+        className="border-2 border-gray-300 rounded-lg w-full px-4 py-2 focus:outline-none focus:border-blue-500 transition duration-200"
+      />
+      {errors[name] && <div className="text-red-500 text-xs mt-1">{errors[name]}</div>}
+    </div>
+  ))}
 
-            <div className='mx-12 mt-4 text-[16px] flex justify-between'>
-              <label>Phone number : </label>
-              <input
-                className='border rounded w-[250px]'
-                type='text'
-                name='phoneNumber'
-                onKeyDown={handleKeyDown}
-                value={formData.phoneNumber}
-                onChange={handleChange}
-              />
-            </div>
-            {errors.phoneNumber && (
-              <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.phoneNumber}</div>
-            )}
+  {/* Income Certificate */}
+  <div>
+    <label className="block text-gray-700 text-sm font-medium mb-2">Income Certificate (Optional):</label>
+    <input
+      type="file"
+      name="incomeCertificate"
+      onChange={handleFileChange}
+      className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
+    />
+  </div>
 
-            <div className='mx-12 mt-4 text-[16px] flex justify-between'>
-              <label>Email : </label>
-              <input
-                className='border rounded w-[250px]'
-                type='text'
-                name='email'
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-            {errors.email && (
-              <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.email}</div>
-            )}
+  {/* Submit Button */}
+  <div className="flex justify-center mt-6">
+    <button
+      type="submit"
+      disabled={!isFormValid}
+      className={`bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 ${
+        !isFormValid ? 'opacity-50 cursor-not-allowed' : ''
+      }`}
+    >
+      Submit
+    </button>
+  </div>
+</form>
 
-            <div className='mx-12 mt-4 text-[16px] flex justify-between'>
-              <label>Password : </label>
-              <input
-                className='border rounded w-[250px]'
-                type='password'
-                name='password'
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
-            {errors.password && (
-              <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.password}</div>
-            )}
-
-            <div className='mx-12 mt-4 text-[16px] flex justify-between'>
-              <label>Confirm Password : </label>
-              <input
-                className='border rounded w-[250px]'
-                type='password'
-                name='confirmPassword'
-                value={formData.confirmPassword}
-                onChange={handleChange}
-              />
-            </div>
-            {errors.confirmPassword && (
-              <div className='text-[12px] mx-14 text-red-500 text-right'>{errors.confirmPassword}</div>
-            )}
-
-            <div className='mx-12 mt-4 text-[16px] flex justify-between'>
-              <label>Income Certificate (Optional) : </label>
-              <input
-                className='border rounded w-[250px]'
-                type='file'
-                name='incomeCertificate'
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className='flex justify-center mt-8'>
-              <button
-                className={`bg-blue-600 shadow-lg px-3 py-2 text-white rounded-lg ${!isFormValid ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                type='submit'
-                disabled={!isFormValid} 
-              >
-                Submit
-              </button>
-            </div>
-          </form>
         )}
       </div>
+
+      
     </div>
   );
 }
