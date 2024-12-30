@@ -5,7 +5,11 @@ const apiUrl = process.env.REACT_APP_API_URL || null
 
 const Api = {
 
-    get: async (url, header) => {
+    get: async (url, header=[]) => {
+        const token = localStorage.getItem('token')
+        if(token) {
+            header['Authorization'] = `Bearer ${token}`
+        }
         try {
             let result = await axios.get(`${apiUrl}/${url}`,
                 {
