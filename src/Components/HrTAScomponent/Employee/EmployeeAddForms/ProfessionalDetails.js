@@ -4,7 +4,6 @@ import SalaryDetailsForm from "./SalaryDetailsForm";
 import BackButton from "./BackButton";
 import NewProgressive from "./NewProgressive";
 
-<<<<<<< Updated upstream
 function ProfessionalDetails({ setShowProfessionalForm }) {
   const [showSalaryForm, setShowSalaryForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -22,25 +21,6 @@ function ProfessionalDetails({ setShowProfessionalForm }) {
     workday: "",
     holiday: "",
   });
-=======
-function ProfessionalDetails({setShowProfessionalForm}) {
-    const [showSalaryForm, setShowSalaryForm] = useState(false)
-    const [formData, setFormData] = useState({
-        dateOfJoin: '',
-        endOfProbation: '',
-        dateEffective: '',
-        // jobPosition: '',
-        lineManager: '',
-        // department: '',
-        branch: '',
-        level: '',
-        jobType: '',
-        description: '',
-        // leaveFlow: '',
-        // workday: '',
-        holiday: ''
-    });
->>>>>>> Stashed changes
 
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
