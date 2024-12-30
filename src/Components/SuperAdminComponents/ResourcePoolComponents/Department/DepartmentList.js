@@ -1,15 +1,35 @@
 import React, { useEffect, useState } from 'react';
+import Api from '../../../../Services/Api';
+import axios from 'axios';
 
 function DepartmentList() {
   const [departmentData, setDepartmentData] = useState([]);
 
+  const token = localStorage.getItem('token')
+
   useEffect(() => {
-    // Fetch the data from localStorage on component mount
-    const storedData = JSON.parse(localStorage.getItem('DepartmentData')) || [];
-    setDepartmentData(storedData);
+
+    Api.get('api/department', {
+        'Authorization': `Bearer ${token}`
+    })
+    .then(response => {
+      if(response && response.data) {
+        console.log('bbbb',response.data.content)
+        setDepartmentData(response.data.content)
+      } else {
+        console.error('Invalid response data:', response)
+        alert('Can not fetch data. Please try again')
+      }
+      
+    })
+
+    // // Fetch the data from localStorage on component mount
+    // const storedData = JSON.parse(localStorage.getItem('DepartmentData')) || [];
+    // setDepartmentData(storedData);
   }, []);
 
   useEffect(() => {
+
     // Set up a listener for storage events to update the table if data changes
     const handleStorageChange = () => {
       const updatedData = JSON.parse(localStorage.getItem('DepartmentData')) || [];
@@ -41,8 +61,8 @@ function DepartmentList() {
               {departmentData.length > 0 ? (
                 departmentData.map((department, index) => (
                   <tr key={index} className='border-b  hover:bg-[#F9F9F9] text-[#373737] font-light'>
-                    <td className='p-4 text-left text-sm'>{department.name || 'N/A'}</td>
-                    <td className='p-4 text-left text-sm'>{department.resourceManager || 'N/A'}</td>
+                    <td className='p-4 text-left text-sm'>{department.departmentName || 'N/A'}</td>
+                    <td className='p-4 text-left text-sm'>{department.createdBy || 'N/A'}</td>
                     <td className='p-4 text-left text-sm'>{department.office || 'N/A'}</td>
                     <td className='p-4 text-left text-sm'>{department.valueStream || 'N/A'}</td>
                   </tr>
