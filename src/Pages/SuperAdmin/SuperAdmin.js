@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TeamPlanner from "../../Assets/Superadmin/group.svg";
 import Portfolio from "../../Assets/Superadmin/person.svg";
 import MySchedule from "../../Assets/Superadmin/Frame.svg";
@@ -24,9 +24,14 @@ import ReportComponet from '../../Components/SuperAdminComponents/ReportComponen
 import IntegrationComponent from '../../Components/SuperAdminComponents/IntegrationComponent/IntegrationComponent';
 import ManageComponent from '../../Components/SuperAdminComponents/MangeComponent/ManageComponent';
 import HelpComponent from '../../Components/SuperAdminComponents/HelpComponent/HelpComponent';
+import { useNavigate } from 'react-router-dom';
+
 const SuperAdmin = () => {
   const [activeSidebar, setActiveSidebar] = useState('Team Planner');
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+
+  const navigate = useNavigate();
+  
 
   const sidebarItems = [
     { name: 'Team Planner', icon: TeamPlanner },
@@ -74,6 +79,13 @@ const SuperAdmin = () => {
 
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(!token) {
+      navigate("/")
+    }
+  },[navigate]);
 
   return (
     <div className="flex flex-col h-screen">

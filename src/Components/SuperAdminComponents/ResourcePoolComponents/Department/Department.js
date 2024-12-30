@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';  
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';  
 import DepartmentList from './DepartmentList'; 
+import Api from '../../../../Services/Api';
 
 function Department({ onBack }) {
   const [formData, setFormData] = useState({
@@ -35,6 +36,16 @@ function Department({ onBack }) {
 
   // Handles form submission and saves data to localStorage
   const handleSubmit = (event) => {
+
+  //  Api.post('api/department', {
+  //   "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  //   "departmentName": "string"
+  //  })
+
+
+
+
+
      // Prevent the default form submission
 
     // Append new form data to the existing department array
