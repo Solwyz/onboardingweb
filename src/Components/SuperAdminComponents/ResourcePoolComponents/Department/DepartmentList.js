@@ -9,9 +9,7 @@ function DepartmentList() {
 
   useEffect(() => {
 
-    Api.get('api/department', {
-        'Authorization': `Bearer ${token}`
-    })
+    Api.get('api/department')
     .then(response => {
       if(response && response.data) {
         console.log('bbbb',response.data.content)
