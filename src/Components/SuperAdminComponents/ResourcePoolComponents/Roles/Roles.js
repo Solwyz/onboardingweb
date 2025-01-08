@@ -1,26 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';  
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';  
+import Api from '../../../../Services/Api';
 
 function Roles({ onBack }) {  
   const [formData, setFormData] = useState({
     name: '',
-    resourceManager: '',
-    department: '',
-    office: '',
-    valueStream: ''
+    employeeId: '',
+    description: '',
+    roleType: ''
   });
 
   const [rolesData, setRolesData] = useState([]);
   const [isModified, setIsModified] = useState(false);
+  const [employees, setEmployees] = useState([])
 
   // Enable submit only if all fields are filled
-  const isFormValid = formData.name && formData.resourceManager && formData.department && formData.office && formData.valueStream;
+  const isFormValid = formData.name && formData.employeeId && formData.description && formData.roleType;
+
+  const token = localStorage.getItem('token')
 
   // Load saved roles from localStorage on component mount
   useEffect(() => {
-    const savedRoles = JSON.parse(localStorage.getItem('RoleData')) || [];
-    setRolesData(savedRoles);
+    Api.get('api/employee', {
+      'Authorization': `Bearer ${token}`
+    })
+    .then(response => {
+      if(response && response.data) {
+        setEmployees(response.data.content)
+        console.log('employeeeeee',response.data.content)
+      } else {
+        console.error('Invalid response data:', response)
+        alert('Can not fetch Employees data. Please try again')
+      }
+      
+    })
+    // const savedRoles = JSON.parse(localStorage.getItem('RoleData')) || [];
+    // setRolesData(savedRoles);
   }, []);
 
   // Handles input field changes
@@ -35,7 +51,20 @@ function Roles({ onBack }) {
 
   // Handles form submission and saves data to localStorage
   const handleSubmit = (event) => {
-    
+    event.preventDefault();
+    console.log('form data: ',formData);
+
+    Api.post('api/roles',{
+      "name": formData.name,
+      "roleType": formData.roleType,
+      "description": formData.description,
+      "user": {
+        "id": formData.employeeId
+      }
+    }, {'Authorization': `Bearer ${token}`})
+    .then(response => {
+      console.log('role adding response : ',response)
+    })
 
     // Append new form data to the existing roles array
     const updatedRoles = [...rolesData, formData];
@@ -49,10 +78,9 @@ function Roles({ onBack }) {
     // Reset form and isModified state
     setFormData({
       name: '',
-      resourceManager: '',
-      department: '',
-      office: '',
-      valueStream: ''
+      employeeId: '',
+      description: '',
+      roleType: ''
     });
     setIsModified(false);
   };
@@ -95,58 +123,46 @@ function Roles({ onBack }) {
               />
             </div>
   
-            <div className="mb-4">
-              <label className="block text-sm font-normal text-[#373737]">Resource Manager</label>
-              <select
-                name="resourceManager"
+            <div>
+              <label className="block text-sm font-normal text-[#373737]">Roll type</label>
+              <input
+                type="text"
+                name="roleType"
                 className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
-                value={formData.resourceManager}
-                onChange={handleInputChange} 
-              >
-                <option value="">Select Manager</option>
-                <option value="Arjun Das">Arjun Das</option>
-                <option value="Sharma">Sharma</option>
-              </select>
+                value={formData.roleType}
+                onChange={handleInputChange}
+              />
             </div>
           </div>
 
           <div className="flex gap-4 mt-[24px]">
             <div>
-              <label className="block text-sm font-normal text-[#373737]">Department</label>
+              <label className="block text-sm font-normal text-[#373737]">Employee</label>
               <select
-                name="department"
+                name="employeeId"
                 className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
-                value={formData.department}
+                value={formData.employeeId}
                 onChange={handleInputChange}
               >
-                <option value="">Select Department</option>
-                <option value="Development">Development</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Finance">Finance</option>
+                <option value="">Select Employee</option>
+                {employees.map((employee,index)=> (
+                  <option key={index} value={employee.id}>{employee.name}</option>
+                ))}
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-normal text-[#373737]">Office</label>
+              <label className="block text-sm font-normal text-[#373737]">description</label>
               <input
                 type="text"
-                name="office"
+                name="description"
                 className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
-                value={formData.office}
+                value={formData.description}
                 onChange={handleInputChange} 
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-normal text-[#373737]">Value Stream</label>
-              <input
-                type="text"
-                name="valueStream"
-                className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
-                value={formData.valueStream}
-                onChange={handleInputChange}
-              />
-            </div>
+            
           </div>
 
           <div className="flex justify-end mt-[24px] mr-[24px] mb-[24px] col-span-2">

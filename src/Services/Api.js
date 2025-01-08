@@ -24,13 +24,14 @@ const Api = {
         
     },
 
-    post: async (url, data) => {
+    post: async (url, data, header) => {
         try {
             let result = await axios.post(`${apiUrl}/${url}`, data,
                 {
                     headers: {
                         'accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        ...header
                     }
                 }
             )
@@ -40,7 +41,44 @@ const Api = {
             return err
         }
 
+    },
+
+    delete: async (url, header) => {
+        try {
+            let result = await axios.delete(`${apiUrl}/${url}`,
+                {
+                    headers: {
+                        'accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        ...header
+                    }
+                }
+            )
+            return result
+        }
+        catch (err) {
+            return err
+        }
+    },
+
+    put: async (url, data, header) => {
+        try {
+            let result = await axios.put(`${apiUrl}/${url}`, data, 
+                {
+                    headers: {
+                        'accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        ...header
+                    }
+                }
+            )
+            return result
+        }
+        catch (err) {
+            return err
+        }
     }
+
 }
 
 export default Api
