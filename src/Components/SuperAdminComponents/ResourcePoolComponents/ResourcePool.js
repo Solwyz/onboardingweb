@@ -66,7 +66,7 @@ function ResourcePool() {
 
     switch (activeTab) {
       case 'Departments':
-        return <div className="p-4"><Department onBack={handleDepartmentBackClick} /></div>;
+        return <div className="p-4"><Department onBack={handleDepartmentBackClick}/></div>;
       case 'Resource':
         return <div className="p-4"><Resource onBack={handleResourcesBackClick} /></div>;
       case 'Roles':
