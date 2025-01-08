@@ -14,18 +14,18 @@ const fieldOptions = {
 function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
 
 
-  
-    const [formData, setFormData] = useState({
-      EmployeeId: '',
-      FirstName: '',
-      LastName: '',
-      Designation: '',
-      Department: '',
-      WorkLocation: '',
-      PhoneNumber: ''
-    });
 
-    const [maxDate, setMaxDate] = useState('');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    LastName: '',
+    email: '',
+    Department: '',
+    Designation: '',
+    WorkLocation: '',
+    PhoneNumber: '',
+  });
+
+  const [maxDate, setMaxDate] = useState('');
   const [photoPreview, setPhotoPreview] = useState(null);
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
@@ -34,25 +34,43 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
 
   useEffect(() => {
     const today = new Date();
-        const year = today.getFullYear() - 18;
-        const month = (`0${today.getMonth() + 1}`).slice(-2);
-        const day = (`0${today.getDate()}`).slice(-2);
-        setMaxDate(`${year}-${month}-${day}`);
+    const year = today.getFullYear() - 18;
+    const month = (`0${today.getMonth() + 1}`).slice(-2);
+    const day = (`0${today.getDate()}`).slice(-2);
+    setMaxDate(`${year}-${month}-${day}`);
 
-        if (employee) {
-          setFormData(employee); // Set form data if editing an existing employee
-        } else {
-          setFormData({
-            EmployeeId: '',
-            FirstName: '',
-            LastName: '',
-            Designation: '',
-            Department: '',
-            WorkLocation: '',
-            PhoneNumber: ''
-          }); // Reset form for adding new employee
-        }
-      }, [employee]);
+   
+    if (employee) {
+      setFormData({
+        name: employee.name || '',
+        email: employee.email || '',
+        Department: employee.Department || '',
+        Designation: employee.Designation || '',
+        WorkLocation: employee.WorkLocation || '',
+        PhoneNumber: employee.PhoneNumber || '',
+      });
+    } else {
+      setFormData({
+        name: '',
+        email: '',
+        Department: '',
+        Designation: '',
+        WorkLocation: '',
+        PhoneNumber: '',
+      });
+    }
+  }, [employee]);
+  const resetForm = () => {
+  setFormData({
+    name: '',
+    email: '',
+    Department: '',
+    Designation: '',
+    WorkLocation: '',
+    PhoneNumber: '',
+  });
+  setErrors({});
+};
 
   const validateField = (name, value) => {
     if (!value && name !== 'ProfilePhoto') {
@@ -90,29 +108,12 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
       reader.readAsDataURL(file);
     }
   };
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // const handleChange = (e) => {
-  //   const { name, value, files } = e.target;
-  //   if (name === 'ProfilePhoto' && files[0]) {
-  //     const photo = files[0];
-  //     setFormData({ ...formData, ProfilePhoto: photo });
-  //     setPhotoPreview(URL.createObjectURL(photo));
-  //   } else if (name === 'PhoneNumber' || name === 'EmergencyContactNumber') {
-  //     const numericValue = value.replace(/\D/g, '');
-  //     setFormData({ ...formData, [name]: numericValue });
-  //     setErrors({ ...errors, [name]: validateField(name, numericValue) });
-  //   } else {
-  //     setFormData({ ...formData, [name]: value });
-  //     setErrors({ ...errors, [name]: validateField(name, value) });
-  //   }
-  // };
 
   const handleKeyPress = (e) => {
     const charCode = e.which ? e.which : e.keyCode;
@@ -121,22 +122,8 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
       setErrors({ ...errors, [e.target.name]: 'Please enter numbers only.' });
     }
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData); // Submit form data to parent component
-  };
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const newErrors = Object.keys(formData).reduce((acc, key) => {
-  //     acc[key] = validateField(key, formData[key]);
-  //     return acc;
-  //   }, {});
-  //   if (Object.values(newErrors).every((error) => !error)) {
-  //     onSubmit(formData);
-  //   } else {
-  //     setErrors(newErrors);
-  //   }
-  // };
+ 
+
 
   useEffect(() => {
     const requiredFields = [
@@ -156,6 +143,14 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   const handleBackClick = () => {
     setShowForm(false);
   };
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  await onSubmit(formData); // Assuming `onSubmit` handles API call
+  setIsSubmitting(false);
+};
 
   return (
     <form onSubmit={handleSubmit} className="rounded-lg mx-auto p-8 bg-white">
@@ -170,7 +165,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                 <input
                   type="text"
                   name="EmployeeId"
-                  value={formData.EmployeeId}
+                  value={formData.id}
                   onChange={handleChange}
                   className={`border w-[527px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.EmployeeId ? 'border-red-500' : ''}`}
                   disabled={viewMode}
@@ -188,7 +183,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
                 <label className="block mb-1 text-sm font-normal">First Name:</label>
                 <input
                   type="text"
-                  name="FirstName"
+                  name="firstName"
                   value={formData.FirstName}
                   onChange={handleChange}
                   className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.FirstName ? 'border-red-500' : ''}`}
@@ -384,17 +379,17 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
               </div>
 
               <div>
-               <div>
-                <label className="block mb-1 text-sm  font-normal">Designation:</label>
-                <input
-                  type="text"
-                  name="Designation"
-                  value={formData.Designation}
-                  onChange={handleChange}
-                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.Designation ? 'border-red-500' : ''}`}
-                  disabled={viewMode}
-                />
-                {errors.Designation && <p className="text-red-500">{errors.Designation}</p>}
+                <div>
+                  <label className="block mb-1 text-sm  font-normal">Designation:</label>
+                  <input
+                    type="text"
+                    name="Designation"
+                    value={formData.Designation}
+                    onChange={handleChange}
+                    className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.Designation ? 'border-red-500' : ''}`}
+                    disabled={viewMode}
+                  />
+                  {errors.Designation && <p className="text-red-500">{errors.Designation}</p>}
                 </div>
               </div>
               <div>
@@ -491,26 +486,9 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
           </div>
 
           <div className="flex justify-between mt-6">
-            {/* <button
-              type="button"
-              onClick={handleBackClick}
-              className="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-700"
-            >
-              Back
-            </button> */}
-{/* 
-            {!viewMode && (
-        <button
-          type="submit"
-          className={`bg-[#2B2342] text-white px-6 py-2 rounded ${isFormValid ? 'hover:bg-[#353599]' : 'bg-[#9999a7] opacity-50 cursor-not-allowed'}`}
-          disabled={!isFormValid}
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
-      )} */}
-      {!viewMode && (
-          <button type="submit" 
+
+          {!viewMode && (
+          <button type="submit"
           className={`bg-[#2B2342] text-[14px] font-normal text-white px-6 py-2 rounded-lg ${isFormValid ? 'hover:bg-[#353599]' : 'bg-[#9999a7] opacity-50 cursor-not-allowed'}`}>
             {employee ? 'Update Employee' : 'Submit'}
           </button>
