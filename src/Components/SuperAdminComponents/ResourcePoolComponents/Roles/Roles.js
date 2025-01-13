@@ -32,8 +32,7 @@ function Roles({ onBack }) {
       } else {
         console.error('Invalid response data:', response)
         alert('Can not fetch Employees data. Please try again')
-      }
-      
+      }     
     })
     // const savedRoles = JSON.parse(localStorage.getItem('RoleData')) || [];
     // setRolesData(savedRoles);
@@ -145,7 +144,7 @@ function Roles({ onBack }) {
                 onChange={handleInputChange}
               >
                 <option value="">Select Employee</option>
-                {employees.map((employee,index)=> (
+                {employees?.map((employee,index)=> (
                   <option key={index} value={employee.id}>{employee.name}</option>
                 ))}
               </select>
