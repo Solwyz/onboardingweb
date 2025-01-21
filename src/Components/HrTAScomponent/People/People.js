@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './people.css';
 import girlProfile from '../../../Assets/HrTas/People/girlProfile.png';
 import menProfile1 from '../../../Assets/HrTas/People/menProfile1.png';
@@ -10,6 +10,7 @@ import depIcon from '../../../Assets/HrTas/People/depIcon.svg';
 import jobIcon from '../../../Assets/HrTas/People/jobIcon.svg';
 import arrowLeft from '../../../Assets/HrTas/documentsPage/arrowLeft.svg';
 import arrowRight from '../../../Assets/HrTas/documentsPage/arrowRight.svg';
+import Api from '../../../Services/Api';
 
 const employees = [
   { id: 1, name: 'Amal Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile1 },
@@ -29,7 +30,10 @@ const employees = [
 function People() {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [employees, setEmployees] = useState([])
   const employeesPerPage = 10;
+
+  const token = localStorage.getItem('token')
 
   // Filter employees based on search term
   const filteredEmployees = employees.filter((employee) =>
@@ -50,6 +54,24 @@ function People() {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    Api.get('api/employee/api/employees/active', {
+      'Authorization': `Bearer ${token}`
+    })
+      .then(response => {
+        if (response && response.data) {
+          setEmployees(response.data)
+          console.log('Time employeeekk', response.data)
+        } else {
+          console.error('Invalid response data:', response)
+          alert('Can not fetch Employees data. Please try again')
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  },[])
 
   return (
     <div className='p-6'>

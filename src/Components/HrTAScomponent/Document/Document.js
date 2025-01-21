@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import addIcon from "../../../Assets/HrTas/addIcon.svg";
 import filterIcon from "../../../Assets/HrTas/filterIcon.svg";
 import deleteIcon from "../../../Assets/HrTas/delete.svg";
@@ -9,149 +9,63 @@ import addPurple from "../../../Assets/HrTas/documentsPage/addPurple.svg";
 import arrowLeft from "../../../Assets/HrTas/documentsPage/arrowLeft.svg";
 import arrowRight from "../../../Assets/HrTas/documentsPage/arrowRight.svg";
 import CloseBtn from "../../../Assets/HrTas/close.svg";
+import Api from "../../../Services/Api";
+
+const token = localStorage.getItem('token')
 
 function Document() {
-  const [documents, setDocuments] = useState([
-    {
-      name: "Upload Passport",
-      user: "Arjun Das",
-      isApproved: false,
-      isRejected: false,
-    },
-    {
-      name: "Upload Aadhaar",
-      user: "Leo Das",
-      isApproved: false,
-      isRejected: false,
-    },
-    {
-      name: "Upload Pan",
-      user: "Vineesh Das",
-      isApproved: false,
-      isRejected: false,
-    },
-    {
-      name: "Upload Bank Ac",
-      user: "Ruthin Das",
-      isApproved: false,
-      isRejected: false,
-    },
-    {
-      name: "Upload Photo",
-      user: "Anu Das",
-      isApproved: false,
-      isRejected: false,
-    },
-    {
-      name: "Upload Passport",
-      user: "Affan Das",
-      isApproved: false,
-      isRejected: false,
-    },
-    {
-      name: "Upload Passport",
-      user: "Arjun Das",
-      isApproved: false,
-      isRejected: false,
-    },
-    {
-      name: "Upload Passport",
-      user: "Arjun Das",
-      isApproved: false,
-      isRejected: false,
-    },
-    {
-      name: "Upload Passport",
-      user: "Arjun Das",
-      isApproved: false,
-      isRejected: false,
-    },
-    {
-      name: "Upload Passport",
-      user: "Arjun Das",
-      isApproved: false,
-      isRejected: false,
-    },
-    {
-      name: "Upload Passport",
-      user: "Arjun Das",
-      isApproved: false,
-      isRejected: false,
-    },
 
-    // ... other documents
-  ]);
-
-  const [selectedDocuments, setSelectedDocuments] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState(""); // Add search term state
-  const documentsPerPage = 10;
-  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [documentsData, setDocumentsData] = useState([])
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const toggleDocumentSelection = (index) => {
-    setSelectedDocuments((prevSelected) => {
-      const isAlreadySelected = prevSelected.includes(index);
-      const newSelected = isAlreadySelected
-        ? prevSelected.filter((i) => i !== index)
-        : [...prevSelected, index];
-      return newSelected;
-    });
-  };
+  const handleApprove =(id)=> {
+    Api.post(`api/document/approveReject/${id}`, {
+      "status": "Approved"
+    }, { 'Authorization': `Bearer ${token}` })
+    .then(response => {
+      if(response && response.data) {
+        console.log('stattttssAP:',response.data.data)
+      } else {
+        console.log('Failed to Approve. Please try again.')
+      }
+    })
+  }
 
-  const deleteDocumentByIndex = (index) => {
-    setDocuments((prevDocs) => prevDocs.filter((_, i) => i !== index));
-  };
+  const handleReject =(id)=> {
+    Api.post(`api/document/approveReject/${id}`, {
+      "status": "Rejected"
+    }, { 'Authorization': `Bearer ${token}` })
+    .then(response => {
+      if(response && response.data) {
+        console.log('statssssRj:',response.data.data)
+      } else {
+        console.log('Failed to Reject. Please try again.')
+      }
+    })
+  }
 
-  const deleteSelectedDocuments = () => {
-    setDocuments((prevDocs) =>
-      prevDocs.filter((_, i) => !selectedDocuments.includes(i))
-    );
-    setSelectedDocuments([]);
-  };
-
-  const approveDocument = (index) => {
-    setDocuments((prevDocs) =>
-      prevDocs.map((doc, i) =>
-        i === index ? { ...doc, isApproved: true } : doc
-      )
-    );
-  };
-
-  const rejectDocument = (index) => {
-    setDocuments((prevDocs) =>
-      prevDocs.map((doc, i) =>
-        i === index ? { ...doc, isRejected: true } : doc
-      )
-    );
-  };
-
-  // Filter documents by search term
-  const filteredDocuments = documents.filter(
-    (doc) =>
-      doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      doc.user.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const indexOfLastDocument = currentPage * documentsPerPage;
-  const indexOfFirstDocument = indexOfLastDocument - documentsPerPage;
-  const currentDocuments = filteredDocuments.slice(
-    indexOfFirstDocument,
-    indexOfLastDocument
-  );
-  const totalPages = Math.ceil(filteredDocuments.length / documentsPerPage);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const areAnySelected = selectedDocuments.length > 0;
+  useEffect(() => {
+    Api.get('api/document/uploads', {
+      'Authorization': `Bearer ${token}`
+    })
+      .then(response => {
+        if (response && response?.data?.data) {
+          console.log('documents: ', response.data?.data)
+          setDocumentsData(response.data?.data)
+        } else {
+          console.error('Invalid response data:', response)
+        }
+      })
+  }, [])
 
   return (
     <div className="p-6">
-      <div className="bg-white w-full h-[930px] px-6 py-[24px] shadow-lg">
+      <div className="bg-white w-full min-h-screen px-6 py-[24px] shadow-lg">
         <div className="flex justify-between items-center">
           <h1 className="text-[20px] text-[#232E42] font-medium mt-[40px]">
             Document Request
@@ -168,12 +82,8 @@ function Document() {
         <div className="flex items-center mt-[34px]">
           <input
             type="text"
-            placeholder="Search Document"
-            value={searchTerm} // Bind input to search term
-            onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+            placeholder="Search Document"   
             className="border border-[#E6E6E7] focus:outline-none text-[#696A70] text-sm font-normal rounded-lg p-2 w-[584px] h-[48px]"
-            onFocus={() => setIsInputFocused(true)}
-            onBlur={() => setIsInputFocused(false)}
           />
           <button className="border border-[#E6E6E7] flex items-center font-normal text-sm text-[#2C2B2B] p-2 ml-2 rounded-lg w-[87px] h-[48px]">
             <img src={filterIcon} className="mr-2" alt="Filter" />
@@ -184,19 +94,12 @@ function Document() {
         <div className="overflow-x-auto mt-6">
           <table className="w-full table-auto">
             <tbody>
-              {currentDocuments.map((doc, index) => {
-                const globalIndex = indexOfFirstDocument + index;
-                const isSelected = selectedDocuments.includes(globalIndex);
+              {documentsData.map((doc, index) => {
+                
                 return (
                   <tr
-                    key={globalIndex}
-                    className={`w-full h-[64px] ${
-                      isSelected
-                        ? "border-l-[10px] border-[#D9CDFF] bg-transparent"
-                        : index % 2 === 0
-                        ? "bg-[#F9F9F9]"
-                        : "bg-white"
-                    }`}
+                    key={index}
+                    className={`w-full h-[64px] border-[#D9CDFF] ${index % 2 === 0 ? "bg-[#F9F9F9]" : "bg-white" }`}
                   >
                     <td className="text-center align-middle">
                       {/* <input
@@ -211,47 +114,23 @@ function Document() {
                         <img src={addPurple} alt="Icon" className="mr-4" />
                         <div>
                           <div className="text-sm font-medium text-[#373737]">
-                            {doc.name}
+                            {doc.documentType}
                           </div>
                           <div className="text-xs font-medium text-[#9D9D9D]">
-                            {doc.user}
+                            {doc.requestDocument.createdBy}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="align-middle text-right">
                       <div className="flex justify-end mr-8">
-                        <button
-                          className={`mr-8 ${
-                            doc.isApproved || areAnySelected
-                              ? "opacity-50 cursor-not-allowed"
-                              : ""
-                          }`}
-                          onClick={() => approveDocument(globalIndex)}
-                          disabled={doc.isApproved || areAnySelected}
-                        >
+                        <button className={`mr-8 ${doc.status === "Approved" ? "cursor-not-allowed" : "opacity-50"}`} onClick={()=>handleApprove(doc.id)}>
                           <img src={greenTick} alt="Approve" />
                         </button>
-                        <button
-                          className={`mr-8 ${
-                            doc.isRejected || areAnySelected
-                              ? "opacity-50 cursor-not-allowed"
-                              : ""
-                          }`}
-                          onClick={() => rejectDocument(globalIndex)}
-                          disabled={doc.isRejected || areAnySelected}
-                        >
+                        <button className={`mr-8 ${doc.status === "Rejected" ? "cursor-not-allowed" : "opacity-50"}`} onClick={()=>handleReject(doc.id)}>
                           <img src={xMark} alt="Reject" />
                         </button>
-                        <button
-                          className={`mr-8 ${
-                            areAnySelected
-                              ? "opacity-50 cursor-not-allowed"
-                              : ""
-                          }`}
-                          onClick={() => deleteDocumentByIndex(globalIndex)}
-                          disabled={areAnySelected}
-                        >
+                        <button>
                           <img src={deleteIcon1} alt="Delete" />
                         </button>
                       </div>
@@ -262,49 +141,6 @@ function Document() {
             </tbody>
           </table>
         </div>
-
-        {/* Pagination */}
-        {filteredDocuments.length > documentsPerPage && (
-          <div className="flex justify-end align-middle mb-6 ">
-            <button
-              onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
-              className={`p-2 ${
-                currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
-              }`}
-              disabled={currentPage === 1}
-            >
-              <img src={arrowLeft} alt="Previous" />
-            </button>
-            {[...Array(totalPages)].map((_, i) => (
-              <button
-                key={i}
-                onClick={() => paginate(i + 1)}
-                className={`p-2 rounded-md ${
-                  currentPage === i + 1
-                    ? "text-[#373737] font-normal text-sm"
-                    : "text-[#C8C8C8] text-sm font-normal"
-                }`}
-              >
-                {i + 1}
-              </button>
-            ))}
-            <button
-              onClick={() =>
-                paginate(
-                  currentPage < totalPages ? currentPage + 1 : totalPages
-                )
-              }
-              className={`p-2 ${
-                currentPage === totalPages
-                  ? "cursor-not-allowed opacity-50"
-                  : ""
-              }`}
-              disabled={currentPage === totalPages}
-            >
-              <img src={arrowRight} alt="Next" />
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Modal Implementation */}
