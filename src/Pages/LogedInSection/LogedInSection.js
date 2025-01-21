@@ -37,10 +37,10 @@ function LogedInSection() {
     { name: 'Attendance', icon: Attendance },
     { name: 'Payroll', icon: Payroll },
     { name: 'Perfomance Management', icon: Performance },
-    { name: 'Recruiting and Onboarding', icon: Recruitment },
-    { name: 'Training', icon: Training },
-    { name: 'Self-Service', icon: SelfService },
-    { name: 'Document Management', icon: Document },
+    // { name: 'Recruiting and Onboarding', icon: Recruitment },
+    // { name: 'Training', icon: Training },
+    // { name: 'Self-Service', icon: SelfService },
+    // { name: 'Document Management', icon: Document },
 
   ];
 
