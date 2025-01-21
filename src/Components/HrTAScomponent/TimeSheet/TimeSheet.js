@@ -5,6 +5,10 @@ import TimeSheetModal from './TimeSheetModal';
 import SearchIcon from "../../../Assets/HrTas/searchIcon.svg";
 import FilterIcon from "../../../Assets/HrTas/filter_alt.svg";
 import GroupIcon from "../../../Assets/HrTas/GroupIcon.svg";
+import Api from '../../../Services/Api';
+import editIcon from '../../../Assets/Superadmin/edit-svgrepo-com.svg'
+import deleteIcon from '../../../Assets/Superadmin/delete.svg'
+import { ClipLoader } from 'react-spinners';
 
 function TimeSheet() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -14,7 +18,14 @@ function TimeSheet() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterQuery, setFilterQuery] = useState('');
   const [groupBy, setGroupBy] = useState('');
-  const [employeeName, setEmployeeName] = useState('Aswin Sabu');
+  const [employeeName, setEmployeeName] = useState('Ashiq')
+  const [deleteId, setDeleteId] = useState('');
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleteing] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [dataToEdit, setDataToEdit] = useState(null)
+
+  const token = localStorage.getItem('token')
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -37,6 +48,7 @@ function TimeSheet() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setDataToEdit(null)
   };
 
   const handleAddTimeSheet = (newEntry) => {
@@ -57,36 +69,85 @@ function TimeSheet() {
   };
 
   // Filtered data based on selected option ("My Timesheet" or "All Employees")
-  const filteredTimeSheetData = timeSheetData
-    .filter(entry => {
-      if (selectedOption === 'My Timesheet') {
-        return entry.employeeName === 'Reshma';
-      }
-      return true;
-    })
-    .filter(entry => {
-      return (
-        entry.project.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        entry.task.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        entry.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    })
-    .filter(entry => {
-      return (
-        entry.project.toLowerCase().includes(filterQuery.toLowerCase()) ||
-        entry.task.toLowerCase().includes(filterQuery.toLowerCase()) ||
-        entry.description.toLowerCase().includes(filterQuery.toLowerCase())
-      );
-    });
+  // const filteredTimeSheetData = timeSheetData
+  //   .filter(entry => {
+  //     if (selectedOption === 'My Timesheet') {
+  //       return entry.employeeName === 'Reshma';
+  //     }
+  //     return true;
+  //   })
+  //   .filter(entry => {
+  //     return (
+  //       entry.project.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       entry.task.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       entry.description.toLowerCase().includes(searchQuery.toLowerCase())
+  //     );
+  //   })
+  //   .filter(entry => {
+  //     return (
+  //       entry.project.projectName.toLowerCase().includes(filterQuery.toLowerCase()) ||
+  //       entry.task.toLowerCase().includes(filterQuery.toLowerCase()) ||
+  //       entry.description.toLowerCase().includes(filterQuery.toLowerCase())
+  //     );
+  //   });
 
-  const groupedTimeSheetData = filteredTimeSheetData.reduce((acc, entry) => {
-    const key = groupBy === 'Project' ? entry.project : groupBy === 'Date' ? entry.date : 'Ungrouped';
-    if (!acc[key]) {
-      acc[key] = [];
-    }
-    acc[key].push(entry);
-    return acc;
-  }, {});
+  // const groupedTimeSheetData = filteredTimeSheetData.reduce((acc, entry) => {
+  //   const key = groupBy === 'Project' ? entry.project : groupBy === 'Date' ? entry.date : 'Ungrouped';
+  //   if (!acc[key]) {
+  //     acc[key] = [];
+  //   }
+  //   acc[key].push(entry);
+  //   return acc;
+  // }, {});
+
+
+  const handleDelete = (id) => {
+    setDeleteId(id);
+    setDeleteModal(true);
+  }
+
+  const handleDeleteModalCancel = () => {
+    setDeleteModal(false);
+  }
+
+  const handleDeleteModalConfirm = () => {
+    setIsDeleteing(true)
+    Api.delete(`api/timesheet/${deleteId}`, {
+      'Authorization': `Bearer ${token}`
+    })
+      .then(response => {
+        setIsDeleteing(false)
+        if (response && response.data) {
+          console.log(response.data.message)
+          setRefreshKey(prev => prev + 1);
+          setDeleteModal(false)
+        } else {
+          console.error('Invalid response data: ', response)
+          alert('Cannot delete item. Please try again')
+        }
+      })
+  }
+
+  const handleEditClick = (id) => {
+    setDataToEdit(timeSheetData.find(time => time.id === id))
+    console.log(dataToEdit)
+    setIsModalOpen(true)
+  }
+
+  useEffect(() => {
+    Api.get('api/timesheet', {
+      'Authorization': `Bearer ${token}`
+    })
+      .then(response => {
+        if (response && response.data) {
+          console.log('timesheet', response.data.content)
+          setTimeSheetData(response.data.content)
+        } else {
+          console.error('Invalid response data:', response)
+          alert('Can not fetch data. Please try again')
+        }
+      })
+  }, [refreshKey])
 
   return (
     <div className='bg-[#F8FAFB] pl-4 pt-4 pr-[34px] pb-[73px]'>
@@ -137,7 +198,7 @@ function TimeSheet() {
           </div>
         </div>
 
-        {filteredTimeSheetData.length === 0 ? (
+        {timeSheetData.length === 0 ? (
           <div className='mt-[300px] justify-center items-center flex text-center text-[#696A70]'>
             No entries available. Click "Create" to add a new timesheet entry.
           </div>
@@ -190,37 +251,74 @@ function TimeSheet() {
                     <th className="p-4 text-center font-normal text-sm">Task</th>
                     <th className="p-4 text-center font-normal text-sm">Description</th>
                     <th className="p-4 text-center font-normal text-sm">Duration (Hours)</th>
+                    <th className="p-4 text-center font-normal text-sm">Edit/Delete</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {Object.entries(groupedTimeSheetData).map(([group, entries], index) => (
-                    <React.Fragment key={group}>
-                      {entries.map((entry, entryIndex) => (
-                        <tr
-                          key={entryIndex}
-                          className={`${entryIndex % 2 === 0 ? 'bg-white' : 'bg-gray-100'} border-b`}
-                        >
-                          <td className='p-4 text-center font-normal text-sm'>{entry.date}</td>
-                          <td className='p-4 text-center font-normal text-sm'>{entry.employeeName}</td>
-                          <td className='p-4 text-center font-normal text-sm'>{entry.project}</td>
-                          <td className='p-4 text-center font-normal text-sm'>{entry.task}</td>
-                          <td className='p-4 text-center font-normal text-sm'>{entry.description}</td>
-                          <td className='p-4 text-center font-normal text-sm'>{`${entry.hour}h ${entry.minute}m`}</td>
-                        </tr>
-                      ))}
-                    </React.Fragment>
-                  ))}
+                  {/* {Object.entries(groupedTimeSheetData).map(([group, entries], index) => ( */}
+                  <React.Fragment>
+                    {timeSheetData.map((time, timeIndex) => (
+                      <tr
+                        key={timeIndex}
+                        className={`${timeIndex % 2 === 0 ? 'bg-white' : 'bg-gray-100'} border-b`}
+                      >
+                        <td className='p-4 text-center font-normal text-sm'>{time.date}</td>
+                        <td className='p-4 text-center font-normal text-sm'>{time.project.createdBy}</td>
+                        <td className='p-4 text-center font-normal text-sm'>{time.project.projectName}</td>
+                        <td className='p-4 text-center font-normal text-sm'>{time.task}</td>
+                        <td className='p-4 text-center font-normal text-sm'>{time.description}</td>
+                        <td className='p-4 text-center font-normal text-sm'>{time.duration}</td>
+                        <td className='p-4 text-center font-normal text-sm'>
+                          <div className='flex items-center justify-center gap-4 w-fit'>
+                            <img src={editIcon} className='h-3 w-3 hover:cursor-pointer' onClick={() => handleEditClick(time.id)}></img>
+                            <img src={deleteIcon} className='hover:cursor-pointer' onClick={() => handleDelete(time.id)}></img>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </React.Fragment>
                 </tbody>
               </table>
             </div>
           </>
         )}
       </div>
+
+      {deleteModal && (
+        <div className="fixed inset-0 bg-neutral-800 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white w-auto p-10  shadow-lg">
+            {isDeleting ?
+              <div className='px-4 flex gap-4'>
+                <div>
+                  <ClipLoader
+                    color={'#465062'}
+                    loading={true}
+                    size={35}
+                    aria-label="Loading Spinner"
+                    data-testid="Loader"
+                  />
+                </div>
+                <div className='mt-2'>Deleing Please wait..</div>
+              </div> :
+              <div>
+                <div className='text-[18px] text-[#373737]'>Are you sure to delete this data ?</div>
+                <div className='flex gap-4 mt-8 w-fit ml-auto'>
+                  <button className='bg-[#405170] hover:bg-[#232E42] w-[72px] h-[42px] text-white font-light rounded-[8px]' onClick={handleDeleteModalCancel}>Cancel</button>
+                  <button className='bg-[#405170] hover:bg-[#232E42] w-[72px] h-[42px] text-white font-light rounded-[8px]' onClick={handleDeleteModalConfirm}>Delete</button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      )}
+
       <TimeSheetModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onAdd={handleAddTimeSheet}
-        employeeName={employeeName}
+        setRefreshKey={setRefreshKey}
+        dataToEdit={dataToEdit}
+        setDataToEdit={setDataToEdit}
       />
     </div>
   );
