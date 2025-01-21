@@ -3,6 +3,10 @@ import tickIcon from "../../../../Assets/HrTas/check.svg";
 import PhysicalDetailsForm from "./PhysicalDetailsForm";
 import BackButton from "./BackButton";
 import NewProgressive from "./NewProgressive";
+import Api from "../../../../Services/Api";
+
+const token = localStorage.getItem('token')
+console.log("token:", token)
 
 function ContactDetailsForm({ setShowContactForm }) {
     const [showPhysicalForm, setShowPhysicalForm] = useState(false);
@@ -121,6 +125,11 @@ function ContactDetailsForm({ setShowContactForm }) {
         if (isNextButtonEnabled) {
             console.log("Form Data Submitted:", formData);
             setShowPhysicalForm(true);
+
+        Api.post('api/contactForm', {
+
+            'Authorization':`Bearer: ${token}`
+        })
         }
     };
 

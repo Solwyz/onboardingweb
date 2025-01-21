@@ -42,8 +42,9 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
    
     if (employee) {
       setFormData({
-        name: employee.name || '',
-        email: employee.email || '',
+        firstName: employee.name || '',
+        LastName: employee.basicDetails?.lastName || '',
+        PersonalEmail: employee.email || '',
         Department: employee.Department || '',
         Designation: employee.Designation || '',
         WorkLocation: employee.WorkLocation || '',
@@ -184,7 +185,7 @@ const handleSubmit = async (e) => {
                 <input
                   type="text"
                   name="firstName"
-                  value={formData.FirstName}
+                  value={formData.firstName}
                   onChange={handleChange}
                   className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.FirstName ? 'border-red-500' : ''}`}
                   disabled={viewMode}

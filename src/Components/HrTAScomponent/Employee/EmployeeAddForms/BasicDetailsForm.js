@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import bar1 from '../../../../Assets/HrTas/employeeForms/form1.png'
+import React, { useEffect, useState } from 'react';
+import Api from '../../../../Services/Api';
+import bar1 from '../../../../Assets/HrTas/employeeForms/form1.png';
 import tickIcon from '../../../../Assets/HrTas/check.svg';
 import ProfessionalDetails from './ProfessionalDetails';
 import NewProgressive from './NewProgressive';
 
 
-function BasicDetailsForm({editingEmployee}) {
 
+const token = localStorage.getItem('token');
+console.log('Token:', token);
+
+function BasicDetailsForm({ editingEmployee }) {
     const [maxDate, setMaxDate] = useState('');
+    const [designations, setDesignations] = useState([]);
+    const [departments, setDepartments] = useState([]);
 
     useEffect(() => {
         const today = new Date();
@@ -16,20 +22,46 @@ function BasicDetailsForm({editingEmployee}) {
         const day = (`0${today.getDate()}`).slice(-2);
         setMaxDate(`${year}-${month}-${day}`);
 
-        if(editingEmployee) {
+        if (editingEmployee) {
             setFormData({
                 firstName: editingEmployee.firstName,
                 lastName: editingEmployee.empId,
-                nationality: editingEmployee.nationality
+                nationality: editingEmployee.nationality,
             });
         }
-    },[])
+    }, []);
 
-    const [isFormValid, setIsFormValid] = useState(false)
-    const [showProfessionalForm, setShowProfessionalForm] = useState(false)
+    useEffect(() => {
+        // Fetch designations
+        Api.get('api/designation', {
+            'Authorization': `Bearer ${token}`
+        })
+            .then((response) => {
+                console.log('bbbb', response)
+                setDesignations(response.data.content);
+            })
+            .catch((error) => {
+                console.error('Error fetching designations:', error);
+            });
+
+        // Fetch departments
+        Api.get('api/department', {
+            'Authorization': `Bearer ${token}`
+        })
+            .then((response) => {
+                console.log('ccc', response)
+                setDepartments(response.data.content);
+            })
+            .catch((error) => {
+                console.error('Error fetching departments:', error);
+            });
+    }, []);
+
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [showProfessionalForm, setShowProfessionalForm] = useState(false);
     const [errors, setErrors] = useState({
-        email: ''
-    })
+        email: '',
+    });
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -41,22 +73,24 @@ function BasicDetailsForm({editingEmployee}) {
         passport: '',
         designation: '',
         department: '',
-        email: ''
+        email: '',
     });
 
     useEffect(() => {
-        const { firstName,
+        const {
+            firstName,
             lastName,
             gender,
             nationality,
             dateOfBirth,
             panNumber,
-            passport,
             designation,
             department,
-            email } = formData
+            email,
+        } = formData;
 
-        const isValid = firstName &&
+        const isValid =
+            firstName &&
             lastName &&
             gender &&
             nationality &&
@@ -68,30 +102,30 @@ function BasicDetailsForm({editingEmployee}) {
             !errors.email &&
             !errors.firstName &&
             !errors.panNumber &&
-            !errors.passport ;
+            !errors.passport;
 
         setIsFormValid(isValid);
-    }, [formData, errors])
+    }, [formData, errors]);
 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email)
-    }
+        return emailRegex.test(email);
+    };
 
     const validateFirstName = (firstName) => {
         const firstNameRegex = /^[A-Za-z].*$/;
         return firstNameRegex.test(firstName);
-    }
+    };
 
-    const validatePanNumber =(panNumber)=> {
+    const validatePanNumber = (panNumber) => {
         const alphanumericRegex = /^[a-zA-Z0-9]*$/;
         return alphanumericRegex.test(panNumber);
-    }
+    };
 
-    const validatePassport =(passport)=> {
+    const validatePassport = (passport) => {
         const alphanumericRegex = /^[a-zA-Z0-9]*$/;
         return alphanumericRegex.test(passport);
-    }
+    };
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
@@ -101,81 +135,98 @@ function BasicDetailsForm({editingEmployee}) {
             if (!validateEmail(value)) {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    email: 'Invalid email address'
+                    email: 'Invalid email address',
                 }));
             } else {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    email: ''
-                }))
+                    email: '',
+                }));
             }
         }
 
         if (name === 'firstName') {
-            if(!validateFirstName(value)) {
+            if (!validateFirstName(value)) {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    firstName: 'First Name cannot starts with a number'
-                }))
-            } else {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    firstName: ''
-                }))
-            }
-        }
-
-        if(name === 'panNumber') {
-            if(!validatePanNumber(value)) {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    panNumber: 'PAN number does not contain special characters'
+                    firstName: 'First Name cannot start with a number',
                 }));
             } else {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    panNumber: ''
-                }))
+                    firstName: '',
+                }));
             }
         }
 
-        if(name === 'passport') {
-            if(!validatePassport(value)) {
+        if (name === 'panNumber') {
+            if (!validatePanNumber(value)) {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    passport: 'Passport number does not contain special characters'
+                    panNumber: 'PAN number does not contain special characters',
                 }));
             } else {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    passport: ''
-                }))
+                    panNumber: '',
+                }));
+            }
+        }
+
+        if (name === 'passport') {
+            if (!validatePassport(value)) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    passport: 'Passport number does not contain special characters',
+                }));
+            } else {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    passport: '',
+                }));
             }
         }
     };
 
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        setShowProfessionalForm(true)
         if (isFormValid) {
-            console.log(formData)
-            setShowProfessionalForm(true)
+            console.log('checkBasic', formData);
+            Api.post('api/basicDetails', {
+                "firstName": formData.firstName,
+                "lastName": formData.lastName,
+                "gender": formData.gender,
+                "dateOfBirth": formData.dateOfBirth,
+                "nationality": formData.nationality,
+                "department": {
+                    "id": formData.department
+                },
+                "designation": {
+                    "id": formData.designation
+                },
+                "panNumber": formData.panNumber,
+                "passport": formData.passport
+            },
+                { 'Authorization': `Bearer ${token}` })
+                .then(response => {
+                    console.log('basicSub:', response)
+                })
         }
-    }
+    };
 
     return (
         <div>
-            {!showProfessionalForm ?
-                <div className='mt-8'>
-
-                    <NewProgressive stage={"Basic"}/>
-
-
-                    {/* <img className='w-[532px] h-[42px] mx-auto' src={bar1}></img> */}
-                    <form className=' shadow mt-8 p-6 bg-[#FFFFFF]' onSubmit={handleSubmit}>
-                        <div className='text-[20px] font-medium border-b pb-4'>Basic Details</div>
+            {!showProfessionalForm ? (
+                <div className="mt-8">
+                    <NewProgressive stage="Basic" />
+                    <form
+                        className="shadow mt-8 p-6 bg-[#FFFFFF]"
+                        onSubmit={handleSubmit}
+                    >
+                        <div className="text-[20px] font-medium border-b pb-4">
+                            Basic Details
+                        </div>
 
                         <div className='flex gap-4 text-[#373737]'>
                             <div className='mt-6'>
@@ -213,9 +264,9 @@ function BasicDetailsForm({editingEmployee}) {
                                     className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 >
                                     <option value=''>Select Gender</option>
-                                    <option value='Male'>Male</option>
-                                    <option value='Female'>Female</option>
-                                    <option value='Others'>Others</option>
+                                    <option value='MALE'>Male</option>
+                                    <option value='FEMALE'>Female</option>
+                                    <option value='OTHERS'>Others</option>
                                 </select>
                             </div>
                             <div className='mt-6'>
@@ -226,7 +277,7 @@ function BasicDetailsForm({editingEmployee}) {
                                     onChange={handleFormChange}
                                     className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                                 >
-                                    <option value='Indian'>Indian</option>
+                                    <option value='INDIAN'>Indian</option>
                                     <option value='UAE'>UAE</option>
 
                                 </select>
@@ -275,37 +326,45 @@ function BasicDetailsForm({editingEmployee}) {
                             </div>
                         </div>
 
-                        <div className='text-[20px] font-medium border-b pb-4 mt-8'>Job</div>
+                        {/* Designation and Department Fields */}
+                        <div className="text-[20px] font-medium border-b pb-4 mt-8">
+                            Job
+                        </div>
 
-                        <div className='flex gap-4 text-[#373737]'>
-                            <div className='mt-6'>
-                                <div className='text-[14px]'>Designation</div>
+                        <div className="flex gap-4 text-[#373737]">
+                            <div className="mt-6">
+                                <div className="text-[14px]">Designation</div>
                                 <select
-                                    name='designation'
+                                    name="designation"
                                     value={formData.designation}
                                     onChange={handleFormChange}
-                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
+                                    className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
                                 >
-                                    <option value=''>Designation</option>
-                                    <option value='Development'>Frontend Developer</option>
-                                    <option value='Marketing'>Backend Developer</option>
+                                    <option value="">Select Designation</option>
+                                    {designations.map((designation) => (
+                                        <option key={designation.id} value={designation.id}>
+                                            {designation.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
-                            <div className='mt-6'>
-                                <div className='text-[14px]'>Department</div>
+                            <div className="mt-6">
+                                <div className="text-[14px]">Department</div>
                                 <select
-                                    name='department'
+                                    name="department"
                                     value={formData.department}
                                     onChange={handleFormChange}
-                                    className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
+                                    className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
                                 >
-                                    <option value=''>Department</option>
-                                    <option value='Development'>Web Development</option>
-                                    <option value='Marketing'>Mobile App Development</option>
+                                    <option value="">Select Department</option>
+                                    {departments.map((department) => (
+                                        <option key={department.id} value={department.id}>
+                                            {department.departmentName}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                         </div>
-
                         <div className='flex gap-4 text-[#373737]'>
                             <div className='mt-6'>
                                 <div className='text-[14px]'>Email</div>
@@ -322,23 +381,25 @@ function BasicDetailsForm({editingEmployee}) {
                             </div>
                         </div>
 
-                        <div className='flex justify-end'>
+
+
+                        <div className="flex justify-end">
                             <button
-                                type='submit'
-                                className={`text-[14px] text-white bg-[#2B2342] rounded px-8 py-4 mt-8 ${!isFormValid ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                type="submit"
+                                className={`text-[14px] text-white bg-[#2B2342] rounded px-8 py-4 mt-8 ${!isFormValid ? 'opacity-50 cursor-not-allowed' : ''
+                                    }`}
                                 disabled={!isFormValid}
                             >
                                 Activate my account
                             </button>
                         </div>
-
                     </form>
                 </div>
-                : <ProfessionalDetails setShowProfessionalForm={setShowProfessionalForm}/>
-            }
+            ) : (
+                <ProfessionalDetails setShowProfessionalForm={setShowProfessionalForm} />
+            )}
         </div>
-
-    )
+    );
 }
 
-export default BasicDetailsForm
+export default BasicDetailsForm;

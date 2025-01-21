@@ -3,6 +3,11 @@ import tickIcon from '../../../../Assets/HrTas/check.svg';
 import FinalDetailsForm from './FinalDetailsForm';
 import BackButton from './BackButton';
 import NewProgressive from './NewProgressive';
+import Api from '../../../../Services/Api';
+
+const token = localStorage.getItem("token")
+console.log("token:", token)
+
 function PhysicalDetailsForm({ setShowPhysicalForm }) {
 
     const [showFinalForm, setShowFinalForm] = useState(false)
@@ -32,6 +37,25 @@ function PhysicalDetailsForm({ setShowPhysicalForm }) {
             console.log("Proceed to the next step");
             console.log(formData)
             setShowFinalForm(true)
+            Api.post('api/physical', {
+
+                "height": formData.height,
+                "weight": formData.weight,
+                "leftVision": formData.visionLeft,
+                "rightVision": formData.visionRight,
+                "leftHearing": formData.hearingLeft,
+                "rightHearing": formData.hearingRight,
+                "bloodType": formData.bloodType
+
+
+
+            },
+                {
+                    'Authorization': `Bearer ${token}`
+                })
+                .then(response => {
+                    console.log('physical:', response)
+                })
         }
     };
 
@@ -39,11 +63,11 @@ function PhysicalDetailsForm({ setShowPhysicalForm }) {
         <div>
             {!showFinalForm ?
                 <div className='bg-[#F8FAFB] pl-6 pr-12'>
-                    
-                    <NewProgressive stage={"Physical"}/>
+
+                    <NewProgressive stage={"Physical"} />
 
                     <div className='flex justify-start mt-6'>
-                        <BackButton stateValue={setShowPhysicalForm}/>
+                        <BackButton stateValue={setShowPhysicalForm} />
                     </div>
 
                     <div className='Details-form bg-white mt-8 p-6'>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import leaveIcon from "../../../Assets/hrm/leaveBal.png";
-import Api from '../../../Services/Api';
+import Api from "../../../Services/Api";
 
 function LeaveManagement() {
   const [showForm, setShowForm] = useState(false);
@@ -9,43 +9,47 @@ function LeaveManagement() {
     totalLeaves: 20,
     casualLeaves: 10,
     sickLeaves: 10,
-    rejectedLeaves: 0
+    rejectedLeaves: 0,
   }); // Store leave balances
   const [formData, setFormData] = useState({
-    leaveType: '',
-    startDate: '',
-    endDate: '',
-    reason: '',
-    reportingManager: 'Arjun JS'
+    leaveType: "",
+    startDate: "",
+    endDate: "",
+    reason: "",
+    reportingManager: "Arjun JS",
   }); // Form data state
   const [isFormValid, setIsFormValid] = useState(false);
+  const [apiError, setApiError] = useState(""); // To display API error
 
-  const token = localStorage.getItem('token'); // Get token from local storage
+  const token = localStorage.getItem("token"); // Get token from local storage
 
   // Fetch Leave History and Balances
   useEffect(() => {
     if (!token) {
-      console.error('Token is missing. Please log in.');
+      console.error("Token is missing. Please log in.");
+      setApiError("Authentication error: Token is missing.");
       return;
     }
 
-    Api.get('api/leaveRequest',
-      { 'Authorization': `Bearer ${token}` }
-    )
+    Api.get("api/leaveRequest", {
+     'Authorization': `Bearer ${token}`
+    })
       .then((response) => {
-        console.log('API Response:', response.data.content);
-        setLeaveHistory(response.data.content)
-        // setLeaveHistory(response.data.content?.leaveHistory || []); 
+        console.log("API Responsesss:", response.data);
+        setLeaveHistory(response.data.content?.leaveHistory || []);
         setLeaveBalances(response.data.content?.balances || leaveBalances);
+        setApiError(""); // Clear any previous error
       })
       .catch((error) => {
         if (error.response?.status === 401) {
-          console.error('Unauthorized. Please check your token.');
+          console.error("Unauthorized. Please check your token.");
+          setApiError("Unauthorized access. Please check your login credentials.");
         } else {
-          console.error('Error fetching leave data:', error);
+          console.error("Error fetching leave data:", error);
+          setApiError("Unable to fetch leave data. Please try again later.");
         }
       });
-  }, [token, leaveBalances]);
+  }, [token]);
 
   // Form Field Change Handler
   const handleFormChange = (e) => {
@@ -55,7 +59,7 @@ function LeaveManagement() {
     if (name === "startDate" && formData.endDate && formData.endDate < value) {
       setFormData((prev) => ({
         ...prev,
-        endDate: value
+        endDate: value,
       }));
     }
   };
@@ -64,9 +68,11 @@ function LeaveManagement() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    const days = Math.ceil(
-      (new Date(formData.endDate) - new Date(formData.startDate)) / (1000 * 60 * 60 * 24)
-    ) + 1;
+    const days =
+      Math.ceil(
+        (new Date(formData.endDate) - new Date(formData.startDate)) /
+          (1000 * 60 * 60 * 24)
+      ) + 1;
 
     if (days <= 0) {
       console.error("End date must be after start date.");
@@ -74,7 +80,7 @@ function LeaveManagement() {
     }
 
     Api.post(
-      'api/leaveRequest',
+      "api/leaveRequest",
       {
         leaveType: formData.leaveType,
         startDate: formData.startDate,
@@ -82,22 +88,23 @@ function LeaveManagement() {
         reason: formData.reason,
         reportingManager: formData.reportingManager,
       },
-      {
-        headers: { 'Authorization': `Bearer ${token}` },
-      }
-    )
+      
+       { 'Authorization': `Bearer ${token}` 
+
+       })
       .then((response) => {
+        console.log("post:",response)
         const newLeaveEntry = response.data;
         setLeaveHistory([...leaveHistory, newLeaveEntry]);
 
         // Update leave balances
-        if (formData.leaveType === 'Casual Leave') {
+        if (formData.leaveType === "Casual Leave") {
           setLeaveBalances((prev) => ({
             ...prev,
             totalLeaves: prev.totalLeaves - days,
             casualLeaves: prev.casualLeaves - days,
           }));
-        } else if (formData.leaveType === 'Sick Leave') {
+        } else if (formData.leaveType === "Sick Leave") {
           setLeaveBalances((prev) => ({
             ...prev,
             totalLeaves: prev.totalLeaves - days,
@@ -108,25 +115,29 @@ function LeaveManagement() {
         // Reset form
         setShowForm(false);
         setFormData({
-          leaveType: '',
-          startDate: '',
-          endDate: '',
-          reason: '',
-          reportingManager: 'Arjun JS',
+          leaveType: "",
+          startDate: "",
+          endDate: "",
+          reason: "",
+          reportingManager: "Aman",
         });
       })
       .catch((error) => {
-        console.error('Error applying leave:', error.response?.data || error.message);
+        console.error("Error applying leave:", error.response?.data || error.message);
       });
   };
 
-
   // Today's date for date inputs
-  const getTodayDate = () => new Date().toISOString().split('T')[0];
+  const getTodayDate = () => new Date().toISOString().split("T")[0];
 
   // Validate form
   useEffect(() => {
-    const isValid = formData.leaveType && formData.startDate && formData.endDate && formData.reason && formData.reportingManager;
+    const isValid =
+      formData.leaveType &&
+      formData.startDate &&
+      formData.endDate &&
+      formData.reason &&
+      formData.reportingManager;
     setIsFormValid(isValid);
   }, [formData]);
 
@@ -148,22 +159,34 @@ function LeaveManagement() {
       {/* Leave Summary */}
       <div className="flex justify-center gap-[55px] mt-[24px]">
         {[
-          { type: 'Total leaves', count: leaveBalances.totalLeaves },
-          { type: 'Casual leaves', count: leaveBalances.casualLeaves },
-          { type: 'Sick leaves', count: leaveBalances.sickLeaves },
-          { type: 'Rejected', count: leaveBalances.rejectedLeaves },
+          { type: "Total leaves", count: leaveBalances.totalLeaves },
+          { type: "Casual leaves", count: leaveBalances.casualLeaves },
+          { type: "Sick leaves", count: leaveBalances.sickLeaves },
+          { type: "Rejected", count: leaveBalances.rejectedLeaves },
         ].map((leave, index) => (
-          <div key={index} className="bg-white rounded-lg h-[132px] w-[224px] flex flex-col">
-            <h2 className="text-[20px] text-[#1255D0] font-medium mt-[20px] text-center">{leave.type}</h2>
+          <div
+            key={index}
+            className="bg-white rounded-lg h-[132px] w-[224px] flex flex-col"
+          >
+            <h2 className="text-[20px] text-[#1255D0] font-medium mt-[20px] text-center">
+              {leave.type}
+            </h2>
             <div className="flex items-center mt-1">
               <div className="w-[47px] h-[47px] ml-[60px]">
                 <img src={leaveIcon} alt={`${leave.type} icon`} />
               </div>
-              <div className="text-[48px] font-medium text-[#000000] ml-[16px]">{leave.count}</div>
+              <div className="text-[48px] font-medium text-[#000000] ml-[16px]">
+                {leave.count}
+              </div>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Error Display */}
+      {apiError && (
+        <div className="text-red-600 text-sm mt-4">{apiError}</div>
+      )}
 
       {/* Leave Form or History */}
       {showForm ? (
@@ -172,7 +195,9 @@ function LeaveManagement() {
           <form onSubmit={handleFormSubmit}>
             {/* Leave Type */}
             <div className="mt-6">
-              <label className="block text-[#373737] text-sm font-normal">Leave Type</label>
+              <label className="block text-[#373737] text-sm font-normal">
+                Leave Type
+              </label>
               <select
                 name="leaveType"
                 value={formData.leaveType}
@@ -189,7 +214,9 @@ function LeaveManagement() {
             {/* Start Date and End Date */}
             <div className="flex mt-4">
               <div>
-                <label className="block text-[#373737] text-sm font-normal">Start Date</label>
+                <label className="block text-[#373737] text-sm font-normal">
+                  Start Date
+                </label>
                 <input
                   type="date"
                   name="startDate"
@@ -201,7 +228,9 @@ function LeaveManagement() {
                 />
               </div>
               <div className="ml-6">
-                <label className="block text-[#373737] text-sm font-normal">End Date</label>
+                <label className="block text-[#373737] text-sm font-normal">
+                  End Date
+                </label>
                 <input
                   type="date"
                   name="endDate"
@@ -216,105 +245,89 @@ function LeaveManagement() {
 
             {/* Reason */}
             <div className="mt-4">
-              <label className="block text-[#373737] text-sm font-normal">Reason</label>
+              <label className="block text-[#373737] text-sm font-normal">
+                Reason
+              </label>
+
               <textarea
                 name="reason"
                 value={formData.reason}
                 onChange={handleFormChange}
-                className="w-[1004px] h-[84px] focus:outline-[#A4A4E5] mt-4 rounded-lg border border-[#E6E6E7] text-sm text-[#696A70] font-normal px-3 py-2"
+                className="w-full h-[96px] focus:outline-[#A4A4E5] mt-4 rounded-lg text-sm text-[#696A70] font-normal border border-[#E6E6E7] px-3 py-2"
+                placeholder="Enter the reason for your leave"
                 required
               />
             </div>
 
             {/* Reporting Manager */}
             <div className="mt-4">
-              <label className="block text-[#373737] text-sm font-normal">Reporting Manager</label>
+              <label className="block text-[#373737] text-sm font-normal">
+                Reporting Manager
+              </label>
               <input
                 type="text"
                 name="reportingManager"
                 value={formData.reportingManager}
+                onChange={handleFormChange}
+                className="w-[500px] h-[48px] focus:outline-[#A4A4E5] mt-4 rounded-lg text-sm text-[#696A70] font-normal border border-[#E6E6E7] px-3 py-2"
                 readOnly
-                className="w-[1004px] h-[48px] focus:outline-[#A4A4E5] mt-4 rounded-lg border border-[#E6E6E7] text-sm text-[#696A70] font-normal px-3 py-2 bg-gray-100"
+                required
               />
             </div>
 
             {/* Submit and Cancel Buttons */}
-            <div className="flex justify-end mt-6">
+            <div className="flex justify-center mt-6">
+              <button
+                type="submit"
+                disabled={!isFormValid}
+                className={`w-[118px] h-[48px] rounded-lg text-center text-white text-sm font-normal ${
+                  isFormValid ? "bg-[#2B2342]" : "bg-gray-400 cursor-not-allowed"
+                }`}
+              >
+                Submit
+              </button>
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="w-[118px] h-[48px] mr-4 rounded-lg bg-[#F0F0F0] text-[#2B2342] text-sm font-normal"
+                className="ml-4 w-[118px] h-[48px] rounded-lg bg-white border border-[#2B2342] text-[#2B2342] text-sm font-normal"
               >
                 Cancel
-              </button>
-              <button
-                type="submit"
-                className="w-[118px] h-[48px] rounded-lg bg-[#2B2342] text-white text-sm font-normal"
-                disabled={!isFormValid}
-              >
-                Submit
               </button>
             </div>
           </form>
         </div>
       ) : (
-        // Leave History Table
-        <div className="mt-[16px]">
-  <h2 className="text-[16px] font-normal text-[#000000]">Leave History</h2>
-  <div className="bg-white p-6 mt-4 h-screen">
-    <div className="overflow-x-auto mt-[16px] rounded-t-lg">
-      <table className="w-full border-none">
-        <thead className="bg-[#465062] h-[50px] text-white">
-          <tr>
-            <th className="p-4 text-left font-normal text-sm">Date</th>
-            <th className="p-4 text-left font-normal text-sm">Leave Type</th>
-            <th className="p-4 text-left font-normal text-sm">From</th>
-            <th className="p-4 text-left font-normal text-sm">To</th>
-            <th className="p-4 text-left font-normal text-sm">Days</th>
-            <th className="p-4 text-left font-normal text-sm">Status</th>
-          </tr>
-        </thead>
-        <tbody>
+        <div className="bg-white p-4 mt-4">
+          <h2 className="text-center text-[24px] font-medium">Leave History</h2>
           {leaveHistory.length > 0 ? (
-            leaveHistory.map((leave) => (
-              <tr
-                key={leave.id}
-                className="border-b hover:bg-[#F9F9F9] text-[#373737] font-light"
-              >
-                <td className="p-4 text-left text-sm">{leave.date || 'N/A'}</td>
-                <td className="p-4 text-left text-sm">{leave.leaveType || 'N/A'}</td>
-                <td className="p-4 text-left text-sm">{leave.startDate || 'N/A'}</td>
-                <td className="p-4 text-left text-sm">{leave.endDate || 'N/A'}</td>
-                <td className="p-4 text-left text-sm">{leave.days || 'N/A'}</td>
-                <td
-                  className={`p-4 font-normal ${
-                    leave.status === 'Approved'
-                      ? 'text-[#0DC606]'
-                      : leave.status === 'Rejected'
-                      ? 'text-[#FF0000]'
-                      : 'text-[#FFC107]'
-                  }`}
-                >
-                  {leave.status || 'Pending'}
-                </td>
-              </tr>
-            ))
+            <table className="w-full mt-4 border-collapse">
+              <thead>
+                <tr className="bg-[#f1f1f1] text-left text-sm">
+                  <th className="border px-4 py-2">Type</th>
+                  <th className="border px-4 py-2">Start Date</th>
+                  <th className="border px-4 py-2">End Date</th>
+                  <th className="border px-4 py-2">Reason</th>
+                  <th className="border px-4 py-2">Manager</th>
+                  <th className="border px-4 py-2">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaveHistory.map((leave, index) => (
+                  <tr key={index} className="text-sm">
+                    <td className="border px-4 py-2">{leave.leaveType}</td>
+                    <td className="border px-4 py-2">{leave.startDate}</td>
+                    <td className="border px-4 py-2">{leave.endDate}</td>
+                    <td className="border px-4 py-2">{leave.reason}</td>
+                    <td className="border px-4 py-2">{leave.reportingManager}</td>
+                    <td className="border px-4 py-2">{leave.status || "Pending"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
-            <tr>
-              <td
-                className="p-4 text-center text-sm font-light text-[#373737]"
-                colSpan={6}
-              >
-                No leave history available.
-              </td>
-            </tr>
+            <p className="text-center text-gray-500 mt-4">No leave history available.</p>
           )}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
+        </div>
       )}
     </div>
   );
