@@ -4,6 +4,7 @@ import checkBox from '../../../../Assets/HrTas/checkBox.svg';
 import unCheckBox from '../../../../Assets/HrTas/uncheckBox.svg';
 import BackButton from './BackButton';
 import NewProgressive from './NewProgressive';
+import Api from '../../../../Services/Api';
 
 
 function FinalDetailsForm({setShowFinalForm,showFinalForm}) {
@@ -16,6 +17,7 @@ function FinalDetailsForm({setShowFinalForm,showFinalForm}) {
 
     const handleSubmit =()=> {
         console.log('form has submitted sucessfully')
+        
     }
     
 

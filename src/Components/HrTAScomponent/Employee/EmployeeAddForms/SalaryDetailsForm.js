@@ -3,8 +3,12 @@ import tickIcon from '../../../../Assets/HrTas/check.svg';
 import PersonalDetailForm from './PersonalDetailForm';
 import BackButton from './BackButton';
 import NewProgressive from './NewProgressive';
+import Api from '../../../../Services/Api';
 
-function SalaryDetailsForm({setShowSalaryForm}) {
+const token = localStorage.getItem('token');
+console.log('Token:', token);
+
+function SalaryDetailsForm({ setShowSalaryForm }) {
 
   const [isFormValid, setIsFormValid] = useState(false)
   const [showPersonalForm, setShowPersonalForm] = useState(false)
@@ -19,7 +23,7 @@ function SalaryDetailsForm({setShowSalaryForm}) {
     bankName: '',
     bankAccount: '',
     payPeriod: 'Monthly',
-    method: 'Net Banking'
+    method: ''
   })
 
   useEffect(() => {
@@ -67,6 +71,29 @@ function SalaryDetailsForm({setShowSalaryForm}) {
     if (isFormValid) {
       console.log(formData)
       setShowPersonalForm(true)
+      Api.post('api/salaryDetails',
+        {
+
+   
+          "basicSalary": formData.basicSalary,
+          "currentSalary": formData.currentSalary,
+          "earnings": formData.earning,
+          "deductions": formData.deduction,
+          "bonus": formData.bonus,
+          "epf": formData.epf,
+          "bankName": formData.bankName,
+          "bankAccount": formData.bankAccount,
+          "month": "string",
+          "payPeriod": "MONTHLY",
+          "paymentMethod": "CASH"
+      }, 
+      {
+        'Authorization': `Bearer ${token}`
+      })
+      .then(response =>{
+        console.log(response)
+      })
+
     }
   }
 
@@ -78,10 +105,10 @@ function SalaryDetailsForm({setShowSalaryForm}) {
       {!showPersonalForm ?
         <div className='mt-8'>
 
-          <NewProgressive stage={"Salary"}/>
+          <NewProgressive stage={"Salary"} />
 
           <div className='flex justify-start mt-6 mx-6'>
-            <BackButton stateValue={setShowSalaryForm}/>
+            <BackButton stateValue={setShowSalaryForm} />
           </div>
 
           <div className='p-6'>
@@ -209,7 +236,7 @@ function SalaryDetailsForm({setShowSalaryForm}) {
                     onChange={handleFormChange}
                     className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]'
                   >
-                    <option value='Monthly'>Monthly</option>
+                    <option value='MONTHLY'>Monthly</option>
                     <option value='Yearly'>Yearly</option>
                   </select>
                 </div>
@@ -223,6 +250,7 @@ function SalaryDetailsForm({setShowSalaryForm}) {
                   >
                     <option value='Net Banking'>Net Banking</option>
                     <option value='Cheque'>Cheque</option>
+                    <option value='cash'>Cash</option>
                   </select>
                 </div>
               </div>
@@ -240,7 +268,7 @@ function SalaryDetailsForm({setShowSalaryForm}) {
             </form>
           </div>
 
-        </div> : <PersonalDetailForm setShowPersonalForm={setShowPersonalForm}/>
+        </div> : <PersonalDetailForm setShowPersonalForm={setShowPersonalForm} />
       }
     </div>
   )
