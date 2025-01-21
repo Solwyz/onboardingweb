@@ -12,20 +12,20 @@ import arrowLeft from '../../../Assets/HrTas/documentsPage/arrowLeft.svg';
 import arrowRight from '../../../Assets/HrTas/documentsPage/arrowRight.svg';
 import Api from '../../../Services/Api';
 
-const employees = [
-  { id: 1, name: 'Amal Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile1 },
-  { id: 2, name: 'Boby Mathew', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: 'Fresher', image: menProfile2 },
-  { id: 3, name: 'Angela Wing', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '2 Years of Experience', image: girlProfile },
-  { id: 4, name: 'Sandra Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile3 },
-  { id: 5, name: 'Ruthin Losh', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile4 },
-  { id: 6, name: 'Amal Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile1 },
-  { id: 7, name: 'Amal Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile1 },
-  { id: 8, name: 'Boby Mathew', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: 'Fresher', image: menProfile2 },
-  { id: 9, name: 'Angela Wing', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '2 Years of Experience', image: girlProfile },
-  { id: 10, name: 'Sandra Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile3 },
-  { id: 11, name: 'Ruthin Losh', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile4 },
-  { id: 12, name: 'Amal Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile1 },
-];
+// const employees = [
+//   { id: 1, name: 'Amal Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile1 },
+//   { id: 2, name: 'Boby Mathew', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: 'Fresher', image: menProfile2 },
+//   { id: 3, name: 'Angela Wing', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '2 Years of Experience', image: girlProfile },
+//   { id: 4, name: 'Sandra Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile3 },
+//   { id: 5, name: 'Ruthin Losh', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile4 },
+//   { id: 6, name: 'Amal Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile1 },
+//   { id: 7, name: 'Amal Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile1 },
+//   { id: 8, name: 'Boby Mathew', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: 'Fresher', image: menProfile2 },
+//   { id: 9, name: 'Angela Wing', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '2 Years of Experience', image: girlProfile },
+//   { id: 10, name: 'Sandra Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile3 },
+//   { id: 11, name: 'Ruthin Losh', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile4 },
+//   { id: 12, name: 'Amal Davis', email: 'amaldavis@gmail.com', role: 'Android Developer', department: 'Technical', experience: '4 Years of Experience', image: menProfile1 },
+// ];
 
 function People() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -56,13 +56,13 @@ function People() {
   };
 
   useEffect(() => {
-    Api.get('api/employee/api/employees/active', {
+    Api.get('api/employee', {
       'Authorization': `Bearer ${token}`
     })
       .then(response => {
         if (response && response.data) {
-          setEmployees(response.data)
-          console.log('Time employeeekk', response.data)
+          setEmployees(response.data.content)
+          console.log('peopleee data', response.data.content)
         } else {
           console.error('Invalid response data:', response)
           alert('Can not fetch Employees data. Please try again')
@@ -90,31 +90,34 @@ function People() {
             }}
           />
         </div>
-        <div className="grid gap-2 mt-4">
+        <div className="grid grid-col-3 mt-4 gap-2">
           {currentEmployees.map((employee) => (
             <div
               key={employee.id}
-              className="bg-white h-[136px] py-[22px] p-4 w-[1097px] custom-shadow flex items-center"
+              className="bg-white h-[136px] py-[22px] p-4 w-[1097px] custom-shadow flex gap-32 items-center"
             >
               <img src={employee.image} className="w-[104px] h-[104px] rounded-lg" alt={employee.name} />
-              <div className='ml-8'>
+
+              <div className='ml-8 w-[300px]'>
                 <h3 className="text-[16px] text-[#373737] font-normal">{employee.name}</h3>
                 <p className="text-[16px] mt-[16px] text-[#696A70] font-normal">{employee.email}</p>
               </div>
-              <div className="ml-[467px] text-left">
+
+              <div className=" text-left">
                 <div className="flex text-[16px] text-[#696A70] font-normal">
                   <img src={jobIcon} alt="Role" className='mr-8' />
-                  {employee.role}
+                  {employee.name}
                 </div>
                 <div className="flex text-[16px] text-[#696A70] font-normal mt-4">
                   <img src={depIcon} alt="Department" className='mr-8' />
-                  {employee.department}
+                  {employee.email}
                 </div>
                 <div className="flex text-[16px] text-[#696A70] font-normal mt-4">
                   <img src={expIcon} alt="Experience" className='mr-8' />
-                  {employee.experience}
+                  {employee.createdAt}
                 </div>
               </div>
+              
             </div>
           ))}
         </div>
