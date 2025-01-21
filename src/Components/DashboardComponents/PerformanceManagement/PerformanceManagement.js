@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Api from '../../../Services/Api'; // Adjust the path based on your project structure
 
 function PerformanceManagement() {
     const initialFormData = {
@@ -17,7 +18,7 @@ function PerformanceManagement() {
     const [errors, setErrors] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
-
+    const token = localStorage.getItem('token')
     const validateForm = () => {
         let formErrors = {};
         if (!formData.goalSetting) formErrors.goalSetting = 'Goal setting is required!';
@@ -45,13 +46,27 @@ function PerformanceManagement() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitted(true);
         if (validateForm()) {
-            console.log(formData);
-            setFormData(initialFormData);
-            setErrors({});
+            try {
+                const response = await Api.post('api/employee', formData,
+                    {
+                        'Authorization': `Bearer ${token}`
+                        
+                    })
+                    console.log('neww',response)
+                if (response?.status === 200 || response?.status === 201) {
+                    alert('Performance details submitted successfully!');
+                    setFormData(initialFormData); // Reset the form
+                } else {
+                    alert('Failed to submit performance details. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error submitting performance details:', error);
+                alert('An error occurred while submitting the form. Please try again later.');
+            }
             setIsSubmitted(false);
         }
     };
@@ -60,11 +75,9 @@ function PerformanceManagement() {
 
     return (
         <div className="p-6">
-            <h2 className="text-xl font-medium text-[#232E42]  mt-10 ">Performance Management</h2>
-
-            <div className='container p-6 bg-white mt-6'>
+            <h2 className="text-xl font-medium text-[#232E42] mt-10">Performance Management</h2>
+            <div className="container p-6 bg-white mt-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
-
                     <div className=''>
                         <label className="block text-[#373737] text-sm font-normal">Goal Setting</label>
                         <textarea
@@ -181,12 +194,11 @@ function PerformanceManagement() {
                         />
                         {isSubmitted && errors.trainingPlan && <p className="text-red-500 text-sm mt-1">{errors.trainingPlan}</p>}
                     </div>
-
                     <div className="mt-[56px]">
-                    <button
+                        <button
                             type="submit"
                             className={`bg-[#2B2342] text-white text-[14px] font-normal py-2 px-6 rounded-lg ${isFormValid ? "" : "opacity-50 cursor-not-allowed"}`}
-                            disabled={!isFormValid} // Disabled if form is not valid
+                            disabled={!isFormValid}
                         >
                             Apply
                         </button>
