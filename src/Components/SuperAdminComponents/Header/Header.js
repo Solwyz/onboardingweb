@@ -21,6 +21,14 @@ function Header() {
     navigate('/'); // Redirect to login page after logout
   };
 
+  const handleTasClick = () => {
+    navigate('/hrtas')
+  }
+
+  const handleHrmClick = () => {
+    navigate('/hr')
+  }
+
   return (
     <div className="h-[72px] z-[1000] pl-[40px] pr-[25px] flex items-center">
       <img className="cursor-pointer" src={medoLogo} alt="Logo" />
@@ -43,6 +51,20 @@ function Header() {
               >
                 <img src={LogoutIcon} alt="Logout" className="mr-2" />
                 Log out
+              </button>
+              <button 
+                onClick={handleTasClick} 
+                className="flex items-center px-4 py-2 w-full text-left hover:bg-gray-100"
+              >
+                <img src={LogoutIcon} alt="Logout" className="mr-2" />
+                HR-TAS
+              </button>
+              <button 
+                onClick={handleHrmClick} 
+                className="flex items-center px-4 py-2 w-full text-left hover:bg-gray-100"
+              >
+                <img src={LogoutIcon} alt="Logout" className="mr-2" />
+                HR-Module
               </button>
             </div>
           )}
