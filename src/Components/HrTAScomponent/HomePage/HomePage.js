@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AlertPage from './AlertPage/AlertPage'
 import ToDoListPage from './ToDoListPage/ToDoListPage'
 import ProfilePage from './ProfilePage/ProfilePage'
@@ -7,8 +7,32 @@ import Users from '../../../Assets/HrTas/Userss.svg'
 import Equalizer  from '../../../Assets/HrTas/equalizer.svg'
 import EqualizerGreen  from '../../../Assets/HrTas/equalizerGreen.svg'
 import EqualizerRed  from '../../../Assets/HrTas/equalizerRed.svg'
+import Api from '../../../Services/Api'
 
 function HomePage() {
+
+    const [employees, setEmployees] = useState({})
+
+    const token = localStorage.getItem('token')
+
+    useEffect(() => {
+        Api.get('api/employee/api/employees/active', {
+            'Authorization': `Bearer ${token}`
+          })
+            .then(response => {
+              if (response && response.data) {
+                setEmployees(response.data)
+                console.log('Time employeeekk', response.data)
+              } else {
+                console.error('Invalid response data:', response)
+                alert('Can not fetch Employees data. Please try again')
+              }
+            })
+            .catch(error => {
+              console.error(error)
+            })
+    },[])
+
   return (
     <div className='bg-[#F2F3F4] p-6'>
     <div>
@@ -19,7 +43,7 @@ function HomePage() {
             <h1 className='text-[16px] text-[#1255D0] font-medium   '>Total employee</h1>
             <div className='flex items-center'>
              <img src={Users} alt="" />
-             <h1 className='text-[32px] font-medium ml-4'>32</h1>
+             <h1 className='text-[32px] font-medium ml-4'>{employees?.length}</h1>
              <img className='ml-[132px]' src={Equalizer} alt="" />
             </div>
         </div>

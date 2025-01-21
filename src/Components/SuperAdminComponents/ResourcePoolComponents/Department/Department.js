@@ -52,24 +52,7 @@ function Department({ onBack }) {
     .then(response => {
       console.log(response)
     })
-  
 
-    //  Api.post('api/department',
-    //   {
-    //     "departmentName": "addedNew dep"
-    //   },
-    //    {
-    //   'Authorization': `Bearer ${token}`
-    //  })
-    //  .then(response => {
-      
-    //  })
-
-
-
-
-
-    // Prevent the default form submission
 
     // Append new form data to the existing department array
     const updatedDepartment = [...departmentData, formData];

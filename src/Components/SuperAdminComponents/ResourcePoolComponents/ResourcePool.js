@@ -79,7 +79,7 @@ function ResourcePool() {
   return (
     <div className="ml-[16px]">
       <div className="flex mt-[16px] h-[48px] bg-white shadow w-[528px] font-normal text-[16px] text-[#080723] justify-start">
-        {['Departments', 'Resource', 'Roles'].map((tab) => (
+        {['Departments', 'Roles'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
