@@ -10,43 +10,61 @@ import arrowLeft from "../../../Assets/HrTas/documentsPage/arrowLeft.svg";
 import arrowRight from "../../../Assets/HrTas/documentsPage/arrowRight.svg";
 import CloseBtn from "../../../Assets/HrTas/close.svg";
 import Api from "../../../Services/Api";
+import { ClipLoader } from "react-spinners";
 
 const token = localStorage.getItem('token')
 
 function Document() {
 
+  const [searchTerm, setSearchTerm] = useState('')
+
   const [documentsData, setDocumentsData] = useState([])
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isStatusUpdating, setIsStatusUpdating] = useState(false)
+
+  const [refreshKey, setRefreshKey] = useState(0)
+
+  
+  const filteredDocuments = documentsData.filter((document) =>
+    document.documentType.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleApprove =(id)=> {
+  const handleApprove = (id) => {
+    setIsStatusUpdating(true)
     Api.post(`api/document/approveReject/${id}`, {
       "status": "Approved"
     }, { 'Authorization': `Bearer ${token}` })
-    .then(response => {
-      if(response && response.data) {
-        console.log('stattttssAP:',response.data.data)
-      } else {
-        console.log('Failed to Approve. Please try again.')
-      }
-    })
+      .then(response => {
+        setIsStatusUpdating(false)
+        setRefreshKey(prev => prev + 1)
+        if (response && response.data) {
+          console.log('stattttssAP:', response.data.data)
+        } else {
+          console.log('Failed to Approve. Please try again.')
+        }
+      })
   }
 
-  const handleReject =(id)=> {
+  const handleReject = (id) => {
+    setIsStatusUpdating(true)
     Api.post(`api/document/approveReject/${id}`, {
       "status": "Rejected"
     }, { 'Authorization': `Bearer ${token}` })
-    .then(response => {
-      if(response && response.data) {
-        console.log('statssssRj:',response.data.data)
-      } else {
-        console.log('Failed to Reject. Please try again.')
-      }
-    })
+      .then(response => {
+        setIsStatusUpdating(false)
+        setRefreshKey(prev => prev + 1)
+        if (response && response.data) {
+          console.log('statssssRj:', response.data.data)
+        } else {
+          console.log('Failed to Reject. Please try again.')
+        }
+      })
   }
 
   useEffect(() => {
@@ -61,7 +79,7 @@ function Document() {
           console.error('Invalid response data:', response)
         }
       })
-  }, [])
+  }, [refreshKey])
 
   return (
     <div className="p-6">
@@ -82,7 +100,11 @@ function Document() {
         <div className="flex items-center mt-[34px]">
           <input
             type="text"
-            placeholder="Search Document"   
+            placeholder="Search Document"
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              // setCurrentPage(1); 
+            }}
             className="border border-[#E6E6E7] focus:outline-none text-[#696A70] text-sm font-normal rounded-lg p-2 w-[584px] h-[48px]"
           />
           <button className="border border-[#E6E6E7] flex items-center font-normal text-sm text-[#2C2B2B] p-2 ml-2 rounded-lg w-[87px] h-[48px]">
@@ -94,12 +116,12 @@ function Document() {
         <div className="overflow-x-auto mt-6">
           <table className="w-full table-auto">
             <tbody>
-              {documentsData.map((doc, index) => {
-                
+              {filteredDocuments.map((doc, index) => {
+
                 return (
                   <tr
                     key={index}
-                    className={`w-full h-[64px] border-[#D9CDFF] ${index % 2 === 0 ? "bg-[#F9F9F9]" : "bg-white" }`}
+                    className={`w-full h-[64px] border-[#D9CDFF] ${index % 2 === 0 ? "bg-[#F9F9F9]" : "bg-white"}`}
                   >
                     <td className="text-center align-middle">
                       {/* <input
@@ -124,15 +146,15 @@ function Document() {
                     </td>
                     <td className="align-middle text-right">
                       <div className="flex justify-end mr-8">
-                        <button className={`mr-8 ${doc.status === "Approved" ? "cursor-not-allowed" : "opacity-50"}`} onClick={()=>handleApprove(doc.id)}>
+                        <button className={`mr-8 ${doc.status === "Approved" ? "cursor-not-allowed" : "opacity-50"}`} onClick={() => handleApprove(doc.id)}>
                           <img src={greenTick} alt="Approve" />
                         </button>
-                        <button className={`mr-8 ${doc.status === "Rejected" ? "cursor-not-allowed" : "opacity-50"}`} onClick={()=>handleReject(doc.id)}>
+                        <button className={`mr-8 ${doc.status === "Rejected" ? "cursor-not-allowed" : "opacity-50"}`} onClick={() => handleReject(doc.id)}>
                           <img src={xMark} alt="Reject" />
                         </button>
-                        <button>
+                        {/* <button>
                           <img src={deleteIcon1} alt="Delete" />
-                        </button>
+                        </button> */}
                       </div>
                     </td>
                   </tr>
@@ -142,6 +164,23 @@ function Document() {
           </table>
         </div>
       </div>
+
+      {isStatusUpdating && (
+        <div className="fixed inset-0 bg-black bg-opacity-[57%] flex justify-center items-center">
+          <div className="bg-white p-8 shadow-lg">
+            <div>
+              <ClipLoader
+                color={'#465062'}
+                loading={true}
+                size={35}
+                aria-label="Loading Spinner"
+                data-testid="Loader"
+              />
+            </div>
+            <div className='mt-2'>Updating status. Please wait..</div>
+          </div>
+        </div>
+      )}
 
       {/* Modal Implementation */}
       {isModalOpen && (

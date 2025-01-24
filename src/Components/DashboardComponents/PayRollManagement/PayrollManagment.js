@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { saveAs } from "file-saver";
 import Papa from "papaparse";
 import checkedBox from "../../../Assets/HrTas/checkBox.svg";
 import UncheckedBox from "../../../Assets/HrTas/uncheckBox.svg";
+import Api from "../../../Services/Api";
 
 const AdminPayrollForm = () => {
   const [payroll, setPayroll] = useState({
@@ -14,6 +15,8 @@ const AdminPayrollForm = () => {
     PayPeriod: "",
     BankAccount: "",
     IFSCCode: "",
+    Month: "",
+    PaymentMethod: ""
   });
 
   const [selectedAllowances, setSelectedAllowances] = useState({});
@@ -23,9 +26,13 @@ const AdminPayrollForm = () => {
   const [bonus, setBonus] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
   const [file, setFile] = useState(null); // For file upload
+  const [employees, setEmployees] = useState([])
+
+  const token = localStorage.getItem('token')
 
   const allowancesOptions = ["Housing", "Transport", "Medical"];
   const deductionsOptions = ["Tax", "Insurance", "Provident Fund"];
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +49,9 @@ const AdminPayrollForm = () => {
       !!payroll.BasicSalary &&
       !!payroll.BankAccount &&
       !!payroll.IFSCCode &&
-      !!payroll.PayPeriod
+      !!payroll.Month &&
+      !!payroll.PayPeriod &&
+      !!payroll.PaymentMethod
     );
   };
 
@@ -82,6 +91,7 @@ const AdminPayrollForm = () => {
   };
 
   const handleDownload = () => {
+
     const doc = new jsPDF();
 
     doc.text("Payroll Data", 14, 16);
@@ -98,6 +108,16 @@ const AdminPayrollForm = () => {
     });
     
     doc.save("payroll.pdf");
+
+    Api.post('api/salaryDetails', {
+        "basicSalary": payroll.BasicSalary,
+        "bankAccount": payroll.BankAccount,
+        "month": payroll.Month,
+        "payPeriod": payroll.PayPeriod,
+        "paymentMethod": payroll.PaymentMethod
+    }, { 'Authorization': `Bearer ${token}` })
+    .then(response => console.log('parl',response))
+
   };
 
   const handleFileChange = (e) => {
@@ -118,6 +138,24 @@ const AdminPayrollForm = () => {
     }
   };
 
+  useEffect(()=> {
+    Api.get('api/employee/api/employees/active', {
+      'Authorization': `Bearer ${token}`
+    })
+      .then(response => {
+        if (response && response.data) {
+          setEmployees(response.data)
+          console.log('Time employeeeeee', response.data)
+        } else {
+          console.error('Invalid response data:', response)
+          alert('Can not fetch Employees data. Please try again')
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  },[])
+
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-lg rounded-lg">
       <h1 className="text-[20px] font-medium mb-6">Create Payroll</h1>
@@ -125,14 +163,18 @@ const AdminPayrollForm = () => {
         <div className="flex columns-3 gap-10">
           <div>
             <label className="block text-[14px] font-normal mb-2">Employee Name</label>
-            <input
+            <select
               type="text"
               name="EmployeeName"
               value={payroll.EmployeeName}
               onChange={handleChange}
               className="border border-gray-300 py-[15px] px-4  w-[251px] rounded-lg"
-              placeholder="Rahul Raj"
-            />
+            >
+              <option value="">Select Employee</option>
+                  {Array.isArray(employees) && employees.map((employee, index) => (
+                    <option key={index} value={employee.id}>{employee.name}</option>
+                  ))}
+            </select>
           </div>
           <div>
             <label className="block font-normal text-[14px] mb-2">Basic Salary</label>
@@ -239,6 +281,17 @@ const AdminPayrollForm = () => {
           </div>
         </div>
         <div>
+            <label className="block text-[14px] font-normal mb-2">Month</label>
+            <input
+              type="text"
+              name="Month"
+              value={payroll.Month}
+              onChange={handleChange}
+              className="border border-gray-300 py-[15px] px-4  w-[251px] rounded-lg"
+              placeholder="Month"
+            />
+          </div>
+        <div>
           <label className="block font-normal text-[14px] mb-2">Pay Period</label>
           <select
             name="PayPeriod"
@@ -247,8 +300,21 @@ const AdminPayrollForm = () => {
             className="border border-gray-300 py-[15px] px-4  w-[251px] rounded-lg"
           >
             <option value="">Select Pay Period</option>
-            <option value="Monthly">Monthly</option>
-            <option value="Weekly">Weekly</option>
+            <option value="MONTHLY">Monthly</option>
+            <option value="WEEKLY">Weekly</option>
+          </select>
+        </div>
+        <div>
+          <label className="block font-normal text-[14px] mb-2">Payment Method</label>
+          <select
+            name="PaymentMethod"
+            value={payroll.PaymentMethod}
+            onChange={handleChange}
+            className="border border-gray-300 py-[15px] px-4  w-[251px] rounded-lg"
+          >
+            <option value="">Select PaymentMethod</option>
+            <option value="CASH">CASH</option>
+            <option value="CHEQUE">CHEQUE</option>
           </select>
         </div>
         <button
