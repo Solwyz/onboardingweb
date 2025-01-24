@@ -3,11 +3,12 @@ import Api from '../../../Services/Api'; // Adjust the path based on your projec
 
 function PerformanceManagement() {
     const initialFormData = {
+        employeeName: '',
         goalSetting: '',
         kpis: '',
         appraisalCycle: '',
         appraisalDate: '',
-        appraiserName: 'Vinay Sharma',
+        appraiserName: '',
         feedback: '',
         overallRating: '',
         actionPlan: '',
@@ -18,13 +19,17 @@ function PerformanceManagement() {
     const [errors, setErrors] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [employees, setEmployees] = useState([]);
+
     const token = localStorage.getItem('token')
     const validateForm = () => {
         let formErrors = {};
+        if (!formData.employeeName) formErrors.employeeName = 'Employee name is required!';
         if (!formData.goalSetting) formErrors.goalSetting = 'Goal setting is required!';
         if (!formData.kpis) formErrors.kpis = 'KPIs are required!';
         if (!formData.appraisalCycle) formErrors.appraisalCycle = 'Appraisal Cycle is required!';
         if (!formData.appraisalDate) formErrors.appraisalDate = 'Appraisal Date is required!';
+        if (!formData.appraiserName) formErrors.appraiserName = 'Appraiser Name is required!';
         if (!formData.feedback) formErrors.feedback = 'Feedback/Comments are required!';
         if (formData.overallRating < 1 || formData.overallRating > 10) formErrors.overallRating = 'Overall Rating must be between 1 and 10';
         if (!formData.actionPlan) formErrors.actionPlan = 'Action Plan is required!';
@@ -47,37 +52,92 @@ function PerformanceManagement() {
     };
 
     const handleSubmit = async (e) => {
+        console.log('qqq', formData)
         e.preventDefault();
         setIsSubmitted(true);
         if (validateForm()) {
-            try {
-                const response = await Api.post('api/employee', formData,
-                    {
-                        'Authorization': `Bearer ${token}`
-                        
-                    })
-                    console.log('neww',response)
-                if (response?.status === 200 || response?.status === 201) {
-                    alert('Performance details submitted successfully!');
-                    setFormData(initialFormData); // Reset the form
+
+            Api.post('api/performance', {
+                "employee": {
+                    "id": formData.employeeName
+                },
+                "rating": formData.overallRating,
+                "feedback": formData.feedback,
+                "reviewDate": formData.appraisalDate,
+                "period": formData.appraisalCycle
+            },{'Authorization': `Bearer ${token}`})
+            .then(response => {
+                if(response && response.data){
+                    setFormData(initialFormData)
+                    console.log('performanceform',response.data)
+                    alert('Performnce form submitted successfully')
                 } else {
-                    alert('Failed to submit performance details. Please try again.');
+                    console.log('Invalid responce data', response)
+                    alert('Performance form not submitted. Please try again.')
                 }
-            } catch (error) {
-                console.error('Error submitting performance details:', error);
-                alert('An error occurred while submitting the form. Please try again later.');
-            }
+            })
+
+            // try {
+            //     const response = await Api.post('api/employee', formData,
+            //         {
+            //             'Authorization': `Bearer ${token}`
+
+            //         })
+            //     console.log('neww', response)
+            //     if (response?.status === 200 || response?.status === 201) {
+            //         alert('Performance details submitted successfully!');
+            //         setFormData(initialFormData); // Reset the form
+            //     } else {
+            //         alert('Failed to submit performance details. Please try again.');
+            //     }
+            // } catch (error) {
+            //     console.error('Error submitting performance details:', error);
+            //     alert('An error occurred while submitting the form. Please try again later.');
+            // }
             setIsSubmitted(false);
         }
     };
 
     const today = new Date().toISOString().split("T")[0];
 
+    useEffect(() => {
+        Api.get('api/employee/api/employees/active', {
+            'Authorization': `Bearer ${token}`
+        })
+            .then(response => {
+                if (response && response.data) {
+                    setEmployees(response.data)
+                    console.log('peformance employeeeeee', response.data)
+                } else {
+                    console.error('Invalid response data:', response)
+                    alert('Can not fetch Employees data. Please try again')
+                }
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }, [])
+
     return (
         <div className="p-6">
             <h2 className="text-xl font-medium text-[#232E42] mt-10">Performance Management</h2>
             <div className="container p-6 bg-white mt-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className=''>
+                        <label className="block text-[#373737] text-sm font-normal">Employee Name</label>
+                        <select
+                            name="employeeName"
+                            value={formData.employeeName}
+                            onChange={handleChange}
+                            className="w-[251px] h-[48px] p-2 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
+                        >
+                            <option value="">Select employee</option>
+                            {Array.isArray(employees) && employees.map((employee, index) => (
+                                <option key={index} value={employee.id}>{employee.name}</option>
+                            ))}
+                        </select>
+                        {isSubmitted && errors.employeeName && <p className="text-red-500 text-sm mt-1">{errors.employeeName}</p>}
+                    </div>
                     <div className=''>
                         <label className="block text-[#373737] text-sm font-normal">Goal Setting</label>
                         <textarea
@@ -113,8 +173,8 @@ function PerformanceManagement() {
                                 onChange={handleChange}
                                 className="w-[251px] h-[48px] p-2 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
                             >
-                                <option value="Quarterly">Quarterly</option>
-                                <option value="Yearly">Yearly</option>
+                                <option value="">Appraisal cycle</option>
+                                <option value="MONTHLY">Monthly</option>
                             </select>
                             {isSubmitted && errors.appraisalCycle && <p className="text-red-500 text-sm mt-1">{errors.appraisalCycle}</p>}
                         </div>
@@ -137,10 +197,12 @@ function PerformanceManagement() {
                             <input
                                 type="text"
                                 name="appraiserName"
-                                value="Vinay Sharma"
-                                readOnly
+                                value={formData.appraiserName}
+                                onChange={handleChange}
+                                placeholder="Appraiser Name"
                                 className="w-[251px] h-[48px] p-2 text-[#696A70] text-sm font-normal focus:outline-[#A4A4E5] mt-2 rounded-lg border-[#E6E6E7] border"
                             />
+                            {isSubmitted && errors.appraiserName && <p className="text-red-500 text-sm mt-1">{errors.appraiserName}</p>}
                         </div>
                     </div>
 
