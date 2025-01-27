@@ -24,7 +24,7 @@ function Leave() {
       try {
         const response = await Api.get('api/leaveRequest', {
        
-           ' Authorization': `Bearer ${token}`,
+           'Authorization': `Bearer ${token}`,
         
         });
         setLeaveRequests(response.data.content);
@@ -39,13 +39,36 @@ function Leave() {
     fetchLeaveRequests();
   }, []);
 
-  const handleStatusChange = async (index, newStatus) => {
+  const handleApproved = async (index, newStatus) => {
     const leaveRequest = leaveRequests[index];
+    console.log('iidddd',leaveRequest.id)
     try {
-      await Api.put(`api/leaveRequest/${leaveRequest.employeeId}`, {
-        status: newStatus,
+      await Api.put(`api/leaveRequest`, {
+        "id": leaveRequest.id,
+        "status": "APPROVED",
       },
-    {'Authorization':`Bearer ${token}`});
+    {'Authorization': `Bearer ${token}`})
+    .then(response=> console.log('put response', response))
+      const updatedLeaveRequests = [...leaveRequests];
+      updatedLeaveRequests[index].status = newStatus;
+      setLeaveRequests(updatedLeaveRequests);
+      setError(null); // Clear error on successful update
+    } catch (err) {
+      console.error('Error updating leave request status:', err);
+      setError('Failed to update leave request status. Please try again.');
+    }
+  };
+
+  const handleRejected = async (index, newStatus) => {
+    const leaveRequest = leaveRequests[index];
+    console.log('iidddd',leaveRequest.id)
+    try {
+      await Api.put(`api/leaveRequest`, {
+        "id": leaveRequest.id,
+        "status": "REJECTED",
+      },
+    {'Authorization': `Bearer ${token}`})
+    .then(response=> console.log('put response', response))
       const updatedLeaveRequests = [...leaveRequests];
       updatedLeaveRequests[index].status = newStatus;
       setLeaveRequests(updatedLeaveRequests);
@@ -57,7 +80,7 @@ function Leave() {
   };
 
   const renderActionButtons = (status, index) => {
-    if (status === 'Approved') {
+    if (status === 'APPROVED') {
       return (
         <div className='flex items-center gap-6'>
           <div className='flex items-center'>
@@ -70,7 +93,7 @@ function Leave() {
           </div>
         </div>
       );
-    } else if (status === 'Rejected') {
+    } else if (status === 'REJECTED') {
       return (
         <div className='flex items-center gap-8'>
           <div className='flex items-center'>
@@ -88,14 +111,14 @@ function Leave() {
         <div className='flex items-center gap-8'>
           <button
             className='flex items-center'
-            onClick={() => handleStatusChange(index, 'Approved')}
+            onClick={() => handleApproved(index, 'APPROVED')}
           >
             <img src={approveActive} className='w-4 h-4' alt="Approve" />
             <div className='text-green-500'>Approve</div>
           </button>
           <button
             className='flex items-center'
-            onClick={() => handleStatusChange(index, 'Rejected')}
+            onClick={() => handleRejected(index, 'REJECTED')}
           >
             <img src={rejectActive} className='w-4 h-4' alt="Reject" />
             <div className='text-red-500'>Reject</div>
@@ -146,8 +169,8 @@ function Leave() {
                   <td className="p-4 text-sm">{leaveRequest.id}</td>
                   <td className="p-4 text-sm">{leaveRequest.employee?.name}</td>
                   <td className="p-4 text-sm">{leaveRequest.leaveType}</td>
-                  <td className="p-4 text-sm">{leaveRequest.appliedOn}</td>
-                  <td className="p-4 text-sm">{leaveRequest.department}</td>
+                  <td className="p-4 text-sm">{leaveRequest.createdAt}</td>
+                  <td className="p-4 text-sm">{leaveRequest.employee?.basicDetails?.department?.departmentName}</td>
                   <td className="p-4 text-sm">{leaveRequest.startDate}</td>
                   <td className="p-4 text-sm">{leaveRequest.endDate}</td>
                   <td className="p-4 text-sm">{leaveRequest.days}</td>

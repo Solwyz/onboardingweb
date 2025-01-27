@@ -63,7 +63,7 @@ function Employee() {
   };
 
   const handleEditEmployeeClick = (e, employee) => {
-    
+    console.log("Edit",employee)
     e.stopPropagation();
     setEditingEmployee(employee);
     setShowBasicForm(true);
