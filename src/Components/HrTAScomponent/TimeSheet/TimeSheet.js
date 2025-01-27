@@ -11,6 +11,7 @@ import deleteIcon from '../../../Assets/Superadmin/delete.svg'
 import { ClipLoader } from 'react-spinners';
 
 function TimeSheet() {
+  const [searchTerm, setSearchTerm] = useState('')
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedOption, setSelectedOption] = useState('All Employees');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,6 +68,10 @@ function TimeSheet() {
   const handleGroupChange = (e) => {
     setGroupBy(e.target.value);
   };
+
+  const filteredTimesheet = timeSheetData.filter((data) =>
+    data.project.projectName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Filtered data based on selected option ("My Timesheet" or "All Employees")
   // const filteredTimeSheetData = timeSheetData
@@ -211,8 +216,11 @@ function TimeSheet() {
                 <input
                   type='text'
                   placeholder='Search'
-                  value={searchQuery}
-                  onChange={handleSearchChange}
+                  value={searchTerm}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    // setCurrentPage(1); 
+                  }}
                   className='outline-none w-full'
                 />
               </div>
@@ -257,7 +265,7 @@ function TimeSheet() {
                 <tbody>
                   {/* {Object.entries(groupedTimeSheetData).map(([group, entries], index) => ( */}
                   <React.Fragment>
-                    {timeSheetData.map((time, timeIndex) => (
+                    {filteredTimesheet.map((time, timeIndex) => (
                       <tr
                         key={timeIndex}
                         className={`${timeIndex % 2 === 0 ? 'bg-white' : 'bg-gray-100'} border-b`}
