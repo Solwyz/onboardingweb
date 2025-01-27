@@ -2,7 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { contextItems } from '../EmployeeInformation/EmployeeInformation';
 import image from '../../../Assets/hrm/account_circle.svg'
 import PhotoUpload from '../../../Assets/hrm/photo_upload.svg'
-import Dropdown from '../../../Assets/HrTas/drop-down-arrow.svg'
+import Api from '../../../Services/Api';
+
+const token = localStorage.getItem('token')
+console.log('token:', token)
 
 const fieldOptions = {
   Gender: ['Male', 'Female', 'Other'],
@@ -30,7 +33,8 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const { setShowForm } = useContext(contextItems);
-  const departments = ['HR', 'Development', 'Marketing', 'Sales'];
+  const [department, setDepartment] = useState([])
+  const [designation, setDesignation] = useState([])
 
   useEffect(() => {
     const today = new Date();
@@ -39,7 +43,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
     const day = (`0${today.getDate()}`).slice(-2);
     setMaxDate(`${year}-${month}-${day}`);
 
-   
+
     if (employee) {
       setFormData({
         firstName: employee.name || '',
@@ -62,16 +66,16 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
     }
   }, [employee]);
   const resetForm = () => {
-  setFormData({
-    name: '',
-    email: '',
-    Department: '',
-    Designation: '',
-    WorkLocation: '',
-    PhoneNumber: '',
-  });
-  setErrors({});
-};
+    setFormData({
+      name: '',
+      email: '',
+      Department: '',
+      Designation: '',
+      WorkLocation: '',
+      PhoneNumber: '',
+    });
+    setErrors({});
+  };
 
   const validateField = (name, value) => {
     if (!value && name !== 'ProfilePhoto') {
@@ -109,7 +113,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
       reader.readAsDataURL(file);
     }
   };
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -123,7 +127,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
       setErrors({ ...errors, [e.target.name]: 'Please enter numbers only.' });
     }
   };
- 
+
 
 
   useEffect(() => {
@@ -146,12 +150,32 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   };
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  await onSubmit(formData); // Assuming `onSubmit` handles API call
-  setIsSubmitting(false);
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    await onSubmit(formData); // Assuming `onSubmit` handles API call
+    setIsSubmitting(false);
+  };
+
+  useEffect(() => {
+    Api.get('api/department', {
+      'Authorization': `Bearer ${token}`
+    })
+      .then((response) => {
+        console.log('wvwv:', response.data.content)
+        setDepartment(response.data.content)
+      })
+
+      Api.get('api/designation', {
+        'Authorization': `Bearer ${token}`
+    })
+        .then((response) => {
+            console.log('bbbb', response)
+            setDesignation(response.data.content);
+        })
+      
+
+  }, [])
 
   return (
     <form onSubmit={handleSubmit} className="rounded-lg mx-auto p-8 bg-white">
@@ -340,57 +364,43 @@ const handleSubmit = async (e) => {
 
             {/* Department, Designation, and Joining Date */}
             <div className="flex gap-6">
-              <div className="relative">
-                <label className="block mb-1 text-sm font-normal">Department/Role</label>
+              <div className="flex gap-4 text-[#373737]">
 
-                <div className="relative">
-                  <input
-                    type="text"
-                    name="Department"
-                    value={formData.Department}
+                <div className="">
+                  <div className="text-[14px]">Department</div>
+                  <select
+                    name="department"
+                    value={formData.department}
                     onChange={handleChange}
-                    className={`border w-[251px] h-[48px] py-[13px] px-4 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.Department ? 'border-red-500' : ''}`}
-                    disabled={viewMode}
-                    onClick={toggleDropdown} // Toggle dropdown on input click as well
-                  />
-                  <img
-                    src={Dropdown}
-                    alt="dropdown icon"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                    onClick={toggleDropdown}
-                  />
-                </div>
-
-                {errors.Department && <p className="text-red-500">{errors.Department}</p>}
-
-                {/* Dropdown Menu */}
-                {isDropdownOpen && (
-                  <ul className="absolute z-10 bg-white border text-[14px] font-normal rounded mt-1 w-[251px]">
-                    {departments.map((dept, index) => (
-                      <li
-                        key={index}
-                        className="p-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => selectDepartment(dept)}
-                      >
-                        {dept}
-                      </li>
+                    className="text-[14px] border rounded-lg mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
+                  >
+                    <option value="">Select Department</option>
+                    {department.map((department) => (
+                      <option key={department.id} value={department.id}>
+                        {department.departmentName}
+                      </option>
                     ))}
-                  </ul>
-                )}
+                  </select>
+                </div>
               </div>
 
               <div>
-                <div>
-                  <label className="block mb-1 text-sm  font-normal">Designation:</label>
-                  <input
-                    type="text"
-                    name="Designation"
-                    value={formData.Designation}
+
+                <div className="">
+                  <div className="text-[14px]">Designation</div>
+                  <select
+                    name="designation"
+                    value={formData.designation}
                     onChange={handleChange}
-                    className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.Designation ? 'border-red-500' : ''}`}
-                    disabled={viewMode}
-                  />
-                  {errors.Designation && <p className="text-red-500">{errors.Designation}</p>}
+                    className="text-[14px] border rounded-lg mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
+                  >
+                    <option value="">Select Designation</option>
+                    {designation.map((designation) => (
+                      <option key={designation.id} value={designation.id}>
+                        {designation.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div>
@@ -488,12 +498,12 @@ const handleSubmit = async (e) => {
 
           <div className="flex justify-between mt-6">
 
-          {!viewMode && (
-          <button type="submit"
-          className={`bg-[#2B2342] text-[14px] font-normal text-white px-6 py-2 rounded-lg ${isFormValid ? 'hover:bg-[#353599]' : 'bg-[#9999a7] opacity-50 cursor-not-allowed'}`}>
-            {employee ? 'Update Employee' : 'Submit'}
-          </button>
-        )}
+            {!viewMode && (
+              <button type="submit"
+                className={`bg-[#2B2342] text-[14px] font-normal text-white px-6 py-2 rounded-lg ${isFormValid ? 'hover:bg-[#353599]' : 'bg-[#9999a7] opacity-50 cursor-not-allowed'}`}>
+                {employee ? 'Update Employee' : 'Submit'}
+              </button>
+            )}
           </div>
 
         </div>

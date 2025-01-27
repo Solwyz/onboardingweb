@@ -126,10 +126,28 @@ function ContactDetailsForm({ setShowContactForm }) {
             console.log("Form Data Submitted:", formData);
             setShowPhysicalForm(true);
 
-        Api.post('api/contactForm', {
+            Api.post('api/contactForm',
 
-            'Authorization':`Bearer: ${token}`
-        })
+                {
+                    "primaryNumber": formData.primaryMobile,
+                    "secondaryNumber": formData.secondaryMobile,
+
+                   
+                        "pinocode": formData.primaryPincode,
+                        "city": formData.primaryCity,
+                        "state": formData.primaryState,
+                    
+                    
+                        "pinocode": formData.secondaryPincodePincode,
+                        "city": formData.secondaryCityCity,
+                        "state": formData.secondaryStateState,
+                    
+                        "firstName": formData.emergencyFirstName,
+                        "lastName": formData.emergencyLastName,
+                        "relationship": formData.emergencyRelationship
+                    
+                }, { 'Authorization': `Bearer ${token}` })
+                .then(response => console.log('yyyy', response))
         }
     };
 
@@ -137,8 +155,8 @@ function ContactDetailsForm({ setShowContactForm }) {
         <div>
             {!showPhysicalForm ? (
                 <div>
-                    
-                    <NewProgressive stage={"Contact"}/>
+
+                    <NewProgressive stage={"Contact"} />
 
                     <div className='flex justify-start mt-6 mx-6'>
                         <BackButton stateValue={setShowContactForm} />

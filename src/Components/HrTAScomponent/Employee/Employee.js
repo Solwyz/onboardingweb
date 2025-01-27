@@ -63,6 +63,7 @@ function Employee() {
   };
 
   const handleEditEmployeeClick = (e, employee) => {
+    
     e.stopPropagation();
     setEditingEmployee(employee);
     setShowBasicForm(true);
@@ -127,8 +128,8 @@ function Employee() {
 
   const filteredEmployees = employees.filter((employee) => {
     const matchesSearch =
-      (employee.firstName?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
-      (employee.empId?.toLowerCase() || '').includes(searchValue.toLowerCase());
+      (employee.name?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
+      (employee.id?.toLowerCase() || '').includes(searchValue.toLowerCase());
     const matchesCategory =
       selectedOption === '' ||
       (employee[categoryFilter.toLowerCase()] || '') === selectedOption;

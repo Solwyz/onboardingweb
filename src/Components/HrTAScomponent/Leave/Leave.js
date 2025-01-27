@@ -22,12 +22,13 @@ function Leave() {
   useEffect(() => {
     const fetchLeaveRequests = async () => {
       try {
-        const response = await Api.get('/api/leaveRequests', {
+        const response = await Api.get('api/leaveRequest', {
        
            ' Authorization': `Bearer ${token}`,
         
         });
-        setLeaveRequests(response.data);
+        setLeaveRequests(response.data.content);
+        console.log("leave hrtas:",response.data.content)
         setError(null); // Clear error on successful fetch
       } catch (err) {
         console.error('Error fetching leave requests:', err);
@@ -41,9 +42,10 @@ function Leave() {
   const handleStatusChange = async (index, newStatus) => {
     const leaveRequest = leaveRequests[index];
     try {
-      await Api.put(`/api/leaveRequests/${leaveRequest.employeeId}`, {
+      await Api.put(`api/leaveRequest/${leaveRequest.employeeId}`, {
         status: newStatus,
-      });
+      },
+    {'Authorization':`Bearer ${token}`});
       const updatedLeaveRequests = [...leaveRequests];
       updatedLeaveRequests[index].status = newStatus;
       setLeaveRequests(updatedLeaveRequests);
@@ -124,9 +126,9 @@ function Leave() {
 
         <div className='rounded-t-lg overflow-hidden mt-6 py-6 px-4'>
           <table className='min-w-full bg-white rounded-lg'>
-            <thead className="bg-[#465062] p-4 text-center font-normal text-sm text-white">
+            <thead className="bg-[#465062] p-4 rounded-lg text-center font-normal text-sm text-white">
               <tr>
-                <th className="p-4 text-left font-normal text-sm">Employee ID</th>
+                <th className="p-4 text-left font-normal rounded-tl-lg text-sm">Employee ID</th>
                 <th className="p-4 text-left font-normal text-sm">Name</th>
                 <th className="p-4 text-left font-normal text-sm">Leave Type</th>
                 <th className="p-4 text-left font-normal text-sm">Applied On</th>
@@ -134,21 +136,22 @@ function Leave() {
                 <th className="p-4 text-left font-normal text-sm">From</th>
                 <th className="p-4 text-left font-normal text-sm">To</th>
                 <th className="p-4 text-left font-normal text-sm">Days</th>
-                <th className="p-4 text-center font-normal text-sm">Action</th>
+                <th className="p-4 text-center font-normal rounded-tr-lg text-sm">Action</th>
               </tr>
             </thead>
+            
             <tbody className='text-[#373737]'>
-              {currentRequests.map((leaveRequest, index) => (
+               {Array.isArray(leaveRequests) && leaveRequests.map((leaveRequest, index) => (
                 <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
-                  <td className="p-4">{leaveRequest.employeeId}</td>
-                  <td className="p-4">{leaveRequest.name}</td>
-                  <td className="p-4">{leaveRequest.leaveType}</td>
-                  <td className="p-4">{leaveRequest.appliedOn}</td>
-                  <td className="p-4">{leaveRequest.department}</td>
-                  <td className="p-4">{leaveRequest.from}</td>
-                  <td className="p-4">{leaveRequest.to}</td>
-                  <td className="p-4">{leaveRequest.days}</td>
-                  <td className="p-4 text-center">
+                  <td className="p-4 text-sm">{leaveRequest.id}</td>
+                  <td className="p-4 text-sm">{leaveRequest.employee?.name}</td>
+                  <td className="p-4 text-sm">{leaveRequest.leaveType}</td>
+                  <td className="p-4 text-sm">{leaveRequest.appliedOn}</td>
+                  <td className="p-4 text-sm">{leaveRequest.department}</td>
+                  <td className="p-4 text-sm">{leaveRequest.startDate}</td>
+                  <td className="p-4 text-sm">{leaveRequest.endDate}</td>
+                  <td className="p-4 text-sm">{leaveRequest.days}</td>
+                  <td className="p-4 text-sm text-center">
                     {renderActionButtons(leaveRequest.status, indexOfFirstItem + index)}
                   </td>
                 </tr>
@@ -158,7 +161,7 @@ function Leave() {
         </div>
 
         {/* Pagination Controls */}
-        <div className="flex justify-end align-middle mt-8">
+        {/* <div className="flex justify-end align-middle mt-8">
           <button
             onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
             className={`p-2 ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
@@ -184,7 +187,7 @@ function Leave() {
           >
             <img src={arrowRight} alt="Next" />
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

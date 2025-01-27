@@ -16,12 +16,13 @@ function LeaveManagement() {
     startDate: "",
     endDate: "",
     reason: "",
-    reportingManager: "Arjun JS",
+    reportingManager: "",
   }); // Form data state
   const [isFormValid, setIsFormValid] = useState(false);
-  const [apiError, setApiError] = useState(""); // To display API error
+  const [apiError, setApiError] = useState("");
 
-  const token = localStorage.getItem("token"); // Get token from local storage
+  const token = localStorage.getItem("token");
+  console.log("token:", token)
 
   // Fetch Leave History and Balances
   useEffect(() => {
@@ -31,13 +32,13 @@ function LeaveManagement() {
       return;
     }
 
-    Api.get("api/leaveRequest", {
-     'Authorization': `Bearer ${token}`
+    Api.get("api/leaveRequest/employee/7f000101-946d-1e64-8194-723468710044/leave-requests", {
+      'Authorization': `Bearer ${token}`
     })
       .then((response) => {
-        console.log("API Responsesss:", response.data);
-        setLeaveHistory(response.data.content?.leaveHistory || []);
-        setLeaveBalances(response.data.content?.balances || leaveBalances);
+        console.log("API for leave man:", response.data.data);
+        setLeaveHistory(response.data.data || []);
+        setLeaveBalances(response.data.content || leaveBalances);
         setApiError(""); // Clear any previous error
       })
       .catch((error) => {
@@ -67,11 +68,12 @@ function LeaveManagement() {
   // Handle Leave Form Submission
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    console.log('formdataaa:', formData)
 
     const days =
       Math.ceil(
         (new Date(formData.endDate) - new Date(formData.startDate)) /
-          (1000 * 60 * 60 * 24)
+        (1000 * 60 * 60 * 24)
       ) + 1;
 
     if (days <= 0) {
@@ -82,18 +84,22 @@ function LeaveManagement() {
     Api.post(
       "api/leaveRequest",
       {
-        leaveType: formData.leaveType,
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        reason: formData.reason,
-        reportingManager: formData.reportingManager,
+        "employee": {
+          "id": "7f000101-946d-1e64-8194-723468710044"
+        },
+        "startDate": formData.startDate,
+        "endDate": formData.endDate,
+        "reason": formData.reason,
+        "leaveType": formData.leaveType,
+        "reportingManager": formData.reportingManager
       },
-      
-       { 'Authorization': `Bearer ${token}` 
 
-       })
+      {
+        'Authorization': `Bearer ${token}`
+
+      })
       .then((response) => {
-        console.log("post:",response)
+        console.log("post leave:", response)
         const newLeaveEntry = response.data;
         setLeaveHistory([...leaveHistory, newLeaveEntry]);
 
@@ -206,8 +212,8 @@ function LeaveManagement() {
                 required
               >
                 <option value="">Select Leave Type</option>
-                <option value="Casual Leave">Casual Leave</option>
-                <option value="Sick Leave">Sick Leave</option>
+                <option value="CASUAL">Casual Leave</option>
+                <option value="SICK">Sick Leave</option>
               </select>
             </div>
 
@@ -270,7 +276,7 @@ function LeaveManagement() {
                 value={formData.reportingManager}
                 onChange={handleFormChange}
                 className="w-[500px] h-[48px] focus:outline-[#A4A4E5] mt-4 rounded-lg text-sm text-[#696A70] font-normal border border-[#E6E6E7] px-3 py-2"
-                readOnly
+
                 required
               />
             </div>
@@ -280,9 +286,8 @@ function LeaveManagement() {
               <button
                 type="submit"
                 disabled={!isFormValid}
-                className={`w-[118px] h-[48px] rounded-lg text-center text-white text-sm font-normal ${
-                  isFormValid ? "bg-[#2B2342]" : "bg-gray-400 cursor-not-allowed"
-                }`}
+                className={`w-[118px] h-[48px] rounded-lg text-center text-white text-sm font-normal ${isFormValid ? "bg-[#2B2342]" : "bg-gray-400 cursor-not-allowed"
+                  }`}
               >
                 Submit
               </button>
@@ -297,36 +302,48 @@ function LeaveManagement() {
           </form>
         </div>
       ) : (
-        <div className="bg-white p-4 mt-4">
-          <h2 className="text-center text-[24px] font-medium">Leave History</h2>
-          {leaveHistory.length > 0 ? (
-            <table className="w-full mt-4 border-collapse">
-              <thead>
-                <tr className="bg-[#f1f1f1] text-left text-sm">
-                  <th className="border px-4 py-2">Type</th>
-                  <th className="border px-4 py-2">Start Date</th>
-                  <th className="border px-4 py-2">End Date</th>
-                  <th className="border px-4 py-2">Reason</th>
-                  <th className="border px-4 py-2">Manager</th>
-                  <th className="border px-4 py-2">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leaveHistory.map((leave, index) => (
-                  <tr key={index} className="text-sm">
-                    <td className="border px-4 py-2">{leave.leaveType}</td>
-                    <td className="border px-4 py-2">{leave.startDate}</td>
-                    <td className="border px-4 py-2">{leave.endDate}</td>
-                    <td className="border px-4 py-2">{leave.reason}</td>
-                    <td className="border px-4 py-2">{leave.reportingManager}</td>
-                    <td className="border px-4 py-2">{leave.status || "Pending"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <p className="text-center text-gray-500 mt-4">No leave history available.</p>
-          )}
+        <div className=''>
+          <h2 className="text-[16px] font-normal">Leave History</h2>
+
+          <div className="bg-white h-screen p-6">
+            <div className="rounded-t-lg overflow-hidden">
+              {leaveHistory.length > 0 ? (
+                <table className="min-w-full bg-white rounded-lg">
+                  <thead className="bg-[#465062] p-4 text-center font-normal text-sm text-white">
+                    <tr className="w-full">
+                      <th className="p-4 text-left font-normal text-sm">Date</th>
+                      <th className="p-4 text-left font-normal text-sm">Leave Type</th>
+                      <th className="p-4 text-left font-normal text-sm">From</th>
+                      <th className="p-4 text-left font-normal text-sm">To</th>
+                      <th className="p-4 text-left font-normal text-sm">Days</th>
+                      <th className="p-4 text-left font-normal text-sm">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-[#373737]">
+                    {leaveHistory.map((leave, index) => (
+                      <tr key={index} className={index % 2 === 0 ? 'bg-white text-sm' : 'bg-gray-100 text-sm'}>
+                        <td className="p-4 text-left font-normal text-sm">{leave.leaveType}</td>
+                        <td className="p-4 text-left font-normal text-sm">{leave.leaveType}</td>
+                        <td className="p-4 text-left font-normal text-sm">{leave.startDate}</td>
+                        <td className="p-4 text-left font-normal text-sm">{leave.endDate}</td>
+                        <td className="p-4 text-left font-normal text-sm">{leave.reason}</td>
+                        <td className={`p-4 text-left font-normal text-sm ${leave.status === "APPROVED"
+                          ? "text-green-500"
+                          : leave.status === "REJECTED"
+                            ? "text-red-500"
+                            : "text-orange-500"
+                          }`}
+                        >{leave.status ? leave.status : 'PENDING'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+              ) : (
+                <p className="text-center text-gray-500 mt-4">No leave history available.</p>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
