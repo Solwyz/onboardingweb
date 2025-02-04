@@ -72,7 +72,7 @@ function HomePage() {
     </div>
     <div className='flex columns-2 gap-6 mt-4'>
         <div className='w-full h-[330px] bg-[#FFFFFF] rounded-lg py-6 px-4 '><ProfilePage/></div>
-        <div className='w-full h-[330px] bg-[#FFFFFF] rounded-lg py-6 px-4  '><AnnouncementPage/></div>
+        <div className='w-full h-[330px] bg-[#FFFFFF] rounded-lg py-6 px-4 pt-0 overflow-y-auto custom-scrollbar '><AnnouncementPage/></div>
     </div>
     </div>
     </div>

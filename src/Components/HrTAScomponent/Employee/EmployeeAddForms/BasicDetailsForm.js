@@ -61,6 +61,7 @@ function BasicDetailsForm({ editingEmployee }) {
             .catch((error) => {
                 console.error('Error fetching departments:', error);
             });
+
     }, []);
 
     const [isFormValid, setIsFormValid] = useState(false);

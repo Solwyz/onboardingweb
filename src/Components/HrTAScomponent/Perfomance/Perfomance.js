@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import DropDown from "../../../Assets/HrTas/drop-down-arrow.svg";
 import Star from "../../../Assets/HrTas/stars-white.svg";
+import { useEffect } from 'react';
+import Api from '../../../Services/Api';
+
+const token = localStorage.getItem('token')
+console.log('token:', token)
 
 function Perfomance() {
     const [showTable, setShowTable] = useState(false);
@@ -9,7 +14,9 @@ function Perfomance() {
     const [rating, setRating] = useState('8'); // Default rating
     const [feedback, setFeedback] = useState('');
 
-    const [branch, setBranch] = useState('HR');
+    const [newData, setNewData] = useState([])
+
+    const [branch, setBranch] = useState('All');
     const [shift, setShift] = useState('Day');
     const [year, setYear] = useState(new Date().getFullYear());
     const [month, setMonth] = useState('January'); // Default month
@@ -20,7 +27,7 @@ function Perfomance() {
     const [yearDropdownOpen, setYearDropdownOpen] = useState(false);
     const [monthDropdownOpen, setMonthDropdownOpen] = useState(false);
 
-    const branches = ['HR', 'Development'];
+    const branches = ['All', 'HR', 'Development'];
     const shifts = ['Day', 'Night'];
     const years = Array.from({ length: new Date().getFullYear() - 1999 }, (_, i) => 2020 + i);
     const months = [
@@ -28,12 +35,41 @@ function Perfomance() {
         'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
+
+    useEffect(() => {
+        Api.get('api/performance',
+            {
+                'Authorization': `Bearer ${token}`
+            }
+        )
+            .then(response => {
+                console.log('pppp:', response.data.content)
+                setNewData(response.data.content)
+            })
+    }, []);
+
+
     const handleAddRatingClick = () => {
         setShowTable(true);
+
+       
     };
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        Api.post('api/performance', {
+
+            "id": "7f000001-9404-194c-8194-06f6f8a00009",
+            "rating": "4"
+          
+     
+        },
+            {
+                'Authorization': `Bearer ${token}`
+            })
 
         // Store the submitted rating and feedback for a specific month
         const newEntry = {
@@ -63,7 +99,7 @@ function Perfomance() {
 
 
     const calculateTotalRating = (ratings) => {
-        return ratings.reduce((total, rating) => total/rating,);
+        return ratings.reduce((total, rating) => total / rating,);
     };
 
     const toggleBranchDropdown = () => {
@@ -246,11 +282,12 @@ function Perfomance() {
                                 </thead>
 
                                 <tbody className='bg-white text-[#232E42] text-center'>
+                                {newData.map((entry,index) => (
                                     <tr className='border-b'>
-                                        <td className='p-2 text-[14px] font-medium'>AT62862</td>
-                                        <td className='p-2 text-[14px] font-medium'>Arjun Aloshi</td>
-                                        <td className='p-2 text-[14px] font-medium'>Arjun@gmail.com</td>
-                                        <td className='p-2 text-[14px] font-medium'>Rohan Jose</td>
+                                        <td className='p-2 text-[14px] font-medium'></td>
+                                        <td className='p-2 text-[14px] font-medium'>{entry.manager?.name}</td>
+                                        <td className='p-2 text-[14px] font-medium'>{entry.manager?.email}</td>
+                                        <td className='p-2 text-[14px] font-medium'>{entry.manager?.basicDetails?.firstN}</td>
                                         <td className='p-2 text-[14px] font-medium'>
                                             <select
                                                 value={rating}
@@ -279,9 +316,10 @@ function Perfomance() {
                                             />
                                         </td>
                                     </tr>
+                                ))}
                                 </tbody>
-                                
-                                
+
+
                             </table>
                             <div className='flex justify-end mt-4'>
                                 <button className='bg-green-600 text-white px-4 py-2 rounded-lg' type='submit'>
@@ -304,22 +342,22 @@ function Perfomance() {
                                 </tr>
                             </thead>
                             <tbody className='text-center'>
-                                {ratingsData.map((entry, index) => (
+                                {newData?.map((entry, index) => (
                                     <tr key={entry.id} className={index % 2 === 0 ? "bg-white" : "bg-[#F8F8F8]"}>
                                         <td className="p-2 text-[14px] font-normal">{entry.id}</td>
-                                        <td className="p-2 text-[14px] font-normal">{entry.name}</td>
+                                        <td className="p-2 text-[14px] font-normal">{entry.employee?.name}</td>
                                         {months.map((month) => {
-                                            const rating = entry.ratings[month];
+                                            const rating = entry.rating;
                                             return (
                                                 <td
                                                     key={`${entry.id}-${month}`}
                                                     className={`p-2 ${rating >= 6 ? "bg-[#B8E986]" : rating >= 1 ? "bg-[#F2C94C]" : rating !== undefined ? "bg-[#FF8A80]" : ""}`}
                                                 >
-                                                    {rating !== undefined ? rating : '-'} 
+                                                    {rating !== undefined ? rating : '-'}
                                                 </td>
                                             );
                                         })}
-                                        <td className="p-2 text-[14px] font-normal">{calculateTotalRating(Object.values(entry.ratings))}/10</td>
+                                        <td className="p-2 text-[14px] font-normal">{entry.rating}/10</td>
                                     </tr>
                                 ))}
                             </tbody>
