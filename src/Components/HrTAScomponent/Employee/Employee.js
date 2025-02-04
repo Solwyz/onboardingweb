@@ -129,7 +129,11 @@ function Employee() {
   const filteredEmployees = employees.filter((employee) => {
     const matchesSearch =
       (employee.name?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
-      (employee.id?.toLowerCase() || '').includes(searchValue.toLowerCase());
+      (employee.id?.toLowerCase() || '').includes(searchValue.toLowerCase())||
+      (employee.basicDetails?.designation?.name?.toLowerCase()|| '').includes(searchValue.toLowerCase())||
+      (employee.basicDetails?.department?.departmentName?.toLowerCase()|| '').includes(searchValue.toLowerCase())||
+      (employee.contactForm?.workAddress?.city?.toLowerCase()|| '').includes(searchValue.toLowerCase())||
+      (employee.contactForm?.primaryNumber?.toLowerCase()|| '').includes(searchValue.toLowerCase());
     const matchesCategory =
       selectedOption === '' ||
       (employee[categoryFilter.toLowerCase()] || '') === selectedOption;

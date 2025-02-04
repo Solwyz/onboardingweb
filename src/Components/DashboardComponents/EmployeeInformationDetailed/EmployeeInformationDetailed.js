@@ -36,8 +36,8 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const { setShowForm } = useContext(contextItems);
-  const [department,setDepartment]= useState('')
-  const [designation,setDesignation]= useState('')
+  const [department,setDepartment]= useState([])
+  const [designation,setDesignation]= useState([])
 
 
 
