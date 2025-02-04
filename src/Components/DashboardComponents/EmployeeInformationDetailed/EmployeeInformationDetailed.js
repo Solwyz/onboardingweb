@@ -2,10 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { contextItems } from '../EmployeeInformation/EmployeeInformation';
 import image from '../../../Assets/hrm/account_circle.svg'
 import PhotoUpload from '../../../Assets/hrm/photo_upload.svg'
+import Dropdown from '../../../Assets/HrTas/drop-down-arrow.svg'
 import Api from '../../../Services/Api';
 
-const token = localStorage.getItem('token')
-console.log('token:', token)
+
+
 
 const fieldOptions = {
   Gender: ['Male', 'Female', 'Other'],
@@ -15,6 +16,8 @@ const fieldOptions = {
 };
 
 function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
+
+  const token= localStorage.getItem('token')
 
 
 
@@ -33,8 +36,10 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const { setShowForm } = useContext(contextItems);
-  const [department, setDepartment] = useState([])
-  const [designation, setDesignation] = useState([])
+  const [department,setDepartment]= useState('')
+  const [designation,setDesignation]= useState('')
+
+
 
   useEffect(() => {
     const today = new Date();
@@ -153,8 +158,14 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await onSubmit(formData); // Assuming `onSubmit` handles API call
+    await onSubmit(formData); 
     setIsSubmitting(false);
+
+    if (isFormValid){
+      console.log(formData);
+      
+    }
+
   };
 
   useEffect(() => {

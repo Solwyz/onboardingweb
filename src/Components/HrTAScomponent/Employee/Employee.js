@@ -57,8 +57,8 @@ function Employee() {
 
   }, []);
 
-  const handleAddEmployeeClick = () => {
-    setEditingEmployee(null);
+  const handleAddEmployeeClick = (employee) => {
+    setEditingEmployee(employee);
     setShowBasicForm(true);
   };
 
@@ -75,7 +75,7 @@ function Employee() {
       'Authorization': `Bearer ${token}`
     })
       .then((response) => {
-        console.log('nnnn', response)
+        console.log('hrtas delete', response)
         setEmployees(employees.filter((employee) => employee.id !== employeeId));
       })
       .catch((error) => {
