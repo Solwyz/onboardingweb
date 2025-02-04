@@ -167,7 +167,7 @@ function Leave() {
                {Array.isArray(leaveRequests) && leaveRequests.map((leaveRequest, index) => (
                 <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
                   <td className="p-4 text-sm">{leaveRequest.id}</td>
-                  <td className="p-4 text-sm">{leaveRequest.employee?.name}</td>
+                  <td className="p-4 text-sm">{leaveRequest.employee?.basicDetails?.firstName}</td>
                   <td className="p-4 text-sm">{leaveRequest.leaveType}</td>
                   <td className="p-4 text-sm">{leaveRequest.createdAt}</td>
                   <td className="p-4 text-sm">{leaveRequest.employee?.basicDetails?.department?.departmentName}</td>
@@ -184,7 +184,7 @@ function Leave() {
         </div>
 
         {/* Pagination Controls */}
-        {/* <div className="flex justify-end align-middle mt-8">
+        <div className="flex justify-end align-middle mt-8">
           <button
             onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
             className={`p-2 ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
@@ -210,7 +210,7 @@ function Leave() {
           >
             <img src={arrowRight} alt="Next" />
           </button>
-        </div> */}
+        </div>
       </div>
     </div>
   );
