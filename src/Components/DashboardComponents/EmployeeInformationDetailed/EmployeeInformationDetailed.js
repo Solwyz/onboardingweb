@@ -3,6 +3,10 @@ import { contextItems } from '../EmployeeInformation/EmployeeInformation';
 import image from '../../../Assets/hrm/account_circle.svg'
 import PhotoUpload from '../../../Assets/hrm/photo_upload.svg'
 import Dropdown from '../../../Assets/HrTas/drop-down-arrow.svg'
+import Api from '../../../Services/Api';
+
+
+
 
 const fieldOptions = {
   Gender: ['Male', 'Female', 'Other'],
@@ -12,6 +16,8 @@ const fieldOptions = {
 };
 
 function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
+
+  const token= localStorage.getItem('token')
 
 
 
@@ -30,7 +36,10 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const { setShowForm } = useContext(contextItems);
-  const departments = ['HR', 'Development', 'Marketing', 'Sales'];
+  const [departments,setDepartment]= useState('')
+  const [designation,setDesignation]= useState('')
+
+
 
   useEffect(() => {
     const today = new Date();
@@ -146,12 +155,38 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
   };
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  await onSubmit(formData); // Assuming `onSubmit` handles API call
-  setIsSubmitting(false);
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    await onSubmit(formData); 
+    setIsSubmitting(false);
+
+    if (isFormValid){
+      console.log(formData);
+      
+    }
+
+  };
+
+  useEffect(() => {
+    Api.get('api/department', {
+      'Authorization': `Bearer ${token}`
+    })
+      .then((response) => {
+        console.log('wvwv:', response.data.content)
+        setDepartment(response.data.content)
+      })
+
+      Api.get('api/designation', {
+        'Authorization': `Bearer ${token}`
+    })
+        .then((response) => {
+            console.log('bbbb', response)
+            setDesignation(response.data.content);
+        })
+      
+
+  }, [])
 
   return (
     <form onSubmit={handleSubmit} className="rounded-lg mx-auto p-8 bg-white">

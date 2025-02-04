@@ -16,19 +16,25 @@ function BasicDetailsForm({ editingEmployee }) {
     const [departments, setDepartments] = useState([]);
 
     useEffect(() => {
+        console.log('bbemppppp,', editingEmployee)
+
         const today = new Date();
         const year = today.getFullYear() - 18;
         const month = (`0${today.getMonth() + 1}`).slice(-2);
         const day = (`0${today.getDate()}`).slice(-2);
         setMaxDate(`${year}-${month}-${day}`);
 
-        if (editingEmployee) {
-            setFormData({
-                firstName: editingEmployee.firstName,
-                lastName: editingEmployee.empId,
-                nationality: editingEmployee.nationality,
-            });
+        {
+            editingEmployee.basicDetails && (
+                setFormData({
+                    firstName: editingEmployee?.basicDetails?.firstName || '',
+                    lastName: editingEmployee?.basicDetails?.lastName || '',
+                    nationality: editingEmployee?.nationality || '',
+                    dateOfBirth: editingEmployee?.basicDetails?.dateOfBirth || '',
+                }))
         }
+
+
     }, []);
 
     useEffect(() => {
