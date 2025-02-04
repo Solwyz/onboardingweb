@@ -29,7 +29,7 @@ function EmployeeInformation() {
     setIsLoading(true);
     setError(null);
 
-    Api.get('api/employee/', {
+    Api.get('api/employee', {
       'Authorization': `Bearer ${token}`
     })
       .then((response) => {
