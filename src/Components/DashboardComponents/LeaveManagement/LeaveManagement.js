@@ -326,7 +326,7 @@ function LeaveManagement() {
                         <td className="p-4 text-left font-normal text-sm">{leave.leaveType}</td>
                         <td className="p-4 text-left font-normal text-sm">{leave.startDate}</td>
                         <td className="p-4 text-left font-normal text-sm">{leave.endDate}</td>
-                        <td className="p-4 text-left font-normal text-sm">{leave.reason}</td>
+                        <td className="p-4 text-left font-normal text-sm">{leave.days}</td>
                         <td className={`p-4 text-left font-normal text-sm ${leave.status === "APPROVED"
                           ? "text-green-500"
                           : leave.status === "REJECTED"
