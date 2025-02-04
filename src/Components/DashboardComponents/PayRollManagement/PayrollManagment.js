@@ -232,9 +232,9 @@ const AdminPayrollForm = () => {
                   <td className='p-4 text-center font-normal '>{index + 1}</td>
                   <td className='p-4 text-center font-normal '>{employee.name}</td>
                   <td className='p-4 text-center font-normal '>{employee.id}</td>
-                  <td className='p-4 text-center font-normal '>{employee.salaryDetails.updatedBy}</td>
-                  <td className='p-4 text-center font-normal '>{employee.salaryDetails.bankAccount}</td>
-                  <td className='p-4 text-center font-normal '>{employee.salaryDetails.payPeriod}</td>
+                  <td className='p-4 text-center font-normal '>{employee.salaryDetails?.updatedBy}</td>
+                  <td className='p-4 text-center font-normal '>{employee.salaryDetails?.bankAccount}</td>
+                  <td className='p-4 text-center font-normal '>{employee.salaryDetails?.payPeriod}</td>
                 </tr>
               ))}
             </tbody>
