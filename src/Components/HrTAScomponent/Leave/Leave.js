@@ -6,7 +6,7 @@ import rejectActive from '../../../Assets/HrTas/leaveRequest/cancel.svg';
 import rejectDeactive from '../../../Assets/HrTas/leaveRequest/cancel (1).svg';
 import arrowLeft from '../../../Assets/HrTas/documentsPage/arrowLeft.svg';
 import arrowRight from '../../../Assets/HrTas/documentsPage/arrowRight.svg';
-import Api from '../../../Services/Api';
+import Api from '../../../Services/Api'
 
 const token = localStorage.getItem('token');
 console.log('token:', token);
