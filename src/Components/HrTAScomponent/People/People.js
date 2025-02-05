@@ -36,13 +36,13 @@ function People() {
   };
 
   useEffect(() => {
-    Api.get("api/employee", {
+    Api.get("api/employee/api/employees/active", {
       Authorization: `Bearer ${token}`,
     })
       .then((response) => {
         if (response && response.data) {
-          setEmployees(response.data.content);
-          console.log("peopleee data", response.data.content);
+          setEmployees(response.data);
+          console.log("peopleee data", response.data);
         } else {
           console.error("Invalid response data:", response);
           alert("Can not fetch Employees data. Please try again");
