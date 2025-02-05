@@ -54,22 +54,32 @@ function Document() {
   
   const handleDownload = (hexString, fileName = "downloaded_file") => {
     try {
-      // Convert Hex String to Binary Data
-      const hex = hexString.replace(/\\x/g, '');
-      const binaryData = hex.match(/.{1,2}/g).map(byte => String.fromCharCode(parseInt(byte, 16))).join('');
+      const hex = hexString.replace(/\\x/g, "");
+      const binaryData = new Uint8Array(
+        hex.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))
+      );
   
-      // Detect file type (Magic Numbers - first bytes of the file)
+      // Detect file type based on magic numbers
       let mimeType = "application/octet-stream"; // Default binary file
-      if (binaryData.startsWith("%PDF-")) {
+      if (binaryData[0] === 0x25 && binaryData[1] === 0x50) {
         mimeType = "application/pdf";
         fileName += ".pdf";
-      } else if (binaryData.startsWith("\xFF\xD8\xFF")) {
+      } else if (binaryData[0] === 0xff && binaryData[1] === 0xd8) {
         mimeType = "image/jpeg";
         fileName += ".jpg";
-      } else if (binaryData.startsWith("\x89PNG")) {
+      } else if (
+        binaryData[0] === 0x89 &&
+        binaryData[1] === 0x50 &&
+        binaryData[2] === 0x4e &&
+        binaryData[3] === 0x47
+      ) {
         mimeType = "image/png";
         fileName += ".png";
-      } else if (binaryData.startsWith("GIF87a") || binaryData.startsWith("GIF89a")) {
+      } else if (
+        binaryData[0] === 0x47 &&
+        binaryData[1] === 0x49 &&
+        binaryData[2] === 0x46
+      ) {
         mimeType = "image/gif";
         fileName += ".gif";
       }
@@ -81,7 +91,7 @@ function Document() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = fileName;  // Dynamic file name based on content
+      link.download = fileName;
       document.body.appendChild(link);
       link.click();
   
@@ -150,6 +160,7 @@ function Document() {
       })
   }, [refreshKey])
   
+  
 
   return (
     <div className="p-6">
@@ -203,7 +214,7 @@ function Document() {
                     </td> */}
                     <td className="ml-[32px] align-middle cursor-pointer" onClick={() => handleDocumentClick(doc.fileContent)}>
                     <div className="flex items-center">
-                        <img src={addPurple} alt="Icon" className="mr-4" />
+                        <img src={addPurple} alt="Icon" className="mr-4 ml-2" />
                         <div>
                           <div className="text-sm font-medium text-[#373737]">
                             {doc.documentType}
