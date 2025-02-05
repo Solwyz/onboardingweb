@@ -42,7 +42,9 @@ function LoginPage() {
         if (response.data && response.data.jwt) {
           setToken(response.data.jwt);
           console.log('your token is : ', response.data.jwt)
+          console.log('refresh token is :', response.data.refreshToken)
           localStorage.setItem('token', response.data.jwt);
+          localStorage.setItem('refreshToken', response.data.refreshToken)
           navigate("/superadmin")
         } else {
           console.error('Invalid response data:', response)

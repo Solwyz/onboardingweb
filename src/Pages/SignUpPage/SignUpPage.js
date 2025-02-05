@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import medoLogo from "../../Assets/medoLogo.svg";
+import Api from "../../Services/Api";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ function SignUpPage() {
   const [otpMessage, setOtpMessage] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
   const [otp, setOtp] = useState("");
+  const [branches, setBranches] = useState([]);
 
   const validateField = (name, value) => {
     let error = "";
@@ -143,8 +145,36 @@ function SignUpPage() {
     checkFormValidity();
   }, [formData, errors]);
 
+  useEffect(() => {
+    Api.get('api/branch')
+      .then(response => {
+        if (response && response.data) {
+          console.log('brnchh', response.data.content)
+          setBranches(response.data.content)
+        } else {
+          console.error('Branches not fetched !')
+        }
+      })
+  }, [])
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('aaa', formData)
+    Api.post('api/auth/signup',{
+      "companyName": formData.companyName,
+      "mobileNumber": formData.phoneNumber,
+      "email": formData.email,
+      "password": formData.password,
+      "branch": {
+        "id": formData.branchName
+      }
+    }).then(response => {
+      if(response && response.data) {
+        console.log(response.data)
+      } else {
+        console.error('Failed to signup, try again.', response)
+      }
+    })
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
       setOtpMessage(`Enter OTP sent to ${formData.phoneNumber}`);
@@ -207,9 +237,8 @@ function SignUpPage() {
                     placeholder="Enter OTP"
                   />
                   <button
-                    className={`w-full bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 ${
-                      !otp ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`w-full bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 ${!otp ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={handleOtpVerify}
                     disabled={!otp}
                   >
@@ -224,7 +253,7 @@ function SignUpPage() {
               <div className="flex space-x-4">
                 {[
                   { label: "Company Name", name: "companyName" },
-                  { label: "Branch Name", name: "branchName" },
+
                 ].map(({ label, name, type = "text" }) => (
                   <div key={name} className="">
                     <label className="block text-gray-700 text-sm font-medium mb-2">
@@ -244,6 +273,30 @@ function SignUpPage() {
                     )}
                   </div>
                 ))}
+
+                <div>
+                  <label className="block text-gray-700 text-sm font-medium mb-2">
+                    Branch Name:
+                  </label>
+                  <select
+                    name='branchName'
+                    value={formData.branchName}
+                    onChange={handleChange}
+                    className="border-2 border-gray-300 rounded-lg w-[300px] px-4 py-2 focus:outline-none focus:border-blue-500 transition duration-200"
+                  >
+                    <option value=''>Select Branch</option>
+                    {branches.map((branch,index)=>(
+                      <option key={index} value={branch.id}>{branch.name}</option>
+                    ))}
+                    
+                    
+                  </select>
+                  {errors.branchName && (
+                    <div className="text-red-500 text-xs mt-1">
+                      {errors.branchName}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Row 2: Company Address 1 and 2 */}
@@ -347,9 +400,8 @@ function SignUpPage() {
                 <button
                   type="submit"
                   disabled={!isFormValid}
-                  className={`bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 ${
-                    !isFormValid ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className={`bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 ${!isFormValid ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                 >
                   Submit
                 </button>
