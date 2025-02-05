@@ -74,13 +74,13 @@ function LoginPage() {
       // if (phoneNumber === credentials.superadmin.phone && password === credentials.superadmin.password) {
       //   navigate("/superadmin");
       // } else 
-      if (phoneNumber === credentials.hrtas.phone && password === credentials.hrtas.password) {
-        navigate("/hrtas");
-      } else if (phoneNumber === credentials.hrm.phone && password === credentials.hrm.password) {
-        navigate("/hr");
-      } else {
-        setPasswordError("Incorrect phone number or password.");
-      }
+      // if (phoneNumber === credentials.hrtas.phone && password === credentials.hrtas.password) {
+      //   navigate("/hrtas");
+      // } else if (phoneNumber === credentials.hrm.phone && password === credentials.hrm.password) {
+      //   navigate("/hr");
+      // } else {
+      //   setPasswordError("Incorrect phone number or password.");
+      // }
     }
   };
 

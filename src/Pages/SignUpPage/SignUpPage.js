@@ -170,7 +170,9 @@ function SignUpPage() {
       }
     }).then(response => {
       if(response && response.data) {
-        console.log(response.data)
+        console.log('signup resp:',response.data)
+        Api.get(`api/auth/resendVerifyEmail?email=${formData.email}`)
+        .then(response => console.log('verifyemail respp:', response))
       } else {
         console.error('Failed to signup, try again.', response)
       }
