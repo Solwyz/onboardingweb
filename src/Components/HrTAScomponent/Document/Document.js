@@ -203,7 +203,7 @@ function Document() {
                     </td> */}
                     <td className="ml-[32px] align-middle cursor-pointer" onClick={() => handleDocumentClick(doc.fileContent)}>
                     <div className="flex items-center">
-                        <img src={addPurple} alt="Icon" className="mr-4" />
+                        <img src={addPurple} alt="Icon" className="mr-4 ml-2" />
                         <div>
                           <div className="text-sm font-medium text-[#373737]">
                             {doc.documentType}
