@@ -16,19 +16,25 @@ function BasicDetailsForm({ editingEmployee }) {
     const [departments, setDepartments] = useState([]);
 
     useEffect(() => {
+        console.log('bbemppppp,', editingEmployee)
+
         const today = new Date();
         const year = today.getFullYear() - 18;
         const month = (`0${today.getMonth() + 1}`).slice(-2);
         const day = (`0${today.getDate()}`).slice(-2);
         setMaxDate(`${year}-${month}-${day}`);
 
-        if (editingEmployee) {
-            setFormData({
-                firstName: editingEmployee.firstName,
-                lastName: editingEmployee.empId,
-                nationality: editingEmployee.nationality,
-            });
+        {
+            editingEmployee.basicDetails && (
+                setFormData({
+                    firstName: editingEmployee?.basicDetails?.firstName || '',
+                    lastName: editingEmployee?.basicDetails?.lastName || '',
+                    nationality: editingEmployee?.nationality || '',
+                    dateOfBirth: editingEmployee?.basicDetails?.dateOfBirth || '',
+                }))
         }
+
+
     }, []);
 
     useEffect(() => {
@@ -55,6 +61,7 @@ function BasicDetailsForm({ editingEmployee }) {
             .catch((error) => {
                 console.error('Error fetching departments:', error);
             });
+
     }, []);
 
     const [isFormValid, setIsFormValid] = useState(false);
@@ -160,18 +167,20 @@ function BasicDetailsForm({ editingEmployee }) {
         }
 
         if (name === 'panNumber') {
-            if (!validatePanNumber(value)) {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    panNumber: 'PAN number does not contain special characters',
-                }));
-            } else {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    panNumber: '',
-                }));
-            }
-        }
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/; // Standard PAN format: 5 letters, 4 digits, 1 letter
+
+    if (!value.match(panRegex)) {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            panNumber: 'PAN number Uper case and 10 characters',
+        }));
+    } else {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            panNumber: '',
+        }));
+    }
+}
 
         if (name === 'passport') {
             if (!validatePassport(value)) {

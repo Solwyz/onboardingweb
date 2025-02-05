@@ -235,10 +235,10 @@ function AnnouncementPage() {
 
   return (
     <div>
-      <div className='flex justify-between'>
+      <div className='flex justify-between items-center bg-white sticky top-0 z-10 py-4 px-4  '>
         <div className='flex items-center justify-start'>
           <img className='w-5 h-5' src={Announcement} alt="Notification" />
-          <h1 className='text-[20px] font-medium text-[#1255D0] ml-1'>Announcement</h1>
+          <h1 className='text-[20px] font-medium text-[#1255D0] ml-1 '>Announcement</h1>
         </div>
         <div className='flex'>
           <button
@@ -252,24 +252,33 @@ function AnnouncementPage() {
 
       {announcementError ? <div className='text-red-600 mt-8'>{announcementError}</div> :
 
-        <div className='mt-[35px] overflow-y-auto custom-scrollbar'>
+        <div className="mt-[35px] overflow-y-auto custom-scrollbar ">
           {announcements.map((announcement, index) => (
-            <div className='flex mb-4 items-center justify-between' key={index}>
-              <div className='flex'>
+            <div className="flex mb-4 items-center justify-between" key={index}>
+              <div className="flex">
                 <img src={BrandAwareness} alt="" />
-                <div className='ml-3 text-[14px]'>
-                  <h1 className='font-medium'>{announcement.title}</h1>
-                  <p className='font-normal text-[#696A70]'>{announcement.message}</p>
+                <div className="ml-3 text-[14px]">
+                  <h1 className="font-medium">{announcement.title}</h1>
+                  <p className="font-normal text-[#696A70]">{announcement.message}</p>
                 </div>
               </div>
-              <div className='flex items-center justify-center gap-4'>
-                <img src={editIcon} className='h-3 w-3 hover:cursor-pointer' onClick={() => handleEditClick(announcement.id)}></img>
-                <img src={deleteIcon} className='hover:cursor-pointer' onClick={() => handleDeleteClick(announcement.id)}></img>
+              <div className="flex items-center justify-center gap-4">
+                <img
+                  src={editIcon}
+                  className="h-3 w-3 hover:cursor-pointer"
+                  onClick={() => handleEditClick(announcement.id)}
+                />
+                <img
+                  src={deleteIcon}
+                  className="hover:cursor-pointer"
+                  onClick={() => handleDeleteClick(announcement.id)}
+                />
               </div>
             </div>
           ))}
-
         </div>
+
+
       }
 
       {deleteModal && (

@@ -57,12 +57,13 @@ function Employee() {
 
   }, []);
 
-  const handleAddEmployeeClick = () => {
-    setEditingEmployee(null);
+  const handleAddEmployeeClick = (employee) => {
+    setEditingEmployee(employee);
     setShowBasicForm(true);
   };
 
   const handleEditEmployeeClick = (e, employee) => {
+    console.log("Edit",employee)
     e.stopPropagation();
     setEditingEmployee(employee);
     setShowBasicForm(true);
@@ -74,7 +75,7 @@ function Employee() {
       'Authorization': `Bearer ${token}`
     })
       .then((response) => {
-        console.log('nnnn', response)
+        console.log('hrtas delete', response)
         setEmployees(employees.filter((employee) => employee.id !== employeeId));
       })
       .catch((error) => {
@@ -127,8 +128,12 @@ function Employee() {
 
   const filteredEmployees = employees.filter((employee) => {
     const matchesSearch =
-      (employee.firstName?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
-      (employee.empId?.toLowerCase() || '').includes(searchValue.toLowerCase());
+      (employee.name?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
+      (employee.id?.toLowerCase() || '').includes(searchValue.toLowerCase())||
+      (employee.basicDetails?.designation?.name?.toLowerCase()|| '').includes(searchValue.toLowerCase())||
+      (employee.basicDetails?.department?.departmentName?.toLowerCase()|| '').includes(searchValue.toLowerCase())||
+      (employee.contactForm?.workAddress?.city?.toLowerCase()|| '').includes(searchValue.toLowerCase())||
+      (employee.contactForm?.primaryNumber?.toLowerCase()|| '').includes(searchValue.toLowerCase());
     const matchesCategory =
       selectedOption === '' ||
       (employee[categoryFilter.toLowerCase()] || '') === selectedOption;

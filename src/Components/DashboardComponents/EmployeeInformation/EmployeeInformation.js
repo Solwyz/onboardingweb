@@ -1,8 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
 import EmployeeInformationDetailed from "../EmployeeInformationDetailed/EmployeeInformationDetailed";
-import { FaEye } from 'react-icons/fa';
-import { MdEdit } from "react-icons/md";
+import deleteIcon from '../../../Assets/HrTas/delete (1).svg';
+import editIcon from '../../../Assets/HrTas/edit.svg';
 import AddBtn from "../../../Assets/HrTas/addIcon.svg";
 import SearchIcon from "../../../Assets/HrTas/searchIcon.svg";
 import filterIcon from "../../../Assets/HrTas/filterIcon.svg";
@@ -24,15 +23,17 @@ function EmployeeInformation() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  
+
   useEffect(() => {
     setIsLoading(true);
     setError(null);
-  
-    Api.get('api/employee/', {
+
+    Api.get('api/employee', {
       'Authorization': `Bearer ${token}`
     })
       .then((response) => {
-        console.log('API Response',response.data)
+        console.log('API Response', response.data)
         if (response?.data?.content) {
           setEmployeeList(response.data.content);
         } else {
@@ -62,16 +63,23 @@ function EmployeeInformation() {
     setViewMode(false);
   };
 
-  const handleViewClick = (employee) => {
-    setSelectedEmployee(employee);
-    setShowForm(true);
-    setViewMode(true);
+  const handleDeleteClick = (employeeId) => {
+    // e.stopPropagation();
+    Api.delete(`api/employee/${employeeId}`, {
+      'Authorization': `Bearer ${token}`
+    })
+      .then((response) => {
+        console.log('vvv', response)
+        setEmployeeList(employeeList.filter((employee) => employee.id !== employeeId));
+      })
+      
   };
+
 
   const handleFormSubmit = (formData) => {
     console.log('newwww', formData);
-    setIsLoading(true); 
-    setError(null); 
+    setIsLoading(true);
+    setError(null);
 
     if (selectedEmployee) {
       // Update employee
@@ -98,7 +106,7 @@ function EmployeeInformation() {
         "basicDetails": {
           "id": "7f000101-9449-1582-8194-49e575050009",
           "firstName": formData.firstName,
-          
+
         }
       }, {
         'Authorization': `Bearer ${token}`,
@@ -127,28 +135,28 @@ function EmployeeInformation() {
   const resetFilter = () => setFilterDepartment('');
 
   const filteredEmployees = (employeeList || [])
-  .filter((employee) => {
-    const nameMatches = employee?.name?.toLowerCase().includes(searchTerm.toLowerCase());
-    const lastNameMatches = employee?.LastName?.toLowerCase().includes(searchTerm.toLowerCase());
-    const idMatches = employee?.id?.toString().includes(searchTerm);
-    const departmentMatches = employee?.Department?.toLowerCase().includes(searchTerm.toLowerCase());
-    const designationMatches = employee?.Designation?.toLowerCase().includes(searchTerm);
-    const workLocationMatches = employee?.WorkLocation?.toLowerCase().includes(searchTerm);
-    const phoneNumberMatches = employee?.PhoneNumber?.includes(searchTerm);
+    .filter((employee) => {
+      const nameMatches = employee?.name?.toLowerCase().includes(searchTerm.toLowerCase());
+      const lastNameMatches = employee?.LastName?.toLowerCase().includes(searchTerm.toLowerCase());
+      const idMatches = employee?.id?.toString().includes(searchTerm);
+      const departmentMatches = employee?.Department?.toLowerCase().includes(searchTerm.toLowerCase());
+      const designationMatches = employee?.Designation?.toLowerCase().includes(searchTerm);
+      const workLocationMatches = employee?.WorkLocation?.toLowerCase().includes(searchTerm);
+      const phoneNumberMatches = employee?.PhoneNumber?.includes(searchTerm);
 
-    return (
-      nameMatches ||
-      lastNameMatches ||
-      idMatches ||
-      departmentMatches ||
-      designationMatches ||
-      workLocationMatches ||
-      phoneNumberMatches
+      return (
+        nameMatches ||
+        lastNameMatches ||
+        idMatches ||
+        departmentMatches ||
+        designationMatches ||
+        workLocationMatches ||
+        phoneNumberMatches
+      );
+    })
+    .filter((employee) =>
+      filterDepartment ? employee?.Department === filterDepartment : true
     );
-  })
-  .filter((employee) =>
-    filterDepartment ? employee?.Department === filterDepartment : true
-  );
 
 
   return (
@@ -165,7 +173,7 @@ function EmployeeInformation() {
                 <img className="mr-2" src={AddBtn} alt="" /> Add Employee
               </button>
             </div>
-            <div className="bg-white p-6 h-[600px] mt-[34px]">
+            <div className="bg-white p-6 h-full min-h-[600px] mt-[34px]">
               {isLoading && <div>Loading...</div>}
               {error && <div className="text-red-500">{error}</div>}
               {!isLoading && !error && (
@@ -214,41 +222,42 @@ function EmployeeInformation() {
                   </div>
                   <div className="overflow-x-auto">
                     {filteredEmployees.length > 0 ? (
-                      <table className="table-auto mt-6 border-collapse w-full min-w-[700px]">
+                      <table className="table-auto mt-6 border-collapse w-full min-w-[700px] h-full">
                         <thead>
                           <tr className="bg-[#465062] text-left">
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-center rounded-tl-lg">Sl No</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-center">Name</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-center">Employee ID</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-center">Role</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-center">Department</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-center">Location</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-center">Actions</th>
+                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tl-lg">Sl No</th>
+                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Name</th>
+                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Employee ID</th>
+                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Role</th>
+                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Department</th>
+                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Location</th>
+                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tr-lg">Actions</th>
                           </tr>
                         </thead>
                         <tbody>
                           {filteredEmployees.map((employee, index) => (
                             <tr key={index} className="text-sm font-normal">
-                              <td className="px-4 py-2 text-center">{index + 1}</td>
-                              <td className="px-4 py-2 text-center">{employee.name}</td>
-                              <td className="px-4 py-2 text-center">{employee.id}</td>
-                              <td className="px-4 py-2 text-center">{employee.Designation}</td>
-                              <td className="px-4 py-2 text-center">{employee.Department}</td>
-                              <td className="px-4 py-2 text-center">{employee.WorkLocation}</td>
-                              <td className="px-4 py-2 flex justify-center">
-                                <button
-                                  onClick={() => handleViewClick(employee)}
-                                  className="bg-[#465062] p-2 mr-2 rounded text-white text-sm"
-                                >
-                                  <FaEye />
-                                </button>
+                              <td className="px-4 py-2 text-left">{index + 1}</td>
+                              <td className="px-4 py-2 text-left">{employee.name}</td>
+                              <td className="px-4 py-2 text-left">{employee.id}</td>
+                              <td className="px-4 py-2 text-left">{employee.basicDetails?.designation?.name}</td>
+                              <td className="px-4 py-2 text-left">{employee.basicDetails?.department?.departmentName}</td>
+                              <td className="px-4 py-2 text-left">{employee.contactForm?.workAddress?.city}</td>
+                              <td className="px-4 py-2 flex justify-left">
                                 <button
                                   onClick={() => handleEditClick(employee)}
-                                  className="bg-[#465062] p-2 rounded text-white text-sm"
+                                  className=""
                                 >
-                                  <MdEdit />
+                                  <img src={editIcon} alt="edit" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteClick(employee.id)}
+                                  className=""
+                                >
+                                  <img className="w-6 h-6 ml-6" src={deleteIcon} alt="delete" />
                                 </button>
                               </td>
+
                             </tr>
                           ))}
                         </tbody>

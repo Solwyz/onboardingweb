@@ -41,7 +41,7 @@ function ProfessionalDetails({ setShowProfessionalForm }) {
   const [isVisible, setIsVisible] = useState(true);
 
   const holidays = [
-    { id: 1, name: "India" },
+    { id: 1, name: "INDIAN" },
 
   ];
 
@@ -62,12 +62,12 @@ function ProfessionalDetails({ setShowProfessionalForm }) {
 
   // Fetch line managers from /api/employee
   useEffect(() => {
-    Api.get("api/employee", {
+    Api.get("api/employee/api/employees/active", {
       'Authorization': `Bearer ${token}`
     }) // Fetch line managers from this endpoint
       .then((response) => {
-        console.log('empl', response)
-        setLineManagers(response.data.content); // Assuming response.data is an array of line managers
+        console.log('empl', response.data)
+        setLineManagers(response.data); // Assuming response.data is an array of line managers
       })
       .catch((error) => {
         console.error("Error fetching line managers:", error);
@@ -187,7 +187,7 @@ function ProfessionalDetails({ setShowProfessionalForm }) {
           "id": formData.branch  
         },
         "level": {
-          "id":formData.level  
+          "id": formData.level  
         },
         "holidayCycle": formData.holiday
       }
@@ -229,7 +229,7 @@ function ProfessionalDetails({ setShowProfessionalForm }) {
               <div className="flex mt-[16px]">
                 <div>
                   <label className="block text-sm text-[#373737] font-normal">
-                    Date of Joined
+                    Date of Joining
                   </label>
                   <input
                     type="date"
