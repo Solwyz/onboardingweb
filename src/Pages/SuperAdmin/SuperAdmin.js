@@ -25,6 +25,10 @@ import IntegrationComponent from '../../Components/SuperAdminComponents/Integrat
 import ManageComponent from '../../Components/SuperAdminComponents/MangeComponent/ManageComponent';
 import HelpComponent from '../../Components/SuperAdminComponents/HelpComponent/HelpComponent';
 import { useNavigate } from 'react-router-dom';
+import Api from '../../Services/Api';
+
+const token = localStorage.getItem('token');
+const refreshToken = localStorage.getItem('refreshToken')
 
 const SuperAdmin = () => {
   const [activeSidebar, setActiveSidebar] = useState('Team Planner');
@@ -80,12 +84,37 @@ const SuperAdmin = () => {
     }
   };
 
+  const callRefreshToken =()=> {
+    console.log('refresh token called at:', new Date().toLocaleTimeString());
+    Api.post('api/auth/refreshtoken', {
+      "refreshToken": refreshToken
+    })
+    .then(response => {
+      console.log('refresh token response:', response)
+      if(response && response.data) {
+        localStorage.setItem('token', response.data.jwt);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+        return true;
+      } else {
+        return false;
+      }
+    })
+  }
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if(!token) {
       navigate("/")
     }
   },[navigate]);
+
+  useEffect(() => {
+    if(token) {
+      callRefreshToken();
+      const interval = setInterval(callRefreshToken,600000);
+      return () => clearInterval(interval);
+    }
+  },[token]);
 
   return (
     <div className="flex flex-col h-screen">
