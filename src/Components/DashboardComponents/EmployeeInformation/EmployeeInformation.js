@@ -29,13 +29,13 @@ function EmployeeInformation() {
     setIsLoading(true);
     setError(null);
 
-    Api.get('api/employee', {
+    Api.get('api/employee/api/employees/active', {
       'Authorization': `Bearer ${token}`
     })
       .then((response) => {
         console.log('API Response', response.data)
-        if (response?.data?.content) {
-          setEmployeeList(response.data.content);
+        if (response?.data) {
+          setEmployeeList(response.data);
         } else {
           console.error('Unexpected API response:', response);
           setError('Failed to fetch employee data. Please try again later.');
