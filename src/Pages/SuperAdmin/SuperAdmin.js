@@ -40,7 +40,7 @@ const SuperAdmin = () => {
   const sidebarItems = [
     { name: 'Team Planner', icon: TeamPlanner },
     { name: 'Portfolio', icon: Portfolio },
-    { name: 'My Schedule', icon: MySchedule },
+    // { name: 'My Schedule', icon: MySchedule },
     { name: 'Resource Pool', icon: ResourcePools },
     // { name: 'Project List', icon: ProjectList },
     // { name: 'Goal', icon: Goal },
