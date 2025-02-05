@@ -10,15 +10,16 @@ function LoginPage() {
   const [isFormValid, setIsFormValid] = useState(false);
 
   const [token, setToken] = useState(localStorage.getItem('token'))
+  const [userDetails, setUserDetails] = useState({})
 
   const navigate = useNavigate();
 
   // Define user roles and their credentials
-  const credentials = {
-    superadmin: { phone: "1234567890", password: "superadmin" },
-    hrtas: { phone: "1234567890", password: "hrtas" },
-    hrm: { phone: "1234567890", password: "hrm" },
-  };
+  // const credentials = {
+  //   superadmin: { phone: "1234567890", password: "superadmin" },
+  //   hrtas: { phone: "1234567890", password: "hrtas" },
+  //   hrm: { phone: "1234567890", password: "hrm" },
+  // };
 
   useEffect(() => {
     // Check if both phone number and password are filled and valid
@@ -28,6 +29,15 @@ function LoginPage() {
       setIsFormValid(false);
     }
   }, [phoneNumber, password]);
+
+  const decodeJWT = (token) => {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''));
+    return JSON.parse(jsonPayload);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,18 +55,42 @@ function LoginPage() {
           console.log('refresh token is :', response.data.refreshToken)
           localStorage.setItem('token', response.data.jwt);
           localStorage.setItem('refreshToken', response.data.refreshToken)
-          navigate("/superadmin")
+          console.log('decoded token response:', decodeJWT(response.data.jwt))
+          setUserDetails(decodeJWT(response.data.jwt).userDetails)
+          if (decodeJWT(response.data.jwt).userDetails?.userName === 'superadmin') {
+            navigate("/superadmin")
+          } else if (decodeJWT(response.data.jwt).userDetails?.userName === 'hrtas') {
+            navigate("/hrtas")
+          } else if (decodeJWT(response.data.jwt).userDetails?.userName === 'hrm') {
+            navigate("/hrm") 
+          } else {
+            console.error("Jwt cant decoded")
+          }
         } else {
           console.error('Invalid response data:', response)
           alert('Authentication failed. Please try again.')
         }
       })
 
-      
-      // .catch(error => {
-      //   console.error('Error occurred during authentication:', error);
-      //   alert('An error occured while trying to authenticate. Please check your credentials or try again later.')
-      // })
+    //   function decodeJWT(token) {
+    //     const base64Url = token.split('.')[1];
+    //     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    //     const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+    //         '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    //     ).join(''));
+    //     return JSON.parse(jsonPayload);
+    // }
+
+    // const jwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlcmFkbWluIiwicm9sZXMiOiIiLCJleHAiOjE3Mzg3NjIwMTQsInVzZXJEZXRhaWxzIjp7InBhc3N3b3JkIjoiIiwidXNlcm5hbWUiOiJzdXBlcmFkbWluIiwiYXV0aG9yaXRpZXMiOltdLCJhY2NvdW50Tm9uRXhwaXJlZCI6dHJ1ZSwiYWNjb3VudE5vbkxvY2tlZCI6dHJ1ZSwiY3JlZGVudGlhbHNOb25FeHBpcmVkIjp0cnVlLCJlbmFibGVkIjp0cnVlLCJpZCI6IjdmMDAwMDAxLTgzMDMtMTJiMi04MTgzLTAzNDkxNDYwMDAwMCIsInVzZXJOYW1lIjoic3VwZXJhZG1pbiJ9LCJpYXQiOjE3Mzg3NTg0MTR9.TsWdfOrpx49EZQyYAg2m0y_MOE3GqBdx4EJf-BSPczQ";
+
+    // console.log('decoded',decodeJWT(jwt));
+
+
+
+    // .catch(error => {
+    //   console.error('Error occurred during authentication:', error);
+    //   alert('An error occured while trying to authenticate. Please check your credentials or try again later.')
+    // })
 
 
     let isValid = true;
