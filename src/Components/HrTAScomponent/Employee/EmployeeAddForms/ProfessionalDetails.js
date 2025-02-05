@@ -229,7 +229,7 @@ function ProfessionalDetails({ setShowProfessionalForm }) {
               <div className="flex mt-[16px]">
                 <div>
                   <label className="block text-sm text-[#373737] font-normal">
-                    Date of Joined
+                    Date of Joining
                   </label>
                   <input
                     type="date"
