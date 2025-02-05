@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Home from "../../Assets/HrTas/group.svg";
 import EmployeeIcon from "../../Assets/HrTas/person.svg";
 import ExpenseClaim from "../../Assets/HrTas/Frame (4).svg";
@@ -29,7 +29,10 @@ import Perfomance from '../../Components/HrTAScomponent/Perfomance/Perfomance';
 
 import People from '../../Components/HrTAScomponent/People/People';
 import HelpPage from '../../Components/HrTAScomponent/help/HelpPage';
+import Api from '../../Services/Api';
 
+const token = localStorage.getItem('token');
+const refreshToken = localStorage.getItem('refreshToken');
 
 
 function HrTas() {
@@ -87,6 +90,31 @@ function HrTas() {
         return <div>Select a section from the sidebar</div>;
     }
   };
+
+  const callRefreshToken =()=> {
+    console.log('refresh token of HR-TAS called at:', new Date().toLocaleTimeString());
+    Api.post('api/auth/refreshtoken', {
+      "refreshToken": refreshToken
+    })
+    .then(response => {
+      console.log('refresh token response:', response)
+      if(response && response.data) {
+        localStorage.setItem('token', response.data.jwt);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+        return true;
+      } else {
+        return false;
+      }
+    })
+  }
+
+  useEffect(() => {
+    if(token) {
+      callRefreshToken();
+      const interval = setInterval(callRefreshToken, 600000);
+      return () => clearInterval(interval);
+    }
+  },[token]);
 
   return (
     <div className="flex flex-col h-screen">
