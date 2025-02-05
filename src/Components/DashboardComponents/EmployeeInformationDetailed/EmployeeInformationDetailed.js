@@ -15,7 +15,7 @@ const fieldOptions = {
   EmploymentStatus: ['Active', 'Inactive'],
 };
 
-function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
+function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData }) {
 
   const token= localStorage.getItem('token')
 
@@ -49,15 +49,16 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode }) {
     setMaxDate(`${year}-${month}-${day}`);
 
 
-    if (employee) {
+    if (initialData) {
       setFormData({
-        firstName: employee.name || '',
-        LastName: employee.basicDetails?.lastName || '',
-        PersonalEmail: employee.email || '',
-        Department: employee.Department || '',
-        Designation: employee.Designation || '',
-        WorkLocation: employee.WorkLocation || '',
-        PhoneNumber: employee.PhoneNumber || '',
+        firstName: initialData.basicDetails?.firstName || '',
+        LastName: initialData.basicDetails?.lastName || '',
+        PersonalEmail: initialData.email || '',
+        Department: initialData.basicDetails?.department?.departmentName || '',
+        Designation: initialData.Designation || '',
+        WorkLocation: initialData.WorkLocation || '',
+        PhoneNumber: initialData.PhoneNumber || '',
+        Nationality: initialData.basicDetails?.nationality || '',
       });
     } else {
       setFormData({

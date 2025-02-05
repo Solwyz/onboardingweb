@@ -29,6 +29,8 @@ function ContactDetailsForm({ setShowContactForm }) {
     const [errors, setErrors] = useState({});
     const [sameAsPrimary, setSameAsPrimary] = useState(false);
     const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false);
+    const [isSameAddress, setIsSameAddress] = useState(false)
+
 
     const handleCheckboxChange = () => {
         setSameAsPrimary(!sameAsPrimary);
@@ -46,6 +48,30 @@ function ContactDetailsForm({ setShowContactForm }) {
             }));
         }
     }, [sameAsPrimary]);
+
+    const handleSameAddress = (e) => {
+    const checked = e.target.checked;
+    setIsSameAddress(checked);
+
+    if (checked) {
+        setFormData((prevData) => ({
+            ...prevData,
+            secondaryAddress: prevData.primaryAddress,
+            secondaryCity: prevData.primaryCity,
+            secondaryState: prevData.primaryState,
+            secondaryPincode: prevData.primaryPincode,
+        }));
+    } else {
+        setFormData((prevData) => ({
+            ...prevData,
+            secondaryAddress: "",
+            secondaryCity: "",
+            secondaryState: "",
+            secondaryPincode: "",
+        }));
+    }
+};
+
 
     // Validate field values
     const validateField = (name, value) => {
@@ -85,8 +111,10 @@ function ContactDetailsForm({ setShowContactForm }) {
                 error = "Only letters and spaces are allowed";
             }
         }
+        
 
         setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
+
     };
 
     const handleInputChange = (e) => {
@@ -118,6 +146,15 @@ function ContactDetailsForm({ setShowContactForm }) {
             primaryMobileValid &&
             secondaryMobileValid
         );
+           // If "same address" is checked, update secondary fields
+    if (isSameAddress && name.startsWith("primary")) {
+        const secondaryName = name.replace("primary", "secondary");
+        setFormData((prevData) => ({
+            ...prevData,
+            [secondaryName]: value,
+        }));
+        validateField(secondaryName, value);
+    }
 
     };
 

@@ -167,18 +167,20 @@ function BasicDetailsForm({ editingEmployee }) {
         }
 
         if (name === 'panNumber') {
-            if (!validatePanNumber(value)) {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    panNumber: 'PAN number does not contain special characters',
-                }));
-            } else {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    panNumber: '',
-                }));
-            }
-        }
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/; // Standard PAN format: 5 letters, 4 digits, 1 letter
+
+    if (!value.match(panRegex)) {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            panNumber: 'PAN number Uper case and 10 characters',
+        }));
+    } else {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            panNumber: '',
+        }));
+    }
+}
 
         if (name === 'passport') {
             if (!validatePassport(value)) {
