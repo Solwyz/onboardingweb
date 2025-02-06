@@ -30,7 +30,7 @@ function Header() {
   }
 
   return (
-    <div className="h-[72px] z-[1000] pl-[40px] pr-[25px] flex items-center">
+    <div className="h-[72px]  pl-[40px] pr-[25px] flex items-center">
       <img className="cursor-pointer" src={medoLogo} alt="Logo" />
       <div className="flex justify-end ml-auto">
         <img className="cursor-pointer" src={Notification} alt="Notification" />

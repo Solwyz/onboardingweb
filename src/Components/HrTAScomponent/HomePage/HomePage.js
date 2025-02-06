@@ -68,11 +68,11 @@ function HomePage() {
     <div className='DashBoard-section mt-5'>
     <div className='flex columns-2 gap-6'>
         <div className='w-full h-[330px] bg-[#FFFFFF] rounded-lg py-6 px-4 '><AlertPage/></div>
-        <div className='w-full h-[330px] bg-[#FFFFFF] rounded-lg py-6 px-4  '><ToDoListPage/></div>
+        <div className='w-full h-[330px] bg-[#FFFFFF] rounded-lg py-6 px-4 overflow-hidden' ><ToDoListPage/></div>
     </div>
     <div className='flex columns-2 gap-6 mt-4'>
         <div className='w-full h-[330px] bg-[#FFFFFF] rounded-lg py-6 px-4 '><ProfilePage/></div>
-        <div className='w-full h-[330px] bg-[#FFFFFF] rounded-lg py-6 px-4 pt-0 overflow-y-auto custom-scrollbar '><AnnouncementPage/></div>
+        <div className='w-full h-[330px] bg-[#FFFFFF] rounded-lg py-6 px-4  '><AnnouncementPage/></div>
     </div>
     </div>
     </div>

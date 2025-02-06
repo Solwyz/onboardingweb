@@ -10,7 +10,7 @@ import NewProgressive from "./NewProgressive";
 const token = localStorage.getItem('token')
 console.log("token:", token)
 
-function ProfessionalDetails({ setShowProfessionalForm }) {
+function ProfessionalDetails({ setShowProfessionalForm,editingEmployee }) {
   const [showSalaryForm, setShowSalaryForm] = useState(false);
   const [formData, setFormData] = useState({
     dateOfJoin: "",
@@ -62,6 +62,17 @@ function ProfessionalDetails({ setShowProfessionalForm }) {
 
   // Fetch line managers from /api/employee
   useEffect(() => {
+    console.log('edittttt',editingEmployee)
+
+   {editingEmployee.ProfessionalDetails && (
+    setFormData({
+
+    }))
+
+   }
+
+
+
     Api.get("api/employee/api/employees/active", {
       'Authorization': `Bearer ${token}`
     }) // Fetch line managers from this endpoint
