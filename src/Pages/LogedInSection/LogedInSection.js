@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Employee from "../../Assets/hrm/person.svg"
 import Leave from "../../Assets/hrm/Frame.svg"
@@ -24,6 +24,10 @@ import AttendanceManagement from '../../Components/DashboardComponents/Attendanc
 import PerformanceManagement from '../../Components/DashboardComponents/PerformanceManagement/PerformanceManagement';
 
 import PayrollManagment from '../../Components/DashboardComponents/PayRollManagement/PayrollManagment';
+import Api from '../../Services/Api';
+
+const token = localStorage.getItem('token');
+const refreshToken = localStorage.getItem('refreshToken');
 
 
 function LogedInSection() {
@@ -74,6 +78,31 @@ function LogedInSection() {
         return <div><EmployeeInformation /></div>;
     }
   };
+
+  const callRefreshToken =()=> {
+    console.log('refresh token of HRM called at:', new Date().toLocaleTimeString());
+    Api.post('api/auth/refreshtoken', {
+      "refreshToken": refreshToken
+    })
+    .then(response => {
+      console.log('refresh token response:', response)
+      if(response && response.data) {
+        localStorage.setItem('token', response.data.jwt);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+        return true;
+      } else {
+        return false;
+      }
+    })
+  }
+
+  useEffect(() => {
+    if(token) {
+      callRefreshToken();
+      const interval = setInterval(callRefreshToken, 600000);
+      return () => clearInterval(interval);
+    }
+  },[token])
 
   return (
     <div className="flex flex-col h-screen">

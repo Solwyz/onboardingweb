@@ -36,13 +36,13 @@ function People() {
   };
 
   useEffect(() => {
-    Api.get("api/employee", {
+    Api.get("api/employee/api/employees/active", {
       Authorization: `Bearer ${token}`,
     })
       .then((response) => {
         if (response && response.data) {
-          setEmployees(response.data.content);
-          console.log("peopleee data", response.data.content);
+          setEmployees(response.data);
+          console.log("peopleee data", response.data);
         } else {
           console.error("Invalid response data:", response);
           alert("Can not fetch Employees data. Please try again");
@@ -76,13 +76,13 @@ function People() {
           {currentEmployees.map((employee) => (
             <div
               key={employee.id}
-              className="bg-white h-[136px] py-[22px] p-4 w-[1097px] custom-shadow flex gap-32 items-center"
+              className="bg-white h-[136px] py-[22px] p-4 w-[1097px] custom-shadow  flex gap-32 items-center"
             >
-              <img
+              {/* <img
                 src={employee.image}
                 className="w-[104px] h-[104px] rounded-lg"
                 alt={employee.name}
-              />
+              /> */}
 
               <div className="ml-8 w-[300px]">
                 <h3 className="text-[16px] text-[#373737] font-normal">
@@ -93,7 +93,7 @@ function People() {
                 </p>
               </div>
 
-              <div className=" text-left">
+              <div className=" text-left ml-[400px]">
                 <div className="flex text-[16px] text-[#696A70] font-normal">
                   <img src={jobIcon} alt="Role" className="mr-8" />
                   {employee.basicDetails?.designation?.name}
