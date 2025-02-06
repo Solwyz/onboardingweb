@@ -153,53 +153,58 @@ function ToDoListPage() {
 
     return (
         <div>
-            <div className='flex justify-between '>
-                <div className='flex items-center justify-start '>
-                    <img className='w-5 h-5' src={ToDo} alt="Notification" />
-                    <h1 className='text-[20px] font-medium text-[#1255D0] ml-1'>To-Do List</h1>
+            <div className=''>
+                <div className='flex justify-between items-center '>
+                    <div className='flex items-center justify-start '>
+                        <img className='w-5 h-5' src={ToDo} alt="Notification" />
+                        <h1 className='text-[20px] font-medium text-[#1255D0] ml-1'>To-Do List</h1>
+                    </div>
+                    <div className='flex'>
+    
+                        {/* <button
+                            onClick={deleteCheckedTasks}
+                            className='border text-[12px] font-normal flex items-center px-4 py-2 rounded-lg'
+                        >
+                            <img className='w-4 h-4 mr-1' src={DeleteBtn} alt="" />Delete
+                        </button> */}
+    
+                        <button
+                            onClick={handleCreateTask}
+                            className='border text-[12px] font-normal flex items-center px-4 py-2 rounded-lg ml-2'
+                        >
+                            <img className='w-4 h-4 mr-1' src={AddBtn} alt="" /> Create New
+                        </button>
+                    </div>
                 </div>
-                <div className='flex'>
-
-                    {/* <button
-                        onClick={deleteCheckedTasks}
-                        className='border text-[12px] font-normal flex items-center px-4 py-2 rounded-lg'
-                    >
-                        <img className='w-4 h-4 mr-1' src={DeleteBtn} alt="" />Delete
-                    </button> */}
-
-                    <button
-                        onClick={handleCreateTask}
-                        className='border text-[12px] font-normal flex items-center px-4 py-2 rounded-lg ml-2'
-                    >
-                        <img className='w-4 h-4 mr-1' src={AddBtn} alt="" /> Create New
-                    </button>
-                </div>
-            </div>
-
-
-            {todoList.length > 0 && (
-                <div className='max-h-[224px] overflow-y-auto custom-scrollbar mr-6 mt-[20px] '>
-                    {todoList.map((task, index) => (
-                        <div key={index} className='bg-[#F6F6F8] h-[50px] rounded-lg mt-[20px] '>
-                            <div className='flex items-center py-4 pl-4 pr-6'>
-                                <img src={TodoArrow} alt="" />
-                                <h1 className='ml-4 text-[14px] font-medium text-[#9819B0]'>{task.title}</h1>
-                                <div className='flex items-center justify-center gap-4 ml-auto'>
-                                    <img src={editIcon} className='h-3 w-3 hover:cursor-pointer' onClick={() => handleEditClick(task.id)}></img>
-                                    <img src={deleteIcon} className='hover:cursor-pointer' onClick={() => handleDeleteClick(task.id)}></img>
+    
+    
+                {todoList.length > 0 && (
+                   <div className=''>
+                        <div className='h-[224px] overflow-y-auto custom-scrollbar mr-6 mt-[20px]  '>
+                            {todoList.map((task, index) => (
+                                <div key={index} className='bg-[#F6F6F8] h-[50px] rounded-lg mt-[20px] '>
+                                    <div className='flex items-center py-4 pl-4 pr-6'>
+                                        <img src={TodoArrow} alt="" />
+                                        <h1 className='ml-4 text-[14px] font-medium text-[#9819B0]'>{task.title}</h1>
+                                        <div className='flex items-center justify-center gap-4 ml-auto'>
+                                            <img src={editIcon} className='h-3 w-3 hover:cursor-pointer' onClick={() => handleEditClick(task.id)}></img>
+                                            <img src={deleteIcon} className='hover:cursor-pointer' onClick={() => handleDeleteClick(task.id)}></img>
+                                        </div>
+        
+                                        {/* <img
+                                            className='ml-auto cursor-pointer'
+                                            src={checkedTasks.includes(index) ? Checked : Unchecked}
+                                            alt="Checkbox"
+                                            onClick={() => handleCheckToggle(index)}
+                                        /> */} 
+                                    </div>
                                 </div>
-
-                                {/* <img
-                                    className='ml-auto cursor-pointer'
-                                    src={checkedTasks.includes(index) ? Checked : Unchecked}
-                                    alt="Checkbox"
-                                    onClick={() => handleCheckToggle(index)}
-                                /> */}
-                            </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-            )}
+                   </div>
+                )}
+                
+            </div>
 
             {deleteModal && (
                 <div className="fixed inset-0 bg-neutral-800 bg-opacity-50 flex items-center justify-center z-50">
