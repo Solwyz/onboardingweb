@@ -155,7 +155,7 @@ function AlertPage() {
             </div>
 
 
-            <div className='Alert-List mt-[28px] max-h-[236px] overflow-y-auto custom-scrollbar mr-6  '>
+            <div className='h-[224px] overflow-y-auto custom-scrollbar mr-6 mt-[20px]  '>
                 {alerts.map((alert, index) => (
                     <div key={index} className={`flex items-center ${index > 0 ? 'mt-6' : ''}`}>
                         <div className='w-10 h-10 bg-[#EAE4FF] rounded-md text-[12px] leading-4 text-[#685899] text-center p-1'>
