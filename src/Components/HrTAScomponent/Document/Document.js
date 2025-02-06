@@ -220,7 +220,7 @@ function Document() {
                             {doc.documentType}
                           </div>
                           <div className="text-xs font-medium text-[#9D9D9D]">
-                            {doc.requestDocument.createdBy  }
+                            {doc.requestDocument.id}  
                           </div>
                         </div>
                       </div>
