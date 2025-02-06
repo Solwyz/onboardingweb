@@ -7,77 +7,85 @@ import SalaryDetails from './SalaryDetails';
 import PersonalDetails from './PersonalDetails';
 import ContactDetails from './ContactDetails';
 import PhysicalDetails from './PhysicalDetails';
+import { useEffect } from 'react';
 
-function EmployeeDetails() {
+function EmployeeDetails({employee}) {
 
     const [toggleState, setToggleState] = useState('basic');
+
+    const employeeInfo = employee;
 
     const toggleTab = (section) => {
         setToggleState(section);
     }
 
     const employeeData = {
-        firstName: 'Affan',
-        lastName: 'Muhammed',
-        employeeId: 'ASJH7894',
-        designation: 'Web Developer',
-        location: 'Dubai',
+        firstName: employee.basicDetails?.firstName,
+        lastName: employee.basicDetails?.lastName,
+        employeeId: employee.id,
+        designation: employee.basicDetails?.designation?.name,
+        location: employee.contactForm?.workAddress?.streetName,
         status: 'Active',
-        nationality: 'Indian',
-        dateOfBirth: '24/01/1999',
-        panNumber: 'AHkysj4515',
-        passport: '484950515254',
-        department: 'Development',
-        email: 'affanmuhammed@gmail.com',
-        dateOfJoin: '7/06/2023',
-        endOfProbation: '25/08/2023',
-        dateEffective: '25/08/2023',
-        jobPosition: 'Developer',
+        nationality:employee.basicDetails?.nationality,
+        dateOfBirth: employee.basicDetails?.dateOfBirth,
+        panNumber: employee.basicDetails?.panNumber,
+        passport: employee.basicDetails?.passport,
+        department: employee.basicDetails?.department?.departmentName,
+        email:employee.email,
+        dateOfJoin: employee.professionalDetails?.dateOfJoining,
+        endOfProbation: employee.professionalDetails?.endOfProbation,
+        dateEffective: employee.professionalDetails?.effectiveDate,
+        jobPosition:employee.basicDetails?.designation?.name,
         lineManager: 'Arjun',
-        department: 'Web',
-        branch: 'Technical',
-        level: '1',
-        jobType: 'Full time',
+        department:  employee.basicDetails?.department?.departmentName,
+        branch: employee.professionalDetails?.branch?.name,
+        level:employee.professionalDetails?.level?.name,
+        jobType: employee.professionalDetails?.jobType,
         description: 'Web Development',
         leaveFlow: '',
         workday: '',
-        holiday: 'Not Available',
-        basicSalary: '15000',
-        currentSalary: '16000',
+        holiday: employee.professionalDetails?.holidayCycle,
+        basicSalary: employee.salaryDetails?.basicSalary,
+        currentSalary: employee.salaryDetails?.currentSalary,
         nextReviewDate: '14/08/2024',
-        earning: '12224',
-        deduction: '41200',
-        bonus: '4500',
-        epf: '10000',
-        bankName: 'SBT',
-        bankAccount: '30495052525354',
-        payPeriod: 'Monthly',
-        method: 'Net Banking',
-        martialStatus: 'Single',
-        fatherName: 'Anwar',
+        earning: employee.salaryDetails?.earnings,
+        deduction: employee.salaryDetails?.deductions,
+        bonus: employee.salaryDetails?.bonus,
+        epf: employee.salaryDetails?.epf,
+        bankName:employee.salaryDetails?.bankName,
+        bankAccount:employee.salaryDetails?.bankAccount,
+        payPeriod: employee.salaryDetails?.payPeriod,
+        method: employee.salaryDetails?.paymentMethod,
+        martialStatus: employee.personalDetails?.maritalStatus,
+        fatherName: employee.personalDetails?.fatherName,
         spouseName: '',
-        primaryMobile: '9848468281',
-        secondaryMobile: '8268929134',
-        primaryAddress: 'Akshya Nagar 1st Block 1st Cross, Rammurthy nagar',
-        primaryPincode: '695846',
-        primaryCity: 'Trivandrum',
-        primaryState: 'Kerala',
-        secondaryAddress: 'Akshya Nagar 1st Block 1st Cross, Rammurthy nagar',
-        secondaryPincode: '695846',
-        secondaryCity: 'Trivandrum',
-        secondaryState: 'Kerala',
-        emergencyFirstName: 'John',
-        emergencyLastName: 'Abraham',
-        emergencyRelationship: 'Brother',
-        emergencyContactNumber: '9628818284',
-        height: '178cm',
-        weight: '85kg',
-        bloodType: 'O+ve',
-        visionLeft: '20/20',
-        visionRight: '20/20',
-        hearingLeft: '15-Db',
-        hearingRight: '15-Db'
+        primaryMobile: employee.contactForm?.primaryNumber,
+        secondaryMobile: employee.contactForm?.secondaryNumber,
+        primaryAddress: employee.contactForm?.permanentAddress?.streetName,
+        primaryPincode: employee.contactForm?.permanentAddress?.pincode,
+        primaryCity: employee.contactForm?.permanentAddress?.city,
+        primaryState: employee.contactForm?.permanentAddress?.state,
+        secondaryAddress: employee.contactForm?.temporaryAddress?.streetName,
+        secondaryPincode: employee.contactForm?.temporaryAddress?.pincode,
+        secondaryCity: employee.contactForm?.temporaryAddress?.city,
+        secondaryState: employee.contactForm?.temporaryAddress?.state,
+        emergencyFirstName:employee.contactForm?.emergencyContact?.firstName,
+        emergencyLastName:employee.contactForm?.emergencyContact?.lastName ,
+        emergencyRelationship:employee.contactForm?.emergencyContact?.relationship,
+        emergencyContactNumber: employee.contactForm?.emergencyContact?.emergencyContact,
+        height: employee.physical?.height,
+        weight: employee.physical?.weight,
+        bloodType: employee.physical?.bloodType,
+        visionLeft: employee.physical?.leftVision,
+        visionRight:employee.physical?.rightVision,
+        hearingLeft: employee.physical?.leftHearing,
+        hearingRight: employee.physical?.rightHearing
     }
+
+    useEffect(() => {
+        console.log('seleced..',employee)
+    },[])
+
     return (
         <div className='m-6 flex  gap-4'>
 

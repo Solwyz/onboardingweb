@@ -235,7 +235,7 @@ function AnnouncementPage() {
 
   return (
     <div>
-      <div className='flex justify-between items-center bg-white sticky top-0 z-10 py-4 px-4  '>
+      <div className='flex justify-between items-center    '>
         <div className='flex items-center justify-start'>
           <img className='w-5 h-5' src={Announcement} alt="Notification" />
           <h1 className='text-[20px] font-medium text-[#1255D0] ml-1 '>Announcement</h1>
@@ -250,9 +250,10 @@ function AnnouncementPage() {
         </div>
       </div>
 
-      {announcementError ? <div className='text-red-600 mt-8'>{announcementError}</div> :
+      {announcementError ? 
+      <div className='text-red-600 mt-8'>{announcementError}</div> :
 
-        <div className="mt-[35px] overflow-y-auto custom-scrollbar ">
+        <div className="h-[224px] overflow-y-auto custom-scrollbar mr-6 mt-[20px] ">
           {announcements.map((announcement, index) => (
             <div className="flex mb-4 items-center justify-between" key={index}>
               <div className="flex">

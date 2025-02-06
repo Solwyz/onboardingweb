@@ -17,6 +17,7 @@ function Employee() {
   const [categoryFilter, setCategoryFilter] = useState('Role');
   const [selectedOption, setSelectedOption] = useState('');
   const [showEmployeeDetails, setShowEmployeeDetails] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState(null)
 
   const handleApiError = (error, customMessage = "An error occurred while fetching data.") => {
     console.error("API Error:", error);
@@ -56,6 +57,11 @@ function Employee() {
       });
 
   }, []);
+
+  const handleEmployeeClick = (employee) => {
+    setSelectedEmployee(employee);
+    setShowEmployeeDetails(true);
+  };
 
   const handleAddEmployeeClick = (employee) => {
     setEditingEmployee(employee);
@@ -165,7 +171,7 @@ function Employee() {
                   placeholder="Search Employee"
                   className="border px-[16px] py-[15px] rounded-lg w-[584px] h-[48px] focus:outline-none text-[#696A70] text-sm font-normal border-[#E6E6E7]"
                 />
-                <select
+                {/* <select
                   value={categoryFilter}
                   onChange={handleCategoryChange}
                   className="ml-4 w-[160px] h-[48px] border px-4 py-[7px] focus:outline-none text-sm text-[#696A70] rounded-lg"
@@ -173,8 +179,8 @@ function Employee() {
                   <option value="Role">Role</option>
                   <option value="Department">Department</option>
                   <option value="Location">Location</option>
-                </select>
-                <select
+                </select> */}
+                {/* <select
                   value={selectedOption}
                   onChange={(e) => setSelectedOption(e.target.value)}
                   className="ml-4 w-[160px] h-[48px] border px-4 py-[7px] focus:outline-none text-sm text-[#696A70] rounded-lg"
@@ -183,14 +189,14 @@ function Employee() {
                   {getOptionsForCategory().map((option, index) => (
                     <option key={index} value={option}>{option}</option>
                   ))}
-                </select>
+                </select> */}
               </div>
 
               <div className="overflow-x-auto mt-[16px] rounded-t-lg">
                 <table className="w-full bg-white">
                   <thead className="bg-[#465062] h-[50px] text-white">
                     <tr>
-                      <th className="p-4  font-normal text-center text-sm">S No.</th>
+                      <th className="p-4  font-normal text-center text-sm">Sl No.</th>
                       <th className="p-4  font-normal text-center text-sm">Name</th>
                       <th className="p-4  font-normal text-center text-sm">Employee ID</th>
                       <th className="p-4  font-normal text-center text-sm">Role</th>
@@ -202,9 +208,12 @@ function Employee() {
                   </thead>
                   <tbody>
                     {filteredEmployees.map((employee, index) => (
-                      <tr key={employee.id} className={`h-[50px] ${index % 2 === 0 ? 'bg-white' : 'bg-[#F9F9F9]'}`}>
+                      <tr key={employee.id}
+                      
+                       onClick={() => handleEmployeeClick(employee)}
+                       className={` cursor-pointer h-[50px] ${index % 2 === 0 ? 'bg-white ' : 'bg-[#F9F9F9]'}`}>
                         <td className="p-4 text-center text-sm">{index + 1}</td>
-                        <td className="p-4 text-center text-sm">{employee.name}</td>
+                        <td className="p-4 text-center text-sm">{employee.basicDetails?.firstName}</td>
                         <td className="p-4 text-center text-sm">{employee.id}</td>
                         <td className="p-4 text-center text-sm">{employee.basicDetails?.designation?.name}</td>
                         <td className="p-4 text-center text-sm">{employee.basicDetails?.department?.departmentName}</td>
@@ -233,7 +242,7 @@ function Employee() {
           )}
         </div>
       ) : (
-        <EmployeeDetails />
+        <EmployeeDetails employee={selectedEmployee} onClose={() => setShowEmployeeDetails(false)} />
       )}
     </div>
   );

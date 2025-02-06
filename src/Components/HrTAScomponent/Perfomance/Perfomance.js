@@ -284,10 +284,10 @@ function Perfomance() {
                                 <tbody className='bg-white text-[#232E42] text-center'>
                                 {newData.map((entry,index) => (
                                     <tr className='border-b'>
-                                        <td className='p-2 text-[14px] font-medium'></td>
-                                        <td className='p-2 text-[14px] font-medium'>{entry.manager?.name}</td>
+                                        <td className='p-2 text-[14px] font-medium'>{entry.id}</td>
+                                        <td className='p-2 text-[14px] font-medium'>{entry.employee?.name}</td>
                                         <td className='p-2 text-[14px] font-medium'>{entry.manager?.email}</td>
-                                        <td className='p-2 text-[14px] font-medium'>{entry.manager?.basicDetails?.firstN}</td>
+                                        <td className='p-2 text-[14px] font-medium'>{entry.manager?.basicDetails?.firstName}</td>
                                         <td className='p-2 text-[14px] font-medium'>
                                             <select
                                                 value={rating}

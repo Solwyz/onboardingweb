@@ -29,8 +29,14 @@ function BasicDetailsForm({ editingEmployee }) {
                 setFormData({
                     firstName: editingEmployee?.basicDetails?.firstName || '',
                     lastName: editingEmployee?.basicDetails?.lastName || '',
+                    gender: editingEmployee?.basicDetails?.gender || '',
                     nationality: editingEmployee?.nationality || '',
                     dateOfBirth: editingEmployee?.basicDetails?.dateOfBirth || '',
+                    panNumber: editingEmployee?.basicDetails?.panNumber || '',
+                    passport: editingEmployee?.basicDetails?.passport || '',
+                    designation: editingEmployee?.basicDetails?.designation?.name || '',
+                    department: editingEmployee?.basicDetails?.department.id?.departmentName|| '',
+                    email: editingEmployee?.email || '',
                 }))
         }
 
@@ -405,7 +411,8 @@ function BasicDetailsForm({ editingEmployee }) {
                     </form>
                 </div>
             ) : (
-                <ProfessionalDetails setShowProfessionalForm={setShowProfessionalForm} />
+                <ProfessionalDetails setShowProfessionalForm={setShowProfessionalForm} editingEmployee={editingEmployee}
+                />
             )}
         </div>
     );
