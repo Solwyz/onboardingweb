@@ -17,7 +17,7 @@ const fieldOptions = {
 
 function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData }) {
 
-  const token= localStorage.getItem('token')
+  const token = localStorage.getItem('token')
 
 
 
@@ -36,8 +36,8 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const { setShowForm } = useContext(contextItems);
-  const [department,setDepartment]= useState([])
-  const [designation,setDesignation]= useState([])
+  const [department, setDepartment] = useState([])
+  const [designation, setDesignation] = useState([])
 
 
 
@@ -59,6 +59,8 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
         WorkLocation: initialData.WorkLocation || '',
         PhoneNumber: initialData.PhoneNumber || '',
         Nationality: initialData.basicDetails?.nationality || '',
+        gender: initialData.basicDetails?.gender || '',
+        BloodGroup: initialData.physical?.bloodtype || ''
       });
     } else {
       setFormData({
@@ -68,6 +70,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
         Designation: '',
         WorkLocation: '',
         PhoneNumber: '',
+
       });
     }
   }, [employee]);
@@ -159,12 +162,12 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await onSubmit(formData); 
+    await onSubmit(formData);
     setIsSubmitting(false);
 
-    if (isFormValid){
+    if (isFormValid) {
       console.log(formData);
-      
+
     }
 
   };
@@ -178,14 +181,14 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
         setDepartment(response.data.content)
       })
 
-      Api.get('api/designation', {
-        'Authorization': `Bearer ${token}`
+    Api.get('api/designation', {
+      'Authorization': `Bearer ${token}`
     })
-        .then((response) => {
-            console.log('bbbb', response)
-            setDesignation(response.data.content);
-        })
-      
+      .then((response) => {
+        console.log('bbbb', response)
+        setDesignation(response.data.content);
+      })
+
 
   }, [])
 
@@ -272,16 +275,15 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
               <div>
                 <label className="block mb-1 text-sm font-normal">Gender:</label>
                 <select
-                  name="Gender"
-                  value={formData.Gender}
+                  name='gender'
+                  value={formData.gender}
                   onChange={handleChange}
-                  className={`border w-[251px] h-[48px] p-2 text-[#696A70] text-[14px] font-normal border-[#E6E6E7] focus:outline-[#A4A4E5] mt-[8px] rounded-lg ${errors.Gender ? 'border-red-500' : ''}`}
-                  disabled={viewMode}
+                  className='text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]'
                 >
-                  <option value="">Select Gender</option>
-                  {fieldOptions.Gender.map((option) => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
+                  <option value=''>Select Gender</option>
+                  <option value='MALE'>Male</option>
+                  <option value='FEMALE'>Female</option>
+                  <option value='OTHERS'>Others</option>
                 </select>
                 {errors.Gender && <p className="text-red-500">{errors.Gender}</p>}
               </div>

@@ -132,7 +132,7 @@ function Employee() {
   };
 
 
-  const filteredEmployees = employees.filter((employee) => {
+  const filteredEmployees = employees?.filter((employee) => {
     const matchesSearch =
       (employee.name?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
       (employee.id?.toLowerCase() || '').includes(searchValue.toLowerCase())||
@@ -207,7 +207,7 @@ function Employee() {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredEmployees.map((employee, index) => (
+                    {filteredEmployees?.map((employee, index) => (
                       <tr key={employee.id}
                       
                        onClick={() => handleEmployeeClick(employee)}
