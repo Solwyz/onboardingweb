@@ -103,6 +103,7 @@ function HrTas() {
         localStorage.setItem('refreshToken', response.data.refreshToken);
         return true;
       } else {
+        window.location.href = '/'
         return false;
       }
     })
