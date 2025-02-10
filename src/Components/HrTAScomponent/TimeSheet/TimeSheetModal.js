@@ -66,25 +66,30 @@ function TimeSheetModal({
     });
     fetchEmployees();
   }, []);
-
   useEffect(() => {
-    console.log("dataToEdit:", dataToEdit);
+    console.log("Modal Open:", isOpen);
+    console.log("Data to Edit:", dataToEdit);
     console.log("Employees List:", employees);
   
-    if (isOpen && dataToEdit) {
-      setFormData({
+    if (isOpen && dataToEdit && employees.length > 0) {
+      const selectedEmployeeId = dataToEdit.employee?.id || "";
+      console.log("Selected Employee ID:", selectedEmployeeId);
+  
+      setFormData((prev) => ({
+        ...prev,
         date: dataToEdit.date || "",
-        employeeName: dataToEdit.employee?.id || "", // Ensure it's an ID
+        employeeName: employees.some((emp) => emp.id === selectedEmployeeId)
+          ? selectedEmployeeId
+          : "", // Ensure it's a valid selection
         project: dataToEdit.project?.id || "",
         task: dataToEdit.task || "",
         description: dataToEdit.description || "",
         hour: dataToEdit.duration ? parseInt(dataToEdit.duration.split(":")[0]) : 0,
         minute: dataToEdit.duration ? parseInt(dataToEdit.duration.split(":")[1]) : 0,
-      });
+      }));
     }
-  }, [isOpen, dataToEdit, employees]); // Ensure it updates when employees are fetched
-  // Re-run when employees are loaded
-
+  }, [isOpen, dataToEdit, employees]);
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -299,8 +304,7 @@ function TimeSheetModal({
                     {employees.length > 0 ? (
                       employees.map((employee) => (
                         <option key={employee.id} value={employee.id}>
-                          {employee.name}{" "}
-                          {/* Ensuring name is displayed correctly */}
+                          {employee.name}
                         </option>
                       ))
                     ) : (
