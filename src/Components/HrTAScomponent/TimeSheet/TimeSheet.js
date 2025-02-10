@@ -91,13 +91,13 @@ function TimeSheet() {
     );
   });
   const sortedTimesheet = [...filteredTimesheet].sort((a, b) => {
-    if (groupBy === 'Date') {
-      return sortOrder === 'DSC' 
-        ? new Date(b.date) - new Date(a.date) 
-        : new Date(a.date) - new Date(b.date);
-    } else if (groupBy === 'Project') {
-      return sortOrder === 'DSC' 
-        ? b.project.projectName.localeCompare(a.project.projectName) 
+    if (groupBy === "Date") {
+      return sortOrder === "DSC"
+        ? new Date(b.date).getTime() - new Date(a.date).getTime()
+        : new Date(a.date).getTime() - new Date(b.date).getTime();
+    } else if (groupBy === "Project") {
+      return sortOrder === "DSC"
+        ? b.project.projectName.localeCompare(a.project.projectName)
         : a.project.projectName.localeCompare(b.project.projectName);
     }
     return 0;
