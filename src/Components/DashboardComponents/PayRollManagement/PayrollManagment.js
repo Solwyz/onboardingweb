@@ -6,6 +6,8 @@ import Papa from "papaparse";
 import checkedBox from "../../../Assets/HrTas/checkBox.svg";
 import UncheckedBox from "../../../Assets/HrTas/uncheckBox.svg";
 import Api from "../../../Services/Api";
+import editIcon from '../../../Assets/Superadmin/edit-svgrepo-com.svg'
+import deleteIcon from '../../../Assets/Superadmin/delete.svg'
 
 const AdminPayrollForm = () => {
   const [payroll, setPayroll] = useState({
@@ -176,6 +178,7 @@ const AdminPayrollForm = () => {
     }));
   }
 
+
   useEffect(() => {
     const isValid =
       payroll.BasicSalary &&
@@ -222,7 +225,8 @@ const AdminPayrollForm = () => {
                 <th className="p-4 text-center font-normal text-sm">Employee ID</th>
                 <th className="p-4 text-center font-normal text-sm">Role</th>
                 <th className="p-4 text-center font-normal text-sm">Bank account</th>
-                <th className="p-4 text-center font-normal text-sm rounded-tr-lg">Pay period</th>
+                <th className="p-4 text-center font-normal text-sm">Pay period</th>
+                <th className="p-4 text-center font-normal text-sm rounded-tr-lg">Edit</th>
               </tr>
             </thead>
 
@@ -235,6 +239,11 @@ const AdminPayrollForm = () => {
                   <td className='p-4 text-center font-normal '>{employee.salaryDetails?.updatedBy}</td>
                   <td className='p-4 text-center font-normal '>{employee.salaryDetails?.bankAccount}</td>
                   <td className='p-4 text-center font-normal '>{employee.salaryDetails?.payPeriod}</td>
+                  <td className='p-4 text-left text-sm'>
+                    <div className='flex items-center justify-center gap-4 w-fit'>
+                      <img src={editIcon} className='h-3 w-3 hover:cursor-pointer'></img>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -407,7 +416,7 @@ const AdminPayrollForm = () => {
                 }`}
               onClick={handleDownload}
             >
-              Create Payroll
+              Save Payroll
             </button>
 
           </form>

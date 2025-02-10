@@ -35,7 +35,7 @@ function LogedInSection() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const sidebarItems = [
-    { name: 'Employer Information', icon: Employee },
+    { name: 'Employees Information', icon: Employee },
     { name: 'Leave Management', icon: Leave },
     // { name: 'Expense Claim', icon: ExpenseClaim },
     { name: 'Attendance', icon: Attendance },
