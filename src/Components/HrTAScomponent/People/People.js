@@ -17,8 +17,9 @@ function People() {
 
   // Filter employees based on search term
   const filteredEmployees = employees.filter((employee) =>
-    employee.name.toLowerCase().includes(searchTerm.toLowerCase())
+    employee.name && employee.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
 
   // Calculate total pages
   const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
