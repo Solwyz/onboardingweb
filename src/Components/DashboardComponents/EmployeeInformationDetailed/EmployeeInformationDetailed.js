@@ -9,7 +9,7 @@ import Api from '../../../Services/Api';
 
 
 const fieldOptions = {
-  Gender: ['Male', 'Female', 'Other'],
+
   MaritalStatus: ['Single', 'Married', 'Divorced', 'Widow'],
   EmployeeType: ['Permanent', 'Contract'],
   EmploymentStatus: ['Active', 'Inactive'],
@@ -54,13 +54,19 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
         firstName: initialData.basicDetails?.firstName || '',
         LastName: initialData.basicDetails?.lastName || '',
         PersonalEmail: initialData.email || '',
-        Department: initialData.basicDetails?.department?.departmentName || '',
-        Designation: initialData.Designation || '',
-        WorkLocation: initialData.WorkLocation || '',
-        PhoneNumber: initialData.PhoneNumber || '',
+        department: initialData.basicDetails?.department?.departmentName || '',
+        designation: initialData.basicDetails?.designation?.name || '',
+        WorkLocation: initialData.contactForm?.workAddress?.streetName || '',
         Nationality: initialData.basicDetails?.nationality || '',
         gender: initialData.basicDetails?.gender || '',
-        BloodGroup: initialData.physical?.bloodtype || ''
+        BloodGroup: initialData.physical?.bloodtype || '',
+        MaritalStatus: initialData.personDetails?.maritalStatus || '',
+        PhoneNumber: initialData.contactForm?.primaryNumber || '',
+        EmergencyContactNumber: initialData.contactForm?.secondaryNumber || '',
+        Address: initialData.contactForm?.permanentAddress || '',
+        EmployeeType: initialData.EmployeeType || '',
+        ReportingManager: initialData.ReportingManager || '',
+       
       });
     } else {
       setFormData({
@@ -325,9 +331,10 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                   disabled={viewMode}
                 >
                   <option className='text-[14px] text-red-50' value="">Select Marital Status</option>
-                  {fieldOptions.MaritalStatus.map((option) => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
+                  <option value='SINGLE'>Single</option>
+                  <option value='MARRIED'>Married</option>
+                  <option value='DIVORCED'>Divorced</option>
+                  <option value='WIDOW'>Widow</option>
                 </select>
                 {errors.MaritalStatus && <p className="text-red-500">{errors.MaritalStatus}</p>}
               </div>
@@ -443,9 +450,10 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                   disabled={viewMode}
                 >
                   <option value="">Select Employee Type</option>
-                  {fieldOptions.EmployeeType.map((option) => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
+                  <option value="PERMANANT">Permanant</option>
+                  <option value="CONTRACT">Contract</option>
+                  <option value="INTERN">Intern</option>
+                 
                 </select>
                 {errors.EmployeeType && <p className="text-red-500">{errors.EmployeeType}</p>}
               </div>
