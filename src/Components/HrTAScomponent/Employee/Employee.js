@@ -151,7 +151,7 @@ function Employee() {
       {!showEmployeeDetails ? (
         <div>
           {!showBasicForm ? (
-            <div className="container p-6 shadow-lg h-screen bg-white w-auto mx-auto">
+            <div className="container p-6 shadow-lg min-h-screen h-auto bg-white w-auto mx-auto">
               <div className="flex justify-between items-center">
                 <h2 className="text-[20px] text-[#232E42] font-medium mt-[40px]">All employees</h2>
                 <button

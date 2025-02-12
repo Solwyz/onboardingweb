@@ -108,11 +108,12 @@ function EmployeeInformation() {
           "firstName": formData.firstName,
 
         }
+        
       }, {
         'Authorization': `Bearer ${token}`,
       })
         .then((response) => {
-          console.log('New Employee Added:', response.data);
+          console.log('New Employee Addeddd:', response.data);
           setEmployeeList((prevList) => [...prevList, response.data]);
           setShowForm(false);
           setIsLoading(false); // End loading
