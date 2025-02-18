@@ -43,7 +43,7 @@ function HomePage() {
             <h1 className='text-[16px] text-[#1255D0] font-medium   '>Total employee</h1>
             <div className='flex items-center'>
              <img src={Users} alt="" />
-             <h1 className='text-[32px] font-medium ml-4'>{employees?.length}</h1>
+             <h1 className='text-[32px] font-medium ml-4'>40</h1>
       
             </div>
         </div>
@@ -51,7 +51,7 @@ function HomePage() {
             <h1 className='text-[16px] text-[#21C331] font-medium   '>Today Present</h1>
             <div className='flex items-center'>
              <img src={Users} alt="" />
-             <h1 className='text-[32px] font-medium ml-4'>29</h1>
+             <h1 className='text-[32px] font-medium ml-4'>00</h1>
            
             </div>
         </div>
@@ -59,7 +59,7 @@ function HomePage() {
             <h1 className='text-[16px] text-[#E30707] font-medium   '>Total Leave</h1>
             <div className='flex items-center'>
              <img src={Users} alt="" />
-             <h1 className='text-[32px] font-medium ml-4'>3</h1>
+             <h1 className='text-[32px] font-medium ml-4'>00</h1>
           
             </div>
         </div>
