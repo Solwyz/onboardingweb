@@ -167,7 +167,7 @@ function PersonalDetailForm({ setShowPersonalForm }) {
 
                         <div className="flex justify-end mt-[32px]">
                             <button
-                                className={`px-6 py-2 w-[92px] h-[48px] text-white font-normal text-sm rounded-md 
+                                className={`text-[14px] text-white bg-[#2B2342] text-center rounded-lg px-8 h-[48px] 
                                 ${isFormValid && !loading ? 'bg-[#2B2342]' : 'bg-gray-400 cursor-not-allowed'}`}
                                 onClick={handleNext}
                                 disabled={!isFormValid || loading}
