@@ -11,6 +11,7 @@ function DepartmentList() {
   const [isUpdating, setIsUpdating] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
   const [deleteId, setDeleteId] = useState('')
+  const [refreshKey, setRefreshKey] = useState(0)
 
   const [formData, setFormData] = useState({
     id: '',
@@ -37,6 +38,7 @@ function DepartmentList() {
         if (response && response.data) {
           console.log(response.data.message)
           setDeleteModal(false)
+          setRefreshKey(prev => prev + 1);
         } else {
           console.error('Invalid response data:', response)
           alert('Can not fetch data. Please try again')
@@ -105,17 +107,18 @@ function DepartmentList() {
       .then(response => {
         if (response && response.data) {
           setDepartmentData(response.data.content)
+          console.log('departmenttt',response.data.content)
         } else {
           console.error('Invalid response data:', response)
           alert('Can not fetch data. Please try again')
         }
 
-      },[])
+      })
 
     // // Fetch the data from localStorage on component mount
     // const storedData = JSON.parse(localStorage.getItem('DepartmentData')) || [];
     // setDepartmentData(storedData);
-  }, [handleDelete]);
+  }, [refreshKey]);
 
   useEffect(() => {
 
@@ -142,7 +145,7 @@ function DepartmentList() {
             <tr className='bg-[#465062] h-[48px] text-white text-[16px]'>
               <th className='p-4 text-left font-normal text-sm' scope="col">Name</th>
               <th className='p-4 text-left font-normal text-sm' scope="col">Resource Manager</th>
-              <th className='p-4 text-left font-normal text-sm' scope="col">Office</th>
+              <th className='p-4 text-left font-normal text-sm' scope="col">Work Mobile</th>
               <th className='p-4 text-left font-normal text-sm' scope="col">Edit/Delete</th>
             </tr>
           </thead>
@@ -151,8 +154,8 @@ function DepartmentList() {
               departmentData.map((department, index) => (
                 <tr key={index} className='border-b  hover:bg-[#F9F9F9] text-[#373737] font-light'>
                   <td className='p-4 text-left text-sm'>{department.departmentName || 'N/A'}</td>
-                  <td className='p-4 text-left text-sm'>{department.createdBy || 'N/A'}</td>
-                  <td className='p-4 text-left text-sm'>{department.createdAt || 'N/A'}</td>
+                  <td className='p-4 text-left text-sm'>{department.manager || 'N/A'}</td>
+                  <td className='p-4 text-left text-sm'>{department.workMobile || 'N/A'}</td>
                   <td className='p-4 text-left text-sm'>
                     <div className='flex items-center justify-center gap-4 w-fit'>
                       <img src={editIcon} className='h-3 w-3 hover:cursor-pointer' onClick={() => handleEditClick(department.id)}></img>
@@ -206,16 +209,13 @@ function DepartmentList() {
 
                   <div className="mb-4">
                     <label className="block text-sm font-normal text-[#373737]">Resource Manager</label>
-                    <select
+                    <input
+                    type='text'
                       name="resourceManager"
                       className="block w-[247px] h-[48px] border border-[#E6E6E7] text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none"
                       value={formData.resourceManager}
                       onChange={handleInputChange}
-                    >
-                      <option value="">Select Manager</option>
-                      <option value="Arjun Das">Arjun Das</option>
-                      <option value="Sharma">Sharma</option>
-                    </select>
+                    />
                   </div>
                 </div>
 
