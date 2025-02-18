@@ -13,6 +13,9 @@ function BasicDetailsForm({ editingEmployee }) {
   const [designations, setDesignations] = useState([]);
   const [departments, setDepartments] = useState([]);
 
+  const [ids,setIds] = useState({})
+  const [responseBasicID, setResponseBasicID] = useState (null)
+
   useEffect(() => {
     console.log("bbemppppp,", editingEmployee);
 
@@ -224,6 +227,9 @@ function BasicDetailsForm({ editingEmployee }) {
         { Authorization: `Bearer ${token}` }
       ).then((response) => {
         console.log("basicSub:", response);
+        setResponseBasicID(response.data.id)
+        setIds((prevIds) => ({...prevIds, ["basicId"]: response.data.id}));
+        console.log("Stored ID:", response.data.id);
       });
     }
   };
@@ -421,6 +427,8 @@ function BasicDetailsForm({ editingEmployee }) {
         <ProfessionalDetails
           setShowProfessionalForm={setShowProfessionalForm}
           editingEmployee={editingEmployee}
+          ids={ids}
+          setIds={setIds}
         />
       )}
     </div>
