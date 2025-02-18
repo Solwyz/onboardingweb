@@ -83,12 +83,12 @@ function Department({ onBack }) {
       </div>
 
       <div className="flex justify-between items-center mt-6">
-        <div className="flex">
+        {/* <div className="flex">
           <button className="text-[#E94E4E] text-[14px] font-normal flex">
             <img src={deleteIcon} alt="icon2" />
             Delete Department
           </button>
-        </div>
+        </div> */}
         <div className="mt-6 justify-end">
           <button
             onClick={onBack}
@@ -115,7 +115,7 @@ function Department({ onBack }) {
             </div> */}
 
             <div className="mb-4">
-              <label className="block text-sm font-normal text-[#373737]">Name</label>
+              <label className="block text-sm font-normal text-[#373737]">Department Name</label>
               <input
                 type="text"
                 name="name"
@@ -142,7 +142,7 @@ function Department({ onBack }) {
 
           <div className="flex gap-4 mt-[24px]">
             <div>
-              <label className="block text-sm font-normal text-[#373737]">Office</label>
+              <label className="block text-sm font-normal text-[#373737]">Company</label>
               <input
                 type="text"
                 name="office"
@@ -153,7 +153,7 @@ function Department({ onBack }) {
             </div>
 
             <div>
-              <label className="block text-sm font-normal text-[#373737]">Value Stream</label>
+              <label className="block text-sm font-normal text-[#373737]">Work Email</label>
               <input
                 type="text"
                 name="valueStream"
