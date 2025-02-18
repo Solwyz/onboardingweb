@@ -17,6 +17,7 @@ function AlertPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alertTitle, setAlertTitle] = useState('');
     const [alertDescription, setAlertDescription] = useState('');
+    const [alertLevel,setAlertLevel]= useState('');
     const [alertDate, setAlertDate] = useState('');
     const [isAdding, setIsAdding] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
@@ -48,7 +49,8 @@ function AlertPage() {
         setIsModalOpen(true);
         setAlertTitle(alertTobeUpdated.title);
         setAlertDescription(alertTobeUpdated.description);
-        setAlertDate(alertTobeUpdated.date);
+        setAlertLevel(alertTobeUpdated.level)
+        setAlertDate(alertTobeUpdated.timestamp);
     }
 
     const handleDeleteClick = (id) => {
@@ -66,17 +68,17 @@ function AlertPage() {
         Api.delete(`api/alert/${deleteId}`, {
             'Authorization': `Bearer ${token}`
         })
-        .then(response => {
-            setIsDeleting(false);
-            if(response && response.data) {
-                console.log(response.data.message);
-                setRefreshKey(prev => prev + 1);
-                setDeleteModal(false);
-            } else {
-                console.error('Invalid response data :', response);
-                alert('Can not delete alert. Please try again.');
-            }
-        })
+            .then(response => {
+                setIsDeleting(false);
+                if (response && response.data) {
+                    console.log(response.data.message);
+                    setRefreshKey(prev => prev + 1);
+                    setDeleteModal(false);
+                } else {
+                    console.error('Invalid response data :', response);
+                    alert('Can not delete alert. Please try again.');
+                }
+            })
     }
 
     const handleUpdate = (e) => {
@@ -85,13 +87,15 @@ function AlertPage() {
             "id": updatedAlert.id,
             "title": alertTitle,
             "description": alertDescription,
-            "date": alertDate
+            "level":alertLevel,
+            "timestamp": alertDate
         }, { 'Authorization': `Bearer ${token}` })
             .then(response => {
                 setIsAdding(false);
                 setUpdatedAlert(null);
                 setAlertTitle('');
                 setAlertDescription('');
+                setAlertLevel('');
                 setAlertDate('');
                 setRefreshKey(prev => prev + 1);
                 setIsModalOpen(false);
@@ -105,12 +109,14 @@ function AlertPage() {
         Api.post('api/alert', {
             "title": alertTitle,
             "description": alertDescription,
-            "date": alertDate
+            "level":alertLevel,
+            "timestamp": alertDate
         }, { 'Authorization': `Bearer ${token}` })
             .then(response => {
                 setIsAdding(false);
                 setAlertTitle('');
                 setAlertDescription('');
+                setAlertLevel('');
                 setAlertDate('');
                 setIsModalOpen(false);
                 if (response && response.data) {
@@ -157,14 +163,17 @@ function AlertPage() {
 
             <div className='h-[224px] overflow-y-auto custom-scrollbar mr-6 mt-[20px]  '>
                 {alerts.map((alert, index) => (
-                    <div key={index} className={`flex items-center ${index > 0 ? 'mt-6' : ''}`}>
-                        <div className='w-10 h-10 bg-[#EAE4FF] rounded-md text-[12px] leading-4 text-[#685899] text-center p-1'>
-                            <h1 className='font-semibold'>{alert.day}</h1>
-                            <h1 className='font-normal'>{alert.date}</h1>
+                    <div key={index} className={`flex items-center justify-center ${index > 0 ? 'mt-6' : ''}`}>
+                        <div className='w-10 h-10 bg-[#EAE4FF] rounded-md text-[12px] leading-4 text-[#685899] text-center p-1 flex justify-center items-center'>
+                            {/* <h1 className='font-semibold'>{alert.day}</h1>
+                            <h1 className='font-normal'>{alert.date}</h1> */}
+                            <img className='w-5 h-5 justify-center items-center mx-auto flex' src={Notification} alt="Notification" />
+                            
                         </div>
                         <div className='text-[14px] leading-[18px] ml-2'>
                             <h1 className='font-medium text-[#373737]'>{alert.title}</h1>
                             <h1 className='font-normal text-[#696A70]'>{alert.description}</h1>
+                            <h1 className='font-normal text-[#696A70]'>{alert.level}</h1>
                         </div>
 
                         <div className='flex items-center justify-center gap-4 ml-auto'>
@@ -218,16 +227,24 @@ function AlertPage() {
                             type="text"
                             value={alertTitle}
                             onChange={(e) => setAlertTitle(e.target.value)}
-                            placeholder="Enter To-Do Task"
-                            className="border px-6 py-2 w-full mt-6 h-[88px] placeholder:mt-2"
+                            placeholder="Enter Title"
+                            className="border px-6 py-2 w-full mt-6 h-[58px] placeholder:mt-2"
                         />
 
                         <input
                             type="text"
                             value={alertDescription}
                             onChange={(e) => setAlertDescription(e.target.value)}
-                            placeholder="Enter To-Do Task"
+                            placeholder="Enter Description"
                             className="border px-6 py-2 w-full mt-6 h-[88px] placeholder:mt-2"
+                        />
+
+                        <input
+                            type="text"
+                            value={alertLevel}
+                            onChange={(e) => setAlertLevel(e.target.value)}
+                            placeholder="Level"
+                            className="border px-6 py-2 w-full mt-6 h-[40px] placeholder:mt-2"
                         />
 
                         <input
