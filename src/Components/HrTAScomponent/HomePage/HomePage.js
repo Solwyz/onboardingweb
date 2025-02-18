@@ -44,7 +44,7 @@ function HomePage() {
             <div className='flex items-center'>
              <img src={Users} alt="" />
              <h1 className='text-[32px] font-medium ml-4'>{employees?.length}</h1>
-             <img className='ml-auto' src={Equalizer} alt="" />
+      
             </div>
         </div>
         <div className='w-full h-[132px] bg-[#FFFFFF] px-6 py-4  rounded-lg '>
@@ -52,7 +52,7 @@ function HomePage() {
             <div className='flex items-center'>
              <img src={Users} alt="" />
              <h1 className='text-[32px] font-medium ml-4'>29</h1>
-             <img className='ml-auto' src={EqualizerGreen} alt="" />
+           
             </div>
         </div>
         <div className='w-full h-[132px] bg-[#FFFFFF] px-6 py-4  rounded-lg '>
@@ -60,7 +60,7 @@ function HomePage() {
             <div className='flex items-center'>
              <img src={Users} alt="" />
              <h1 className='text-[32px] font-medium ml-4'>3</h1>
-             <img className='ml-auto' src={EqualizerRed} alt="" />
+          
             </div>
         </div>
         

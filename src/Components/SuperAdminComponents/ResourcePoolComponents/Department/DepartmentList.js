@@ -110,7 +110,7 @@ function DepartmentList() {
           alert('Can not fetch data. Please try again')
         }
 
-      })
+      },[])
 
     // // Fetch the data from localStorage on component mount
     // const storedData = JSON.parse(localStorage.getItem('DepartmentData')) || [];
