@@ -6,12 +6,12 @@ import AddBtn from "../../../Assets/HrTas/addIcon.svg";
 import SearchIcon from "../../../Assets/HrTas/searchIcon.svg";
 import filterIcon from "../../../Assets/HrTas/filterIcon.svg";
 import Api from '../../../Services/Api';
-
+ 
 export const contextItems = createContext();
-
+ 
 const token = localStorage.getItem('token');
 console.log('Token:', token);
-
+ 
 function EmployeeInformation() {
   const [showForm, setShowForm] = useState(false);
   const [employeeList, setEmployeeList] = useState([]);
@@ -22,13 +22,13 @@ function EmployeeInformation() {
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  
-
+ 
+ 
+ 
   useEffect(() => {
     setIsLoading(true);
     setError(null);
-
+ 
     Api.get('api/employee/api/employees/active', {
       'Authorization': `Bearer ${token}`
     })
@@ -49,20 +49,20 @@ function EmployeeInformation() {
       });
   }, []);
   ;
-
+ 
   const handleAddEmployeeClick = () => {
     setShowForm(true);
     setSelectedEmployee(null);
     setViewMode(false);
   };
-
+ 
   const handleEditClick = (employee) => {
     setSelectedEmployee(employee);
     console.log('toEdit: ', employee);
     setShowForm(true);
     setViewMode(false);
   };
-
+ 
   const handleDeleteClick = (employeeId) => {
     // e.stopPropagation();
     Api.delete(`api/employee/${employeeId}`, {
@@ -72,15 +72,15 @@ function EmployeeInformation() {
         console.log('vvv', response)
         setEmployeeList(employeeList.filter((employee) => employee.id !== employeeId));
       })
-      
+     
   };
-
-
+ 
+ 
   const handleFormSubmit = (formData) => {
     console.log('newwww', formData);
     setIsLoading(true);
     setError(null);
-
+ 
     if (selectedEmployee) {
       // Update employee
       Api.put(`api/employees/${formData.EmployeeId}`, formData)
@@ -103,12 +103,8 @@ function EmployeeInformation() {
       Api.post('api/employee', {
         "name": formData.firstName,
         "email": formData.PersonalEmail,
-        "basicDetails": {
-          "id": "7f000101-9449-1582-8194-49e575050009",
-          "firstName": formData.firstName,
-
-        }
-        
+       "firstName":formData.firstName
+       
       }, {
         'Authorization': `Bearer ${token}`,
       })
@@ -125,16 +121,17 @@ function EmployeeInformation() {
         });
     }
   };
-
+ 
   const handleFilterClick = () => setShowFilterOptions((prev) => !prev);
-
+ 
   const handleDepartmentFilter = (department) => {
     setFilterDepartment(department);
     setShowFilterOptions(false);
   };
-
+ 
+ 
   const resetFilter = () => setFilterDepartment('');
-
+ 
   const filteredEmployees = (employeeList || [])
     .filter((employee) => {
       const nameMatches = employee?.name?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -144,7 +141,7 @@ function EmployeeInformation() {
       const designationMatches = employee?.Designation?.toLowerCase().includes(searchTerm);
       const workLocationMatches = employee?.WorkLocation?.toLowerCase().includes(searchTerm);
       const phoneNumberMatches = employee?.PhoneNumber?.includes(searchTerm);
-
+ 
       return (
         nameMatches ||
         lastNameMatches ||
@@ -158,8 +155,8 @@ function EmployeeInformation() {
     .filter((employee) =>
       filterDepartment ? employee?.Department === filterDepartment : true
     );
-
-
+ 
+ 
   return (
     <contextItems.Provider value={{ showForm, setShowForm }}>
       <div className="h-full w-full p-6 bg-[#F9F9FB]">
@@ -258,7 +255,7 @@ function EmployeeInformation() {
                                   <img className="w-6 h-6 ml-6" src={deleteIcon} alt="delete" />
                                 </button>
                               </td>
-
+ 
                             </tr>
                           ))}
                         </tbody>
@@ -283,5 +280,5 @@ function EmployeeInformation() {
     </contextItems.Provider>
   );
 }
-
+ 
 export default EmployeeInformation;
