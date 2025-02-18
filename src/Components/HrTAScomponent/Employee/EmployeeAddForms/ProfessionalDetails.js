@@ -377,7 +377,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee }) {
           </div>
         </div>
       ) : (
-        <SalaryDetailsForm />
+        <SalaryDetailsForm setShowSalaryForm={setShowSalaryForm}/>
       )}
     </div>
   );
