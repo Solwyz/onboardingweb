@@ -22,7 +22,7 @@ function Leave() {
   useEffect(() => {
     const fetchLeaveRequests = async () => {
       try {
-        const response = await Api.get('api/leaveRequest', {
+        const response = await Api.get('api/leaveRequest?pageNo=0&pageSize=100&sortDir=ASC', {
        
            'Authorization': `Bearer ${token}`,
         
@@ -167,7 +167,7 @@ function Leave() {
                {Array.isArray(leaveRequests) && leaveRequests.map((leaveRequest, index) => (
                 <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
                   <td className="p-4 text-sm">{leaveRequest.id}</td>
-                  <td className="p-4 text-sm">{leaveRequest.employee?.basicDetails?.firstName}</td>
+                  <td className="p-4 text-sm">{leaveRequest.employee.name}</td>
                   <td className="p-4 text-sm">{leaveRequest.leaveType}</td>
                   <td className="p-4 text-sm">{leaveRequest.createdAt}</td>
                   <td className="p-4 text-sm">{leaveRequest.employee?.basicDetails?.department?.departmentName}</td>
