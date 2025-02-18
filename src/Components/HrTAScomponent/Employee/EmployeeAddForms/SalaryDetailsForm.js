@@ -8,11 +8,12 @@ import Api from "../../../../Services/Api";
 const token = localStorage.getItem("token");
 console.log("Token:", token);
 
-function SalaryDetailsForm({ setShowSalaryForm }) {
+function SalaryDetailsForm({ setShowSalaryForm, ids, setIds }) {
   const [isFormValid, setIsFormValid] = useState(false);
   const [showPersonalForm, setShowPersonalForm] = useState(false);
   const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({}); // New state to track touched fields
+  const [touched, setTouched] = useState({}); 
+  const [responseSalaryID,setResponseSalaryID] = useState(null);
 
   const [formData, setFormData] = useState({
     basicSalary: "",
@@ -152,7 +153,13 @@ function SalaryDetailsForm({ setShowSalaryForm }) {
           Authorization: `Bearer ${token}`,
         }
       ).then((response) => {
-        console.log(response);
+        console.log("SLRY",response);
+        setResponseSalaryID(response.data.id)
+        setIds((prevIds) => ({...prevIds, ["salaryId"]: response.data.id}));
+        console.log('2nmmmm',ids)
+        console.log("salaryIDdddddddddddddddddddd",response.data.id);
+        
+
       });
     } else {
       // If the form is invalid, validate again to show errors
@@ -377,7 +384,10 @@ function SalaryDetailsForm({ setShowSalaryForm }) {
           </div>
         </div>
       ) : (
-        <PersonalDetailForm setShowPersonalForm={setShowPersonalForm} />
+        <PersonalDetailForm setShowPersonalForm={setShowPersonalForm} 
+          ids={ids}
+          setIds={setIds}
+        />
       )}
     </div>
   );
