@@ -47,7 +47,7 @@ function HrTas() {
     { name: 'Time Sheet', icon: Attendance },
     { name: 'Document', icon: DocumentIcon },
     { name: 'Perfomance', icon: PerfomanceIcon },
-    { name: 'People', icon: Team },
+    // { name: 'People', icon: Team },
   
     { name: 'Recruitment', icon: Employer },
     // { name: 'User Guide', icon: UserGuide },
@@ -77,8 +77,8 @@ function HrTas() {
         return <div><Document/></div>;
       case 'Perfomance':
         return <div><Perfomance/></div>;
-      case 'People':
-        return <div><People/></div>;
+      // case 'People':
+      //   return <div><People/></div>;
    
       case 'Recruitment':
         return <div><Recruitment/></div>;
