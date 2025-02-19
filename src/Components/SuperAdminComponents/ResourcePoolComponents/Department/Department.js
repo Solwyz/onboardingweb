@@ -86,6 +86,9 @@ function Department({ onBack }) {
       { Authorization: `Bearer ${token}` }
     ).then((response) => {
       console.log(response);
+      if(response && response.status === 200) {
+        alert('New Department added successfully')
+      }
     });
 
     const updatedDepartment = [...departmentData, formData];
