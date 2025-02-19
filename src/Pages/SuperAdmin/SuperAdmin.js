@@ -42,7 +42,7 @@ const SuperAdmin = () => {
     { name: 'Portfolio', icon: Portfolio },
     // { name: 'My Schedule', icon: MySchedule },
     { name: 'Resource Pool', icon: ResourcePools },
-    // { name: 'Project List', icon: ProjectList },
+    { name: 'Project List', icon: ProjectList },
     // { name: 'Goal', icon: Goal },
     // { name: 'Roadmap', icon: RoadMap },
     // { name: 'Reports', icon: Report },
