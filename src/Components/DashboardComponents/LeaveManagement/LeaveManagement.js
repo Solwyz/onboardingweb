@@ -150,7 +150,7 @@ function LeaveManagement() {
   return (
     <div className="p-6 h-screen">
       {/* Header */}
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <div className="font-medium text-[#2B2342] text-[20px]">Leaves</div>
         {!showForm && (
           <button
@@ -160,7 +160,7 @@ function LeaveManagement() {
             Apply Leave
           </button>
         )}
-      </div>
+      </div> */}
 
       {/* Leave Summary */}
       <div className="flex justify-center gap-[55px] mt-[24px]">
@@ -302,7 +302,7 @@ function LeaveManagement() {
           </form>
         </div>
       ) : (
-        <div className=''>
+        <div className='mt-14'>
           <h2 className="text-[16px] font-normal">Leave History</h2>
 
           <div className="bg-white h-screen p-6">

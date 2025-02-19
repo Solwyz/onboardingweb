@@ -11,31 +11,24 @@ import arrowRight from "../../../Assets/HrTas/documentsPage/arrowRight.svg";
 import CloseBtn from "../../../Assets/HrTas/close.svg";
 import Api from "../../../Services/Api";
 import { ClipLoader } from "react-spinners";
+import Swal from "sweetalert2";
 
-const token = localStorage.getItem('token')
+const token = localStorage.getItem("token");
 
 function Document() {
-
-  const [searchTerm, setSearchTerm] = useState('')
-
-  const [documentsData, setDocumentsData] = useState([])
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const [documentsData, setDocumentsData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [isStatusUpdating, setIsStatusUpdating] = useState(false)
-
+  const [isStatusUpdating, setIsStatusUpdating] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-
   const [employees, setEmployees] = useState([]);
-
   const [formData, setFormData] = useState({
     title: "",
     employeeName: "",
     format: "",
     maxSize: "",
-    description: ""
-  })
-
+    description: "",
+  });
 
   const filteredDocuments = documentsData.filter((document) =>
     document.documentType.toLowerCase().includes(searchTerm.toLowerCase())
@@ -43,9 +36,12 @@ function Document() {
 
   const decodeHexToUrl = (hexString) => {
     try {
-      const hex = hexString.replace(/\\x/g, '');
-      const url = hex.match(/.{1,2}/g).map(byte => String.fromCharCode(parseInt(byte, 16))).join('');
-      return url.startsWith('http') ? url : null;
+      const hex = hexString.replace(/\\x/g, "");
+      const url = hex
+        .match(/.{1,2}/g)
+        .map((byte) => String.fromCharCode(parseInt(byte, 16)))
+        .join("");
+      return url.startsWith("http") ? url : null;
     } catch (error) {
       console.error("Error decoding hex string:", error);
       return null;
@@ -60,7 +56,6 @@ function Document() {
       alert("Invalid file URL.");
     }
   };
-
 
   const handleDownload = (hexString, fileName = "downloaded_file") => {
     try {
@@ -116,45 +111,47 @@ function Document() {
     }
   };
 
-
-
-
-
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
   const handleApprove = (id) => {
-    setIsStatusUpdating(true)
-    Api.post(`api/document/approveReject/${id}`, {
-      "status": "Approved"
-    }, { 'Authorization': `Bearer ${token}` })
-      .then(response => {
-        setIsStatusUpdating(false)
-        setRefreshKey(prev => prev + 1)
-        if (response && response.data) {
-          console.log('stattttssAP:', response.data.data)
-        } else {
-          console.log('Failed to Approve. Please try again.')
-        }
-      })
-  }
+    setIsStatusUpdating(true);
+    Api.post(
+      `api/document/approveReject/${id}`,
+      {
+        status: "Approved",
+      },
+      { Authorization: `Bearer ${token}` }
+    ).then((response) => {
+      setIsStatusUpdating(false);
+      setRefreshKey((prev) => prev + 1);
+      if (response && response.data) {
+        console.log("stattttssAP:", response.data.data);
+      } else {
+        console.log("Failed to Approve. Please try again.");
+      }
+    });
+  };
 
   const handleReject = (id) => {
-    setIsStatusUpdating(true)
-    Api.post(`api/document/approveReject/${id}`, {
-      "status": "Rejected"
-    }, { 'Authorization': `Bearer ${token}` })
-      .then(response => {
-        setIsStatusUpdating(false)
-        setRefreshKey(prev => prev + 1)
-        if (response && response.data) {
-          console.log('statssssRj:', response.data.data)
-        } else {
-          console.log('Failed to Reject. Please try again.')
-        }
-      })
-  }
+    setIsStatusUpdating(true);
+    Api.post(
+      `api/document/approveReject/${id}`,
+      {
+        status: "Rejected",
+      },
+      { Authorization: `Bearer ${token}` }
+    ).then((response) => {
+      setIsStatusUpdating(false);
+      setRefreshKey((prev) => prev + 1);
+      if (response && response.data) {
+        console.log("statssssRj:", response.data.data);
+      } else {
+        console.log("Failed to Reject. Please try again.");
+      }
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -163,68 +160,80 @@ function Document() {
       ...formData,
       [name]: value,
     });
-
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    Api.post('api/document/request', {
-      "title": formData.title,
-      "message": formData.description,
-      "format": formData.format,
-      "maxSize": formData.maxSize,
-      "employee": {
-        "id": formData.employeeName
+    Api.post(
+      "api/document/request",
+      {
+        title: formData.title,
+        message: formData.description,
+        format: formData.format,
+        maxSize: formData.maxSize,
+        employee: {
+          id: formData.employeeName,
+        },
+      },
+      {
+        Authorization: `Bearer ${token}`,
       }
-    }, {
-      'Authorization': `Bearer ${token}`
-    })
-      .then(response => {
-        if (response && response.data) {
-          console.log('doc submit resp', response.data)
+    ).then((response) => {
+      if (response && response.data) {
+        console.log("doc submit resp", response.data);
+        // Show SweetAlert notification
+        Swal.fire({
+          icon: "success",
+          title: "Request Sent",
+          text: "Your document request has been sent successfully!",
+          confirmButtonText: "OK",
+        }).then(() => {
+          // Close the modal
+          setIsModalOpen(false);
+          // Reset form data
           setFormData({
             title: "",
             employeeName: "",
             format: "",
             maxSize: "",
-            description: ""
-          })
-        } else {
-          console.error("Failed to post documnet request", response)
-        }
-      })
-  }
+            description: "",
+          });
+          // Refresh documents
+          setRefreshKey((prev) => prev + 1);
+        });
+      } else {
+        console.error("Failed to post document request", response);
+      }
+    });
+  };
 
   useEffect(() => {
-    Api.get('api/document/uploads', {
-      'Authorization': `Bearer ${token}`
-    })
-      .then(response => {
-        if (response && response?.data?.data) {
-          console.log('documents: ', response.data?.data)
-          setDocumentsData(response.data?.data)
-        } else {
-          console.error('Invalid response data:', response)
-        }
-      })
-  }, [refreshKey])
+    Api.get("api/document/uploads", {
+      Authorization: `Bearer ${token}`,
+    }).then((response) => {
+      if (response && response?.data?.data) {
+        console.log("documents: ", response.data?.data);
+        setDocumentsData(response.data?.data);
+      } else {
+        console.error("Invalid response data:", response);
+      }
+    });
+  }, [refreshKey]);
 
   useEffect(() => {
-    Api.get('api/employee', {
-      'Authorization': `Bearer ${token}`
-    })
-      .then(response => {
-        if (response && response.data) {
-          setEmployees(response.data.content)
-          console.log('employeeeeee', response.data.content)
-        } else {
-          console.error('Invalid response data:', response)
-          alert('Can not fetch Employees data. Please try again')
-        }
-      })
+    Api.get("api/employee", {
+      Authorization: `Bearer ${token}`,
+    }).then((response) => {
+      if (response && response.data) {
+        setEmployees(response.data.content);
+        console.log("employeeeeee", response.data.content);
+      } else {
+        console.error("Invalid response data:", response);
+        alert("Can not fetch Employees data. Please try again");
+      }
+    });
   }, []);
-
 
   return (
     <div className="p-6">
@@ -248,7 +257,7 @@ function Document() {
             placeholder="Search Document"
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              // setCurrentPage(1); 
+              // setCurrentPage(1);
             }}
             className="border border-[#E6E6E7] focus:outline-none text-[#696A70] text-sm font-normal rounded-lg p-2 w-[584px] h-[48px]"
           />
@@ -261,14 +270,22 @@ function Document() {
         <div className="overflow-x-auto mt-6">
           <table className="w-full table-auto">
             <tbody>
-              {filteredDocuments.map((doc, index) => {
-
-                return (
-                  <tr
-                    key={index}
-                    className={`w-full h-[64px] border-[#D9CDFF] ${index % 2 === 0 ? "bg-[#F9F9F9]" : "bg-white"}`}
-                  >
-                    {/* <td className="text-center align-middle">
+              {filteredDocuments.length === 0 ? (
+                <tr>
+                  <td colSpan="2" className="text-center py-4 text-gray-500">
+                    No document request found.
+                  </td>
+                </tr>
+              ) : (
+                filteredDocuments.map((doc, index) => {
+                  return (
+                    <tr
+                      key={index}
+                      className={`w-full h-[64px] border-[#D9CDFF] ${
+                        index % 2 === 0 ? "bg-[#F9F9F9]" : "bg-white"
+                      }`}
+                    >
+                      {/* <td className="text-center align-middle">
                       <input
                         type="checkbox"
                         className="h-[16px] w-[16px] rounded-full cursor-pointer border-[#AFAFAF] focus:outline-none accent-[#373737]"
@@ -276,38 +293,68 @@ function Document() {
                         onChange={() => toggleDocumentSelection(globalIndex)}
                       />
                     </td> */}
-                    <td className="ml-[32px] align-middle cursor-pointer" onClick={() => handleDocumentClick(doc.fileContent)}>
-                      <div className="flex items-center">
-                        <img src={addPurple} alt="Icon" className="mr-4 ml-2" />
-                        <div>
-                          <div className="text-sm font-medium text-[#373737]">
-                            {doc.documentType}
-                          </div>
-                          <div className="text-xs font-medium text-[#9D9D9D]">
-                            {doc.requestDocument.id}
+                      <td
+                        className="ml-[32px] align-middle cursor-pointer"
+                        onClick={() => handleDocumentClick(doc.fileContent)}
+                      >
+                        <div className="flex items-center">
+                          <img
+                            src={addPurple}
+                            alt="Icon"
+                            className="mr-4 ml-2"
+                          />
+                          <div>
+                            <div className="text-sm font-medium text-[#373737]">
+                              {doc.documentType}
+                            </div>
+                            <div className="text-xs font-medium text-[#9D9D9D]">
+                              {doc.requestDocument.id}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="align-middle text-right">
-                      <div className="flex justify-end mr-8">
-                        <button className={`mr-8 ${doc.status === "Approved" ? "cursor-not-allowed" : "opacity-50"}`} onClick={() => handleApprove(doc.id)} title="Approve">
-                          <img src={greenTick} alt="Approve" />
-                        </button>
-                        <button className={`mr-8 ${doc.status === "Rejected" ? "cursor-not-allowed" : "opacity-50"}`} onClick={() => handleReject(doc.id)} title="Reject">
-                          <img src={xMark} alt="Reject" />
-                        </button>
-                        <button className="mr-4" onClick={() => handleDownload(doc.fileContent, doc.documentType)} title="Download">
-                          <img src={downloadIco} alt="Download" />
-                        </button>
-                        {/* <button>
+                      </td>
+                      <td className="align-middle text-right">
+                        <div className="flex justify-end mr-8">
+                          <button
+                            className={`mr-8 ${
+                              doc.status === "Approved"
+                                ? "cursor-not-allowed"
+                                : "opacity-50"
+                            }`}
+                            onClick={() => handleApprove(doc.id)}
+                            title="Approve"
+                          >
+                            <img src={greenTick} alt="Approve" />
+                          </button>
+                          <button
+                            className={`mr-8 ${
+                              doc.status === "Rejected"
+                                ? "cursor-not-allowed"
+                                : "opacity-50"
+                            }`}
+                            onClick={() => handleReject(doc.id)}
+                            title="Reject"
+                          >
+                            <img src={xMark} alt="Reject" />
+                          </button>
+                          <button
+                            className="mr-4"
+                            onClick={() =>
+                              handleDownload(doc.fileContent, doc.documentType)
+                            }
+                            title="Download"
+                          >
+                            <img src={downloadIco} alt="Download" />
+                          </button>
+                          {/* <button>
                           <img src={deleteIcon1} alt="Delete" />
                         </button> */}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
@@ -318,14 +365,14 @@ function Document() {
           <div className="bg-white p-8 shadow-lg">
             <div>
               <ClipLoader
-                color={'#465062'}
+                color={"#465062"}
                 loading={true}
                 size={35}
                 aria-label="Loading Spinner"
                 data-testid="Loader"
               />
             </div>
-            <div className='mt-2'>Updating status. Please wait..</div>
+            <div className="mt-2">Updating status. Please wait..</div>
           </div>
         </div>
       )}
@@ -383,7 +430,9 @@ function Document() {
                     >
                       <option value="">Select Employee</option>
                       {employees?.map((employee, index) => (
-                        <option key={index} value={employee.id}>{employee.name}</option>
+                        <option key={index} value={employee.id}>
+                          {employee.name}
+                        </option>
                       ))}
                     </select>
                   </div>
