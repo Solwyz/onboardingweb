@@ -44,7 +44,7 @@ function ResourcePool() {
     <div className="ml-[16px]">
       {/* Tabs for Departments and Roles */}
       <div className="flex mt-[16px] h-[48px] bg-white shadow w-[528px] font-normal text-[16px] text-[#080723] justify-start">
-        {['Departments', 'Roles'].map((tab) => (
+        {['Departments'].map((tab) => (
           <button
             key={tab}
             onClick={() => {
@@ -74,7 +74,7 @@ function ResourcePool() {
           </>
         )}
 
-        <div className="flex flex-1 items-center">
+        {/* <div className="flex flex-1 items-center">
           <div className="flex items-center relative">
             <input
               type="text"
@@ -92,7 +92,7 @@ function ResourcePool() {
             <span>Filter</span>
             <img src={FilterIcon} alt="Filter" className="ml-[57px]" />
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Content Section (List or Form) */}

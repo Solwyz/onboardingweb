@@ -38,7 +38,7 @@ function LogedInSection() {
     { name: 'Employees Information', icon: Employee },
     { name: 'Leave Management', icon: Leave },
     // { name: 'Expense Claim', icon: ExpenseClaim },
-    { name: 'Attendance', icon: Attendance },
+    // { name: 'Attendance', icon: Attendance },
     { name: 'Payroll', icon: Payroll },
     { name: 'Perfomance Management', icon: Performance },
     // { name: 'Recruiting and Onboarding', icon: Recruitment },
