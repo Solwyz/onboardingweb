@@ -11,22 +11,17 @@ import arrowRight from "../../../Assets/HrTas/documentsPage/arrowRight.svg";
 import CloseBtn from "../../../Assets/HrTas/close.svg";
 import Api from "../../../Services/Api";
 import { ClipLoader } from "react-spinners";
+import Swal from "sweetalert2";
 
 const token = localStorage.getItem("token");
 
 function Document() {
   const [searchTerm, setSearchTerm] = useState("");
-
   const [documentsData, setDocumentsData] = useState([]);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [isStatusUpdating, setIsStatusUpdating] = useState(false);
-
   const [refreshKey, setRefreshKey] = useState(0);
-
   const [employees, setEmployees] = useState([]);
-
   const [formData, setFormData] = useState({
     title: "",
     employeeName: "",
@@ -187,15 +182,28 @@ function Document() {
     ).then((response) => {
       if (response && response.data) {
         console.log("doc submit resp", response.data);
-        setFormData({
-          title: "",
-          employeeName: "",
-          format: "",
-          maxSize: "",
-          description: "",
+        // Show SweetAlert notification
+        Swal.fire({
+          icon: "success",
+          title: "Request Sent",
+          text: "Your document request has been sent successfully!",
+          confirmButtonText: "OK",
+        }).then(() => {
+          // Close the modal
+          setIsModalOpen(false);
+          // Reset form data
+          setFormData({
+            title: "",
+            employeeName: "",
+            format: "",
+            maxSize: "",
+            description: "",
+          });
+          // Refresh documents
+          setRefreshKey((prev) => prev + 1);
         });
       } else {
-        console.error("Failed to post documnet request", response);
+        console.error("Failed to post document request", response);
       }
     });
   };
