@@ -8,7 +8,7 @@ import NewProgressive from "./NewProgressive";
 const token = localStorage.getItem("token");
 console.log("token:", token);
 
-function ProfessionalDetails({ setShowProfessionalForm, editingEmployee }) {
+function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, setIds}) {
   const [showSalaryForm, setShowSalaryForm] = useState(false);
   const [formData, setFormData] = useState({
     dateOfJoin: "",
@@ -33,6 +33,9 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee }) {
   const [error, setError] = useState("");
   const [levels, setLevels] = useState([]);
   const [isVisible, setIsVisible] = useState(true);
+  const [responseProffID, setResponseProffID] = useState(null)
+
+
 
   const holidays = [{ id: 1, name: "INDIAN" }];
 
@@ -185,6 +188,11 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee }) {
       }
     ).then((response) => {
       console.log("proffff:", response);
+      setResponseProffID(response.data.id)
+      console.log("ProfID", response.data.id);
+      setIds((prevIds) => ({...prevIds, ["profId"]: response.data.id}));
+      console.log('nnmmmm',ids)
+
     });
   };
 
@@ -365,9 +373,8 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee }) {
                   <button
                     onClick={handleNext}
                     disabled={!isButtonEnabled}
-                    className={`text-[14px] text-white bg-[#2B2342] text-center rounded-lg px-8 h-[48px]  ${
-                      !isButtonEnabled ? "cursor-not-allowed opacity-50" : ""
-                    }`}
+                    className={`text-[14px] text-white bg-[#2B2342] text-center rounded-lg px-8 h-[48px]  ${!isButtonEnabled ? "cursor-not-allowed opacity-50" : ""
+                      }`}
                   >
                     Next
                   </button>
@@ -377,7 +384,10 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee }) {
           </div>
         </div>
       ) : (
-        <SalaryDetailsForm setShowSalaryForm={setShowSalaryForm}/>
+        <SalaryDetailsForm setShowSalaryForm={setShowSalaryForm} 
+          ids={ids}
+          setIds={setIds}
+        />
       )}
     </div>
   );

@@ -8,8 +8,9 @@ import Api from "../../../../Services/Api";
 const token = localStorage.getItem("token");
 console.log("token:", token);
 
-function PhysicalDetailsForm({ setShowPhysicalForm }) {
+function PhysicalDetailsForm({ setShowPhysicalForm, ids, setIds }) {
   const [showFinalForm, setShowFinalForm] = useState(false);
+  const [responsePhysId,setresponsePhysId] = useState(null)
   const [formData, setFormData] = useState({
     height: "",
     weight: "",
@@ -181,6 +182,10 @@ function PhysicalDetailsForm({ setShowPhysicalForm }) {
         }
       ).then((response) => {
         console.log("physical:", response);
+        setresponsePhysId(response.data.id)
+        setIds((prevIds) => ({...prevIds, ["physicalID"]: response.data.id}));
+        console.log('jtttt',ids)
+        console.log(response.data.id)
       });
     }
   };
@@ -387,6 +392,8 @@ function PhysicalDetailsForm({ setShowPhysicalForm }) {
         <FinalDetailsForm
           setShowFinalForm={setShowFinalForm}
           showFinalForm={showFinalForm}
+          ids={ids}
+          setIds={setIds}
         />
       )}
     </div>

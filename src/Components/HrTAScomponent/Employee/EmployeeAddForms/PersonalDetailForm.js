@@ -12,7 +12,7 @@ import Api from '../../../../Services/Api';
 const token = localStorage.getItem('token')
 console.log("token:", token)
 
-function PersonalDetailForm({ setShowPersonalForm }) {
+function PersonalDetailForm({ setShowPersonalForm, ids, setIds }) {
     const [showContactForm, setShowContactForm] = useState(false);
     const [maritalStatus, setMaritalStatus] = useState('SINGLE'); // To manage marital status
     const [fatherName, setFatherName] = useState('');
@@ -21,7 +21,7 @@ function PersonalDetailForm({ setShowPersonalForm }) {
     const [showDropdown, setShowDropdown] = useState(false); // To toggle dropdown visibility
     const [loading, setLoading] = useState(false); // To manage loading state
     const [error, setError] = useState(null); // To handle errors
-
+    const [responsePersonalID, setresponsePersonalID] = useState(null)
     // Handle marital status change
     const handleMaritalStatusChange = (status) => {
         setMaritalStatus(status);
@@ -55,19 +55,26 @@ function PersonalDetailForm({ setShowPersonalForm }) {
             setError(null);
             const payload = {
                 maritalStatus,
+
+                fatherName: maritalStatus === 'SELECT' ? fatherName : null,
                 fatherName: maritalStatus === 'SINGLE' ? fatherName : null,
                 spouseName: maritalStatus === 'MARRIED' ? spouseName : null,
             };
 
             try {
-                const response = await Api.post('api/personDetails',{
-                    "maritalStatus" : maritalStatus,
-                    "fatherName" : fatherName
+                const response = await Api.post('api/personDetails', {
+                    "maritalStatus": maritalStatus,
+                    "fatherName": fatherName
                 }, {
                     'Authorization': `Bearer ${token}`
                 });
                 console.log('Form submitted successfully:', response);
-                setShowContactForm(true);    
+                setresponsePersonalID(response.data.td)
+                setIds((prevIds) => ({ ...prevIds, ["PersonalId"]: response.data.id }));
+                console.log('pmmmmm', ids)
+                console.log("personal", response.data.id)
+
+                setShowContactForm(true);
             } catch (err) {
                 console.error('Error submitting the form:', err);
                 setError('Failed to submit the form. Please try again.');
@@ -178,7 +185,10 @@ function PersonalDetailForm({ setShowPersonalForm }) {
                     </div>
                 </div>
             ) : (
-                <ContactDetailsForm setShowContactForm={setShowContactForm} />
+                <ContactDetailsForm setShowContactForm={setShowContactForm}
+                   ids={ids}
+                   setIds={setIds}
+                 />
             )}
         </div>
     );
