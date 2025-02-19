@@ -112,7 +112,7 @@ function EmployeeDetails({employee}) {
                             <tr className='h-7'>
                                 <td className='text-[#373737]'>Location</td>
                                 <td className='pl-5'>:</td>
-                                <td className='pl-6 text-[#696A70]'>{employeeData.location}</td>
+                                <td className='pl-6 text-[#696A70]'>{employeeData.branch}</td>
                             </tr>
                             <tr className='h-7'>
                                 <td className='text-[#373737]'>Status</td>
