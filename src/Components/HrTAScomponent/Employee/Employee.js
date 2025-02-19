@@ -69,10 +69,26 @@ function Employee() {
   };
 
   const handleEditEmployeeClick = (e, employee) => {
-    console.log("Edit",employee)
-    e.stopPropagation();
-    setEditingEmployee(employee);
-    setShowBasicForm(true);
+    e.stopPropagation(); // Prevent event bubbling
+  
+    // setIsLoading(true); // Start loading
+    // setError(null); // Reset error state
+  
+    // Fetch employee details by ID
+    Api.get(`api/employee/${employee.id}`, {
+      'Authorization': `Bearer ${token}`
+    })
+      .then((response) => {
+        console.log('Fetched Employee Details:', response.data);
+        setEditingEmployee(response.data); // Set the fetched employee data
+        setShowBasicForm(true); // Show the form for editing
+        // setIsLoading(false); // End loading
+      })
+      .catch((error) => {
+        console.error('Error fetching employee details:', error);
+        // setError('Failed to fetch employee details. Please try again.');
+        // setIsLoading(false); // End loading
+      });
   };
 
   const handleDeleteEmployee = (e, employeeId) => {
@@ -217,7 +233,7 @@ function Employee() {
                         <td className="p-4 text-center text-sm">{employee.id}</td>
                         <td className="p-4 text-center text-sm">{employee.basicDetails?.designation?.name}</td>
                         <td className="p-4 text-center text-sm">{employee.basicDetails?.department?.departmentName}</td>
-                        <td className="p-4 text-center text-sm">{employee.contactForm?.workAddress?.city}</td>
+                        <td className="p-4 text-center text-sm">{employee.professionalDetails?.branch?.name}</td>
                         <td className="p-4 text-center text-sm">{employee.contactForm?.primaryNumber}</td>
                         <td className="p-4 text-center">
                           <button onClick={(e) => handleEditEmployeeClick(e, employee)}>

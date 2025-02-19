@@ -7,7 +7,7 @@ import Api from "../../../../Services/Api";
 
 const token = localStorage.getItem("token");
 
-function ContactDetailsForm({ setShowContactForm,ids, setIds }) {
+function ContactDetailsForm({ setShowContactForm, ids, setIds }) {
     const [showPhysicalForm, setShowPhysicalForm] = useState(false);
     const [formData, setFormData] = useState({
         primaryMobile: "",
@@ -138,9 +138,11 @@ function ContactDetailsForm({ setShowContactForm,ids, setIds }) {
                 {
                     primaryNumber: formData.primaryMobile,
                     secondaryNumber: formData.secondaryMobile,
-                    pinocode: formData.primaryPincode,
-                    city: formData.primaryCity,
-                    state: formData.primaryState,
+                    'permanentAddres': {
+                        'pinocode': formData.primaryPincode,
+                        'city': formData.primaryCity,
+                        'state': formData.primaryState
+                    },
                     secondaryPinocode: formData.secondaryPincode,
                     secondaryCity: formData.secondaryCity,
                     secondaryState: formData.secondaryState,
@@ -150,16 +152,16 @@ function ContactDetailsForm({ setShowContactForm,ids, setIds }) {
                 },
                 { Authorization: `Bearer ${token}` }
             )
-                .then((response) =>{
+                .then((response) => {
                     console.log("Response:", response)
-                setResponseContactID(response.data.id)
-                setIds((prevIds) => ({ ...prevIds, ["contactID"]: response.data.id }));
-                console.log('kjlkl', ids)
-                console.log("contact",response.data.id);
-                
-            })
-                
-           
+                    setResponseContactID(response.data.id)
+                    setIds((prevIds) => ({ ...prevIds, ["contactID"]: response.data.id }));
+                    console.log('kjlkl', ids)
+                    console.log("contact", response.data.id);
+
+                })
+
+
                 .catch((error) => console.error("Error:", error));
         }
     };
@@ -573,9 +575,9 @@ function ContactDetailsForm({ setShowContactForm,ids, setIds }) {
                     </div>
                 </div>
             ) : (
-                <PhysicalDetailsForm setShowPhysicalForm={setShowPhysicalForm} 
-                      ids={ids}
-                      setIds={setIds}
+                <PhysicalDetailsForm setShowPhysicalForm={setShowPhysicalForm}
+                    ids={ids}
+                    setIds={setIds}
                 />
             )}
         </div>
