@@ -57,10 +57,26 @@ function EmployeeInformation() {
   };
  
   const handleEditClick = (employee) => {
-    setSelectedEmployee(employee);
-    console.log('toEdit: ', employee);
-    setShowForm(true);
-    setViewMode(false);
+
+    // setSelectedEmployee(employee);
+    // console.log('toEdit: ', employee);
+    // setShowForm(true);
+    // setViewMode(false);
+    Api.get(`api/employee/${employee.id}`, {
+      'Authorization': `Bearer ${token}`
+    })
+      .then((response) => {
+        console.log('Edit Employee Details:', response.data);
+        setSelectedEmployee(response.data); // Set the fetched employee data
+        setShowForm(true); // Show the form
+        setViewMode(false); // Set view mode to false for editing
+        setIsLoading(false); // End loading
+      })
+      .catch((error) => {
+        console.error('Error fetching employee details:', error);
+        setError('Failed to fetch employee details. Please try again.');
+        setIsLoading(false); // End loading
+      });
   };
  
   const handleDeleteClick = (employeeId) => {

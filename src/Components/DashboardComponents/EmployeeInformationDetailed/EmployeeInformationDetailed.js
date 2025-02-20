@@ -6,18 +6,18 @@ import Dropdown from '../../../Assets/HrTas/drop-down-arrow.svg';
 import Api from '../../../Services/Api';
 import backArrow from '../../../Assets/HrTas/keyboard_backspace.svg';
 // import { useHistory } from 'react-router-dom';
- 
- 
- 
+
+
+
 const fieldOptions = {
   MaritalStatus: ['Single', 'Married', 'Divorced', 'Widow'],
   EmployeeType: ['Permanent', 'Contract'],
   EmploymentStatus: ['Active', 'Inactive'],
 };
- 
+
 function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData }) {
   const token = localStorage.getItem('token');
- 
+
   const [formData, setFormData] = useState({
     firstName: '',
     LastName: '',
@@ -39,7 +39,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
     JoiningDate: '',
     EmploymentStatus: '',
   });
- 
+
   const [maxDate, setMaxDate] = useState('');
   const [photoPreview, setPhotoPreview] = useState(null);
   const [errors, setErrors] = useState({});
@@ -47,14 +47,14 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
   const { setShowForm } = useContext(contextItems);
   const [department, setDepartment] = useState([]);
   const [designation, setDesignation] = useState([]);
- 
+
   useEffect(() => {
     const today = new Date();
     const year = today.getFullYear() - 18;
     const month = (`0${today.getMonth() + 1}`).slice(-2);
     const day = (`0${today.getDate()}`).slice(-2);
     setMaxDate(`${year}-${month}-${day}`);
- 
+
     if (initialData) {
       setFormData({
         firstName: initialData.basicDetails?.firstName || '',
@@ -78,7 +78,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
       });
     }
   }, [employee, initialData]);
- 
+
   const resetForm = () => {
     setFormData({
       firstName: '',
@@ -103,7 +103,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
     });
     setErrors({});
   };
- 
+
   const validateField = (name, value) => {
     if (!value && name !== 'ProfilePhoto') {
       return `${name.replace(/([A-Z])/g, ' $1')} is required.`;
@@ -118,7 +118,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
     }
     return '';
   };
- 
+
   useEffect(() => {
     const requiredFields = [
       'firstName', 'LastName', 'DateOfBirth', 'Nationality', 'gender', 'BloodGroup',
@@ -126,16 +126,16 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
       'Designation', 'WorkLocation', 'MaritalStatus', 'EmployeeType', 'JoiningDate',
       'ReportingManager', 'TeamDivision', 'EmploymentStatus'
     ];
- 
+
     const isValid = requiredFields.every((field) => formData[field]) &&
       Object.values(errors).every((error) => !error);
- 
+
     setIsFormValid(isValid);
     console.log('Form Data:', formData);
     console.log('Errors:', errors);
     console.log('Is Form Valid:', isValid);
   }, [formData, errors]);
- 
+
   const handlePhotoUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -146,14 +146,14 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
       reader.readAsDataURL(file);
     }
   };
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     const error = validateField(name, value);
     setErrors((prev) => ({ ...prev, [name]: error }));
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
- 
+
   const handleKeyPress = (e) => {
     const charCode = e.which ? e.which : e.keyCode;
     if (charCode < 48 || charCode > 57) {
@@ -161,27 +161,84 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
       setErrors({ ...errors, [e.target.name]: 'Please enter numbers only.' });
     }
   };
- 
+
   const handleBackClick = () => {
     setShowForm(false);
   };
- 
+
   const [isSubmitting, setIsSubmitting] = useState(false);
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    Api.post("api/employee",
+      {
+        email: formData.PersonalEmail,
+        basicDetails:
+        {
+          firstName: formData.firstName,
+          lastName: formData.LastName,
+          dateOfBirth: formData.DateOfBirth,
+          nationality: formData.Nationality,
+          gender: formData.gender,
+          department:{
+            departmentName:formData.Department
+          },
+          designation:{
+            name:formData.Designation
+          }
+        },
+        physical: {
+          bloodtype: formData.BloodGroup
+        },
+        personDetails:{
+          maritalStatus:formData.MaritalStatus
+        },
+        contactForm:{
+          primaryNumber:formData.PhoneNumber,
+          emergencyContact:{
+            emergencyContact:formData.EmergencyContactNumber
+          },
+          permanentAddress:{
+            streetName:formData.Address
+          },
+          workAddress:{
+            streetName:formData.WorkLocation
+          }
+        },
+        professionalDetails:{
+          dateOfJoining:formData.JoiningDate
+        },
+        EmployeeType:formData.EmployeeType,
+        lineManager:formData.ReportingManager,
+        TeamDivision:formData.TeamDivision,
+        EmploymentStatus:formData.EmploymentStatus
+
+
+
+
+
+      },
+      {
+        'Authorization': `Bearer${token}`
+      }
+
+    ).then((response) => {
+      console.log('add emppppzzzz',response);
+
+    })
     setIsSubmitting(true);
     await onSubmit(formData);
     setIsSubmitting(false);
   };
- 
+
   // const EmployeeInformation =()=>{
   //   const history = useHistory();
   //   const handleBackclick = ()=>{
   //     history.push('/hr')
   //   }
   // }
- 
+
   useEffect(() => {
     Api.get('api/department', {
       'Authorization': `Bearer ${token}`
@@ -190,7 +247,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
         console.log('wvwv:', response.data.content)
         setDepartment(response.data.content)
       })
- 
+
     Api.get('api/designation', {
       'Authorization': `Bearer ${token}`
     })
@@ -198,25 +255,25 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
         console.log('bbbb', response)
         setDesignation(response.data.content);
       })
- 
- 
+
+
   }, []);
- 
+
   return (
     <div>
-     <div>
- 
-          <button
-            className="flex gap-2 items-center rounded bg-[#2B2342] px-4 py-2"
-            onClick={handleBackClick}
-          >
-            <img src={backArrow} alt="Back Arrow" />
-            <div className="text-[14px] text-[#FFFFFF]">Back</div>
-          </button>
- 
+      <div>
+
+        <button
+          className="flex gap-2 items-center rounded bg-[#2B2342] px-4 py-2"
+          onClick={handleBackClick}
+        >
+          <img src={backArrow} alt="Back Arrow" />
+          <div className="text-[14px] text-[#FFFFFF]">Back</div>
+        </button>
+
       </div>
       <form onSubmit={handleSubmit} className="rounded-lg mx-auto p-8 mt-4 bg-white">
-       
+
         <h2 className="text-[18px] font-normal mb-4 ">Add employees</h2>
         <div className='flex justify-between mt-8'>
           <div>
@@ -248,7 +305,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                   {errors.LastName && <p className="text-red-500">{errors.LastName}</p>}
                 </div>
               </div>
- 
+
               {/* Date of Birth, Nationality, and Gender */}
               <div className="flex gap-6">
                 <div>
@@ -292,7 +349,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                   {errors.gender && <p className="text-red-500">{errors.gender}</p>}
                 </div>
               </div>
- 
+
               {/* Blood Group, Personal Email, and Marital Status */}
               <div className="flex gap-6">
                 <div>
@@ -337,7 +394,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                   {errors.MaritalStatus && <p className="text-red-500">{errors.MaritalStatus}</p>}
                 </div>
               </div>
- 
+
               {/* Phone Number and Emergency Contact Number */}
               <div className="flex gap-6">
                 <div>
@@ -367,7 +424,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                   {errors.EmergencyContactNumber && <p className="text-red-500">{errors.EmergencyContactNumber}</p>}
                 </div>
               </div>
- 
+
               {/* Address */}
               <div className="col-span-1">
                 <label className="block mb-1 text-sm font-normal">Address:</label>
@@ -380,7 +437,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                 />
                 {errors.Address && <p className="text-red-500">{errors.Address}</p>}
               </div>
- 
+
               {/* Department, Designation, and Joining Date */}
               <div className="flex gap-6">
                 <div className="flex gap-4 text-[#373737]">
@@ -401,7 +458,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                     </select>
                   </div>
                 </div>
- 
+
                 <div>
                   <div className="">
                     <div className="text-[14px]">Designation</div>
@@ -433,7 +490,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                   {errors.JoiningDate && <p className="text-red-500">{errors.JoiningDate}</p>}
                 </div>
               </div>
- 
+
               {/* Employee Type, Reporting Manager, and Team Division */}
               <div className="flex gap-6">
                 <div>
@@ -477,7 +534,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                   {errors.TeamDivision && <p className="text-red-500">{errors.TeamDivision}</p>}
                 </div>
               </div>
- 
+
               {/* Work Location and Employment Status */}
               <div className="flex gap-6">
                 <div>
@@ -510,7 +567,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                 </div>
               </div>
             </div>
- 
+
             <div className="flex justify-between mt-6">
               {!viewMode && (
                 <button type="submit"
@@ -535,12 +592,12 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
                   <span><img src={image} alt="" /></span>
                 </div>
               )}
- 
+
               <label htmlFor="photo-upload" className="mt-2 text-[#7386C3] text-[12px] font-normal flex cursor-pointer">
                 <img className='mr-1' src={PhotoUpload} alt="" />
                 Upload photo
               </label>
- 
+
               <input
                 id="photo-upload"
                 type="file"
@@ -555,5 +612,5 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
     </div>
   );
 }
- 
+
 export default EmployeeInformationDetailed;
