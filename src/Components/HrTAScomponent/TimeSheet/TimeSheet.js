@@ -78,9 +78,15 @@ function TimeSheet() {
   };
 
   const filteredTimesheet = timeSheetData.filter((data) => {
+    // Check if data.project is defined
+    if (!data.project) {
+      return false; // Skip this entry if project is undefined
+    }
+  
     if (selectedOption === "My Timesheet") {
       return data.project.createdBy.toLowerCase().includes("hr"); // Adjust "hr" based on actual data
     }
+    
     return (
       data.project.projectName.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
       data.date.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
