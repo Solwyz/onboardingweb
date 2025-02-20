@@ -18,14 +18,14 @@ function FinalDetailsForm({ setShowFinalForm, showFinalForm, ids }) {
         setIsAccept(!isAccept)
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = () => {
+      
         console.log('form has submitted sucessfully')
         console.log('idsssss',ids)
         Api.post('api/employee', {
          
-                 "email": "nizamnew@solwyz.com",
-                "name": "nizam",
+                 "email": "abhikrishna@gamil.com",
+                "name": "Abhirami",
                 "isActive": true,
                 "basicDetails": {
                     "id": ids.basicId

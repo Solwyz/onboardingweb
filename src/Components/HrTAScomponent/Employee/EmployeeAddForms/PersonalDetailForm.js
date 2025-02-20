@@ -64,7 +64,8 @@ function PersonalDetailForm({ setShowPersonalForm, ids, setIds }) {
             try {
                 const response = await Api.post('api/personDetails', {
                     "maritalStatus": maritalStatus,
-                    "fatherName": fatherName
+                    "fatherName": fatherName,
+                    
                 }, {
                     'Authorization': `Bearer ${token}`
                 });
