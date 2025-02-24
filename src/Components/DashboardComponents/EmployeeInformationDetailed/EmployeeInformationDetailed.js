@@ -220,7 +220,7 @@ function EmployeeInformationDetailed({ onSubmit, employee, viewMode, initialData
 
       },
       {
-        'Authorization': `Bearer${token}`
+        'Authorization': `Bearer ${token}`
       }
 
     ).then((response) => {

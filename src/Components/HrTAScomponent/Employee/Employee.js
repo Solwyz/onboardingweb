@@ -49,7 +49,7 @@ function Employee() {
     })
 
       .then((response) => {
-        console.log('Api response', response.data)
+        console.log('Api response emppppget', response.data)
         setEmployees(response.data);
       })
       .catch((error) => {
@@ -137,7 +137,7 @@ function Employee() {
       Api.post('api/employee', newEmployee, {
         'Authorization': `Bearer ${token}`
       })
-        .then((response) => {
+        .then((response) => { 
           setEmployees([...employees, response.data]);
           setShowBasicForm(false);
         })
@@ -168,7 +168,7 @@ function Employee() {
         <div>
           {!showBasicForm ? (
             <div className="container p-6 shadow-lg min-h-screen h-auto bg-white w-auto mx-auto">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center">   
                 <h2 className="text-[20px] text-[#232E42] font-medium mt-[40px]">All employees</h2>
                 <button
                   onClick={handleAddEmployeeClick}

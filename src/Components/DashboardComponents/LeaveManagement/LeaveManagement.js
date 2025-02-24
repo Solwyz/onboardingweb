@@ -85,7 +85,7 @@ function LeaveManagement() {
       "api/leaveRequest",
       {
         "employee": {
-          "id": "7f000101-946d-1e64-8194-723468710044"
+          "id": "7f000101-9519-152a-8195-1d0e18fd00de"
         },
         "startDate": formData.startDate,
         "endDate": formData.endDate,
@@ -150,7 +150,7 @@ function LeaveManagement() {
   return (
     <div className="p-6 h-screen">
       {/* Header */}
-      {/* <div className="flex justify-between">
+      <div className="flex justify-between">
         <div className="font-medium text-[#2B2342] text-[20px]">Leaves</div>
         {!showForm && (
           <button
@@ -160,7 +160,7 @@ function LeaveManagement() {
             Apply Leave
           </button>
         )}
-      </div> */}
+      </div>
 
       {/* Leave Summary */}
       <div className="flex justify-center gap-[55px] mt-[24px]">
