@@ -9,17 +9,30 @@ function ProffesionalDetails({ employeeDetails }) {
                     <tr>
                         <td className='font-medium text-[#373737] py-1'>Date of joining :</td>
                         <td className='w-12'></td>
-                        <td className='text-[#696A70]'>{employeeDetails.dateOfJoin}</td>
+                        <td className='text-[#696A70]'>{new Date(employeeDetails.dateOfJoin).toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                        })}</td>
+
                     </tr>
                     <tr>
                         <td className='font-medium text-[#373737] py-1'>End of probation :</td>
                         <td className='w-12'></td>
-                        <td className='text-[#696A70]'>{employeeDetails.endOfProbation}</td>
+                        <td className='text-[#696A70]'>{new Date(employeeDetails.endOfProbation).toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                        })}</td>
                     </tr>
                     <tr>
                         <td className='font-medium text-[#373737] py-1'>Date effective :</td>
                         <td className='w-12'></td>
-                        <td className='text-[#696A70]'>{employeeDetails.dateEffective}</td>
+                        <td className='text-[#696A70]'>{new Date(employeeDetails.dateEffective).toLocaleDateString('en-GB',{
+                            day:'2-digit',
+                            month:'2-digit',
+                            year:'numeric',
+                        })}</td>
                     </tr>
                     <tr>
                         <td className='font-medium text-[#373737] py-1'>Job Position :</td>
@@ -56,18 +69,22 @@ function ProffesionalDetails({ employeeDetails }) {
                     <tr>
                         <td className='font-medium text-[#373737] py-1'>Date effective :</td>
                         <td className='w-12'></td>
-                        <td className='text-[#696A70]'>{employeeDetails.dateEffective}</td>
+                        <td className='text-[#696A70]'>{new Date(employeeDetails.dateEffective).toLocaleDateString('en-GB',{
+                            day:'2-digit',
+                            month:'2-digit',
+                            year:'numeric'
+                        })}</td>
                     </tr>
                     <tr>
                         <td className='font-medium text-[#373737] py-1'>Job Type :</td>
                         <td className='w-12'></td>
                         <td className='text-[#696A70]'>{employeeDetails.jobType}</td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                         <td className='font-medium text-[#373737] py-1'>Description :</td>
                         <td className='w-12'></td>
                         <td className='text-[#696A70]'>{employeeDetails.description}</td>
-                    </tr>
+                    </tr> */}
                     <tr>
                         <td className='font-medium text-[#373737] py-1'>Leave flow :</td>
                         <td className='w-12'></td>

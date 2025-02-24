@@ -24,8 +24,8 @@ function FinalDetailsForm({ setShowFinalForm, showFinalForm, ids }) {
         console.log('idsssss',ids)
         Api.post('api/employee', {
          
-                 "email": "abhikrishna@gamil.com",
-                "name": "Abhirami",
+                 "email": "reshma@gmail.com",
+                "name": "Reshma",
                 "isActive": true,
                 "basicDetails": {
                     "id": ids.basicId
