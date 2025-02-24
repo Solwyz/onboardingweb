@@ -135,11 +135,13 @@ function ProjectListComponent() {
               {projects.map((project, index) => (
                 <tr key={index} className='border-b  hover:bg-[#F9F9F9] text-[#373737] font-light'>
                   <td className='p-4 text-left text-sm'>{project.projectName}</td>
-                  <td className='p-4 text-left text-sm'>yxx</td>
-                  <td className='p-4 text-left text-sm'>yyxx</td>
-                  <td className='p-4 text-left text-sm'>xxxx</td>
-                  <td className='p-4 text-left text-sm'>zzxx</td>
-                  <td className='p-4 text-left text-sm'>kkxx</td>
+
+                  <td className='p-4 text-left text-sm'>{project.startDate}</td>
+                  <td className='p-4 text-left text-sm'>{project.endDate}</td>
+                  <td className='p-4 text-left text-sm'>{project.clientName}</td>
+                  <td className='p-4 text-left text-sm'>{project.projectType}</td>
+                  <td className='p-4 text-left text-sm'>{project.status}</td>
+
                   <td className='p-4 text-left text-sm'>
                     <img src={deleteIcon} onClick={() => handleDeleteClick(project.id)}></img>
                   </td>
