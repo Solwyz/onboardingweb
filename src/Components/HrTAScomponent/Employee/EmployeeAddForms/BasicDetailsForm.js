@@ -333,7 +333,7 @@ function BasicDetailsForm({ editingEmployee }) {
                 )}
               </div>
               <div className="mt-6">
-                <div className="text-[14px]">Passport (Optional)</div>
+                <div className="text-[14px]">Aadhaar No. (Optional)</div>
                 <input
                   type="text"
                   name="passport"
