@@ -35,7 +35,7 @@ function LogedInSection() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const sidebarItems = [
-    { name: 'Employees Information', icon: Employee },
+    // { name: 'Employees Information', icon: Employee },
     { name: 'Leave Management', icon: Leave },
     // { name: 'Expense Claim', icon: ExpenseClaim },
     // { name: 'Attendance', icon: Attendance },
@@ -57,7 +57,7 @@ function LogedInSection() {
   const renderContent = () => {
     switch (activeSidebar) {
       case 'Employer Information':
-        return <EmployeeInformation />;
+        // return <EmployeeInformation />;
       case 'Leave Management':
         return <LeaveManagement />;
       case 'Attendance':
@@ -75,7 +75,7 @@ function LogedInSection() {
       case 'Document Management':
         return <div>Details about Document Management...</div>;
       default:
-        return <div><EmployeeInformation /></div>;
+        // return <div><EmployeeInformation /></div>;
     }
   };
 
