@@ -84,6 +84,7 @@ function ProjectListComponent() {
       "startDate": startDate,
       "endDate": endDate,
       "status": status,
+
     }, { 'Authorization': `Bearer ${token}` })
       .then(response => {
         setIsAdding(false);
@@ -137,6 +138,7 @@ function ProjectListComponent() {
     setStartDate(projectToEdit.startDate);
     setEndDate(projectToEdit.endDate);
     setStatus(projectToEdit.status);
+
   }
 
   useEffect(() => {
@@ -271,7 +273,9 @@ function ProjectListComponent() {
               className="border px-6 py-2 w-full mt-6 h-[68px] placeholder:mt-2"
             />
 
+
             <div className='flex gap-10'>
+
               {/* <div>
                 <input
                   type="text"
