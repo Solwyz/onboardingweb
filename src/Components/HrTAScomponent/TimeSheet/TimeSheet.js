@@ -53,7 +53,8 @@ function TimeSheet() {
   };
 
   const handleAddTimeSheet = (newEntry) => {
-    setTimeSheetData([...timeSheetData, newEntry]);
+    // Assuming newEntry is the object with the timesheet data
+    setTimeSheetData((prevData) => [...prevData, newEntry]);
     setIsModalOpen(false);
   };
 
@@ -77,25 +78,33 @@ function TimeSheet() {
     }
   };
 
-  const filteredTimesheet = timeSheetData.filter((data) => {
-    // Check if data.project is defined
-    if (!data.project) {
-      return false; // Skip this entry if project is undefined
-    }
-  
-    if (selectedOption === "My Timesheet") {
-      return data.project.createdBy.toLowerCase().includes("hr"); // Adjust "hr" based on actual data
-    }
-    
-    return (
-      data.project.projectName.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-      data.date.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-      data.project.createdBy.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-      data.task.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-      data.description.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-      data.duration.toString().startsWith(searchTerm.toLowerCase())
-    );
-  });
+ const filteredTimesheet = timeSheetData.filter((data) => {
+  // Check if data.project is defined
+  if (!data.project) {
+    return false; // Skip this entry if project is undefined
+  }
+
+  // Ensure that the properties are not null or undefined before calling toLowerCase
+  const createdBy = data.project.createdBy ? data.project.createdBy.toLowerCase() : '';
+  const projectName = data.project.projectName ? data.project.projectName.toLowerCase() : '';
+  const date = data.date ? data.date.toLowerCase() : '';
+  const task = data.task ? data.task.toLowerCase() : '';
+  const description = data.description ? data.description.toLowerCase() : '';
+  const duration = data.duration ? data.duration.toString() : '';
+
+  if (selectedOption === "My Timesheet") {
+    return createdBy.includes("hr"); // Adjust "hr" based on actual data
+  }
+
+  return (
+    projectName.startsWith(searchTerm.toLowerCase()) ||
+    date.startsWith(searchTerm.toLowerCase()) ||
+    createdBy.startsWith(searchTerm.toLowerCase()) ||
+    task.startsWith(searchTerm.toLowerCase()) ||
+    description.startsWith(searchTerm.toLowerCase()) ||
+    duration.startsWith(searchTerm.toLowerCase())
+  );
+});
   const sortedTimesheet = [...filteredTimesheet].sort((a, b) => {
     if (groupBy === "Date") {
       return sortOrder === "DSC"
