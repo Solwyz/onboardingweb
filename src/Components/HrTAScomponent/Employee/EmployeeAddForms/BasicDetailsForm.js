@@ -198,7 +198,7 @@ function BasicDetailsForm({ editingEmployee }) {
       if (!validatePassport(value)) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          passport: "Passport number does not contain special characters",
+          passport: "Aadhaar number does not contain special characters",
         }));
       } else {
         setErrors((prevErrors) => ({

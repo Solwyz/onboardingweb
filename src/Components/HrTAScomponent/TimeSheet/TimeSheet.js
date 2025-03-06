@@ -292,7 +292,7 @@ function TimeSheet() {
                           {time.date}
                         </td>
                         <td className="p-4 text-center font-normal text-sm">
-                          {time.project.createdBy}
+                          {time.employee.name}
                         </td>
                         <td className="p-4 text-center font-normal text-sm">
                           {time.project.projectName}
