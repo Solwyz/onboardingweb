@@ -76,6 +76,7 @@ function LogedInSection() {
         return <div>Details about Document Management...</div>;
       default:
         // return <div><EmployeeInformation /></div>;
+        
     }
   };
 
