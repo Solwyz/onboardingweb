@@ -18,6 +18,7 @@ function ProjectListComponent() {
   const [projectType, setProjectType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [status, setStatus] = useState('');
   const [refreshKey, setRefreshKey] = useState(0);
   const [deleteId, setDeleteId] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
@@ -48,7 +49,8 @@ function ProjectListComponent() {
       "client": clientName,
       "projectType": projectType,
       "startDate": startDate,
-      "endDate": endDate
+      "endDate": endDate,
+      "status": status,
     }, {
       'Authorization': `Bearer ${token}`
     })
@@ -63,6 +65,7 @@ function ProjectListComponent() {
           setProjectType('');
           setStartDate('');
           setEndDate('');
+          setStatus('');
           setShowModal(false);
         } else {
           console.error('Error adding project', response)
@@ -79,7 +82,9 @@ function ProjectListComponent() {
       "client": clientName,
       "projectType": projectType,
       "startDate": startDate,
-      "endDate": endDate
+      "endDate": endDate,
+      "status": status,
+
     }, { 'Authorization': `Bearer ${token}` })
       .then(response => {
         setIsAdding(false);
@@ -132,6 +137,8 @@ function ProjectListComponent() {
     setProjectType(projectToEdit.projectType);
     setStartDate(projectToEdit.startDate);
     setEndDate(projectToEdit.endDate);
+    setStatus(projectToEdit.status);
+
   }
 
   useEffect(() => {
@@ -266,7 +273,9 @@ function ProjectListComponent() {
               className="border px-6 py-2 w-full mt-6 h-[68px] placeholder:mt-2"
             />
 
-            <div className='flex'>
+
+            <div className='flex gap-10'>
+
               {/* <div>
                 <input
                   type="text"
@@ -289,6 +298,21 @@ function ProjectListComponent() {
                   <option value="Service">Service</option>
                 </select>
               </div>
+
+              <div>
+                <select
+                  type="text"
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  placeholder="Enter Project status"
+                  className="border px-6 py-2 w-full mt-6 h-[40px] placeholder:mt-2"
+                >
+                  <option value="">Status</option>
+                  <option value="In progress">In progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+
             </div>
 
             <div className='flex gap-2 mt-6'>
