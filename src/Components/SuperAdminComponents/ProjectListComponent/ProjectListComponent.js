@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import addIcon from "../../../Assets/HrTas/addIcon.svg";
 import CloseBtn from "../../../Assets/HrTas/close.svg";
-import deleteIcon from '../../../Assets/Superadmin/delete.svg'
+import deleteIcon from '../../../Assets/Superadmin/delete.svg';
+import editIcon from '../../../Assets/Superadmin/edit-svgrepo-com.svg'
 import Api from '../../../Services/Api';
 import { ClipLoader } from 'react-spinners';
 
@@ -20,17 +21,27 @@ function ProjectListComponent() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [deleteId, setDeleteId] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [editingProject, setEditingProject] = useState(null);
+  const [isAdding, setIsAdding] = useState(false)
 
   const handleCreateClick = () => {
     setShowModal(!showModal)
   }
 
   const handleCancelClick = () => {
+    setEditingProject(null)
     setShowModal(false)
+    setProjectName('');
+    setProjectDescription('');
+    setClientName('');
+    setProjectType('');
+    setStartDate('');
+    setEndDate('');
   }
 
   const handleSubmit = () => {
+    setIsAdding(true);
     Api.post('api/project', {
       "projectName": projectName,
       "projectDescription": projectDescription,
@@ -42,6 +53,7 @@ function ProjectListComponent() {
       'Authorization': `Bearer ${token}`
     })
       .then(response => {
+        setIsAdding(false);
         if (response && response.data) {
           console.log('new project added', response)
           setRefreshKey(prev => prev + 1);
@@ -58,32 +70,68 @@ function ProjectListComponent() {
       })
   }
 
+  const handleUpdate = () => {
+    setIsAdding(true)
+    Api.put('api/project', {
+      "id": editingProject.id,
+      "projectName": projectName,
+      "projectDescription": projectDescription,
+      "client": clientName,
+      "projectType": projectType,
+      "startDate": startDate,
+      "endDate": endDate
+    }, { 'Authorization': `Bearer ${token}` })
+      .then(response => {
+        setIsAdding(false);
+        setRefreshKey(prev => prev + 1);
+        handleCancelClick();
+        if (response && response.data) {
+          console.log('updating project response', response)
+        } else {
+          console.error('Error updating project', response)
+        }
+      })
+  }
+
   const handleDeleteClick = (id) => {
     console.log(id)
     setDeleteId(id);
     setDeleteModal(true)
   }
 
-  const handleDeleteModalCancel =()=> {
+  const handleDeleteModalCancel = () => {
     setDeleteModal(false);
   }
 
-  const handleDeleteModalConfirm =()=> {
+  const handleDeleteModalConfirm = () => {
     setIsDeleting(true);
     Api.delete(`api/project/${deleteId}`, {
       'Authorization': `Bearer ${token}`
     })
-    .then(response => {
-      setIsDeleting(false)
-      if(response && response.data) {
-        console.log(response.data.message);
-        setRefreshKey(prev=>prev+1);
-        setDeleteModal(false)
-      } else {
-        console.error('Invalid response data', response);
-        alert('Can not delete project. Please try again.')
-      }
-    })
+      .then(response => {
+        setIsDeleting(false)
+        if (response && response.data) {
+          console.log(response.data.message);
+          setRefreshKey(prev => prev + 1);
+          setDeleteModal(false)
+        } else {
+          console.error('Invalid response data', response);
+          alert('Can not delete project. Please try again.')
+        }
+      })
+  }
+
+  const handleEditClick = (id) => {
+    const projectToEdit = projects.find(project => project.id === id);
+    console.log('edittt', projectToEdit);
+    setEditingProject(projectToEdit)
+    setShowModal(true);
+    setProjectName(projectToEdit.projectName);
+    setProjectDescription(projectToEdit.projectDescription)
+    setClientName(projectToEdit.clientName);
+    setProjectType(projectToEdit.projectType);
+    setStartDate(projectToEdit.startDate);
+    setEndDate(projectToEdit.endDate);
   }
 
   useEffect(() => {
@@ -142,8 +190,9 @@ function ProjectListComponent() {
                   <td className='p-4 text-left text-sm'>{project.projectType}</td>
                   <td className='p-4 text-left text-sm'>{project.status}</td>
 
-                  <td className='p-4 text-left text-sm'>
-                    <img src={deleteIcon} onClick={() => handleDeleteClick(project.id)}></img>
+                  <td className='p-4 text-left text-sm flex items-center gap-4'>
+                    <img src={editIcon} className='h-3 w-3 hover:cursor-pointer' onClick={() => handleEditClick(project.id)}></img>
+                    <img src={deleteIcon} className='hover:cursor-pointer' onClick={() => handleDeleteClick(project.id)}></img>
                   </td>
                 </tr>
               ))}
@@ -190,6 +239,17 @@ function ProjectListComponent() {
                 onClick={handleCancelClick}
                 src={CloseBtn} alt="" />
             </div>
+
+            <div>
+              <input
+                type="text"
+                value={clientName}
+                onChange={(e) => setClientName(e.target.value)}
+                placeholder="Enter Client's name"
+                className="border px-6 py-2 w-full mt-6 h-[40px] placeholder:mt-2"
+              />
+            </div>
+
             <input
               type="text"
               value={projectName}
@@ -206,8 +266,8 @@ function ProjectListComponent() {
               className="border px-6 py-2 w-full mt-6 h-[68px] placeholder:mt-2"
             />
 
-            <div className='flex gap-2'>
-              <div>
+            <div className='flex'>
+              {/* <div>
                 <input
                   type="text"
                   value={clientName}
@@ -215,7 +275,7 @@ function ProjectListComponent() {
                   placeholder="Enter Client's name"
                   className="border px-6 py-2 w-full mt-6 h-[40px] placeholder:mt-2"
                 />
-              </div>
+              </div> */}
               <div>
                 <select
                   type="text"
@@ -231,23 +291,25 @@ function ProjectListComponent() {
               </div>
             </div>
 
-            <div className='flex gap-2'>
+            <div className='flex gap-2 mt-6'>
               <div>
+                <label>Start Date:</label>
                 <input
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
                   placeholder="Enter start date"
-                  className="border px-6 py-2 w-full mt-6 h-[40px] placeholder:mt-2"
+                  className="border px-6 py-2 mt-2 w-full h-[40px] placeholder:mt-2"
                 />
               </div>
               <div>
+                <label>End Date:</label>
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
                   placeholder="Enter end date"
-                  className="border px-6 py-2 w-full mt-6 h-[40px] placeholder:mt-2"
+                  className="border px-6 py-2 mt-2 w-full h-[40px] placeholder:mt-2"
                 />
               </div>
             </div>
@@ -255,7 +317,19 @@ function ProjectListComponent() {
 
             <div className='flex gap-4 mt-8 w-fit ml-auto'>
               <button className='bg-[#405170] hover:bg-[#232E42] w-[72px] h-[42px] text-white font-light rounded-[8px]' onClick={handleCancelClick}>Cancel</button>
-              <button className='bg-[#405170] hover:bg-[#232E42] w-[72px] h-[42px] text-white font-light rounded-[8px]' onClick={handleSubmit}>Submit</button>
+              <button className='bg-[#405170] hover:bg-[#232E42] w-[72px] h-[42px] text-white font-light rounded-[8px]' onClick={editingProject ? handleUpdate : handleSubmit}>
+                {isAdding ?
+                  <div>
+                    <ClipLoader
+                      color={'#ffffff'}
+                      loading={true}
+                      size={20}
+                      aria-label="Loading Spinner"
+                      data-testid="Loader"
+                    />
+                  </div> :
+                  <div>{editingProject ? 'Update' : 'Submit'}</div> }
+              </button>
             </div>
           </div>
         </div>
