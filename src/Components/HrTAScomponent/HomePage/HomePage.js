@@ -51,7 +51,7 @@ function HomePage() {
             <h1 className='text-[16px] text-[#21C331] font-medium   '>Today Present</h1>
             <div className='flex items-center'>
              <img src={Users} alt="" />
-             <h1 className='text-[32px] font-medium ml-4'>10</h1>
+             <h1 className='text-[32px] font-medium ml-4'>00</h1>
            
             </div>
         </div>
