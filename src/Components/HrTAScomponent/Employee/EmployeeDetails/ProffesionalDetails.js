@@ -85,7 +85,7 @@ function ProffesionalDetails({ employeeDetails }) {
                         <td className='w-12'></td>
                         <td className='text-[#696A70]'>{employeeDetails.description}</td>
                     </tr> */}
-                    <tr>
+                    {/* <tr>
                         <td className='font-medium text-[#373737] py-1'>Leave flow :</td>
                         <td className='w-12'></td>
                         <td className='text-[#696A70]'>{employeeDetails.leaveFlow}</td>
@@ -94,7 +94,7 @@ function ProffesionalDetails({ employeeDetails }) {
                         <td className='font-medium text-[#373737] py-1'>Workday :</td>
                         <td className='w-12'></td>
                         <td className='text-[#696A70]'>{employeeDetails.workday}</td>
-                    </tr>
+                    </tr> */}
                     <tr>
                         <td className='font-medium text-[#373737] py-1'>Holiday :</td>
                         <td className='w-12'></td>

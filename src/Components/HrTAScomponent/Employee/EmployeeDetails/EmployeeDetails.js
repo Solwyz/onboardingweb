@@ -56,9 +56,9 @@ function EmployeeDetails({employee}) {
         bankAccount:employee.salaryDetails?.bankAccount,
         payPeriod: employee.salaryDetails?.payPeriod,
         method: employee.salaryDetails?.paymentMethod,
-        martialStatus: employee.personalDetails?.maritalStatus,
-        fatherName: employee.personalDetails?.fatherName,
-        spouseName: '',
+        martialStatus: employee.personDetails?.maritalStatus,
+        fatherName: employee.personDetails?.fatherName,
+        spouseName: employee.personDetails?.spouseName,
         primaryMobile: employee.contactForm?.primaryNumber,
         secondaryMobile: employee.contactForm?.secondaryNumber,
         primaryAddress: employee.contactForm?.permanentAddress?.streetName,
@@ -114,11 +114,11 @@ function EmployeeDetails({employee}) {
                                 <td className='pl-5'>:</td>
                                 <td className='pl-6 text-[#696A70]'>{employeeData.branch}</td>
                             </tr>
-                            <tr className='h-7'>
+                            {/* <tr className='h-7'>
                                 <td className='text-[#373737]'>Status</td>
                                 <td className='pl-5'>:</td>
                                 <td className='pl-6 font-medium text-[#03D217]'>{employeeData.status}</td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </table>
                 </div>

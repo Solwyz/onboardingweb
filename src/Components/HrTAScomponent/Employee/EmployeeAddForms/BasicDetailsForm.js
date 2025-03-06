@@ -235,7 +235,7 @@ function BasicDetailsForm({ editingEmployee }) {
       ).then((response) => {
         console.log("basicSub:", response);
         setResponseBasicID(response.data.id)
-        setIds((prevIds) => ({ ...prevIds, ["basicId"]: response.data.id }));
+        setIds((prevIds) => ({ ...prevIds, ["basicId"]: response.data.id, ["employeeName"]: formData.firstName, ["employeeEmail"]: formData.email }));
         console.log("Stored ID:", response.data.id);
       });
     }
