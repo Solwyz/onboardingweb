@@ -68,69 +68,58 @@ function LeaveManagement() {
   // Handle Leave Form Submission
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log('formdataaa:', formData)
-
-    const days =
-      Math.ceil(
-        (new Date(formData.endDate) - new Date(formData.startDate)) /
-        (1000 * 60 * 60 * 24)
-      ) + 1;
-
-    if (days <= 0) {
-      console.error("End date must be after start date.");
+  
+    // Validate form data
+    if (!formData.leaveType || !formData.startDate || !formData.endDate || !formData.reason || !formData.reportingManager) {
+      console.error("All fields are required.");
       return;
     }
-
+  
+    // Check if startDate is before endDate
+    if (new Date(formData.startDate) >= new Date(formData.endDate)) {
+      console.error("Start date must be before end date.");
+      return;
+    }
+  
+    // Log the request data
+    console.log("Request Data:", {
+      employee: {
+        id: "7f000101-9519-152a-8195-1d0e18fd00de"
+      },
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      reason: formData.reason,
+      leaveType: formData.leaveType,
+      reportingManager: formData.reportingManager
+    });
+  
+    // Proceed with API call
     Api.post(
       "api/leaveRequest",
       {
-        "employee": {
-          "id": "7f000101-946d-1e64-8194-723468710044"
+        employee: {
+          id: "7f000101-9519-152a-8195-1d0e18fd00de"
         },
-        "startDate": formData.startDate,
-        "endDate": formData.endDate,
-        "reason": formData.reason,
-        "leaveType": formData.leaveType,
-        "reportingManager": formData.reportingManager
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        reason: formData.reason,
+        leaveType: formData.leaveType,
+        reportingManager: formData.reportingManager
       },
-
       {
         'Authorization': `Bearer ${token}`
-
-      })
-      .then((response) => {
-        console.log("post leave:", response)
-        const newLeaveEntry = response.data;
-        setLeaveHistory([...leaveHistory, newLeaveEntry]);
-
-        // Update leave balances
-        if (formData.leaveType === "Casual Leave") {
-          setLeaveBalances((prev) => ({
-            ...prev,
-            totalLeaves: prev.totalLeaves - days,
-            casualLeaves: prev.casualLeaves - days,
-          }));
-        } else if (formData.leaveType === "Sick Leave") {
-          setLeaveBalances((prev) => ({
-            ...prev,
-            totalLeaves: prev.totalLeaves - days,
-            sickLeaves: prev.sickLeaves - days,
-          }));
-        }
-
-        // Reset form
-        setShowForm(false);
-        setFormData({
-          leaveType: "",
-          startDate: "",
-          endDate: "",
-          reason: "",
-          reportingManager: "Aman",
-        });
-      })
-      .catch((error) => {
-        console.error("Error applying leave:", error.response?.data || error.message);
-      });
+      }
+    )
+    .then((response) => {
+      console.log("Leave request submitted successfully:", response);
+      // Handle success
+    })
+    .catch((error) => {
+      console.error("Error applying leave:", error.response?.data || error.message);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+      }
+    });
   };
 
   // Today's date for date inputs

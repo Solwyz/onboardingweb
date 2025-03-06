@@ -58,7 +58,11 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
     console.log("edittttt", editingEmployee);
 
     {
-      editingEmployee.ProfessionalDetails && setFormData({});
+      editingEmployee.ProfessionalDetails && setFormData({
+        dateOfJoining:editingEmployee?.professionalDetails?.dateOfJoin || '',
+        endOfProbation:editingEmployee?.professionalDetails?.endOfProbation || ''
+
+      });
     }
 
     Api.get("api/employee/api/employees/active", {
@@ -385,6 +389,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
         </div>
       ) : (
         <SalaryDetailsForm setShowSalaryForm={setShowSalaryForm} 
+         editingEmployee={editingEmployee}
           ids={ids}
           setIds={setIds}
         />

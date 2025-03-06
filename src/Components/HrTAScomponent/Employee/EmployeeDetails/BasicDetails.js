@@ -22,9 +22,15 @@ function BasicDetails({ employeeDetails }) {
             <td className='text-[#696A70]'>{employeeDetails.nationality}</td>
           </tr>
           <tr>
-            <td className='font-medium text-[#373737] py-1'>Date of Birth :</td>
-            <td className='w-12'></td>
-            <td className='text-[#696A70]'>{employeeDetails.dateOfBirth}</td>
+            <td className="font-medium text-[#373737] py-1">Date of Birth :</td>
+            <td className="w-12"></td>
+            <td className="text-[#696A70]">
+              {new Date(employeeDetails.dateOfBirth).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })}
+            </td>
           </tr>
         </tbody>
       </table>

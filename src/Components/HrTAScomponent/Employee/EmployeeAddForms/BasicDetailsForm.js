@@ -13,11 +13,18 @@ function BasicDetailsForm({ editingEmployee }) {
   const [designations, setDesignations] = useState([]);
   const [departments, setDepartments] = useState([]);
 
-  const [ids,setIds] = useState({})
-  const [responseBasicID, setResponseBasicID] = useState (null)
+  const [ids, setIds] = useState({})
+  const [responseBasicID, setResponseBasicID] = useState(null)
 
   useEffect(() => {
     console.log("bbemppppp,", editingEmployee);
+    console.log('datttttee', editingEmployee?.basicDetails?.dateOfBirth);
+    const dateArray = editingEmployee?.basicDetails?.dateOfBirth || ['0000','00','00'];
+    const formattedDate = new Date(dateArray[0], dateArray[1] - 1, dateArray[2]) // Month is 0-based
+      .toISOString()
+      .split('T')[0]; // Convert to YYYY-MM-DD
+
+    console.log('new dateeee',formattedDate); // Output: "2024-02-21"
 
     const today = new Date();
     const year = today.getFullYear() - 18;
@@ -31,13 +38,13 @@ function BasicDetailsForm({ editingEmployee }) {
           firstName: editingEmployee?.basicDetails?.firstName || "",
           lastName: editingEmployee?.basicDetails?.lastName || "",
           gender: editingEmployee?.basicDetails?.gender || "",
-          nationality: editingEmployee?.nationality || "",
-          dateOfBirth: editingEmployee?.basicDetails?.dateOfBirth || "",
+          nationality: editingEmployee?.basicDetails?.nationality || "",
+          dateOfBirth: formattedDate || "",
           panNumber: editingEmployee?.basicDetails?.panNumber || "",
           passport: editingEmployee?.basicDetails?.passport || "",
           designation: editingEmployee?.basicDetails?.designation?.name || "",
           department:
-            editingEmployee?.basicDetails?.department.id?.departmentName || "",
+            editingEmployee?.basicDetails?.department?.departmentName || "",
           email: editingEmployee?.email || "",
         });
     }
@@ -61,7 +68,7 @@ function BasicDetailsForm({ editingEmployee }) {
       Authorization: `Bearer ${token}`,
     })
       .then((response) => {
-        console.log("ccc", response);
+        console.log("ccceee", response);
         setDepartments(response.data.content);
       })
       .catch((error) => {
@@ -191,7 +198,7 @@ function BasicDetailsForm({ editingEmployee }) {
       if (!validatePassport(value)) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          passport: "Passport number does not contain special characters",
+          passport: "Aadhaar number does not contain special characters",
         }));
       } else {
         setErrors((prevErrors) => ({
@@ -228,7 +235,7 @@ function BasicDetailsForm({ editingEmployee }) {
       ).then((response) => {
         console.log("basicSub:", response);
         setResponseBasicID(response.data.id)
-        setIds((prevIds) => ({...prevIds, ["basicId"]: response.data.id}));
+        setIds((prevIds) => ({ ...prevIds, ["basicId"]: response.data.id, ["employeeName"]: formData.firstName, ["employeeEmail"]: formData.email }));
         console.log("Stored ID:", response.data.id);
       });
     }
@@ -326,7 +333,7 @@ function BasicDetailsForm({ editingEmployee }) {
                 )}
               </div>
               <div className="mt-6">
-                <div className="text-[14px]">Passport (Optional)</div>
+                <div className="text-[14px]">Aadhaar No. (Optional)</div>
                 <input
                   type="text"
                   name="passport"
@@ -413,9 +420,8 @@ function BasicDetailsForm({ editingEmployee }) {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className={`text-[14px] text-white bg-[#2B2342] text-center rounded-lg px-8 h-[48px] mt-8 ${
-                  !isFormValid ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className={`text-[14px] text-white bg-[#2B2342] text-center rounded-lg px-8 h-[48px] mt-8 ${!isFormValid ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 disabled={!isFormValid}
               >
                 Activate my account
