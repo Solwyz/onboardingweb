@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './EmployeeDetails.css'
-import profilePic from '../../../../Assets/HrTas/employeeDetails/image.png'
+import profilePic from '../../../../Assets/HrTas/employeeDetails/5856.jpg'
 import BasicDetails from './BasicDetails';
 import ProffesionalDetails from './ProffesionalDetails';
 import SalaryDetails from './SalaryDetails';
