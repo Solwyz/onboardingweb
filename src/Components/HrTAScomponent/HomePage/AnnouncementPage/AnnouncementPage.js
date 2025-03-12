@@ -253,7 +253,7 @@ function AnnouncementPage() {
       {announcementError ? 
       <div className='text-red-600 mt-8'>{announcementError}</div> :
 
-        <div className="h-[224px] overflow-y-auto custom-scrollbar mr-6 mt-[20px] ">
+        <div className="h-[224px] overflow-y-auto  mr-6 mt-[20px] ">
           {announcements.map((announcement, index) => (
             <div className="flex mb-4 items-center justify-between" key={index}>
               <div className="flex">
