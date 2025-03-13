@@ -67,6 +67,7 @@ function DepartmentList() {
         setIsUpdating(false)
         setIsModalOpen(false)
         console.log(response)
+        setRefreshKey(prev => prev + 1);
       })
   }
 

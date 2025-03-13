@@ -28,7 +28,7 @@ function ResourcePool() {
       ) : (
         <DepartmentList />
       );
-    } else if (activeTab === 'Roles') {
+    } else if (activeTab === 'Designation') {
       return showForm ? (
         <Roles onBack={handleBackClick} />
       ) : (
@@ -44,7 +44,7 @@ function ResourcePool() {
     <div className="ml-[16px]">
       {/* Tabs for Departments and Roles */}
       <div className="flex mt-[16px] h-[48px] bg-white shadow w-[528px] font-normal text-[16px] text-[#080723] justify-start">
-        {['Departments'].map((tab) => (
+        {['Departments', 'Designation'].map((tab) => (
           <button
             key={tab}
             onClick={() => {
@@ -62,13 +62,13 @@ function ResourcePool() {
       <div className="flex items-center border-1 mt-4 space-x-2">
         {!showForm && (
           <>
-            {(activeTab === 'Departments' || activeTab === 'Roles') && (
+            {(activeTab === 'Departments' || activeTab === 'Designation') && (
               <button
                 onClick={handleAddClick}
                 className="flex items-center justify-center px-4 py-2 h-[40px] border border-[#6C55B2] text-[#6C55B2] rounded-lg space-x-2"
               >
                 <img src={AddIcon} alt="Add" className="w-4 h-4" />
-                <span>{activeTab === 'Departments' ? "Add Department" : "Add Role"}</span>
+                <span>{activeTab === 'Departments' ? "Add Department" : "Add Designation"}</span>
               </button>
             )}
           </>
