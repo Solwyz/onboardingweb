@@ -53,16 +53,21 @@ function Roles({ onBack }) {
     event.preventDefault();
     console.log('form data: ',formData);
 
-    Api.post('api/roles',{
+    Api.post('api/designation',{
       "name": formData.name,
-      "roleType": formData.roleType,
+      "designation": formData.roleType,
       "description": formData.description,
       "user": {
         "id": formData.employeeId
       }
     }, {'Authorization': `Bearer ${token}`})
     .then(response => {
-      console.log('role adding response : ',response)
+      console.log('desig adding response : ',response)
+      if(response.status === 200) {
+        alert('Designation added successfully')
+      } else {
+        alert('Designation adding failed')
+      }
     })
 
     // Append new form data to the existing roles array
@@ -112,7 +117,7 @@ function Roles({ onBack }) {
         <form onSubmit={handleSubmit} className="mt-[36px]">
           <div className='flex gap-4'>
             <div className="mb-4">
-              <label className="block text-sm font-normal text-[#373737]">Name</label>
+              <label className="block text-sm font-normal text-[#373737]">Designation</label>
               <input
                 type="text"
                 name="name"
@@ -123,7 +128,7 @@ function Roles({ onBack }) {
             </div>
   
             <div>
-              <label className="block text-sm font-normal text-[#373737]">Roll type</label>
+              <label className="block text-sm font-normal text-[#373737]">Name</label>
               <input
                 type="text"
                 name="roleType"
