@@ -64,7 +64,7 @@ function LoginPage() {
           } else if (decodeJWT(response.data.jwt).userDetails?.userName === 'hrm') {
             navigate("/hrm") 
           } else if (decodeJWT(response.data.jwt).userDetails?.userName === 'solwyzuser') {
-            navigate("/hrm") 
+            navigate("/superadmin") 
           } else {
             console.error("Jwt cant decoded")
           }
