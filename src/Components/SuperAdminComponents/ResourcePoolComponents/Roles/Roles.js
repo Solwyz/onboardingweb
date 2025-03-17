@@ -16,7 +16,7 @@ function Roles({ onBack }) {
   const [employees, setEmployees] = useState([])
 
   // Enable submit only if all fields are filled
-  const isFormValid = formData.name && formData.employeeId && formData.description && formData.roleType;
+  const isFormValid = formData.name && formData.description && formData.roleType;
 
   const token = localStorage.getItem('token')
 
@@ -57,9 +57,7 @@ function Roles({ onBack }) {
       "name": formData.name,
       "designation": formData.roleType,
       "description": formData.description,
-      "user": {
-        "id": formData.employeeId
-      }
+      
     }, {'Authorization': `Bearer ${token}`})
     .then(response => {
       console.log('desig adding response : ',response)
@@ -140,7 +138,7 @@ function Roles({ onBack }) {
           </div>
 
           <div className="flex gap-4 mt-[24px]">
-            <div>
+            {/* <div>
               <label className="block text-sm font-normal text-[#373737]">Employee</label>
               <select
                 name="employeeId"
@@ -153,7 +151,7 @@ function Roles({ onBack }) {
                   <option key={index} value={employee.id}>{employee.name}</option>
                 ))}
               </select>
-            </div>
+            </div> */}
 
             <div>
               <label className="block text-sm font-normal text-[#373737]">description</label>
