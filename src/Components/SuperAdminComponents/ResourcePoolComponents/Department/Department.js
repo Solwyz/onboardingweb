@@ -4,6 +4,7 @@ import arrowIcon from "../../../../Assets/Superadmin/arrow.svg";
 import Api from "../../../../Services/Api";
 
 function Department({ onBack }) {
+  
   const [formData, setFormData] = useState({
     department: "",
     name: "",
@@ -19,6 +20,7 @@ function Department({ onBack }) {
 
   const token = localStorage.getItem("token");
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [departmentData, setDepartmentData] = useState([]);
   const [isModified, setIsModified] = useState(false);
 
@@ -72,6 +74,10 @@ function Department({ onBack }) {
     setIsModified(true);
   };
 
+  const handleOkClick =()=> {
+    setIsModalOpen(false)
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -86,8 +92,9 @@ function Department({ onBack }) {
       { Authorization: `Bearer ${token}` }
     ).then((response) => {
       console.log(response);
-      if(response && response.status === 200) {
-        alert('New Department added successfully')
+      if (response && response.status === 200) {
+        setIsModalOpen(true)
+        // alert('New Department added successfully')
       }
     });
 
@@ -157,9 +164,8 @@ function Department({ onBack }) {
               <input
                 type="text"
                 name="office"
-                className={`block w-[247px] h-[48px] border ${
-                  errors.office ? "border-red-500" : "border-[#E6E6E7]"
-                } text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none`}
+                className={`block w-[247px] h-[48px] border ${errors.office ? "border-red-500" : "border-[#E6E6E7]"
+                  } text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none`}
                 value={formData.office}
                 onChange={handleInputChange}
               />
@@ -175,9 +181,8 @@ function Department({ onBack }) {
               <input
                 type="text"
                 name="valueStream"
-                className={`block w-[247px] h-[48px] border ${
-                  errors.valueStream ? "border-red-500" : "border-[#E6E6E7]"
-                } text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none`}
+                className={`block w-[247px] h-[48px] border ${errors.valueStream ? "border-red-500" : "border-[#E6E6E7]"
+                  } text-sm font-normal text-[#696A70] rounded-[8px] mt-[8px] py-2 px-3 focus:outline-none`}
                 value={formData.valueStream}
                 onChange={handleInputChange}
               />
@@ -191,16 +196,27 @@ function Department({ onBack }) {
             <button
               type="submit"
               disabled={!isFormValid}
-              className={`bg-[#232E42] w-[107px] h-[48px] text-white font-medium px-6 py-2 rounded-[8px] ${
-                !isFormValid ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`bg-[#232E42] w-[107px] h-[48px] text-white font-medium px-6 py-2 rounded-[8px] ${!isFormValid ? "opacity-50 cursor-not-allowed" : ""
+                }`}
             >
               Submit
             </button>
           </div>
         </form>
       </div>
-    </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-neutral-800 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white w-auto p-10  shadow-lg">
+            <div className='text-[18px] text-[#373737]'>New Department added successfully</div>
+            <div className='flex gap-4 mt-8 w-fit ml-auto'>
+              <button className='bg-[#405170] hover:bg-[#232E42] w-[72px] h-[42px] text-white font-light rounded-[8px]' onClick={handleOkClick}>OK</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div >
   );
 }
 

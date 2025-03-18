@@ -43,7 +43,7 @@ function HomePage() {
             <h1 className='text-[16px] text-[#1255D0] font-medium   '>Total employee</h1>
             <div className='flex items-center'>
              <img src={Users} alt="" />
-             <h1 className='text-[32px] font-medium ml-4'>40</h1>
+             <h1 className='text-[32px] font-medium ml-4'>{employees.length}</h1>
       
             </div>
         </div>

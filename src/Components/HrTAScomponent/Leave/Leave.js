@@ -195,7 +195,7 @@ function Leave() {
                   >
                     <td className="p-4 text-sm">{leaveRequest.id}</td>
                     <td className="p-4 text-sm">
-                      {leaveRequest.employee.name}
+                      {leaveRequest.employee?.name}
                     </td>
                     <td className="p-4 text-sm">{leaveRequest.leaveType}</td>
                     <td className="p-4 text-sm">{leaveRequest.createdAt}</td>

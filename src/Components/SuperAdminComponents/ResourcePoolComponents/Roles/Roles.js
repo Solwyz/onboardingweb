@@ -11,6 +11,7 @@ function Roles({ onBack }) {
     roleType: ''
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [rolesData, setRolesData] = useState([]);
   const [isModified, setIsModified] = useState(false);
   const [employees, setEmployees] = useState([])
@@ -48,6 +49,10 @@ function Roles({ onBack }) {
     setIsModified(true);
   };
 
+  const handleOkClick =()=> {
+    setIsModalOpen(false);
+  }
+
   // Handles form submission and saves data to localStorage
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -62,7 +67,8 @@ function Roles({ onBack }) {
     .then(response => {
       console.log('desig adding response : ',response)
       if(response.status === 200) {
-        alert('Designation added successfully')
+        setIsModalOpen(true)
+        // alert('Designation added successfully')
       } else {
         alert('Designation adding failed')
       }
@@ -95,21 +101,21 @@ function Roles({ onBack }) {
         <span className='ml-[8px]'>Role</span>
       </div>
 
-      <div className="flex justify-between items-center mt-6">
-        <button className="text-[#E94E4E] text-[14px] font-normal flex">
+      <div className="flex justify-end items-center mt-6">
+        {/* <button className="text-[#E94E4E] text-[14px] font-normal flex">
           <img src={deleteIcon} alt="icon2" />
           Delete Role
-        </button>
-        <div className="mt-6 justify-end">
+        </button> */}
+        <div className="mt-4 justify-end">
           <button 
             onClick={onBack}  
-            className="font-normal text-[16px] text-[#3003BB]">
+            className="font-normal text-[16px] text-[#3003BB] border px-4 py-2 rounded-lg">
             Back
           </button>
         </div>
       </div>
 
-      <div className="bg-white w-auto h-auto mt-[16px] shadow-lg p-[24px] rounded-lg"> 
+      <div className="bg-white w-auto h-auto mt-[16px] shadow-lg p-[24px] rounded-lg border"> 
         <h1 className="text-lg font-semibold">General</h1>
         
         <form onSubmit={handleSubmit} className="mt-[36px]">
@@ -177,6 +183,18 @@ function Roles({ onBack }) {
           </div>
         </form>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-neutral-800 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white w-auto p-10  shadow-lg">
+            <div className='text-[18px] text-[#373737]'>New Designation added successfully</div>
+            <div className='flex gap-4 mt-8 w-fit ml-auto'>
+              <button className='bg-[#405170] hover:bg-[#232E42] w-[72px] h-[42px] text-white font-light rounded-[8px]' onClick={handleOkClick}>OK</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
