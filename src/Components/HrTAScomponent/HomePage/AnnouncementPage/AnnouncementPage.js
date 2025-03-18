@@ -260,7 +260,7 @@ function AnnouncementPage() {
                 <img src={BrandAwareness} alt="" />
                 <div className="ml-3 text-[14px]">
                   <h1 className="font-medium">{announcement.title}</h1>
-                  <p className="font-normal text-[#696A70]">{announcement.message}</p>
+                  <p className="font-normal text-[#696A70] text-justify w-[380px]">{announcement.message}</p>
                 </div>
               </div>
               <div className="flex items-center justify-center gap-4">
