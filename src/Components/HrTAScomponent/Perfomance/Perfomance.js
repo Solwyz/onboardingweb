@@ -11,8 +11,9 @@ function Perfomance() {
   const [showTable, setShowTable] = useState(false);
   const [showSecondTable, setShowSecondTable] = useState(false);
   const [ratingsData, setRatingsData] = useState([]);
-  const [rating, setRating] = useState("8"); // Default rating
-  const [feedback, setFeedback] = useState("");
+  const [ratings, setRatings] = useState({});
+  const [feedbacks, setFeedbacks] = useState({});
+
 
   const [newData, setNewData] = useState([]);
 
@@ -46,7 +47,7 @@ function Perfomance() {
     "November",
     "December",
   ];
-  
+
 
   useEffect(() => {
     Api.get("api/performance", {
@@ -55,16 +56,23 @@ function Perfomance() {
       console.log("pppp:", response.data.content);
       setNewData(response.data.content);
     });
-  
-   // Fetch branch data
-   Api.get('api/branch?pageNo=0&pageSize=100&sortDir=ASC', {
-   'Authorization': `Bearer ${token}` ,
-})
-.then(response => {
-    console.log('Branches:', response.data.content);
-    setBranches(response.data.content); // Set the fetched branches
-})
-}, []);
+
+    // Fetch branch data
+    Api.get('api/branch?pageNo=0&pageSize=100&sortDir=ASC', {
+      'Authorization': `Bearer ${token}`,
+    })
+      .then(response => {
+        console.log('Branches:', response.data.content);
+        setBranches(response.data.content); // Set the fetched branches
+      })
+  }, []);
+  const handleRatingChange = (id, value) => {
+    setRatings(prevRatings => ({ ...prevRatings, [id]: value }));
+  };
+
+  const handleFeedbackChange = (id, value) => {
+    setFeedbacks(prevFeedbacks => ({ ...prevFeedbacks, [id]: value }));
+  };
 
   const handleAddRatingClick = () => {
     setShowTable(true);
@@ -72,45 +80,30 @@ function Perfomance() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    Api.post(
-      "api/performance",
-      {
-        id: "7f000001-9404-194c-8194-06f6f8a00009",
-        rating: "4",
-      },
-      {
-        Authorization: `Bearer ${token}`,
-      }
-    );
-
-    // Store the submitted rating and feedback for a specific month
-    const newEntry = {
-      id: "", // Replace with dynamic ID as needed
-      name: "", // Replace with dynamic name as needed
-      email: "", // Replace with dynamic email as needed
-      manager: "", // Replace with dynamic manager as needed
-      ratings: { [month]: rating }, // Store rating for the selected month
-      feedback: feedback,
-    };
-
-    // Check if the entry already exists and update it
-    const existingEntryIndex = ratingsData.findIndex(
-      (entry) => entry.id === newEntry.id
-    );
-    if (existingEntryIndex !== -1) {
-      const updatedRatingsData = [...ratingsData];
-      updatedRatingsData[existingEntryIndex].ratings[month] = rating; // Update specific month rating
-      setRatingsData(updatedRatingsData);
-    } else {
-      setRatingsData([...ratingsData, newEntry]); // Add new entry
-    }
-
-    setRating(8); // Reset rating
-    setFeedback(""); // Reset feedback
+  
+    Object.keys(ratings).forEach((id) => {
+      const rating = ratings[id];
+      const feedback = feedbacks[id];
+  
+      Api.post(
+        "api/performance",
+        {
+          id,
+          rating,
+          feedback,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    });
+  
+    setRatings({});
+    setFeedbacks({});
     setShowTable(false);
     setShowSecondTable(true);
   };
+  
 
   const calculateTotalRating = (ratings) => {
     return ratings.reduce((total, rating) => total / rating);
@@ -129,12 +122,12 @@ function Perfomance() {
   };
   const toggleMonthDropdown = () => setMonthDropdownOpen(!monthDropdownOpen);
 
- 
 
-const handleBranchSelect = (branch) => {
+
+  const handleBranchSelect = (branch) => {
     setBranch(branch);
     setBranchDropdownOpen(false);
-};
+  };
 
   const handleShiftSelect = (shift) => {
     setShift(shift);
@@ -173,30 +166,30 @@ const handleBranchSelect = (branch) => {
         </div>
 
         <div className="flex text-[14px] gap-4 mt-[34px]">
-        <div className="text-[#696A70]">
-  Branch
-  <div className="mt-2 relative">
-    <button
-      onClick={toggleBranchDropdown}
-      className="flex border items-center px-4 py-[14px] rounded-lg text-[#696A70]"
-    >
-      {branch} <img className="ml-[39px]" src={DropDown} alt="" />
-    </button>
-    {branchDropdownOpen && (
-      <div className="absolute bg-white border rounded-lg mt-1 z-10">
-        {branches.map((branchItem) => (
-          <div
-            key={branchItem.id}
-            onClick={() => handleBranchSelect(branchItem.name)}
-            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-          >
-            {branchItem.name}
+          <div className="text-[#696A70]">
+            Branch
+            <div className="mt-2 relative">
+              <button
+                onClick={toggleBranchDropdown}
+                className="flex border items-center px-4 py-[14px] rounded-lg text-[#696A70]"
+              >
+                {branch} <img className="ml-[39px]" src={DropDown} alt="" />
+              </button>
+              {branchDropdownOpen && (
+                <div className="absolute bg-white border rounded-lg mt-1 z-10">
+                  {branches.map((branchItem) => (
+                    <div
+                      key={branchItem.id}
+                      onClick={() => handleBranchSelect(branchItem.name)}
+                      className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                    >
+                      {branchItem.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-        ))}
-      </div>
-    )}
-  </div>
-</div>
           {/* <div className="text-[#696A70]">
             Shift
             <div className="mt-2">
@@ -281,6 +274,7 @@ const handleBranchSelect = (branch) => {
           </div>
         </div>
 
+
         {showTable ? (
           <div className="mt-6">
             <form onSubmit={handleSubmit}>
@@ -303,49 +297,33 @@ const handleBranchSelect = (branch) => {
 
                 <tbody className="bg-white text-[#232E42] text-center">
                   {newData.map((entry, index) => (
-                    <tr className="border-b">
+                    <tr className="border-b" key={index}>
+                      <td className="p-2 text-[14px] font-medium">{entry.id}</td>
+                      <td className="p-2 text-[14px] font-medium">{entry.employee?.name}</td>
+                      <td className="p-2 text-[14px] font-medium">{entry.manager?.email}</td>
+                      <td className="p-2 text-[14px] font-medium">{entry.manager?.basicDetails?.firstName}</td>
                       <td className="p-2 text-[14px] font-medium">
-                        {entry.id}
-                      </td>
-                      <td className="p-2 text-[14px] font-medium">
-                        {entry.employee?.name}
-                      </td>
-                      <td className="p-2 text-[14px] font-medium">
-                        {entry.manager?.email}
-                      </td>
-                      <td className="p-2 text-[14px] font-medium">
-                        {entry.manager?.basicDetails?.firstName}
-                      </td>
-                      <td className="p-2 text-[14px] font-medium">
-                        <select
-                          value={rating}
-                          onChange={(e) => setRating(e.target.value)}
-                          className=" p-1"
-                        >
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                          <option value="10">10</option>
-                        </select>
+                        <input
+                          type="number"
+                          min="1"
+                          max="10"
+                          value={ratings[entry.id] || ""}
+                          onChange={(e) => handleRatingChange(entry.id, e.target.value)}
+                          className="border px-2 py-1 rounded"
+                        />
                       </td>
                       <td className="p-2 text-[14px] font-medium">
                         <input
                           type="text"
-                          placeholder="Add feedback here"
-                          value={feedback}
-                          onChange={(e) => setFeedback(e.target.value)}
-                          className="p-2 text-[14px] font-medium "
+                          value={feedbacks[entry.id] || ""}
+                          onChange={(e) => handleFeedbackChange(entry.id, e.target.value)}
+                          className="border px-2 py-1 rounded w-full"
                         />
                       </td>
                     </tr>
                   ))}
                 </tbody>
+
               </table>
               <div className="flex justify-end mt-4">
                 <button
@@ -404,15 +382,14 @@ const handleBranchSelect = (branch) => {
                       return (
                         <td
                           key={`${entry.id}-${month}`}
-                          className={`p-2 ${
-                            rating >= 6
+                          className={`p-2 ${rating >= 6
                               ? "bg-[#B8E986]"
                               : rating >= 1
-                              ? "bg-[#F2C94C]"
-                              : rating !== undefined
-                              ? "bg-[#FF8A80]"
-                              : ""
-                          }`}
+                                ? "bg-[#F2C94C]"
+                                : rating !== undefined
+                                  ? "bg-[#FF8A80]"
+                                  : ""
+                            }`}
                         >
                           {rating !== undefined ? rating : "-"}
                         </td>
