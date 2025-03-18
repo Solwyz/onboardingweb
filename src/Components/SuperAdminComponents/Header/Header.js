@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, } from 'react';
 import medoLogo from "../../../Assets/medoLogo.svg"
 import Notification from "../../../Assets/Group 2.svg";
 import Announce from "../../../Assets/Group 3.svg";
@@ -6,17 +6,24 @@ import User from "../../../Assets/Frame.svg";
 import LogoutIcon from "../../../Assets/logOutIcon.svg"
 import { useNavigate } from 'react-router-dom';
 import Api from '../../../Services/Api';
+import { useRef } from 'react';
 
 function Header() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [alerts, setAlerts] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
+  const [isOpenAnnouncemet, setIsOpenAnnouncement] = useState(false);
+
+
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
-  };
+ 
+
+
+  const dropdownRef = useRef(null);
+  const notificationRef = useRef(null);
+  const announcementRef = useRef(null);
 
   const handleLogOut = () => {
     console.log('Logged out');
@@ -35,15 +42,24 @@ function Header() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDropdownNotification = () => {
-    setIsOpen(!isOpen);
+ 
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+    setIsOpen(false);
+    setIsOpenAnnouncement(false);
   };
 
-  const [isOpenAnnouncemet, setIsOpenAnnouncement] = useState(false)
+  const toggleDropdownNotification = () => {
+    setIsOpen(!isOpen);
+    setDropdownVisible(false);
+    setIsOpenAnnouncement(false);
+  };
 
   const toggleDropdownAnnouncement = () => {
-    setIsOpenAnnouncement(!isOpenAnnouncemet)
-  }
+    setIsOpenAnnouncement(!isOpenAnnouncemet);
+    setDropdownVisible(false);
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     Api.get('api/alert', {
@@ -72,11 +88,33 @@ function Header() {
 
   }, [])
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current && !dropdownRef.current.contains(event.target) &&
+        notificationRef.current && !notificationRef.current.contains(event.target) &&
+        announcementRef.current && !announcementRef.current.contains(event.target)
+      ) {
+        setDropdownVisible(false);
+        setIsOpen(false);
+        setIsOpenAnnouncement(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="h-[72px]  pl-[40px] pr-[25px] flex items-center">
       <img className="cursor-pointer" src={medoLogo} alt="Logo" />
       <div className="flex justify-end ml-auto">
-        <div className='relative'>
+        <div className='relative'
+        ref={notificationRef}
+        >
           <img
             onClick={toggleDropdownNotification}
             className="cursor-pointer" src={Notification} alt="Notification" />
@@ -99,7 +137,9 @@ function Header() {
             </div>
           )}
         </div>
-        <div className='relative'>
+        <div className='relative'
+        ref={announcementRef}
+        >
           <img
             onClick={toggleDropdownAnnouncement}
             className="ml-4 cursor-pointer" src={Announce} alt="Announcement" />
@@ -112,7 +152,8 @@ function Header() {
                   {announcements.map((announcement, index) => (
                     <ul className="mt-2 border-b">
                     <li className="py-1 font-medium">{announcement.title}</li>
-                  <li className="py-1 text-[12px]">{announcement.message}</li>
+                  <li className="py-1 text-[12px]">{announcement.message.length > 85 ? `${announcement.message.slice(0, 85)}...` : announcement.message}</li>
+                  {/* {blog.shortDescription.length > 130 ? `${blog.shortDescription.slice(0, 130)}...` : blog.shortDescription} */}
                   {/* <li className="py-1">Your report is ready</li> */}
                 </ul>
               ))}
@@ -121,7 +162,9 @@ function Header() {
           )}
         </div>
 
-        <div className="relative ">
+        <div className="relative "
+        ref={dropdownRef}
+        >
           <img
             className="ml-16 cursor-pointer"
             src={User}
