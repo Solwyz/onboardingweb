@@ -18,8 +18,8 @@ function FinalDetailsForm({ setShowFinalForm, showFinalForm, ids }) {
         setIsAccept(!isAccept)
     }
 
-    const handleSubmit = () => {
-       
+    const handleSubmit = (e) => {
+    //    e.preventDefault()
         console.log('form has submitted sucessfully')
         console.log('idsssss',ids)
         Api.post('api/employee', {

@@ -5,6 +5,7 @@ import editIcon from '../../../Assets/HrTas/edit.svg';
 import deleteIcon from '../../../Assets/HrTas/delete (1).svg';
 import BasicDetailsForm from './EmployeeAddForms/BasicDetailsForm';
 import EmployeeDetails from './EmployeeDetails/EmployeeDetails';
+import confirmDeleteIcon from "../../../Assets/HrTas/employeeForms/Featured icon.svg"
 
 const token = localStorage.getItem('token');
 console.log('Token:', token);
@@ -18,6 +19,7 @@ function Employee() {
   const [selectedOption, setSelectedOption] = useState('');
   const [showEmployeeDetails, setShowEmployeeDetails] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null)
+  const [deleteId, setDeleteId] = useState(null);
 
   const handleApiError = (error, customMessage = "An error occurred while fetching data.") => {
     console.error("API Error:", error);
@@ -40,6 +42,24 @@ function Employee() {
 
 
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const openDeleteModal = (e, id) => {
+    e.stopPropagation();
+    setIsDeleteModalOpen(true);
+    setDeleteId(id);
+  };
+
+  const closeDeleteModal = (e) => {
+    // e.stopPropagation();
+    setIsDeleteModalOpen(false);
+  };
+
+  const confirmDelete = (e) => {
+    // e.stopPropagation();
+    handleDeleteEmployee(e, deleteId); // Call the actual delete function
+    closeDeleteModal(); // Close the modal after deletion
+  };
 
 
   // Fetch employees from the API
@@ -70,10 +90,10 @@ function Employee() {
 
   const handleEditEmployeeClick = (e, employee) => {
     e.stopPropagation(); // Prevent event bubbling
-  
+
     // setIsLoading(true); // Start loading
     // setError(null); // Reset error state
-  
+
     // Fetch employee details by ID
     Api.get(`api/employee/${employee.id}`, {
       'Authorization': `Bearer ${token}`
@@ -98,6 +118,7 @@ function Employee() {
     })
       .then((response) => {
         console.log('hrtas delete', response)
+        setDeleteId(null)
         setEmployees(employees.filter((employee) => employee.id !== employeeId));
       })
       .catch((error) => {
@@ -137,7 +158,7 @@ function Employee() {
       Api.post('api/employee', newEmployee, {
         'Authorization': `Bearer ${token}`
       })
-        .then((response) => { 
+        .then((response) => {
           setEmployees([...employees, response.data]);
           setShowBasicForm(false);
         })
@@ -151,11 +172,11 @@ function Employee() {
   const filteredEmployees = employees?.filter((employee) => {
     const matchesSearch =
       (employee.name?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
-      (employee.id?.toLowerCase() || '').includes(searchValue.toLowerCase())||
-      (employee.basicDetails?.designation?.name?.toLowerCase()|| '').includes(searchValue.toLowerCase())||
-      (employee.basicDetails?.department?.departmentName?.toLowerCase()|| '').includes(searchValue.toLowerCase())||
-      (employee.contactForm?.workAddress?.city?.toLowerCase()|| '').includes(searchValue.toLowerCase())||
-      (employee.contactForm?.primaryNumber?.toLowerCase()|| '').includes(searchValue.toLowerCase());
+      (employee.id?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
+      (employee.basicDetails?.designation?.name?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
+      (employee.basicDetails?.department?.departmentName?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
+      (employee.contactForm?.workAddress?.city?.toLowerCase() || '').includes(searchValue.toLowerCase()) ||
+      (employee.contactForm?.primaryNumber?.toLowerCase() || '').includes(searchValue.toLowerCase());
     const matchesCategory =
       selectedOption === '' ||
       (employee[categoryFilter.toLowerCase()] || '') === selectedOption;
@@ -168,7 +189,7 @@ function Employee() {
         <div>
           {!showBasicForm ? (
             <div className="container p-6 shadow-lg min-h-screen h-auto bg-white w-auto mx-auto">
-              <div className="flex justify-between items-center">   
+              <div className="flex justify-between items-center">
                 <h2 className="text-[20px] text-[#232E42] font-medium mt-[40px]">All employees</h2>
                 <button
                   onClick={handleAddEmployeeClick}
@@ -225,9 +246,9 @@ function Employee() {
                   <tbody>
                     {filteredEmployees?.map((employee, index) => (
                       <tr key={employee.id}
-                      
-                       onClick={() => handleEmployeeClick(employee)}
-                       className={` cursor-pointer h-[50px] ${index % 2 === 0 ? 'bg-white ' : 'bg-[#F9F9F9]'}`}>
+
+                        onClick={() => handleEmployeeClick(employee)}
+                        className={` cursor-pointer h-[50px] ${index % 2 === 0 ? 'bg-white ' : 'bg-[#F9F9F9]'}`}>
                         <td className="p-4 text-center text-sm">{index + 1}</td>
                         <td className="p-4 text-center text-sm">{employee.basicDetails?.firstName}</td>
                         <td className="p-4 text-center text-sm">{employee.id}</td>
@@ -239,14 +260,40 @@ function Employee() {
                           <button onClick={(e) => handleEditEmployeeClick(e, employee)}>
                             <img src={editIcon} alt="edit" />
                           </button>
-                          <button onClick={(e) => handleDeleteEmployee(e, employee.id)}>
+                          <button onClick={(e) => openDeleteModal(e, employee.id)}>
                             <img className="w-6 h-6 ml-6" src={deleteIcon} alt="delete" />
                           </button>
+
+
                         </td>
                       </tr>
                     ))}
                   </tbody>
+
                 </table>
+                {isDeleteModalOpen && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-xl w-96">
+                      <img src={confirmDeleteIcon} alt="" />
+                      <h1 className="mt-6 font-medium text-[16px]">Confirm  Delete</h1>
+                      <h2 className="text-[14px] font-normal text-[#818180] mt-2">Are you sure you want to delete this order?</h2>
+                      <div className="flex justify-between mt-4">
+                        <button
+                          onClick={closeDeleteModal}
+                          className="px-[52px] py-[14px] border-[1px] rounded-lg mr-2"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={confirmDelete}
+                          className="px-[52px] py-[14px] bg-[#FFCFCF] hover:bg-[#FFA0A0] text-[#D41515] rounded-lg"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           ) : (
