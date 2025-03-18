@@ -60,8 +60,8 @@ function DepartmentList() {
     Api.put('api/department', {
       "id": formData.id,
       "departmentName": formData.name,
-      "createdBy": formData.resourceManager,
-      "createdAt": formData.office
+      "manager": formData.resourceManager,
+      "workMobile": formData.office
     }, { 'Authorization': `Bearer ${token}` })
       .then(response => {
         setIsUpdating(false)
@@ -85,7 +85,7 @@ function DepartmentList() {
     setFormData({
       id: dataTobeUpdated.id,
       name: dataTobeUpdated.departmentName,
-      resourceManager: dataTobeUpdated.createdBy,
+      resourceManager: dataTobeUpdated.manager,
       office: dataTobeUpdated.createdAt
     })
   }
