@@ -32,7 +32,7 @@ function LeaveManagement() {
       return;
     }
 
-    Api.get("api/leaveRequest/employee/7f000101-946d-1e64-8194-723468710044/leave-requests", {
+    Api.get("api/leaveRequest/employee/7f000101-9522-1246-8195-88c755e50104/leave-requests", {
       'Authorization': `Bearer ${token}`
     })
       .then((response) => {
@@ -67,7 +67,7 @@ function LeaveManagement() {
 
   // Handle Leave Form Submission
   const handleFormSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
   
     // Validate form data
     if (!formData.leaveType || !formData.startDate || !formData.endDate || !formData.reason || !formData.reportingManager) {
@@ -98,7 +98,7 @@ function LeaveManagement() {
       "api/leaveRequest",
       {
         employee: {
-          id: "7f000101-9522-1246-8195-6a1b5d5c0098"
+          id: "7f000101-9522-1246-8195-88c755e50104"
         },
         startDate: formData.startDate,
         endDate: formData.endDate,

@@ -58,9 +58,9 @@ function Header() {
         }
       })
 
-      Api.get('api/announcement', {
-        'Authorization': `Bearer ${token}`
-      })
+    Api.get('api/announcement', {
+      'Authorization': `Bearer ${token}`
+    })
       .then(response => {
         if (response && response.data) {
           console.log('eeee', response.data.content);
@@ -85,13 +85,16 @@ function Header() {
             <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-xl p-4 z-10">
               <div className="text-black text-sm">
                 <p className="font-bold">Alerts</p>
-                <ul className="mt-2">
-                  {alerts.map((alert, index) => (
-                    <li className="py-1 border-b">{alert.title}</li>
-                  ))}
-                  {/* <li className="py-1 border-b">Meeting at 3 PM</li>
-                  <li className="py-1">Your report is ready</li> */}
-                </ul>
+
+                {alerts.map((alert, index) => (
+                  <ul className="mt-2 border-b">
+                    <li className="py-1 font-medium">{alert.title}</li>
+
+                    <li className="py-1 text-[12px]">{alert.description}</li>
+                    {/* <li className="py-1">Your report is ready</li> */}
+                  </ul>
+                ))}
+
               </div>
             </div>
           )}
@@ -105,13 +108,14 @@ function Header() {
             <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-xl p-4 z-10">
               <div className="text-black text-sm">
                 <p className="font-bold">Announcement</p>
-                <ul className="mt-2">
-                {announcements.map((announcement, index) => (
-                  <li className="py-1 border-b">{announcement.title}</li>
-                ))}
-                  {/* <li className="py-1 border-b">Meeting at 3 PM</li>
-                  <li className="py-1">Your report is ready</li> */}
+                
+                  {announcements.map((announcement, index) => (
+                    <ul className="mt-2 border-b">
+                    <li className="py-1 font-medium">{announcement.title}</li>
+                  <li className="py-1 text-[12px]">{announcement.message}</li>
+                  {/* <li className="py-1">Your report is ready</li> */}
                 </ul>
+              ))}
               </div>
             </div>
           )}
