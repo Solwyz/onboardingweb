@@ -13,7 +13,6 @@ function TimeSheetModal({
 }) {
   const initialFormData = {
     date: dataToEdit?.date || "",
-    employeeName: dataToEdit?.employee?.id || "",
     project: dataToEdit?.project?.id || "",
     task: dataToEdit?.task || "",
     description: dataToEdit?.description || "",
@@ -110,10 +109,10 @@ function TimeSheetModal({
     const newErrors = {};
 
     if (!formData.date.trim()) newErrors.date = "Date is required.";
-    if (!formData.employeeName.trim())
-      newErrors.employeeName = "Employee name is required.";
-    if (!formData.project.trim())
-      newErrors.project = "Project name is required.";
+    // if (!formData.employeeName.trim())
+    //   newErrors.employeeName = "Employee name is required.";
+    // if (!formData.project.trim())
+    //   newErrors.project = "Project name is required.";
     if (!formData.task.trim()) newErrors.task = "Task is required.";
     const totalDuration =
       parseInt(formData.hour) * 60 + parseInt(formData.minute);
@@ -145,12 +144,6 @@ function TimeSheetModal({
         "api/timesheet",
         {
           date: formData.date,
-          project: {
-            id: formData.project,
-          },
-          employee: {
-            id: formData.employeeName,
-          },
           task: formData.task,
           description: formData.description,
           duration: formData.hour + ":" + formData.minute,
@@ -160,7 +153,7 @@ function TimeSheetModal({
         setIsAdding(false);
         onClose();
         if (response && response.data) {
-          console.log("kkkzzz", response.data);
+          console.log("kkkzzz", response);
           setRefreshKey((prev) => prev + 1);
         } else {
           console.error("Invalid response data: ", response);
@@ -290,7 +283,7 @@ function TimeSheetModal({
                     <p className="text-red-500 text-sm">{errors.date}</p>
                   )}
                 </div>
-                <div>
+                {/* <div>
                   <label>Employee Name</label>
                   <select
                     name="employeeName"
@@ -318,9 +311,9 @@ function TimeSheetModal({
                       {errors.employeeName}
                     </p>
                   )}
-                </div>
+                </div> */}
 
-                <div>
+                {/* <div>
                   <label>Project</label>
                   <select
                     type="text"
@@ -342,7 +335,7 @@ function TimeSheetModal({
                   {errors.project && (
                     <p className="text-red-500 text-sm">{errors.project}</p>
                   )}
-                </div>
+                </div> */}
                 <div>
                   <label>Task</label>
                   <input

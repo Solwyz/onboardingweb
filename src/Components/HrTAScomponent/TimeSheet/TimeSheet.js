@@ -78,33 +78,33 @@ function TimeSheet() {
     }
   };
 
- const filteredTimesheet = timeSheetData.filter((data) => {
-  // Check if data.project is defined
-  if (!data.project) {
-    return false; // Skip this entry if project is undefined
-  }
+  const filteredTimesheet = timeSheetData.filter((data) => {
+    // Check if data.project is defined
+    if (!data.project) {
+      return false; // Skip this entry if project is undefined
+    }
 
-  // Ensure that the properties are not null or undefined before calling toLowerCase
-  const createdBy = data.project.createdBy ? data.project.createdBy.toLowerCase() : '';
-  const projectName = data.project.projectName ? data.project.projectName.toLowerCase() : '';
-  const date = data.date ? data.date.toLowerCase() : '';
-  const task = data.task ? data.task.toLowerCase() : '';
-  const description = data.description ? data.description.toLowerCase() : '';
-  const duration = data.duration ? data.duration.toString() : '';
+    // Ensure that the properties are not null or undefined before calling toLowerCase
+    const createdBy = data.project.createdBy ? data.project.createdBy.toLowerCase() : '';
+    const projectName = data.project.projectName ? data.project.projectName.toLowerCase() : '';
+    const date = data.date ? data.date.toLowerCase() : '';
+    const task = data.task ? data.task.toLowerCase() : '';
+    const description = data.description ? data.description.toLowerCase() : '';
+    const duration = data.duration ? data.duration.toString() : '';
 
-  if (selectedOption === "My Timesheet") {
-    return createdBy.includes("hr"); // Adjust "hr" based on actual data
-  }
+    if (selectedOption === "My Timesheet") {
+      return createdBy.includes("hr"); // Adjust "hr" based on actual data
+    }
 
-  return (
-    projectName.startsWith(searchTerm.toLowerCase()) ||
-    date.startsWith(searchTerm.toLowerCase()) ||
-    createdBy.startsWith(searchTerm.toLowerCase()) ||
-    task.startsWith(searchTerm.toLowerCase()) ||
-    description.startsWith(searchTerm.toLowerCase()) ||
-    duration.startsWith(searchTerm.toLowerCase())
-  );
-});
+    return (
+      projectName.startsWith(searchTerm.toLowerCase()) ||
+      date.startsWith(searchTerm.toLowerCase()) ||
+      createdBy.startsWith(searchTerm.toLowerCase()) ||
+      task.startsWith(searchTerm.toLowerCase()) ||
+      description.startsWith(searchTerm.toLowerCase()) ||
+      duration.startsWith(searchTerm.toLowerCase())
+    );
+  });
   const sortedTimesheet = [...filteredTimesheet].sort((a, b) => {
     if (groupBy === "Date") {
       return sortOrder === "DSC"
@@ -203,13 +203,15 @@ function TimeSheet() {
                 </div>
               )}
             </div>
-            <button
-              onClick={handleOpenModal}
-              className="bg-[#2B2342] flex items-center ml-6 font-normal text-sm mt-[24px] text-white px-6 py-[14px] rounded-lg"
-            >
-              <img src={addIcon} className="mr-[8px]" alt="Add icon" />
-              Create
-            </button>
+            {selectedOption === "My Timesheet" && (
+              <button
+                onClick={handleOpenModal}
+                className="bg-[#2B2342] flex items-center ml-6 font-normal text-sm mt-[24px] text-white px-6 py-[14px] rounded-lg"
+              >
+                <img src={addIcon} className="mr-[8px]" alt="Add icon" />
+                Create
+              </button>
+            )}
           </div>
         </div>
 
@@ -289,54 +291,54 @@ function TimeSheet() {
                 <tbody>
                   {/* {Object.entries(groupedTimeSheetData).map(([group, entries], index) => ( */}
                   <React.Fragment>
-                  {sortedTimesheet.length > 0 ? (
-                    sortedTimesheet.map((time, timeIndex) =>(
-                      <tr
-                        key={timeIndex}
-                        className={`${
-                          timeIndex % 2 === 0 ? "bg-white" : "bg-gray-100"
-                        } border-b`}
-                      >
-                        <td className="p-4 text-center font-normal text-sm">
-                          {time.date}
-                        </td>
-                        <td className="p-4 text-center font-normal text-sm">
-                          {time.employee.name}
-                        </td>
-                        <td className="p-4 text-center font-normal text-sm">
-                          {time.project.projectName}
-                        </td>
-                        <td className="p-4 text-center font-normal text-sm">
-                          {time.task}
-                        </td>
-                        <td className="p-4 text-center font-normal text-sm">
-                          {time.description}
-                        </td>
-                        <td className="p-4 text-center font-normal text-sm">
-                          {time.duration}
-                        </td>
-                        <td className="p-4 text-center font-normal text-sm">
-                          <div className="flex items-center justify-center gap-4 w-fit">
-                            <img
-                              src={editIcon}
-                              className="h-3 w-3 hover:cursor-pointer"
-                              onClick={() => handleEditClick(time.id)}
-                            ></img>
-                            <img
-                              src={deleteIcon}
-                              className="hover:cursor-pointer"
-                              onClick={() => handleDelete(time.id)}
-                            ></img>
-                          </div>
-                        </td>
-                      </tr>
-                    )))
-                    : (
-    <tr>
-      <td colSpan="7" className="text-center p-4 text-[#696A70]">
-        No records found.
-      </td>
-    </tr>)}
+                    {sortedTimesheet.length > 0 ? (
+                      sortedTimesheet.map((time, timeIndex) => (
+                        <tr
+                          key={timeIndex}
+                          className={`${timeIndex % 2 === 0 ? "bg-white" : "bg-gray-100"
+                            } border-b`}
+                        >
+                          <td className="p-4 text-center font-normal text-sm">
+                            {time.date}
+                          </td>
+                          <td className="p-4 text-center font-normal text-sm">
+                            {time.employee?.name}
+                          </td>
+                          <td className="p-4 text-center font-normal text-sm">
+                            {time.project?.projectName}
+                          </td>
+                          <td className="p-4 text-center font-normal text-sm">
+                            {time.task}
+                          </td>
+                          <td className="p-4 text-center font-normal text-sm">
+                            {time.description.length > 25 ? `${time.description.slice(0, 25)}...` : time.description}
+
+                          </td>
+                          <td className="p-4 text-center font-normal text-sm">
+                            {time.duration}
+                          </td>
+                          <td className="p-4 text-center font-normal text-sm">
+                            <div className="flex items-center justify-center gap-4 w-fit">
+                              <img
+                                src={editIcon}
+                                className="h-3 w-3 hover:cursor-pointer"
+                                onClick={() => handleEditClick(time.id)}
+                              ></img>
+                              <img
+                                src={deleteIcon}
+                                className="hover:cursor-pointer"
+                                onClick={() => handleDelete(time.id)}
+                              ></img>
+                            </div>
+                          </td>
+                        </tr>
+                      )))
+                      : (
+                        <tr>
+                          <td colSpan="7" className="text-center p-4 text-[#696A70]">
+                            No records found.
+                          </td>
+                        </tr>)}
                   </React.Fragment>
                 </tbody>
               </table>
