@@ -152,6 +152,7 @@ function TimeSheetModal({
       ).then((response) => {
         setIsAdding(false);
         onClose();
+        setFormData(initialFormData)
         if (response && response.data) {
           console.log("kkkzzz", response);
           setRefreshKey((prev) => prev + 1);
@@ -400,7 +401,10 @@ function TimeSheetModal({
               </div>
               <div className="flex justify-end gap-4">
                 <button
-                  onClick={onClose}
+                  onClick={()=>{
+                    setFormData(initialFormData);
+                    onClose();
+                  }}
                   className="border px-4 py-2 rounded-md"
                 >
                   Cancel
