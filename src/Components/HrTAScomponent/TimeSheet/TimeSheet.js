@@ -155,7 +155,7 @@ function TimeSheet() {
       Authorization: `Bearer ${token}`,
     }).then((response) => {
       if (response && response.data) {
-        console.log("timesheet", response.data.content);
+        console.log("timesheetzz", response.data.content);
         setTimeSheetData(response.data.content);
       } else {
         console.error("Invalid response data:", response);
@@ -291,8 +291,8 @@ function TimeSheet() {
                 <tbody>
                   {/* {Object.entries(groupedTimeSheetData).map(([group, entries], index) => ( */}
                   <React.Fragment>
-                    {sortedTimesheet.length > 0 ? (
-                      sortedTimesheet.map((time, timeIndex) => (
+                    {timeSheetData.length > 0 ? (
+                      timeSheetData.map((time, timeIndex) => (
                         <tr
                           key={timeIndex}
                           className={`${timeIndex % 2 === 0 ? "bg-white" : "bg-gray-100"
@@ -302,10 +302,10 @@ function TimeSheet() {
                             {time.date}
                           </td>
                           <td className="p-4 text-center font-normal text-sm">
-                            {time.employee?.name}
+                            {time.employee?.name||'Not available'}
                           </td>
                           <td className="p-4 text-center font-normal text-sm">
-                            {time.project?.projectName}
+                            {time.project?.projectName||'Not available'}
                           </td>
                           <td className="p-4 text-center font-normal text-sm">
                             {time.task}
