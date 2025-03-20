@@ -12,6 +12,7 @@ function DepartmentList() {
   const [deleteModal, setDeleteModal] = useState(false)
   const [deleteId, setDeleteId] = useState('')
   const [refreshKey, setRefreshKey] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [formData, setFormData] = useState({
     id: '',
@@ -30,11 +31,13 @@ function DepartmentList() {
   }
 
   const handleDeleteModalConfirm =()=> {
+    setIsDeleting(true);
     console.log('abccc',deleteId)
     Api.delete(`api/department/${deleteId}`, {
       'Authorization': `Bearer ${token}`
     })
       .then(response => {
+        setIsDeleting(false);
         if (response && response.data) {
           console.log(response.data.message)
           setDeleteModal(false)
@@ -60,8 +63,8 @@ function DepartmentList() {
     Api.put('api/department', {
       "id": formData.id,
       "departmentName": formData.name,
-      "createdBy": formData.resourceManager,
-      "createdAt": formData.office
+      "manager": formData.resourceManager,
+      "workMobile": formData.office
     }, { 'Authorization': `Bearer ${token}` })
       .then(response => {
         setIsUpdating(false)
@@ -85,7 +88,7 @@ function DepartmentList() {
     setFormData({
       id: dataTobeUpdated.id,
       name: dataTobeUpdated.departmentName,
-      resourceManager: dataTobeUpdated.createdBy,
+      resourceManager: dataTobeUpdated.manager,
       office: dataTobeUpdated.createdAt
     })
   }
@@ -252,11 +255,27 @@ function DepartmentList() {
       {deleteModal && (
         <div className="fixed inset-0 bg-neutral-800 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white w-auto p-10  shadow-lg">
+          {isDeleting ?
+                        <div className='px-4'>
+                          <div>
+                            <ClipLoader
+                              color={'#465062'}
+                              loading={true}
+                              size={35}
+                              aria-label="Loading Spinner"
+                              data-testid="Loader"
+                            />
+                          </div>
+                          <div className='mt-2'>Deleing Please wait..</div>
+                        </div> :
+                        <div>
             <div className='text-[18px] text-[#373737]'>Are you sure to delete this data ?</div>
             <div className='flex gap-4 mt-8 w-fit ml-auto'>
               <button className='bg-[#405170] hover:bg-[#232E42] w-[72px] h-[42px] text-white font-light rounded-[8px]' onClick={handleDeleteModalCancle}>Cancel</button>
               <button className='bg-[#405170] hover:bg-[#232E42] w-[72px] h-[42px] text-white font-light rounded-[8px]' onClick={handleDeleteModalConfirm}>Delete</button>
             </div>
+            </div>
+            }
           </div>
         </div>
       )}
