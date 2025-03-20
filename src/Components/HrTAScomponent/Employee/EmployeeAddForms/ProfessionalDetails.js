@@ -8,18 +8,40 @@ import NewProgressive from "./NewProgressive";
 const token = localStorage.getItem("token");
 console.log("token:", token);
 
-function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, setIds}) {
+function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, setIds }) {
+
+  useEffect(() => {
+    console.log('profEditEmployee', editingEmployee);
+    {
+      editingEmployee.professionalDetails &&
+        setFormData({
+          dateOfJoining: editingEmployee?.professionalDetails?.dateOfJoin || '',
+          endOfProbation: editingEmployee?.professionalDetails?.endOfProbation || '',
+          dateEffective: "",
+          jobPosition: "",
+          lineManager: "",
+          department: "",
+          branch: editingEmployee?.professionalDetails?.endOfProbation || '',
+          level: editingEmployee?.professionalDetails?.level?.name || '',
+          jobType: editingEmployee?.professionalDetails?.jobType || '',
+          leaveFlow: "",
+          workday: "",
+          holiday: "",
+        })
+    }
+  }, [])
+
   const [showSalaryForm, setShowSalaryForm] = useState(false);
   const [formData, setFormData] = useState({
-    dateOfJoin: "",
-    endOfProbation: "",
+    dateOfJoining: editingEmployee?.professionalDetails?.dateOfJoin || '',
+    endOfProbation: editingEmployee?.professionalDetails?.endOfProbation || '',
     dateEffective: "",
     jobPosition: "",
     lineManager: "",
     department: "",
-    branch: "",
-    level: "",
-    jobType: "",
+    branch: editingEmployee?.professionalDetails?.endOfProbation || '',
+    level: editingEmployee?.professionalDetails?.level?.name || '',
+    jobType: editingEmployee?.professionalDetails?.jobType || '',
     leaveFlow: "",
     workday: "",
     holiday: "",
@@ -55,12 +77,23 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
 
   // Fetch line managers from /api/employee
   useEffect(() => {
-    console.log("edittttt", editingEmployee);
+    console.log("editttttzz", editingEmployee);
+    console.log("profForm", formData)
 
     {
       editingEmployee.ProfessionalDetails && setFormData({
-        dateOfJoining:editingEmployee?.professionalDetails?.dateOfJoin || '',
-        endOfProbation:editingEmployee?.professionalDetails?.endOfProbation || ''
+        dateOfJoining: editingEmployee?.professionalDetails?.dateOfJoin || '',
+        endOfProbation: editingEmployee?.professionalDetails?.endOfProbation || '',
+        dateEffective: "",
+        jobPosition: "",
+        lineManager: "",
+        department: "",
+        branch: editingEmployee?.professionalDetails?.endOfProbation || '',
+        level: editingEmployee?.professionalDetails?.level?.name,
+        jobType: editingEmployee?.professionalDetails?.jobType || '',
+        leaveFlow: "",
+        workday: "",
+        holiday: "",
 
       });
     }
@@ -194,8 +227,8 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
       console.log("proffff:", response);
       setResponseProffID(response.data.id)
       console.log("ProfID", response.data.id);
-      setIds((prevIds) => ({...prevIds, ["profId"]: response.data.id}));
-      console.log('nnmmmm',ids)
+      setIds((prevIds) => ({ ...prevIds, ["profId"]: response.data.id }));
+      console.log('nnmmmm', ids)
 
     });
   };
@@ -222,7 +255,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
             <div className="">
               <div className="">
                 <h3 className="text-[20px] font-medium">
-                  Professional Details
+                  Professional Details {editingEmployee?.professionalDetails?.level?.name}
                 </h3>
               </div>
               <div className=" border-b border-[#E6E6E7] w-auto items-center justify-center mt-[16px] mx-auto"></div>
@@ -343,14 +376,18 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
                     onChange={handleChange}
                     className="w-[247px] focus:outline-[#A4A4E5] px-[16px] py-[14px] h-[48px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] font-normal"
                   >
-                    <option >Select Your Job Type</option>
-                    {jobTypes.map((type) => (
-                      <option key={type.id} value={type.value}>
-                        {type.name}
-                      </option>
-                    ))}
+                    <option value="" >Select Your Job Type</option>
+                    <option value="FULL_TIME">Full Time</option>
+                    <option value="PART_TIME">Part Time</option>
+                    <option value="CONTRACT">Contract</option>
+                    <option value="INTERN">Intern</option>
                   </select>
                 </div>
+
+                {/* { id: 1, name: "Full Time", value: "FULL_TIME" },
+                     { id: 2, name: "Part Time", value: "PART_TIME" },
+                     { id: 3, name: "Contract", value: "CONTRACT" },
+                     { id: 4, name: "Intren", value: "INTERN" }, */}
 
                 <div className="ml-[16px]">
                   <label className="block text-sm font-normal text-[#373737]">
@@ -388,8 +425,8 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
           </div>
         </div>
       ) : (
-        <SalaryDetailsForm setShowSalaryForm={setShowSalaryForm} 
-         editingEmployee={editingEmployee}
+        <SalaryDetailsForm setShowSalaryForm={setShowSalaryForm}
+          editingEmployee={editingEmployee}
           ids={ids}
           setIds={setIds}
         />
