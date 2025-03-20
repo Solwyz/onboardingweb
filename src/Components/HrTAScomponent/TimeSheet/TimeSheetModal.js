@@ -188,12 +188,7 @@ function TimeSheetModal({
         {
           id: id,
           date: formData.date,
-          project: {
-            id: formData.project,
-          },
-          employee: {
-            id: formData.employeeName,
-          },
+          
           task: formData.task,
           description: formData.description,
           duration: formData.hour + ":" + formData.minute,
