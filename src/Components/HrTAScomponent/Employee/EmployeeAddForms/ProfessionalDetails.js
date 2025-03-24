@@ -10,38 +10,18 @@ console.log("token:", token);
 
 function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, setIds }) {
 
-  useEffect(() => {
-    console.log('profEditEmployee', editingEmployee);
-    {
-      editingEmployee.professionalDetails &&
-        setFormData({
-          dateOfJoining: editingEmployee?.professionalDetails?.dateOfJoin || '',
-          endOfProbation: editingEmployee?.professionalDetails?.endOfProbation || '',
-          dateEffective: "",
-          jobPosition: "",
-          lineManager: "",
-          department: "",
-          branch: editingEmployee?.professionalDetails?.endOfProbation || '',
-          level: editingEmployee?.professionalDetails?.level?.name || '',
-          jobType: editingEmployee?.professionalDetails?.jobType || '',
-          leaveFlow: "",
-          workday: "",
-          holiday: "",
-        })
-    }
-  }, [])
 
   const [showSalaryForm, setShowSalaryForm] = useState(false);
   const [formData, setFormData] = useState({
-    dateOfJoining: editingEmployee?.professionalDetails?.dateOfJoin || '',
-    endOfProbation: editingEmployee?.professionalDetails?.endOfProbation || '',
+    dateOfJoining: "",
+    endOfProbation: "",
     dateEffective: "",
     jobPosition: "",
     lineManager: "",
     department: "",
-    branch: editingEmployee?.professionalDetails?.endOfProbation || '',
-    level: editingEmployee?.professionalDetails?.level?.name || '',
-    jobType: editingEmployee?.professionalDetails?.jobType || '',
+    branch: "",
+    level: "",
+    jobType: "",
     leaveFlow: "",
     workday: "",
     holiday: "",
@@ -61,12 +41,12 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
 
   const holidays = [{ id: 1, name: "INDIAN" }];
 
-  const jobTypes = [
-    { id: 1, name: "Full Time", value: "FULL_TIME" },
-    { id: 2, name: "Part Time", value: "PART_TIME" },
-    { id: 3, name: "Contract", value: "CONTRACT" },
-    { id: 4, name: "Intren", value: "INTERN" },
-  ];
+  // const jobTypes = [
+  //   { id: 1, name: "Full Time", value: "FULL_TIME" },
+  //   { id: 2, name: "Part Time", value: "PART_TIME" },
+  //   { id: 3, name: "Contract", value: "CONTRACT" },
+  //   { id: 4, name: "Intren", value: "INTERN" },
+  // ];
   const [maxDate, setMaxDate] = useState(() => {
     const today = new Date();
     const year = today.getFullYear() - 18;
@@ -75,34 +55,64 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
     return `${year}-${month}-${day}`;
   });
 
-  // Fetch line managers from /api/employee
   useEffect(() => {
-    console.log("editttttzz", editingEmployee);
-    console.log("profForm", formData)
+    console.log('profEditEmployee', editingEmployee);
+    console.log('FormDataiszz', formData);
+
+    const joinDateArray = editingEmployee?.professionalDetails?.dateOfJoining || ['0000', '00', '00'];
+    const joinDate = new Date(joinDateArray[0], joinDateArray[1] - 1, joinDateArray[2])
+      .toISOString()
+      .split('T')[0];
+
+    const today = new Date();
+    const year = today.getFullYear() - 18;
+    const month = `0${today.getMonth() + 1}`.slice(-2);
+    const day = `0${today.getDate()}`.slice(-2);
+    setMaxDate(`${year}-${month}-${day}`);
+
+    console.log('oldDateeJoin', joinDateArray)
+    console.log('new joinDateeee', joinDate);
+
+
+
+    const probationDateArray = editingEmployee?.professionalDetails?.endOfProbation || ['0000', '00', '00'];
+    const probationDate = new Date(probationDateArray[0], probationDateArray[1] - 1, probationDateArray[2])
+      .toISOString()
+      .split('T')[0];
+    console.log('oldDateeprobation', probationDateArray)
+    console.log('new probationDateeee', probationDate);
+    const dateEffectiveArray = editingEmployee?.professionalDetails?.dateEffective || ['0000', '00', '00'];
+    const dateEfective = new Date(dateEffectiveArray[0], dateEffectiveArray[1] - 1, dateEffectiveArray[2])
+      .toISOString()
+      .split('T')[0];
 
     {
-      editingEmployee.ProfessionalDetails && setFormData({
-        dateOfJoining: editingEmployee?.professionalDetails?.dateOfJoin || '',
-        endOfProbation: editingEmployee?.professionalDetails?.endOfProbation || '',
-        dateEffective: "",
-        jobPosition: "",
-        lineManager: "",
-        department: "",
-        branch: editingEmployee?.professionalDetails?.endOfProbation || '',
-        level: editingEmployee?.professionalDetails?.level?.name,
-        jobType: editingEmployee?.professionalDetails?.jobType || '',
-        leaveFlow: "",
-        workday: "",
-        holiday: "",
-
-      });
+      editingEmployee.professionalDetails &&
+        setFormData({
+          dateOfJoining: editingEmployee ? joinDate : '',
+          endOfProbation: editingEmployee ? probationDate : '',
+          dateEffective: editingEmployee? dateEfective:'',
+          jobPosition: "",
+          lineManager: "",
+          department: "",
+          branch: editingEmployee?.professionalDetails?.branch.id || '',
+          level: editingEmployee?.professionalDetails?.level?.id || '',
+          jobType: editingEmployee?.professionalDetails?.jobType || '',
+          leaveFlow: "",
+          workday: "",
+          holiday: editingEmployee?.professionalDetails?.holidayCycle || '',
+        })
     }
 
+  }, [])
+
+
+  // Fetch line managers from /api/employee
+  useEffect(() => {
     Api.get("api/employee/api/employees/active", {
       Authorization: `Bearer ${token}`,
     }) // Fetch line managers from this endpoint
       .then((response) => {
-        console.log("empl", response.data);
         setLineManagers(response.data); // Assuming response.data is an array of line managers
       })
       .catch((error) => {
@@ -116,7 +126,6 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
       Authorization: `Bearer ${token}`,
     }) // Fetch line managers from this endpoint
       .then((response) => {
-        console.log("level", response.data);
         setLevels(response.data.content); // Assuming response.data is an array of line managers
       })
       .catch((error) => {
@@ -130,8 +139,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
       Authorization: `Bearer ${token}`,
     })
       .then((response) => {
-        console.log("bran", response.data);
-        setFormData(response.data.formData || {});
+        // setFormData(response.data.formData || {});
         setBranches(response.data.content || []);
         setLoading(false);
       })
@@ -142,22 +150,22 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
       });
   }, []);
   // Check if all required fields are valid and filled
-  useEffect(() => {
-    // console.log('klklll', formData)
-    const isValid =
-      formData.dateOfJoin &&
-      formData.endOfProbation &&
-      new Date(formData.endOfProbation) > new Date(formData.dateOfJoin) &&
-      formData.dateEffective &&
-      new Date(formData.dateEffective) >= new Date(formData.dateOfJoin) &&
-      formData.lineManager !== "Select Your Line Manager" &&
-      formData.branch !== "Select Your Branch" &&
-      formData.level !== "Select Your Level" &&
-      formData.jobType !== "Select Your Job Type" &&
-      formData.holiday !== "Select Your Holiday Location";
+  // useEffect(() => {
+  //   // console.log('klklll', formData)
+  //   const isValid =
+  //     formData.dateOfJoin &&
+  //     formData.endOfProbation &&
+  //     new Date(formData.endOfProbation) > new Date(formData.dateOfJoin) &&
+  //     formData.dateEffective &&
+  //     new Date(formData.dateEffective) >= new Date(formData.dateOfJoin) &&
+  //     formData.lineManager !== "Select Your Line Manager" &&
+  //     formData.branch !== "Select Your Branch" &&
+  //     formData.level !== "Select Your Level" &&
+  //     formData.jobType !== "Select Your Job Type" &&
+  //     formData.holiday !== "Select Your Holiday Location";
 
-    setIsButtonEnabled(isValid);
-  }, [formData]);
+  //   setIsButtonEnabled(isValid);
+  // }, [formData]);
 
   // Restrict future date selection for dateOfJoin
   const todayDate = new Date().toISOString().split("T")[0];
@@ -169,7 +177,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
     if (name === "dateOfJoin") {
       setFormData((prevData) => ({
         ...prevData,
-        dateOfJoin: value,
+        dateOfJoining: value,
         endOfProbation: "",
         dateEffective: "",
       }));
@@ -224,11 +232,8 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
         Authorization: `Bearer ${token}`,
       }
     ).then((response) => {
-      console.log("proffff:", response);
       setResponseProffID(response.data.id)
-      console.log("ProfID", response.data.id);
       setIds((prevIds) => ({ ...prevIds, ["profId"]: response.data.id }));
-      console.log('nnmmmm', ids)
 
     });
   };
@@ -255,7 +260,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
             <div className="">
               <div className="">
                 <h3 className="text-[20px] font-medium">
-                  Professional Details {editingEmployee?.professionalDetails?.level?.name}
+                  Professional Details
                 </h3>
               </div>
               <div className=" border-b border-[#E6E6E7] w-auto items-center justify-center mt-[16px] mx-auto"></div>
@@ -268,7 +273,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
                   <input
                     type="date"
                     name="dateOfJoin"
-                    value={formData?.dateOfJoin || ""}
+                    value={formData?.dateOfJoining || ""}
                     onChange={handleChange}
                     max={todayDate}
                     className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-[#A4A4E5] font-normal"
