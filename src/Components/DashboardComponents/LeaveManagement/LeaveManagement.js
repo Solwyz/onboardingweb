@@ -22,7 +22,7 @@ function LeaveManagement() {
   const [apiError, setApiError] = useState("");
 
   const token = localStorage.getItem("token");
-  console.log("token:", token)
+  console.log("token:", token);
 
   // Fetch Leave History and Balances
   useEffect(() => {
@@ -32,9 +32,12 @@ function LeaveManagement() {
       return;
     }
 
-    Api.get("api/leaveRequest/employee/7f000101-9522-1246-8195-88c755e50104/leave-requests", {
-      'Authorization': `Bearer ${token}`
-    })
+    Api.get(
+      "api/leaveRequest/employee/7f000101-9522-1246-8195-88c755e50104/leave-requests",
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    )
       .then((response) => {
         console.log("API for leave man:", response.data.data);
         setLeaveHistory(response.data.data || []);
@@ -44,7 +47,9 @@ function LeaveManagement() {
       .catch((error) => {
         if (error.response?.status === 401) {
           console.error("Unauthorized. Please check your token.");
-          setApiError("Unauthorized access. Please check your login credentials.");
+          setApiError(
+            "Unauthorized access. Please check your login credentials."
+          );
         } else {
           console.error("Error fetching leave data:", error);
           setApiError("Unable to fetch leave data. Please try again later.");
@@ -67,59 +72,69 @@ function LeaveManagement() {
 
   // Handle Leave Form Submission
   const handleFormSubmit = (e) => {
+    const applicationDate = new Date().toISOString(); 
     // e.preventDefault();
-  
+
     // Validate form data
-    if (!formData.leaveType || !formData.startDate || !formData.endDate || !formData.reason || !formData.reportingManager) {
+    if (
+      !formData.leaveType ||
+      !formData.startDate ||
+      !formData.endDate ||
+      !formData.reason ||
+      !formData.reportingManager
+    ) {
       console.error("All fields are required.");
       return;
     }
-  
+
     // Check if startDate is before endDate
     if (new Date(formData.startDate) >= new Date(formData.endDate)) {
       console.error("Start date must be before end date.");
       return;
     }
-  
+
     // Log the request data
     console.log("Request Data:", {
       employee: {
-        id: "7f000101-9519-152a-8195-1d0e18fd00de"
+        id: "7f000101-9519-152a-8195-1d0e18fd00de",
       },
       startDate: formData.startDate,
       endDate: formData.endDate,
       reason: formData.reason,
       leaveType: formData.leaveType,
-      reportingManager: formData.reportingManager
+      reportingManager: formData.reportingManager,
     });
-  
+
     // Proceed with API call
     Api.post(
       "api/leaveRequest",
       {
         employee: {
-          id: "7f000101-9522-1246-8195-88c755e50104"
+          id: "7f000101-9522-1246-8195-88c755e50104",
         },
         startDate: formData.startDate,
         endDate: formData.endDate,
         reason: formData.reason,
         leaveType: formData.leaveType,
-        reportingManager: formData.reportingManager
+        reportingManager: formData.reportingManager,
       },
       {
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       }
     )
-    .then((response) => {
-      console.log("Leave request submitted successfully:", response);
-      // Handle success
-    })
-    .catch((error) => {
-      console.error("Error applying leave:", error.response?.data || error.message);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-      }
-    });
+      .then((response) => {
+        console.log("Leave request submitted successfully:", response);
+        // Handle success
+      })
+      .catch((error) => {
+        console.error(
+          "Error applying leave:",
+          error.response?.data || error.message
+        );
+        if (error.response) {
+          console.error("Response data:", error.response.data);
+        }
+      });
   };
 
   // Today's date for date inputs
@@ -136,6 +151,20 @@ function LeaveManagement() {
     setIsFormValid(isValid);
   }, [formData]);
 
+  const calculateDaysBetween = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const timeDiff = end - start; // Difference in milliseconds
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert to days
+    return daysDiff + 1; // Include both start and end dates
+  };
+  const getCurrentDate = () => {
+    return new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }).format(new Date());
+  };
   return (
     <div className="p-6 h-screen">
       {/* Header */}
@@ -179,14 +208,14 @@ function LeaveManagement() {
       </div>
 
       {/* Error Display */}
-      {apiError && (
-        <div className="text-red-600 text-sm mt-4">{apiError}</div>
-      )}
+      {apiError && <div className="text-red-600 text-sm mt-4">{apiError}</div>}
 
       {/* Leave Form or History */}
       {showForm ? (
         <div className="bg-white p-4 mt-4">
-          <h2 className="text-center text-[24px] font-medium">Apply for Leave</h2>
+          <h2 className="text-center text-[24px] font-medium">
+            Apply for Leave
+          </h2>
           <form onSubmit={handleFormSubmit}>
             {/* Leave Type */}
             <div className="mt-6">
@@ -265,7 +294,6 @@ function LeaveManagement() {
                 value={formData.reportingManager}
                 onChange={handleFormChange}
                 className="w-[500px] h-[48px] focus:outline-[#A4A4E5] mt-4 rounded-lg text-sm text-[#696A70] font-normal border border-[#E6E6E7] px-3 py-2"
-
                 required
               />
             </div>
@@ -275,8 +303,11 @@ function LeaveManagement() {
               <button
                 type="submit"
                 disabled={!isFormValid}
-                className={`w-[118px] h-[48px] rounded-lg text-center text-white text-sm font-normal ${isFormValid ? "bg-[#2B2342]" : "bg-gray-400 cursor-not-allowed"
-                  }`}
+                className={`w-[118px] h-[48px] rounded-lg text-center text-white text-sm font-normal ${
+                  isFormValid
+                    ? "bg-[#2B2342]"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
               >
                 Submit
               </button>
@@ -291,7 +322,7 @@ function LeaveManagement() {
           </form>
         </div>
       ) : (
-        <div className='mt-14'>
+        <div className="mt-14">
           <h2 className="text-[16px] font-normal">Leave History</h2>
 
           <div className="bg-white h-screen p-6">
@@ -300,36 +331,81 @@ function LeaveManagement() {
                 <table className="min-w-full bg-white rounded-lg">
                   <thead className="bg-[#465062] p-4 text-center font-normal text-sm text-white">
                     <tr className="w-full">
-                      <th className="p-4 text-left font-normal text-sm">Date</th>
-                      <th className="p-4 text-left font-normal text-sm">Leave Type</th>
-                      <th className="p-4 text-left font-normal text-sm">From</th>
+                      <th className="p-4 text-left font-normal text-sm">
+                        Date
+                      </th>
+                      <th className="p-4 text-left font-normal text-sm">
+                        Leave Type
+                      </th>
+                      <th className="p-4 text-left font-normal text-sm">
+                        From
+                      </th>
                       <th className="p-4 text-left font-normal text-sm">To</th>
-                      <th className="p-4 text-left font-normal text-sm">Days</th>
-                      <th className="p-4 text-left font-normal text-sm">Status</th>
+                      <th className="p-4 text-left font-normal text-sm">
+                        Days
+                      </th>
+                      <th className="p-4 text-left font-normal text-sm">
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="text-[#373737]">
                     {leaveHistory.map((leave, index) => (
-                      <tr key={index} className={index % 2 === 0 ? 'bg-white text-sm' : 'bg-gray-100 text-sm'}>
-                        <td className="p-4 text-left font-normal text-sm">{leave.leaveType}</td>
-                        <td className="p-4 text-left font-normal text-sm">{leave.leaveType}</td>
-                        <td className="p-4 text-left font-normal text-sm">{leave.startDate}</td>
-                        <td className="p-4 text-left font-normal text-sm">{leave.endDate}</td>
-                        <td className="p-4 text-left font-normal text-sm">{leave.days}</td>
-                        <td className={`p-4 text-left font-normal text-sm ${leave.status === "APPROVED"
-                          ? "text-green-500"
-                          : leave.status === "REJECTED"
-                            ? "text-red-500"
-                            : "text-orange-500"
+                      <tr
+                        key={index}
+                        className={
+                          index % 2 === 0
+                            ? "bg-white text-sm"
+                            : "bg-gray-100 text-sm"
+                        }
+                      >
+                        <td className="p-4 text-left font-normal text-sm">
+                        {getCurrentDate()}
+                        </td>
+                        <td className="p-4 text-left font-normal text-sm">
+                          {leave.leaveType}
+                        </td>
+                        <td className="p-4 text-left font-normal text-sm">
+                          {new Date(leave.startDate).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )}
+                        </td>
+                        <td className="p-4 text-left font-normal text-sm">
+                          {new Date(leave.endDate).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          })}
+                        </td>
+
+                        <td className="p-4 text-left font-normal text-sm">
+                          {" "}
+                          {calculateDaysBetween(leave.startDate, leave.endDate)}
+                        </td>
+                        <td
+                          className={`p-4 text-left font-normal text-sm ${
+                            leave.status === "APPROVED"
+                              ? "text-green-500"
+                              : leave.status === "REJECTED"
+                              ? "text-red-500"
+                              : "text-orange-500"
                           }`}
-                        >{leave.status ? leave.status : 'PENDING'}</td>
+                        >
+                          {leave.status ? leave.status : "PENDING"}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-
               ) : (
-                <p className="text-center text-gray-500 mt-4">No leave history available.</p>
+                <p className="text-center text-gray-500 mt-4">
+                  No leave history available.
+                </p>
               )}
             </div>
           </div>
