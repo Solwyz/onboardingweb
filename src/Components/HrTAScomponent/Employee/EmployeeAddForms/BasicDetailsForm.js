@@ -24,6 +24,7 @@ function BasicDetailsForm({ editingEmployee }) {
       .toISOString()
       .split('T')[0]; // Convert to YYYY-MM-DD
 
+      console.log('old datee array',dateArray)
     console.log('new dateeee',formattedDate); // Output: "2024-02-21"
 
     const today = new Date();
