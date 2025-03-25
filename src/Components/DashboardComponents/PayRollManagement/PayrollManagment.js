@@ -211,13 +211,13 @@ const AdminPayrollForm = () => {
   }, [])
 
   return (
-    <div className="p-6 w-full mx-auto bg-white shadow-lg rounded-lg">
+    <div className="p-6 w-full mx-auto  h-screen  shadow-lg rounded-lg">
 
       {!showPayrollForm ?
-        <div>
+        <div className="h-screen">
           <h1 className="text-[20px] font-medium mb-6">Payroll Management</h1>
 
-          <table className='min-w-full bg-white rounded-lg'>
+          <table className='min-w-full  bg-white rounded-lg'>
             <thead className="bg-[#465062] p-4 text-center font-normal text-sm text-white">
               <tr className='w-full'>
                 <th className="p-4 text-center font-normal text-sm rounded-tl-lg">S No.</th>
