@@ -31,7 +31,7 @@ function Document() {
   });
 
   const filteredDocuments = documentsData.filter((document) =>
-    document.documentType.toLowerCase().includes(searchTerm.toLowerCase())
+    document.documentType?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const decodeHexToUrl = (hexString) => {
@@ -170,11 +170,14 @@ function Document() {
       {
         title: formData.title,
         message: formData.description,
-        format: formData.format,
-        maxSize: formData.maxSize,
         employee: {
           id: formData.employeeName,
         },
+        documentTypes: [
+          formData.format
+        ],
+        requestStatus: "PENDING",
+        maxSize: formData.maxSize,
       },
       {
         Authorization: `Bearer ${token}`,
@@ -444,7 +447,7 @@ function Document() {
                       htmlFor="format"
                       className="block text-sm text-[#373737] font-normal"
                     >
-                      Format
+                      Document Type
                     </label>
                     <input
                       type="text"

@@ -181,7 +181,7 @@ function Header() {
                 <img src={LogoutIcon} alt="Logout" className="mr-2" />
                 Log out
               </button>
-              <button
+              {/* <button
                 onClick={handleTasClick}
                 className="flex items-center px-4 py-2 w-full text-left hover:bg-gray-100"
               >
@@ -194,7 +194,7 @@ function Header() {
               >
                 <img src={LogoutIcon} alt="Logout" className="mr-2" />
                 HR-Module
-              </button>
+              </button> */}
             </div>
           )}
         </div>
