@@ -9,7 +9,6 @@ function SignUpPage() {
   const [isVerified, setIsVerified] = useState(false);
   const [formData, setFormData] = useState({
     companyName: "",
-    branchName: "",
     companyAddress1: "",
     companyAddress2: "",
     phoneNumber: "",
@@ -34,11 +33,11 @@ function SignUpPage() {
           error = "Company name is required!";
         }
         break;
-      case "branchName":
-        if (!value.trim()) {
-          error = "Branch name is required!";
-        }
-        break;
+      // case "branchName":
+      //   if (!value.trim()) {
+      //     error = "Branch name is required!";
+      //   }
+      //   break;
       case "companyAddress1":
         if (!value.trim()) {
           error = "Company address is required!";
@@ -135,7 +134,7 @@ function SignUpPage() {
   const checkFormValidity = () => {
     const hasErrors = Object.keys(errors).some((key) => errors[key]);
     const allFieldsFilled = Object.values(formData).every(
-      (value, index) => index === 8 || value.trim() !== "" // Excluding incomeCertificate (index 8)
+      (value, index) => index === 7 || value.trim() !== "" // Excluding incomeCertificate (index 8)
     );
 
     setIsFormValid(!hasErrors && allFieldsFilled);
@@ -160,19 +159,17 @@ function SignUpPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('aaa', formData)
-    Api.post('api/auth/signup',{
+    Api.post('api/auth/signup', {
       "companyName": formData.companyName,
       "mobileNumber": formData.phoneNumber,
       "email": formData.email,
-      "password": formData.password,
-      "branch": {
-        "id": formData.branchName
-      }
+      "password": formData.password
+
     }).then(response => {
-      if(response && response.data) {
-        console.log('signup resp:',response.data)
+      if (response && response.data) {
+        console.log('signup resp:', response.data)
         Api.get(`api/auth/resendVerifyEmail?email=${formData.email}`)
-        .then(response => console.log('verifyemail respp:', response))
+          .then(response => console.log('verifyemail respp:', response))
       } else {
         console.error('Failed to signup, try again.', response)
       }
@@ -185,7 +182,6 @@ function SignUpPage() {
       console.log("Income certificate:", formData.incomeCertificate);
       setFormData({
         companyName: "",
-        branchName: "",
         companyAddress1: "",
         companyAddress2: "",
         phoneNumber: "",
@@ -202,6 +198,16 @@ function SignUpPage() {
 
   const handleOtpVerify = () => {
     console.log("Verifying OTP:", otp);
+    Api.post('api/auth/verifyotp', {
+      "mobileNumber": formData.phoneNumber,
+      "otp": otp
+    }).then(response => {
+      if(response && response.data) {
+        console.log('OTP resp', response)
+      } else {
+        console.error('OTP verification failed', response)
+      }
+    })
     navigate("/");
   };
 
@@ -276,7 +282,7 @@ function SignUpPage() {
                   </div>
                 ))}
 
-                <div>
+                {/* <div>
                   <label className="block text-gray-700 text-sm font-medium mb-2">
                     Branch Name:
                   </label>
@@ -298,7 +304,7 @@ function SignUpPage() {
                       {errors.branchName}
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
 
               {/* Row 2: Company Address 1 and 2 */}

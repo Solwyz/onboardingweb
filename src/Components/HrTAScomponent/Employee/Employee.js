@@ -20,6 +20,7 @@ function Employee() {
   const [showEmployeeDetails, setShowEmployeeDetails] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null)
   const [deleteId, setDeleteId] = useState(null);
+  const [teams, setTeams] = useState([]);
 
   const handleApiError = (error, customMessage = "An error occurred while fetching data.") => {
     console.error("API Error:", error);
@@ -64,6 +65,21 @@ function Employee() {
 
   // Fetch employees from the API
   useEffect(() => {
+    {selectedOption ? 
+      Api.get(`api/employee/team/${selectedOption}`, {
+        'Authorization': `Bearer ${token}`
+      })
+
+      .then((response) => {
+        if(response && response.data) {
+          console.log('team filtr resp',response.data.employees)
+          setEmployees(response.data.employees);
+        } else {
+          console.error('Error fetching filtered employees')
+        }
+        
+      })
+      :
     Api.get('api/employee/api/employees/active', {
       'Authorization': `Bearer ${token}`
     })
@@ -74,9 +90,12 @@ function Employee() {
       })
       .catch((error) => {
         handleApiError(error, "Failed to fetch employees. Please try again later.");
-      });
+      })
+      
+     
+    }
 
-  }, []);
+  }, [selectedOption]);
 
   const handleEmployeeClick = (employee) => {
     setSelectedEmployee(employee);
@@ -183,6 +202,21 @@ function Employee() {
     return matchesSearch && matchesCategory;
   });
 
+
+  useEffect(() => {
+    Api.get('api/teams', {
+      'Authorization': `Bearer ${token}`
+    })
+    .then((response) => {
+      if(response && response.data){
+        console.log('Teams fetch', response.data.content)
+        setTeams(response.data.content)
+      } else {
+        console.error('Error Fetching teams')
+      }
+    })
+  }, [])
+
   return (
     <div className="p-6">
       {!showEmployeeDetails ? (
@@ -208,25 +242,24 @@ function Employee() {
                   placeholder="Search Employee"
                   className="border px-[16px] py-[15px] rounded-lg w-[584px] h-[48px] focus:outline-none text-[#696A70] text-sm font-normal border-[#E6E6E7]"
                 />
-                {/* <select
+                <select
                   value={categoryFilter}
                   onChange={handleCategoryChange}
                   className="ml-4 w-[160px] h-[48px] border px-4 py-[7px] focus:outline-none text-sm text-[#696A70] rounded-lg"
                 >
-                  <option value="Role">Role</option>
-                  <option value="Department">Department</option>
-                  <option value="Location">Location</option>
-                </select> */}
-                {/* <select
+                  <option value="Role">Team</option>
+
+                </select>
+                <select
                   value={selectedOption}
                   onChange={(e) => setSelectedOption(e.target.value)}
                   className="ml-4 w-[160px] h-[48px] border px-4 py-[7px] focus:outline-none text-sm text-[#696A70] rounded-lg"
                 >
-                  <option value="">Select {categoryFilter}</option>
-                  {getOptionsForCategory().map((option, index) => (
-                    <option key={index} value={option}>{option}</option>
+                  <option value="">Select Team</option>
+                  {teams.map((team, index) => (
+                    <option key={index} value={team.id}>{team.name}</option>
                   ))}
-                </select> */}
+                </select>
               </div>
 
               <div className="overflow-x-auto mt-[16px] rounded-t-lg">
@@ -244,7 +277,7 @@ function Employee() {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredEmployees?.map((employee, index) => (
+                    {employees?.map((employee, index) => (
                       <tr key={employee.id}
 
                         onClick={() => handleEmployeeClick(employee)}

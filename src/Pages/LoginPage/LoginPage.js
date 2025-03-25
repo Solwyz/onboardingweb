@@ -23,7 +23,7 @@ function LoginPage() {
 
   useEffect(() => {
     // Check if both phone number and password are filled and valid
-    if (phoneNumber.length === 10 && password !== "") {
+    if (phoneNumber.length > 1 && password !== "") {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
@@ -61,8 +61,8 @@ function LoginPage() {
             navigate("/superadmin")
           } else if (decodeJWT(response.data.jwt).userDetails?.userName === 'hrtas') {
             navigate("/hrtas")
-          } else if (decodeJWT(response.data.jwt).userDetails?.userName === 'hrm') {
-            navigate("/hrm") 
+          } else if (decodeJWT(response.data.jwt).userDetails?.userName === 'hr') {
+            navigate("/hr") 
           } else if (decodeJWT(response.data.jwt).userDetails?.userName === 'solwyzuser') {
             navigate("/superadmin") 
           } else {
