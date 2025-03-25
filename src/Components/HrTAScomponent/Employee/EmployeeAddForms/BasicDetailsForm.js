@@ -4,7 +4,8 @@ import bar1 from "../../../../Assets/HrTas/employeeForms/form1.png";
 import tickIcon from "../../../../Assets/HrTas/check.svg";
 import ProfessionalDetails from "./ProfessionalDetails";
 import NewProgressive from "./NewProgressive";
-
+import image from '../../../../Assets/hrm/account_circle.svg';
+import PhotoUpload from '../../../../Assets/hrm/photo_upload.svg';
 const token = localStorage.getItem("token");
 console.log("Token:", token);
 
@@ -12,6 +13,7 @@ function BasicDetailsForm({ editingEmployee }) {
   const [maxDate, setMaxDate] = useState("");
   const [designations, setDesignations] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const [photoPreview, setPhotoPreview] = useState(null);
 
   const [ids, setIds] = useState({})
   const [responseBasicID, setResponseBasicID] = useState(null)
@@ -19,13 +21,13 @@ function BasicDetailsForm({ editingEmployee }) {
   useEffect(() => {
     console.log("bbemppppp,", editingEmployee);
     console.log('datttttee', editingEmployee?.basicDetails?.dateOfBirth);
-    const dateArray = editingEmployee?.basicDetails?.dateOfBirth || ['0000','00','00'];
+    const dateArray = editingEmployee?.basicDetails?.dateOfBirth || ['0000', '00', '00'];
     const formattedDate = new Date(dateArray[0], dateArray[1] - 1, dateArray[2]) // Month is 0-based
       .toISOString()
       .split('T')[0]; // Convert to YYYY-MM-DD
 
-      console.log('old datee array',dateArray)
-    console.log('new dateeee',formattedDate); // Output: "2024-02-21"
+    console.log('old datee array', dateArray)
+    console.log('new dateeee', formattedDate); // Output: "2024-02-21"
 
     const today = new Date();
     const year = today.getFullYear() - 18;
@@ -51,13 +53,27 @@ function BasicDetailsForm({ editingEmployee }) {
     }
   }, []);
 
+  const handlePhotoUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setFormData((prev) => ({
+        ...prev,
+        image: file,
+      }))
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   useEffect(() => {
     // Fetch designations
     Api.get("api/designation", {
       Authorization: `Bearer ${token}`,
     })
       .then((response) => {
-        console.log("bbbb", response);
         setDesignations(response.data.content);
       })
       .catch((error) => {
@@ -69,7 +85,6 @@ function BasicDetailsForm({ editingEmployee }) {
       Authorization: `Bearer ${token}`,
     })
       .then((response) => {
-        console.log("ccceee", response);
         setDepartments(response.data.content);
       })
       .catch((error) => {
@@ -94,6 +109,7 @@ function BasicDetailsForm({ editingEmployee }) {
     designation: "",
     department: "",
     email: "",
+    image: null,
   });
 
   useEffect(() => {
@@ -107,6 +123,7 @@ function BasicDetailsForm({ editingEmployee }) {
       designation,
       department,
       email,
+      image,
     } = formData;
 
     const isValid =
@@ -254,62 +271,95 @@ function BasicDetailsForm({ editingEmployee }) {
             <div className="text-[20px] font-medium border-b pb-4">
               Basic Details
             </div>
+            <div className="flex justify-between">
 
-            <div className="flex gap-4 text-[#373737]">
-              <div className="mt-6">
-                <div className="text-[14px]">First Name</div>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleFormChange}
-                  className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
-                />
-                {errors.firstName && (
-                  <div className="text-red-500 text-sm mt-1">
-                    {errors.firstName}
+              <div>
+                <div className="flex gap-4 text-[#373737]">
+                  <div className="mt-6">
+                    <div className="text-[14px]">First Name</div>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleFormChange}
+                      className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
+                    />
+                    {errors.firstName && (
+                      <div className="text-red-500 text-sm mt-1">
+                        {errors.firstName}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              <div className="mt-6">
-                <div className="text-[14px]">Last Name</div>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleFormChange}
-                  className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
-                />
-              </div>
-            </div>
+                  <div className="mt-6">
+                    <div className="text-[14px]">Last Name</div>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleFormChange}
+                      className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
+                    />
+                  </div>
+                </div>
 
-            <div className="flex gap-4 text-[#373737]">
-              <div className="mt-6">
-                <div className="text-[14px]">Gender</div>
-                <select
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleFormChange}
-                  className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
-                >
-                  <option value="">Select Gender</option>
-                  <option value="MALE">Male</option>
-                  <option value="FEMALE">Female</option>
-                  <option value="OTHERS">Others</option>
-                </select>
+                <div className="flex gap-4 text-[#373737]">
+                  <div className="mt-6">
+                    <div className="text-[14px]">Gender</div>
+                    <select
+                      name="gender"
+                      value={formData.gender}
+                      onChange={handleFormChange}
+                      className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="MALE">Male</option>
+                      <option value="FEMALE">Female</option>
+                      <option value="OTHERS">Others</option>
+                    </select>
+                  </div>
+                  <div className="mt-6">
+                    <div className="text-[14px]">Nationality</div>
+                    <select
+                      name="nationality"
+                      value={formData.nationality}
+                      onChange={handleFormChange}
+                      className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
+                    >
+                      <option disabled value="">Select Nationality</option>
+                      <option value="INDIAN">Indian</option>
+                      <option value="UAE">UAE</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div className="mt-6">
-                <div className="text-[14px]">Nationality</div>
-                <select
-                  name="nationality"
-                  value={formData.nationality}
-                  onChange={handleFormChange}
-                  className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
-                >
-                  <option disabled value="">Select Nationality</option>
-                  <option value="INDIAN">Indian</option>
-                  <option value="UAE">UAE</option>
-                </select>
+
+              <div className='h-fit mt-6'>
+                <div className="flex flex-col items-center w-fit">
+                  {photoPreview ? (
+                    <img
+                      src={photoPreview}
+                      alt="Profile Preview"
+                      className="mb-2 w-[184px] h-[184px] object-cover"
+                    />
+                  ) : (
+                    <div className="mb-2 w-[184px] h-[184px] border border-dashed flex items-center justify-center bg-[#F5F5F5] text-gray-400">
+                      <span><img src={image} alt="" /></span>
+                    </div>
+                  )}
+
+                  <label htmlFor="photo-upload" className="mt-2 text-[#7386C3] text-[12px] font-normal flex cursor-pointer">
+                    <img className='mr-1' src={PhotoUpload} alt="" />
+                    Upload photo
+                  </label>
+
+                  <input
+                    id="photo-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handlePhotoUpload}
+                  />
+                </div>
               </div>
             </div>
 
