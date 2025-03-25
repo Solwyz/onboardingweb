@@ -49,66 +49,64 @@ function Document() {
   };
 
   const handleDocumentClick = (fileContent) => {
-    const fileUrl = decodeHexToUrl(fileContent);
+    if (!fileContent) {
+      alert("Invalid file content.");
+      return;
+    }
+
+    let fileUrl;
+
+    // If it's already a URL (Firebase storage URL), open directly
+    if (fileContent.startsWith("http")) {
+      fileUrl = fileContent;
+    } else {
+      // Convert hex to URL (assuming fileContent is a hex-encoded URL)
+      fileUrl = decodeHexToUrl(fileContent);
+    }
+
     if (fileUrl) {
+      // Open the document in a new tab
       window.open(fileUrl, "_blank");
     } else {
       alert("Invalid file URL.");
     }
   };
 
-  const handleDownload = (hexString, fileName = "downloaded_file") => {
-    try {
-      const hex = hexString.replace(/\\x/g, "");
-      const binaryData = new Uint8Array(
-        hex.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))
-      );
-
-      // Detect file type based on magic numbers
-      let mimeType = "application/octet-stream"; // Default binary file
-      if (binaryData[0] === 0x25 && binaryData[1] === 0x50) {
-        mimeType = "application/pdf";
-        fileName += ".pdf";
-      } else if (binaryData[0] === 0xff && binaryData[1] === 0xd8) {
-        mimeType = "image/jpeg";
-        fileName += ".jpg";
-      } else if (
-        binaryData[0] === 0x89 &&
-        binaryData[1] === 0x50 &&
-        binaryData[2] === 0x4e &&
-        binaryData[3] === 0x47
-      ) {
-        mimeType = "image/png";
-        fileName += ".png";
-      } else if (
-        binaryData[0] === 0x47 &&
-        binaryData[1] === 0x49 &&
-        binaryData[2] === 0x46
-      ) {
-        mimeType = "image/gif";
-        fileName += ".gif";
-      }
-
-      // Convert to Blob
-      const blob = new Blob([binaryData], { type: mimeType });
-
-      // Create a Download Link
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-
-      // Cleanup
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-
-      console.log("Download successful!");
-    } catch (error) {
-      console.error("Download error:", error);
-      alert("Download failed. Invalid file content.");
+  const handleDownload = (fileContent, fileName) => {
+    if (!fileContent) {
+      console.error("No file content provided");
+      alert("Download failed. No file content available.");
+      return;
     }
+  
+    let fileUrl;
+  
+    // Check if it's already a URL
+    if (fileContent.startsWith("http")) {
+      fileUrl = fileContent;
+    } else {
+      // Try to decode hex string to URL
+      fileUrl = decodeHexToUrl(fileContent);
+    }
+  
+    if (!fileUrl) {
+      console.error("Invalid file URL:", fileContent);
+      alert("Download failed. Invalid file URL.");
+      return;
+    }
+  
+    // Create a temporary anchor tag
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = fileName || fileUrl.split('/').pop();
+    link.rel = 'noopener noreferrer';
+    link.target = '_blank';
+    
+    // First try: Standard download
+    link.click();
+  
+    // Fallback: If still opening instead of downloading
+    
   };
 
   const toggleModal = () => {
@@ -125,9 +123,12 @@ function Document() {
       { Authorization: `Bearer ${token}` }
     ).then((response) => {
       setIsStatusUpdating(false);
-      setRefreshKey((prev) => prev + 1);
       if (response && response.data) {
-        console.log("stattttssAP:", response.data.data);
+        setDocumentsData((prevData) =>
+          prevData.map((doc) =>
+            doc.id === id ? { ...doc, status: "Approved" } : doc
+          )
+        );
       } else {
         console.log("Failed to Approve. Please try again.");
       }
@@ -144,9 +145,12 @@ function Document() {
       { Authorization: `Bearer ${token}` }
     ).then((response) => {
       setIsStatusUpdating(false);
-      setRefreshKey((prev) => prev + 1);
       if (response && response.data) {
-        console.log("statssssRj:", response.data.data);
+        setDocumentsData((prevData) =>
+          prevData.map((doc) =>
+            doc.id === id ? { ...doc, status: "Rejected" } : doc
+          )
+        );
       } else {
         console.log("Failed to Reject. Please try again.");
       }
@@ -173,9 +177,7 @@ function Document() {
         employee: {
           id: formData.employeeName,
         },
-        documentTypes: [
-          formData.format
-        ],
+        documentTypes: [formData.format],
         requestStatus: "PENDING",
         maxSize: formData.maxSize,
       },
@@ -342,13 +344,26 @@ function Document() {
                           </button>
                           <button
                             className="mr-4"
-                            onClick={() =>
-                              handleDownload(doc.fileContent, doc.documentType)
-                            }
+                            onClick={() => {
+                              console.log("Trying to download file:", doc);
+                              if (doc.fileContent) {
+                                handleDownload(
+                                  doc.fileContent,
+                                  doc.documentType
+                                );
+                              } else {
+                                console.error(
+                                  "File content is missing for document:",
+                                  doc
+                                );
+                                alert("Download unavailable. No file content.");
+                              }
+                            }}
                             title="Download"
                           >
                             <img src={downloadIco} alt="Download" />
                           </button>
+
                           {/* <button>
                           <img src={deleteIcon1} alt="Delete" />
                         </button> */}
