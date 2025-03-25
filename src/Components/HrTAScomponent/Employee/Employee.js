@@ -208,7 +208,7 @@ function Employee() {
                   placeholder="Search Employee"
                   className="border px-[16px] py-[15px] rounded-lg w-[584px] h-[48px] focus:outline-none text-[#696A70] text-sm font-normal border-[#E6E6E7]"
                 />
-                {/* <select
+                <select
                   value={categoryFilter}
                   onChange={handleCategoryChange}
                   className="ml-4 w-[160px] h-[48px] border px-4 py-[7px] focus:outline-none text-sm text-[#696A70] rounded-lg"
@@ -216,8 +216,8 @@ function Employee() {
                   <option value="Role">Role</option>
                   <option value="Department">Department</option>
                   <option value="Location">Location</option>
-                </select> */}
-                {/* <select
+                </select>
+                <select
                   value={selectedOption}
                   onChange={(e) => setSelectedOption(e.target.value)}
                   className="ml-4 w-[160px] h-[48px] border px-4 py-[7px] focus:outline-none text-sm text-[#696A70] rounded-lg"
@@ -226,7 +226,7 @@ function Employee() {
                   {getOptionsForCategory().map((option, index) => (
                     <option key={index} value={option}>{option}</option>
                   ))}
-                </select> */}
+                </select>
               </div>
 
               <div className="overflow-x-auto mt-[16px] rounded-t-lg">

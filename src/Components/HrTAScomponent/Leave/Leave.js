@@ -7,6 +7,7 @@ import rejectDeactive from "../../../Assets/HrTas/leaveRequest/cancel (1).svg";
 import arrowLeft from "../../../Assets/HrTas/documentsPage/arrowLeft.svg";
 import arrowRight from "../../../Assets/HrTas/documentsPage/arrowRight.svg";
 import Api from "../../../Services/Api";
+import download from "../../../Assets/HrTas/documentsPage/downloadIcon.svg"
 
 const token = localStorage.getItem("token");
 console.log("token:", token);
@@ -151,7 +152,10 @@ function Leave() {
 
   return (
     <div className="p-6">
-      <h2 className="text-[20px] font-medium">Leave Requests</h2>
+     <div className=" flex justify-between items-center ">
+        <h2 className="text-[20px] font-medium">Leave Requests</h2>
+       <button className="flex items-center"> Download Leave Report <img className="ml-2" src={download} alt="" /></button>
+     </div>
       <div className="bg-white h-screen">
         {/* Error Message */}
         {error && (

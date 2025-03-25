@@ -46,7 +46,7 @@ function ProjectListComponent() {
     Api.post('api/project', {
       "projectName": projectName,
       "projectDescription": projectDescription,
-      "client": clientName,
+      "clientName": clientName,
       "projectType": projectType,
       "startDate": startDate,
       "endDate": endDate,
@@ -79,7 +79,7 @@ function ProjectListComponent() {
       "id": editingProject.id,
       "projectName": projectName,
       "projectDescription": projectDescription,
-      "client": clientName,
+      "clientName": clientName,
       "projectType": projectType,
       "startDate": startDate,
       "endDate": endDate,

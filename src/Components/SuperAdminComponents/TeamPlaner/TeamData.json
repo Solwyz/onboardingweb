@@ -156,7 +156,14 @@
       {
         "name": "Accountant ",
         "employees": 8,
-        "teamMembers": []
+        "teamMembers": [
+          {
+            "name": "Amal Davis",
+            "email": "amaldavis@gmail.com",
+            "experience": "4 Years of Experience",
+            "image": ""
+          }
+        ]
       },
       {
         "name": "CA",
