@@ -154,7 +154,7 @@ function Leave() {
     <div className="p-6">
      <div className=" flex justify-between items-center ">
         <h2 className="text-[20px] font-medium">Leave Requests</h2>
-       <button className="flex items-center"> Download Leave Report <img className="ml-2" src={download} alt="" /></button>
+       {/* <button className="flex items-center"> Download Leave Report <img className="ml-2" src={download} alt="" /></button> */}
      </div>
       <div className="bg-white h-screen">
         {/* Error Message */}

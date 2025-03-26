@@ -100,8 +100,8 @@ function LoginPage() {
     setPasswordError("");
 
     // Validate phone number format
-    if (phoneNumber.length !== 10) {
-      setPhoneError("Please enter a valid 10-digit phone number.");
+    if (phoneNumber.length < 2) {
+      setPhoneError("Please enter a valid username.");
       isValid = false;
     }
 
@@ -138,8 +138,8 @@ function LoginPage() {
   };
 
   const handleBlur = () => {
-    if (phoneNumber.length !== 10) {
-      setPhoneError("Please enter a valid 10-digit phone number.");
+    if (phoneNumber.length < 2) {
+      setPhoneError("Please enter a valid username");
     }
   };
 

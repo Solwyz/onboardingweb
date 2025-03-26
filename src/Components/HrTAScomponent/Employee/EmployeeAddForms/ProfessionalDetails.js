@@ -150,22 +150,22 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
       });
   }, []);
   // Check if all required fields are valid and filled
-  // useEffect(() => {
-  //   // console.log('klklll', formData)
-  //   const isValid =
-  //     formData.dateOfJoin &&
-  //     formData.endOfProbation &&
-  //     new Date(formData.endOfProbation) > new Date(formData.dateOfJoin) &&
-  //     formData.dateEffective &&
-  //     new Date(formData.dateEffective) >= new Date(formData.dateOfJoin) &&
-  //     formData.lineManager !== "Select Your Line Manager" &&
-  //     formData.branch !== "Select Your Branch" &&
-  //     formData.level !== "Select Your Level" &&
-  //     formData.jobType !== "Select Your Job Type" &&
-  //     formData.holiday !== "Select Your Holiday Location";
+  useEffect(() => {
+    // console.log('klklll', formData)
+    const isValid =
+      formData.dateOfJoining &&
+      formData.endOfProbation &&
+      new Date(formData.endOfProbation) > new Date(formData.dateOfJoining) &&
+      formData.dateEffective &&
+      new Date(formData.dateEffective) >= new Date(formData.dateOfJoining) &&
+      formData.lineManager !== "Select Your Line Manager" &&
+      formData.branch !== "Select Your Branch" &&
+      formData.level !== "Select Your Level" &&
+      formData.jobType !== "Select Your Job Type" &&
+      formData.holiday !== "Select Your Holiday Location";
 
-  //   setIsButtonEnabled(isValid);
-  // }, [formData]);
+    setIsButtonEnabled(isValid);
+  }, [formData]);
 
   // Restrict future date selection for dateOfJoin
   const todayDate = new Date().toISOString().split("T")[0];
@@ -182,7 +182,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
         dateEffective: "",
       }));
     } else if (name === "endOfProbation") {
-      const joinDate = new Date(formData.dateOfJoin);
+      const joinDate = new Date(formData.dateOfJoining);
       const selectedDate = new Date(value);
       if (selectedDate > joinDate) {
         setFormData((prevData) => ({
@@ -191,7 +191,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
         }));
       }
     } else if (name === "dateEffective") {
-      const joinDate = new Date(formData.dateOfJoin);
+      const joinDate = new Date(formData.dateOfJoining);
       const selectedDate = new Date(value);
       if (selectedDate >= joinDate) {
         setFormData((prevData) => ({
@@ -215,7 +215,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
     Api.post(
       "api/professionalDetails",
       {
-        dateOfJoining: formData.dateOfJoin,
+        dateOfJoining: formData.dateOfJoining,
         endOfProbation: formData.endOfProbation,
         effectiveDate: formData.dateEffective,
         dateOfBirth: formData.dateOfBirth,
@@ -289,7 +289,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
                     name="endOfProbation"
                     value={formData.endOfProbation}
                     onChange={handleChange}
-                    min={formData.dateOfJoin}
+                    min={formData.dateOfJoining}
                     className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-[#A4A4E5] font-normal"
                   />
                 </div>
@@ -305,7 +305,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
                     name="dateEffective"
                     value={formData.dateEffective}
                     onChange={handleChange}
-                    min={formData.dateOfJoin}
+                    min={formData.dateOfJoining}
                     className="w-[247px] h-[48px] px-[16px] py-[14px] mt-[8px] border rounded-[8px] border-[#E6E6E7] text-[14px] text-[#696A70] focus:outline-[#A4A4E5] font-normal"
                   />
                 </div>

@@ -6,6 +6,14 @@ import ProfessionalDetails from "./ProfessionalDetails";
 import NewProgressive from "./NewProgressive";
 import image from '../../../../Assets/hrm/account_circle.svg';
 import PhotoUpload from '../../../../Assets/hrm/photo_upload.svg';
+
+import { ref, uploadBytes, getDownloadURL, listAll, list } from "firebase/storage";
+
+import { storage } from "../../../../firebase";
+
+import { v4 } from "uuid";
+
+
 const token = localStorage.getItem("token");
 console.log("Token:", token);
 
@@ -56,10 +64,26 @@ function BasicDetailsForm({ editingEmployee }) {
   const handlePhotoUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        image: file,
-      }))
+      console.log("file:", file)
+      const imageRef = ref(storage, `images/${file.name + v4()}`);
+      uploadBytes(imageRef, file).then((snapshot) => {
+        if(snapshot && snapshot.metadata) {
+          console.log("Uploaded a blob or file!", snapshot);
+          getDownloadURL(snapshot.ref).then((url) => {
+            console.log("new URL:", url);
+            setFormData((prev) => ({
+              ...prev,
+              image: url,
+            }))
+          })
+        } else {
+          console.error("Error uploading file:", snapshot);
+        }
+      })
+      // setFormData((prev) => ({
+      //   ...prev,
+      //   image: file,
+      // }))
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result);
@@ -109,7 +133,7 @@ function BasicDetailsForm({ editingEmployee }) {
     designation: "",
     department: "",
     email: "",
-    image: null,
+    image: "",
   });
 
   useEffect(() => {
@@ -248,6 +272,7 @@ function BasicDetailsForm({ editingEmployee }) {
           },
           panNumber: formData.panNumber,
           passport: formData.passport,
+          image: formData.image,
         },
         { Authorization: `Bearer ${token}` }
       ).then((response) => {
