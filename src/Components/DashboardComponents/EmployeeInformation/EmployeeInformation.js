@@ -181,13 +181,13 @@ function EmployeeInformation() {
         {!showForm ? (
           <div>
             <div className="flex justify-between">
-              <div className="mt-4 font-medium text-[20px]">All Employees</div>
-              <button
+              <div className="mt-4 font-medium text-[20px]">All Employees List</div>
+              {/* <button
                 className="border p-3 rounded-lg bg-[#232E42] text-white font-medium flex items-center"
                 onClick={handleAddEmployeeClick}
               >
                 <img className="mr-2" src={AddBtn} alt="" /> Add Employee
-              </button>
+              </button> */}
             </div>
             <div className="bg-white p-6 h-full min-h-[600px] mt-[34px]">
               {isLoading && <div>Loading...</div>}
@@ -206,13 +206,13 @@ function EmployeeInformation() {
                       />
                     </div>
                     <div className="relative ml-2">
-                      <button
+                      {/* <button
                         className="border border-[#E6E6E7] flex items-center font-normal text-sm text-[#2C2B2B] py-[15px] rounded-lg w-[89px] px-4"
                         onClick={handleFilterClick}
                       >
                         <img src={filterIcon} className="mr-2" alt="Filter" />
                         Filter
-                      </button>
+                      </button> */}
                       {showFilterOptions && (
                         <div className="absolute z-10 bg-white border rounded-lg mt-2 w-[150px]">
                           <ul className="text-left">
@@ -246,8 +246,8 @@ function EmployeeInformation() {
                             <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Employee ID</th>
                             <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Role</th>
                             <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Department</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Location</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tr-lg">Actions</th>
+                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tr-lg">Location</th>
+                            {/* <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tr-lg">Actions</th> */}
                           </tr>
                         </thead>
                         <tbody>
@@ -259,7 +259,7 @@ function EmployeeInformation() {
                               <td className="px-4 py-2 text-left">{employee.basicDetails?.designation?.name}</td>
                               <td className="px-4 py-2 text-left">{employee.basicDetails?.department?.departmentName}</td>
                               <td className="px-4 py-2 text-left">{employee.professionalDetails?.branch?.name}</td>
-                              <td className="px-4 py-2 flex justify-left">
+                              {/* <td className="px-4 py-2 flex justify-left">
                                 <button
                                   onClick={() => handleEditClick(employee)}
                                   className=""
@@ -272,7 +272,7 @@ function EmployeeInformation() {
                                 >
                                   <img className="w-6 h-6 ml-6" src={deleteIcon} alt="delete" />
                                 </button>
-                              </td>
+                              </td> */}
 
                             </tr>
                           ))}
