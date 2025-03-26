@@ -215,7 +215,7 @@ function TimeSheet() {
           </div>
         </div>
 
-        {timeSheetData.length === 0 ? (
+        {timeSheetData?.length === 0 ? (
           <div className="mt-[300px] justify-center items-center flex text-center text-[#696A70]">
             No entries available. Click "Create" to add a new timesheet entry.
           </div>
