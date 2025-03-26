@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import "./TeamPlanner.css";
 import DropDownArrow from "../../../Assets/Superadmin/Team Planner/dropDownArrow-downFace.svg";
 import DropUpArrow from "../../../Assets/Superadmin/Team Planner/dropDownArrow-UpFace.svg";
-import DummyImg from "../../../Assets/Superadmin/Team Planner/dummy img.png";
+import DummyImg from "../../../Assets/HrTas/employeeDetails/5856.jpg";
 import ScaleUp from "../../../Assets/Superadmin/Team Planner/scale-up.svg";
 import Edit from "../../../Assets/Superadmin/Team Planner/Edit-pencil.svg";
 import Api from '../../../Services/Api';
@@ -144,7 +144,7 @@ const TeamMembers = () => {
                             <h3 className="font-light text-[14px] text-[#626DAF]">{member?.name}</h3>
                             <p className="text-[12px] text-[#696A70]">{member?.email}</p>
                           </div>
-                          <div className='w-fit ml-auto'>
+                          <div className='w-fit ml-auto cursor-pointer'>
                             <img className='w-6 h-6 translate-y-[-22px]' src={Edit} alt="Edit" />
                           </div>
                         </div>
