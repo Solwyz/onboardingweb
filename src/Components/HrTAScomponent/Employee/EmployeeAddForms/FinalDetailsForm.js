@@ -19,43 +19,48 @@ function FinalDetailsForm({ setShowFinalForm, showFinalForm, ids }) {
     }
 
     const handleSubmit = (e) => {
-    //    e.preventDefault()
-        console.log('form has submitted sucessfully')
-        console.log('idsssss',ids)
+        e.preventDefault()
+        console.log('idsssss', ids)
         Api.post('api/employee', {
-         
-                 "email": ids.employeeEmail,
-                "name": ids.employeeName,
-                "isActive": true,
-                "basicDetails": {
-                    "id": ids.basicId
-                },
-                "professionalDetails": {
-                    "id": ids.profId
-                },
-                "salaryDetails": {
-                    "id": ids.salaryId
-                },
-                "personDetails": {
-                    "id": ids.PersonalId
-                },
-                "contactForm": {
-                    "id": ids.contactID
-                },
-                "physical": {
-                    "id": ids.physicalID
-                },
-                "active": true,
-                "consent": true
-            
-          
 
-        },  { 'Authorization': `Bearer ${token}` }
+            "email": ids.employeeEmail,
+            "name": ids.employeeName,
+            "isActive": true,
+            "basicDetails": {
+                "id": ids.basicId
+            },
+            "professionalDetails": {
+                "id": ids.profId
+            },
+            "salaryDetails": {
+                "id": ids.salaryId
+            },
+            "personDetails": {
+                "id": ids.PersonalId
+            },
+            "contactForm": {
+                "id": ids.contactID
+            },
+            "physical": {
+                "id": ids.physicalID
+            },
+            "active": true,
+            "consent": true
+
+
+
+        }, { 'Authorization': `Bearer ${token}` }
 
 
         ).then((response) => {
-            console.log("final:", response);
-          });
+            if (response && response.data) {
+                console.log('Final form has submitted sucessfully',response)
+            } else {
+                console.error('Invalid response data:', response)
+                alert('Can not add new employee data. Please try again')
+            }
+
+        });
 
     }
 

@@ -70,12 +70,15 @@ function PersonalDetailForm({ setShowPersonalForm, ids, setIds }) {
                     'Authorization': `Bearer ${token}`
                 });
                 console.log('Form submitted successfully:', response);
-                setresponsePersonalID(response.data.td)
+                if(response && response.data) {
+                    setresponsePersonalID(response.data.td)
                 setIds((prevIds) => ({ ...prevIds, ["PersonalId"]: response.data.id }));
                 console.log('pmmmmm', ids)
                 console.log("personal", response.data.id)
 
                 setShowContactForm(true);
+                }
+                
             } catch (err) {
                 console.error('Error submitting the form:', err);
                 setError('Failed to submit the form. Please try again.');

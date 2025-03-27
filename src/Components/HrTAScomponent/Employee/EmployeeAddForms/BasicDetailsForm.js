@@ -253,7 +253,7 @@ function BasicDetailsForm({ editingEmployee }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setShowProfessionalForm(true);
+    
     if (isFormValid) {
       console.log("checkBasic", formData);
       Api.post(
@@ -276,10 +276,16 @@ function BasicDetailsForm({ editingEmployee }) {
         },
         { Authorization: `Bearer ${token}` }
       ).then((response) => {
-        console.log("basicSub:", response);
-        setResponseBasicID(response.data.id)
-        setIds((prevIds) => ({ ...prevIds, ["basicId"]: response.data.id, ["employeeName"]: formData.firstName, ["employeeEmail"]: formData.email }));
-        console.log("Stored ID:", response.data.id);
+        if(response && response.data) {
+          setShowProfessionalForm(true);
+          console.log("basicSub:", response);
+          setResponseBasicID(response.data.id)
+          setIds((prevIds) => ({ ...prevIds, ["basicId"]: response.data.id, ["employeeName"]: formData.firstName, ["employeeEmail"]: formData.email }));
+          console.log("Stored ID:", response.data.id);
+        } else {
+          console.error("Invalid response data:", response);
+          alert("Can not add Basic details. Please try again");
+        }
       });
     }
   };
