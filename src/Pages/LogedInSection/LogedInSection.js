@@ -25,6 +25,7 @@ import PerformanceManagement from '../../Components/DashboardComponents/Performa
 
 import PayrollManagment from '../../Components/DashboardComponents/PayRollManagement/PayrollManagment';
 import Api from '../../Services/Api';
+import TrainingManagement from '../../Components/TrainingManagement/TrainingManagement';
 
 const token = localStorage.getItem('token');
 const refreshToken = localStorage.getItem('refreshToken');
@@ -69,7 +70,7 @@ function LogedInSection() {
       case 'Recruiting and Onboarding':
         return <div>Details about Recruitment & Onboarding...</div>;
       case 'Training':
-        return <div>Details about Training...</div>;
+        return <div><TrainingManagement/></div>;
       case 'Self-Service':
         return <div>Details about Self-service...</div>;
       case 'Document Management':
