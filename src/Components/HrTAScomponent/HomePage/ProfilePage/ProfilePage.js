@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Profile from "../../../../Assets/HrTas/Profile.svg"
 import PhotoFrame from "../../../../Assets/HrTas/Photoframe.svg"
 
 function ProfilePage() {
+    const [userName, setUserName] = useState('');
+
+    useEffect(() => {
+        console.log('userDetails', JSON.parse(localStorage.getItem('userDetails')))
+        console.log('userName', JSON.parse(localStorage.getItem('userDetails')).userName)
+        setUserName(JSON.parse(localStorage.getItem('userDetails')).userName || 'Solwyz user')
+    }, [])
+
+
     return (
         <div className='flex columns-2'>
             <div className='w-full'>
@@ -14,11 +23,11 @@ function ProfilePage() {
 
                 <div className='text-[14px] mt-6'>
                     <h1 className='font-medium text-[#373737]'>Name</h1>
-                    <p className='font-normal text-[#696A70]'>Ameena Zakir</p>
+                    <p className='font-normal text-[#696A70]'>{userName}</p>
                 </div>
                 <div className='text-[14px] mt-6'>
                     <h1 className='font-medium text-[#373737]'>Designation</h1>
-                    <p className='font-normal text-[#696A70]'>Frontend Developer</p>
+                    <p className='font-normal text-[#696A70]'>HR Manager</p>
                 </div>
                 <div className='text-[14px] mt-6'>
                     <h1 className='font-medium text-[#373737]'>Employee Code</h1>
@@ -26,7 +35,7 @@ function ProfilePage() {
                 </div>
                 <div className='text-[14px] mt-6'>
                     <h1 className='font-medium text-[#373737]'>Department</h1>
-                    <p className='font-normal text-[#696A70]'>Web Development</p>
+                    <p className='font-normal text-[#696A70]'>HR Department</p>
                 </div>
             </div>
             <div className='w-full flex items-start justify-end'>

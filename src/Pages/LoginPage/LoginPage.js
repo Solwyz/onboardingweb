@@ -56,6 +56,7 @@ function LoginPage() {
           localStorage.setItem('token', response.data.jwt);
           localStorage.setItem('refreshToken', response.data.refreshToken)
           console.log('decoded token response:', decodeJWT(response.data.jwt))
+          localStorage.setItem('userDetails', JSON.stringify(decodeJWT(response.data.jwt).userDetails))
           setUserDetails(decodeJWT(response.data.jwt).userDetails)
           if (decodeJWT(response.data.jwt).userDetails?.userName === 'superadmin') {
             navigate("/superadmin")
