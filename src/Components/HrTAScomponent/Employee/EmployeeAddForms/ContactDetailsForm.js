@@ -131,7 +131,7 @@ function ContactDetailsForm({ setShowContactForm, ids, setIds }) {
     const handleNextClick = () => {
         if (isNextButtonEnabled) {
             console.log("Form Data Submitted:", formData);
-            setShowPhysicalForm(true);
+            
 
             Api.post(
                 "api/contactForm",
@@ -153,11 +153,18 @@ function ContactDetailsForm({ setShowContactForm, ids, setIds }) {
                 { Authorization: `Bearer ${token}` }
             )
                 .then((response) => {
-                    console.log("Response:", response)
-                    setResponseContactID(response.data.id)
-                    setIds((prevIds) => ({ ...prevIds, ["contactID"]: response.data.id }));
-                    console.log('kjlkl', ids)
-                    console.log("contact", response.data.id);
+                    if(response && response.data){
+                        setShowPhysicalForm(true);
+                        console.log("Response:", response)
+                        setResponseContactID(response.data.id)
+                        setIds((prevIds) => ({ ...prevIds, ["contactID"]: response.data.id }));
+                        console.log('kjlkl', ids)
+                        console.log("contact", response.data.id);
+                    } else {
+                        console.error('Invalid response data:', response)
+                        alert('Can not fetch data. Please try again')
+                    }
+                    
 
                 })
 

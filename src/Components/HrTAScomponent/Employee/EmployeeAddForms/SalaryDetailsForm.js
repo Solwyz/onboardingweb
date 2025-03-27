@@ -12,8 +12,8 @@ function SalaryDetailsForm({ setShowSalaryForm, ids, setIds }) {
   const [isFormValid, setIsFormValid] = useState(false);
   const [showPersonalForm, setShowPersonalForm] = useState(false);
   const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({}); 
-  const [responseSalaryID,setResponseSalaryID] = useState(null);
+  const [touched, setTouched] = useState({});
+  const [responseSalaryID, setResponseSalaryID] = useState(null);
 
   const [formData, setFormData] = useState({
     basicSalary: "",
@@ -133,7 +133,6 @@ function SalaryDetailsForm({ setShowSalaryForm, ids, setIds }) {
 
     if (isFormValid) {
       console.log(formData);
-      setShowPersonalForm(true);
       Api.post(
         "api/salaryDetails",
         {
@@ -153,12 +152,14 @@ function SalaryDetailsForm({ setShowSalaryForm, ids, setIds }) {
           Authorization: `Bearer ${token}`,
         }
       ).then((response) => {
-        console.log("SLRY",response);
-        setResponseSalaryID(response.data.id)
-        setIds((prevIds) => ({...prevIds, ["salaryId"]: response.data.id}));
-        console.log('2nmmmm',ids)
-        console.log("salaryIDdddddddddddddddddddd",response.data.id);
-        
+        if (response && response.data) {
+          setShowPersonalForm(true);
+          console.log("SLRY", response);
+          setResponseSalaryID(response.data.id)
+          setIds((prevIds) => ({ ...prevIds, ["salaryId"]: response.data.id }));
+          console.log('2nmmmm', ids)
+          console.log("salaryIDdddddddddddddddddddd", response.data.id);
+        }
 
       });
     } else {
@@ -203,7 +204,7 @@ function SalaryDetailsForm({ setShowSalaryForm, ids, setIds }) {
                     <div className="text-red-500 text-sm">{errors.basicSalary}</div>
                   )}
                 </div>
-                
+
                 <div className="mt-6">
                   <div className="text-[14px]">Current Salary</div>
                   <input
@@ -372,9 +373,8 @@ function SalaryDetailsForm({ setShowSalaryForm, ids, setIds }) {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className={`text-[14px] text-white bg-[#2B2342] text-center rounded-lg px-8 h-[48px] mt-8 ${
-                    !isFormValid ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className={`text-[14px] text-white bg-[#2B2342] text-center rounded-lg px-8 h-[48px] mt-8 ${!isFormValid ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                   disabled={!isFormValid}
                 >
                   Next
@@ -384,7 +384,7 @@ function SalaryDetailsForm({ setShowSalaryForm, ids, setIds }) {
           </div>
         </div>
       ) : (
-        <PersonalDetailForm setShowPersonalForm={setShowPersonalForm} 
+        <PersonalDetailForm setShowPersonalForm={setShowPersonalForm}
           ids={ids}
           setIds={setIds}
         />

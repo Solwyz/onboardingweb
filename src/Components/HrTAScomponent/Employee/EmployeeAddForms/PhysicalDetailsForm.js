@@ -165,7 +165,6 @@ function PhysicalDetailsForm({ setShowPhysicalForm, ids, setIds }) {
     if (validateForm()) {
       console.log("Proceed to the next step");
       console.log(formData);
-      setShowFinalForm(true);
       Api.post(
         "api/physical",
         {
@@ -181,11 +180,15 @@ function PhysicalDetailsForm({ setShowPhysicalForm, ids, setIds }) {
           Authorization: `Bearer ${token}`,
         }
       ).then((response) => {
-        console.log("physical:", response);
-        setresponsePhysId(response.data.id)
-        setIds((prevIds) => ({...prevIds, ["physicalID"]: response.data.id}));
-        console.log('jtttt',ids)
-        console.log(response.data.id)
+        if(response && response.data) {
+          setShowFinalForm(true);
+          console.log("physical:", response);
+          setresponsePhysId(response.data.id)
+          setIds((prevIds) => ({...prevIds, ["physicalID"]: response.data.id}));
+          console.log('jtttt',ids)
+          console.log(response.data.id)
+        }
+        
       });
     }
   };

@@ -211,7 +211,7 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
   const handleNext = (e) => {
     e.preventDefault();
     console.log("llll", formData); // Log the form data to the console
-    setShowSalaryForm(true);
+    // setShowSalaryForm(true);
     Api.post(
       "api/professionalDetails",
       {
@@ -232,9 +232,16 @@ function ProfessionalDetails({ setShowProfessionalForm, editingEmployee, ids, se
         Authorization: `Bearer ${token}`,
       }
     ).then((response) => {
-      setResponseProffID(response.data.id)
-      setIds((prevIds) => ({ ...prevIds, ["profId"]: response.data.id }));
-
+      if(response && response.data) {
+        setShowSalaryForm(true);
+        console.log("Professional Details added successfully:", response.data);
+        setResponseProffID(response.data.id)
+        setIds((prevIds) => ({ ...prevIds, ["profId"]: response.data.id }));
+      } else {
+        console.error("Failed to add Professional Details:", response);
+        alert("Failed to add Professional Details");
+      }
+      
     });
   };
 
