@@ -98,7 +98,7 @@ function Roles({ onBack }) {
       <div className="flex text-[20px] font-normal mt-[24px]">
         <a href="#" className="text-[#498EF6]">Resource Pool</a> 
         <img src={arrowIcon} className='ml-[10px]' alt="icon1" /> 
-        <span className='ml-[8px]'>Role</span>
+        <span className='ml-[8px]'>Designation</span>
       </div>
 
       <div className="flex justify-end items-center mt-6">

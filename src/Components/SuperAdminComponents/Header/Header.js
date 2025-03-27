@@ -28,6 +28,7 @@ function Header() {
   const handleLogOut = () => {
     console.log('Logged out');
     localStorage.removeItem('token')
+    localStorage.removeItem('userDetails')
     // Add your logout logic here
     navigate('/'); // Redirect to login page after logout
   };
