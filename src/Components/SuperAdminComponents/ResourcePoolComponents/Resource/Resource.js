@@ -8,6 +8,7 @@ function Resource() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(dummyImg);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrors] = useState({
     email: '',
     postalCode: ''
@@ -44,6 +45,10 @@ function Resource() {
 
     setIsFormValid(isValid); // Enable or disable submit button based on validation
   }, [formData, errors]);
+
+  const handleOkClick = () => {
+    setIsModalOpen(false);
+  }
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -113,6 +118,7 @@ function Resource() {
       },{ 'Authorization': `Bearer ${token}` })
       .then(response => {
         if(response && response.data) {
+          setIsModalOpen(true);
           console.log('team added', response);
           setFormData({
             teamName: ''
@@ -383,6 +389,18 @@ function Resource() {
           </div>
         </div>
       </form>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-neutral-800 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white w-auto p-10  shadow-lg">
+            <div className='text-[18px] text-[#373737]'>New Team added successfully</div>
+            <div className='flex gap-4 mt-8 w-fit ml-auto'>
+              <button className='bg-[#405170] hover:bg-[#232E42] w-[72px] h-[42px] text-white font-light rounded-[8px]' onClick={handleOkClick}>OK</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
