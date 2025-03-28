@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import dummyImg from '../../../../Assets/Superadmin/DummyImage.png';
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg';
 import arrowIcon from '../../../../Assets/Superadmin/arrow.svg';
+import Api from '../../../../Services/Api';
 
 function Resource() {
   const [image, setImage] = useState(null);
@@ -13,67 +14,43 @@ function Resource() {
   })
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    primaryRole: '',
-    resourceManager: '',
-    calendar: '',
-    resourceType: '', // Not mandatory
-    startDate: '',
-    terminationDate: '', // Not mandatory
-    postalCode: '',
-    city: '',
-    department: '',
-    office: '',
-    valueStream: '',
-    skills: ''
+    teamName: ''
+    // firstName: '',
+    // lastName: '',
+    // email: '',
+    // primaryRole: '',
+    // resourceManager: '',
+    // calendar: '',
+    // resourceType: '',
+    // startDate: '',
+    // terminationDate: '',
+    // postalCode: '',
+    // city: '',
+    // department: '',
+    // office: '',
+    // valueStream: '',
+    // skills: ''
   });
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     // Check if all required fields are filled
     const {
-      firstName,
-      lastName,
-      email,
-      primaryRole,
-      resourceManager,
-      calendar,
-      startDate,
-      postalCode,
-      city,
-      department,
-      office,
-      valueStream,
-      skills
+      teamName
     } = formData;
 
-    const isValid =
-      firstName &&
-      lastName &&
-      email &&
-      primaryRole &&
-      resourceManager &&
-      calendar &&
-      startDate &&
-      postalCode &&
-      city &&
-      department &&
-      office &&
-      valueStream &&
-      skills &&
-      !errors.email &&
-      !errors.postalCode;
+    const isValid = teamName;
 
     setIsFormValid(isValid); // Enable or disable submit button based on validation
   }, [formData, errors]);
 
-  const validateEmail =(email)=> {
+  const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
 
-  const validatePostalCode =(postalCode)=> {
+  const validatePostalCode = (postalCode) => {
     const postalCodeRegex = /^[0-9]{6,}$/;
     return postalCodeRegex.test(postalCode);
   };
@@ -86,7 +63,7 @@ function Resource() {
     });
 
     if (name === 'email') {
-      if(!validateEmail(value)) {
+      if (!validateEmail(value)) {
         setErrors((prevErrors) => ({
           ...prevErrors,
           email: 'Invalid email address'
@@ -130,43 +107,61 @@ function Resource() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isFormValid) {
-      // Submit form data
-      const formSubmissionData = new FormData();
 
-      for (let key in formData) {
-        formSubmissionData.append(key, formData[key]);
-      }
+      Api.post('api/teams', {
+        'name': formData.teamName
+      },{ 'Authorization': `Bearer ${token}` })
+      .then(response => {
+        if(response && response.data) {
+          console.log('team added', response);
+          setFormData({
+            teamName: ''
+          });
+        } else {
+          console.error('Team cant added', response);
+        }
+      })
 
-      if (image) {
-        formSubmissionData.append('image', image);
-      }
+      // // Submit form data
+      // const formSubmissionData = new FormData();
 
-      for (let pair of formSubmissionData.entries()) {
-        console.log(`${pair[0]}:`, pair[1]);
-      }
+      // for (let key in formData) {
+      //   formSubmissionData.append(key, formData[key]);
+      // }
+
+      // if (image) {
+      //   formSubmissionData.append('image', image);
+      // }
+
+      // for (let pair of formSubmissionData.entries()) {
+      //   console.log(`${pair[0]}:`, pair[1]);
+      // }
 
       // console.log('Form Submitted:', formData);
     }
   };
 
   return (
-    <div>
+    <div className='p-4 ml-[16px]'>
       <div className="flex text-[20px] font-normal mt-[24px]">
         <a href="#" className="text-[#498EF6]">Resource Pool</a>
         <img src={arrowIcon} className='ml-[10px]' alt="icon1" />
-        <span className='ml-[8px]'>Resource</span>
+        <span className='ml-[8px]'>Team</span>
       </div>
 
-      <div className="flex justify-between items-center mt-6">
-        <button className="text-[#E94E4E] text-[14px] font-normal flex">
+      <div className="flex justify-end items-center mt-6">
+        {/* <button className="text-[#E94E4E] text-[14px] font-normal flex">
           <img src={deleteIcon} alt="icon2" />
           Delete Department
+        </button> */}
+        <button
+          className="font-normal text-[16px] text-[#3003BB] border px-4 py-2 rounded-lg">
+          Back
         </button>
-        <button className="font-normal text-[16px] text-[#3003BB]">Back</button>
       </div>
 
       <form className='mt-6' onSubmit={handleSubmit}>
-        <div className='flex justify-between p-6 border shadow'>
+        {/* <div className='flex justify-between p-6 border shadow'>
           <div>
             <div className='text-[20px] font-medium'>General</div>
             <div className='flex gap-4'>
@@ -276,7 +271,7 @@ function Resource() {
             </div>
           </div>
 
-          {/* image section */}
+        
           <div>
             <div className=''>
               <div>
@@ -305,12 +300,12 @@ function Resource() {
             </div>
           </div>
 
-        </div>
+        </div> */}
 
         <div className='p-6 mt-6 border shadow'>
-          <div className='text-[20px] font-medium'>Details</div>
+          <div className='text-[20px] font-medium'>Add New Team</div>
 
-          <div className='flex gap-4'>
+          {/* <div className='flex gap-4'>
             <div className='mt-6'>
               <div className='text-[14px]'>Start Date</div>
               <input
@@ -331,47 +326,21 @@ function Resource() {
                 className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
               />
             </div>
-          </div>
+          </div> */}
+
 
           <div className='flex gap-4'>
             <div className='mt-6'>
-              <div className='text-[14px]'>Postal Code</div>
+              <div className='text-[14px]'>Team Name</div>
               <input
                 type='text'
-                name='postalCode'
-                value={formData.postalCode}
-                onChange={handleInputChange}
-                className={`border rounded mt-2 w-[247px] h-[48px] px-[17px] ${errors.postalCode ? 'border-red-500' : ''}`}
-              />
-              {errors.postalCode && (
-                <div className='text-red-500 text-sm mt-1'>{errors.postalCode}</div>
-              )}
-            </div>
-            <div className='mt-6'>
-              <div className='text-[14px]'>City</div>
-              <input
-                type='text'
-                name='city'
-                value={formData.city}
+                name='teamName'
+                value={formData.teamName}
                 onChange={handleInputChange}
                 className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
               />
             </div>
-
-          </div>
-
-          <div className='flex gap-4'>
-            <div className='mt-6'>
-              <div className='text-[14px]'>Department</div>
-              <input
-                type='text'
-                name='department'
-                value={formData.department}
-                onChange={handleInputChange}
-                className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
-              />
-            </div>
-            <div className='mt-6'>
+            {/* <div className='mt-6'>
               <div className='text-[14px]'>Office</div>
               <input
                 type='text'
@@ -400,7 +369,7 @@ function Resource() {
                 onChange={handleInputChange}
                 className='border rounded mt-2 w-[247px] h-[48px] px-[17px]'
               />
-            </div>
+            </div> */}
           </div>
 
           <div className='flex justify-end mt-8'>
