@@ -85,7 +85,7 @@ function TrainingManagement() {
             location: formData.location,
             trainingMode: formData.mode,
             duration: formData.duration,
-            employees:selectedEmployees.map(emp => emp.id)
+            employees: selectedEmployees.map(emp => ({ id: emp.id }))
 
         },
             { 'Authorization': `Bearer ${token}` }
@@ -231,7 +231,7 @@ function TrainingManagement() {
                             <th className=" p-4 text-start font-normal text-white">Category</th>
                             <th className=" p-4 text-start font-normal text-white">Mode</th>
                             <th className=" p-4 text-start font-normal text-white">Duration</th>
-                            <th className=" p-4 text-start font-normal text-white">Employee</th>
+                            {/* <th className=" p-4 text-start font-normal text-white">Employee</th> */}
                             <th className=" p-4 text-start font-normal text-white">Start Date</th>
                             <th className=" p-4 text-start font-normal text-white rounded-tr-lg">End Date</th>
                         </tr>
@@ -243,7 +243,7 @@ function TrainingManagement() {
                                 <td className=" p-4">{training.category}</td>
                                 <td className=" p-4">{training.trainingMode}</td>
                                 <td className=" p-4">{training.duration}</td>
-                                <td className=" p-4">{training.employees?.name}</td>
+                                {/* <td className=" p-4">{training.employees?.name}</td> */}
                                 <td className=" p-4">{training.startDate}</td>
                                 <td className=" p-4">{training.endDate}</td>
                             </tr>
