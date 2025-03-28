@@ -8,7 +8,7 @@ function TrainingManagement() {
     const [trainings, setTrainings] = useState([]);
     const [employees, setEmployees] = useState([]);
     const [selectedEmployees, setSelectedEmployees] = useState([]);
-    const [selectedEmpIds,setSelectedEmpIds] = useState([])
+    const [selectedEmpIds, setSelectedEmpIds] = useState([])
     const [formData, setFormData] = useState({
         title: "",
         location: "",
@@ -28,7 +28,7 @@ function TrainingManagement() {
         }).then(response => {
             if (response?.data) {
                 console.log(response.data.content);
-                
+
                 setTrainings(response.data.content);
             }
         });
@@ -42,11 +42,11 @@ function TrainingManagement() {
         });
     }, []);
 
-    useEffect(()=> {
+    useEffect(() => {
         setSelectedEmpIds(selectedEmployees.map(emp => emp.id));
-    },[selectedEmployees])
- 
-   
+    }, [selectedEmployees])
+
+
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -64,7 +64,7 @@ function TrainingManagement() {
                 ? prev.filter(emp => emp.id !== employee.id)
                 : [...prev, employee]
         );
-        
+
     };
 
     const saveSelectedEmployees = () => {
@@ -85,12 +85,13 @@ function TrainingManagement() {
             location: formData.location,
             trainingMode: formData.mode,
             duration: formData.duration,
-            employees: [...selectedEmpIds]
+            employees:selectedEmployees.map(emp => emp.id)
+
         },
             { 'Authorization': `Bearer ${token}` }
         ).then(response => {
             if (response?.data) {
-                console.log('apires',response);
+                console.log('apires', response);
                 setTrainings([...trainings, response.data]);
             }
         });
@@ -157,7 +158,7 @@ function TrainingManagement() {
                             </div>
                             <div>
                                 <button onClick={openEmployeeModal}
-                                className="p-2 border rounded-md"
+                                    className="p-2 border rounded-md"
                                 >Add Employee +</button>
                                 {isEmployeeModalOpen && (
                                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -221,7 +222,7 @@ function TrainingManagement() {
                 </div>
             )}
 
-            <div className="mt-8 bg-white h-svh">
+            <div className="mt-8 bg-white min-h-svh h-full">
 
                 <table className="w-full border-collapse  border-gray-300">
                     <thead>
