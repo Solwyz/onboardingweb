@@ -19,7 +19,7 @@ function FinalDetailsForm({ setShowFinalForm, showFinalForm, ids }) {
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         console.log('idsssss', ids)
         Api.post('api/employee', {
 
