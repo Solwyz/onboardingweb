@@ -323,7 +323,7 @@ function SalaryDetailsForm({ setShowSalaryForm, ids, setIds }) {
                   <input
                     type="text"
                     name="bankAccount"
-                    onKeyDown={handleKeyDown}
+                    // onKeyDown={handleKeyDown}
                     value={formData.bankAccount}
                     onChange={handleFormChange}
                     className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] text-[#696A70] focus:outline-[#A4A4E5]"

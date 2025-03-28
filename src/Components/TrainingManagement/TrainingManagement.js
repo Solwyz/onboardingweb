@@ -236,7 +236,7 @@ function TrainingManagement() {
                             <th className=" p-4 text-start font-normal text-white rounded-tr-lg">End Date</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody> 
                         {trainings.map((training, index) => (
                             <tr key={index} className="border">
                                 <td className=" p-4">{training.trainingTitle}</td>
