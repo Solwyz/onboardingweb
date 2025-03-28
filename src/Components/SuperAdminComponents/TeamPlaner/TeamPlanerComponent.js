@@ -124,43 +124,48 @@ const TeamMembers = () => {
               </div>
 
             </div>
-
+           
             {expanded === section.name && selectedSectionData && (
-              <div className="pl-6 mt-2 space-y-3 flex justify-between ">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {selectedSectionData.map((member, index) => (
-                    <div className=''>
-                  <span className="text-[#442995] text-[14px] font-light ml-auto mt-2">
-                    {count} Employees
-                  </span>
-                      <div key={index} className="p-4 bg-white rounded-lg shadow-md flex flex-col mt-2">
-                        <div className='flex items-center'>
-                          <img
-                            src={member?.image || DummyImg}
-                            alt="Profile"
-                            className="rounded-lg w-16 h-16 mr-2"
-                          />
-                          <div>
-                            <h3 className="font-light text-[14px] text-[#626DAF]">{member?.name}</h3>
-                            <p className="text-[12px] text-[#696A70]">{member?.email}</p>
+              
+              <div className=''>
+              <span className="text-[#442995] text-[14px] font-light  mt-2">
+              {count} Employees
+            </span>
+                <div className="pl-6 mt-2 space-y-3 flex justify-between ">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  
+                    {selectedSectionData.map((member, index) => (
+                      <div className=''>
+  
+                        <div key={index} className="p-4 bg-white rounded-lg shadow-md flex flex-col mt-2">
+                          <div className='flex items-center'>
+                            <img
+                              src={member?.image || DummyImg}
+                              alt="Profile"
+                              className="rounded-lg w-16 h-16 mr-2"
+                            />
+                            <div>
+                              <h3 className="font-light text-[14px] text-[#626DAF]">{member?.name}</h3>
+                              <p className="text-[12px] text-[#696A70]">{member?.email}</p>
+                            </div>
+                            {/* <div className='w-fit ml-auto cursor-pointer'>
+                              <img className='w-6 h-6 translate-y-[-22px]' src={Edit} alt="Edit" /> 
+                            </div> */}
                           </div>
-                          <div className='w-fit ml-auto cursor-pointer'>
-                            <img className='w-6 h-6 translate-y-[-22px]' src={Edit} alt="Edit" />
+                          <div className='flex mt-2'>
+                            <img className='mr-2' src={ScaleUp} alt="Experience" />
+                            <p className="text-sm text-[#626DAF]">{member?.professionalDetails?.jobType}</p>
                           </div>
+  
                         </div>
-                        <div className='flex mt-2'>
-                          <img className='mr-2' src={ScaleUp} alt="Experience" />
-                          <p className="text-sm text-[#626DAF]">{member?.professionalDetails?.jobType}</p>
-                        </div>
-                      
+  
                       </div>
-
-                    </div>
-
-                  ))}
+  
+                    ))}
+                  </div>
+  
+  
                 </div>
-
-                
               </div>
             )}
           </div>
