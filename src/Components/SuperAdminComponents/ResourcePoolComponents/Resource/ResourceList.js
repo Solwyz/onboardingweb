@@ -10,6 +10,7 @@ function ResourceList() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ function ResourceList() {
 
   const isFormValid = formData.teamName !== '' && formData.teamName.length > 2;
 
+
   const handleDeleteClick = (id) => {
     setDeleteId(id);
     setDeleteModal(true);
@@ -28,6 +30,7 @@ function ResourceList() {
 
   const handleEditClick = (id) => {
     console.log('edit id: ', id)
+
     const dataTobeUpdated = teams.find(team => team.id === id)
     console.log('dataTobeUpdated:', dataTobeUpdated)
     setIsModalOpen(true);
@@ -36,11 +39,13 @@ function ResourceList() {
       teamName: dataTobeUpdated.name
 
     })
+
   }
 
   const handleDeleteModalCancel = () => {
     setDeleteModal(false);
   }
+
 
   const handleCancelClick = (e) => {
     e.preventDefault();
@@ -94,6 +99,7 @@ function ResourceList() {
       })
   }
 
+
   useEffect(() => {
     Api.get('api/teams', {
       'Authorization': `Bearer ${token}`
@@ -128,8 +134,10 @@ function ResourceList() {
                 <td className='p-4 text-left text-sm'>{team.name}</td>
                 <td className='p-4 text-left text-sm'>
                   <div className='flex items-center justify-center gap-4 w-fit'>
+
                     <img src={editIcon} className='h-3 w-3 hover:cursor-pointer' onClick={() => handleEditClick(team.id)}></img>
                     <img src={deleteIcon} className='hover:cursor-pointer' onClick={() => handleDeleteClick(team.id)}></img>
+
                   </div>
                 </td>
               </tr>
@@ -138,6 +146,7 @@ function ResourceList() {
           </tbody>
         </table>
       </div>
+
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-neutral-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -187,6 +196,7 @@ function ResourceList() {
           </div>
         </div>
       )}
+
 
 
       {deleteModal && (
