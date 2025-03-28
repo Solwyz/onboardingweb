@@ -254,7 +254,7 @@ function EmployeeInformation() {
                           {filteredEmployees.map((employee, index) => (
                             <tr key={index} className="text-sm font-normal">
                               <td className="px-4 py-2 text-left">{index + 1}</td>
-                              <td className="px-4 py-2 text-left">{employee.name}</td>
+                              <td className="px-4 py-2 text-left">{employee.name + " " +employee.basicDetails?.lastName}</td>
                               <td className="px-4 py-2 text-left">{employee.id}</td>
                               <td className="px-4 py-2 text-left">{employee.basicDetails?.designation?.name}</td>
                               <td className="px-4 py-2 text-left">{employee.basicDetails?.department?.departmentName}</td>

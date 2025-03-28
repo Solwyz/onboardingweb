@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AddBtn from "../../Assets/HrTas/addIcon.svg";
 import Api from "../../Services/Api";
+import Swal from "sweetalert2";
 
 function TrainingManagement() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -93,6 +94,12 @@ function TrainingManagement() {
             if (response?.data) {
                 console.log('apires', response);
                 setTrainings([...trainings, response.data]);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Training Added',
+                    text: 'The new training has been successfully added!',
+                    confirmButtonColor: '#2B2342'
+                });
             }
         });
         setFormData({ title: "", location: "", category: "", mode: "", duration: "", description: "", startDate: "", endDate: "" });

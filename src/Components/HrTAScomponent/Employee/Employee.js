@@ -238,7 +238,7 @@ function Employee() {
                 <input
                   type="text"
                   value={searchValue}
-                  onChange={handleSearchChange}
+                  onChange={handleSearchChange}  
                   placeholder="Search Employee"
                   className="border px-[16px] py-[15px] rounded-lg w-[584px] h-[48px] focus:outline-none text-[#696A70] text-sm font-normal border-[#E6E6E7]"
                 />
@@ -266,14 +266,14 @@ function Employee() {
                 <table className="w-full bg-white">
                   <thead className="bg-[#465062] h-[50px] text-white">
                     <tr>
-                      <th className="p-4  font-normal text-center text-sm">Sl No.</th>
-                      <th className="p-4  font-normal text-center text-sm">Name</th>
-                      <th className="p-4  font-normal text-center text-sm">Employee ID</th>
-                      <th className="p-4  font-normal text-center text-sm">Role</th>
-                      <th className="p-4  font-normal text-center text-sm">Department</th>
-                      <th className="p-4  font-normal text-center text-sm">Location</th>
-                      <th className="p-4  font-normal text-center text-sm">Contact</th>
-                      <th className="p-4  font-normal text-center text-sm">Action</th>
+                      <th className="p-4  font-normal text-start text-sm">Sl No.</th>
+                      <th className="p-4  font-normal text-start text-sm">Name</th>
+                      <th className="p-4  font-normal text-start text-sm">Employee ID</th>
+                      <th className="p-4  font-normal text-start text-sm">Role</th>
+                      <th className="p-4  font-normal text-start text-sm">Department</th>
+                      <th className="p-4  font-normal text-start text-sm">Location</th>
+                      <th className="p-4  font-normal text-start text-sm">Contact</th>
+                      <th className="p-4  font-normal text-start text-sm">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -282,14 +282,14 @@ function Employee() {
 
                         onClick={() => handleEmployeeClick(employee)}
                         className={` cursor-pointer h-[50px] ${index % 2 === 0 ? 'bg-white ' : 'bg-[#F9F9F9]'}`}>
-                        <td className="p-4 text-center text-sm">{index + 1}</td>
-                        <td className="p-4 text-center text-sm">{employee.basicDetails?.firstName + ' '+ employee.basicDetails?.lastName}</td>
-                        <td className="p-4 text-center text-sm">{employee.id}</td>
-                        <td className="p-4 text-center text-sm">{employee.basicDetails?.designation?.name}</td>
-                        <td className="p-4 text-center text-sm">{employee.basicDetails?.department?.departmentName}</td>
-                        <td className="p-4 text-center text-sm">{employee.professionalDetails?.branch?.name}</td>
-                        <td className="p-4 text-center text-sm">{employee.contactForm?.primaryNumber}</td>
-                        <td className="p-4 text-center">
+                        <td className="p-4 text-start text-sm">{index + 1}</td>
+                        <td className="p-4 text-start text-sm">{employee.basicDetails?.firstName + ' '+ employee.basicDetails?.lastName}</td>
+                        <td className="p-4 text-start text-sm">{employee.id}</td>
+                        <td className="p-4 text-start text-sm">{employee.basicDetails?.designation?.name}</td>
+                        <td className="p-4 text-start text-sm">{employee.basicDetails?.department?.departmentName}</td>
+                        <td className="p-4 text-start text-sm">{employee.professionalDetails?.branch?.name}</td>
+                        <td className="p-4 text-start text-sm">{employee.contactForm?.primaryNumber}</td>
+                        <td className="p-4 text-start">
                           <button onClick={(e) => handleEditEmployeeClick(e, employee)}>
                             <img src={editIcon} alt="edit" />
                           </button>
