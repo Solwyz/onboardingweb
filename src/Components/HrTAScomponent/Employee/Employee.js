@@ -283,7 +283,7 @@ function Employee() {
                         onClick={() => handleEmployeeClick(employee)}
                         className={` cursor-pointer h-[50px] ${index % 2 === 0 ? 'bg-white ' : 'bg-[#F9F9F9]'}`}>
                         <td className="p-4 text-center text-sm">{index + 1}</td>
-                        <td className="p-4 text-center text-sm">{employee.basicDetails?.firstName}</td>
+                        <td className="p-4 text-center text-sm">{employee.basicDetails?.firstName + ' '+ employee.basicDetails?.lastName}</td>
                         <td className="p-4 text-center text-sm">{employee.id}</td>
                         <td className="p-4 text-center text-sm">{employee.basicDetails?.designation?.name}</td>
                         <td className="p-4 text-center text-sm">{employee.basicDetails?.department?.departmentName}</td>

@@ -5,6 +5,8 @@ import unCheckBox from '../../../../Assets/HrTas/uncheckBox.svg';
 import BackButton from './BackButton';
 import NewProgressive from './NewProgressive';
 import Api from '../../../../Services/Api';
+import Swal from 'sweetalert2';
+
 
 
 const token = localStorage.getItem("token");
@@ -19,7 +21,7 @@ function FinalDetailsForm({ setShowFinalForm, showFinalForm, ids }) {
     }
 
     const handleSubmit = (e) => {
-        // e.preventDefault()
+        e.preventDefault()
         console.log('idsssss', ids)
         Api.post('api/employee', {
 
@@ -55,14 +57,31 @@ function FinalDetailsForm({ setShowFinalForm, showFinalForm, ids }) {
         ).then((response) => {
             if (response && response.data) {
                 console.log('Final form has submitted sucessfully',response)
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Employee Added',
+                    text: 'The new employee has been successfully added!',
+                    confirmButtonColor: '#2B2342'
+                });
+
             } else {
                 console.error('Invalid response data:', response)
                 alert('Can not add new employee data. Please try again')
             }
 
-        });
+        })
+        .catch((error) => {
+            console.error('Error submitting final form:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to add the employee. Please try again later!',
+                confirmButtonColor: '#d33'
+            });
 
-    }
+    })
+}
 
 
     return (
