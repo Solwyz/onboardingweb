@@ -21,6 +21,7 @@ function BasicDetailsForm({ editingEmployee }) {
   const [maxDate, setMaxDate] = useState("");
   const [designations, setDesignations] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [photoPreview, setPhotoPreview] = useState(null);
 
   const [ids, setIds] = useState({})
@@ -67,7 +68,7 @@ function BasicDetailsForm({ editingEmployee }) {
       console.log("file:", file)
       const imageRef = ref(storage, `images/${file.name + v4()}`);
       uploadBytes(imageRef, file).then((snapshot) => {
-        if(snapshot && snapshot.metadata) {
+        if (snapshot && snapshot.metadata) {
           console.log("Uploaded a blob or file!", snapshot);
           getDownloadURL(snapshot.ref).then((url) => {
             console.log("new URL:", url);
@@ -114,6 +115,18 @@ function BasicDetailsForm({ editingEmployee }) {
       .catch((error) => {
         console.error("Error fetching departments:", error);
       });
+
+    // Fetch projects
+    Api.get("api/project", {
+      Authorization: `Bearer ${token}`,
+    })
+      .then((response) => {
+        setProjects(response.data.content);
+      })
+      .catch((error) => {
+        console.error("Error fetching projects:", error);
+      });
+
   }, []);
 
   const [isFormValid, setIsFormValid] = useState(false);
@@ -132,6 +145,7 @@ function BasicDetailsForm({ editingEmployee }) {
     passport: "",
     designation: "",
     department: "",
+    project: "",
     email: "",
     image: "",
   });
@@ -146,6 +160,7 @@ function BasicDetailsForm({ editingEmployee }) {
       panNumber,
       designation,
       department,
+      project,
       email,
       image,
     } = formData;
@@ -253,7 +268,7 @@ function BasicDetailsForm({ editingEmployee }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (isFormValid) {
       console.log("checkBasic", formData);
       Api.post(
@@ -270,13 +285,16 @@ function BasicDetailsForm({ editingEmployee }) {
           designation: {
             id: formData.designation,
           },
+          project: {
+            id: formData.project,
+          },
           panNumber: formData.panNumber,
           passport: formData.passport,
           image: formData.image,
         },
         { Authorization: `Bearer ${token}` }
       ).then((response) => {
-        if(response && response.data) {
+        if (response && response.data) {
           setShowProfessionalForm(true);
           console.log("basicSub:", response);
           setResponseBasicID(response.data.id)
@@ -468,7 +486,23 @@ function BasicDetailsForm({ editingEmployee }) {
                     </option>
                   ))}
                 </select>
+              </div><div className="mt-6">
+                <div className="text-[14px]">Project</div>
+                <select
+                  name="project"
+                  value={formData.project}
+                  onChange={handleFormChange}
+                  className="text-[14px] border rounded mt-2 w-[247px] h-[48px] px-[17px] focus:outline-[#A4A4E5]"
+                >
+                  <option disabled value="">Select Project</option>
+                  {projects.map((project) => (
+                    <option key={project.id} value={project.id}>
+                      {project.projectName}
+                    </option>
+                  ))}
+                </select>
               </div>
+
             </div>
             <div className="flex gap-4 text-[#373737]">
               <div className="mt-6">
