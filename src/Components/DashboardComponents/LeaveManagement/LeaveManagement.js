@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import leaveIcon from "../../../Assets/hrm/leaveBal.png";
 import Api from "../../../Services/Api";
+import Swal from "sweetalert2";
+
 
 function LeaveManagement() {
   const [showForm, setShowForm] = useState(false);
@@ -42,7 +44,9 @@ function LeaveManagement() {
         console.log("API for leave man:", response.data.data);
         setLeaveHistory(response.data.data || []);
         setLeaveBalances(response.data.content || leaveBalances);
-        setApiError(""); // Clear any previous error
+        setApiError("");
+      
+
       })
       .catch((error) => {
         if (error.response?.status === 401) {
@@ -72,8 +76,10 @@ function LeaveManagement() {
 
   // Handle Leave Form Submission
   const handleFormSubmit = (e) => {
-    const applicationDate = new Date().toISOString(); 
-    // e.preventDefault();
+  
+
+    const applicationDate = new Date().toISOString();
+    e.preventDefault();
 
     // Validate form data
     if (
@@ -124,7 +130,15 @@ function LeaveManagement() {
     )
       .then((response) => {
         console.log("Leave request submitted successfully:", response);
-        // Handle success
+        setApiError("");
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Leave request submitted successfully.",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        
       })
       .catch((error) => {
         console.error(
@@ -303,11 +317,10 @@ function LeaveManagement() {
               <button
                 type="submit"
                 disabled={!isFormValid}
-                className={`w-[118px] h-[48px] rounded-lg text-center text-white text-sm font-normal ${
-                  isFormValid
+                className={`w-[118px] h-[48px] rounded-lg text-center text-white text-sm font-normal ${isFormValid
                     ? "bg-[#2B2342]"
                     : "bg-gray-400 cursor-not-allowed"
-                }`}
+                  }`}
               >
                 Submit
               </button>
@@ -360,7 +373,7 @@ function LeaveManagement() {
                         }
                       >
                         <td className="p-4 text-left font-normal text-sm">
-                        {getCurrentDate()}
+                          {getCurrentDate()}
                         </td>
                         <td className="p-4 text-left font-normal text-sm">
                           {leave.leaveType}
@@ -388,13 +401,12 @@ function LeaveManagement() {
                           {calculateDaysBetween(leave.startDate, leave.endDate)}
                         </td>
                         <td
-                          className={`p-4 text-left font-normal text-sm ${
-                            leave.status === "APPROVED"
+                          className={`p-4 text-left font-normal text-sm ${leave.status === "APPROVED"
                               ? "text-green-500"
                               : leave.status === "REJECTED"
-                              ? "text-red-500"
-                              : "text-orange-500"
-                          }`}
+                                ? "text-red-500"
+                                : "text-orange-500"
+                            }`}
                         >
                           {leave.status ? leave.status : "PENDING"}
                         </td>
