@@ -138,6 +138,7 @@ function LeaveManagement() {
           timer: 2000,
           showConfirmButton: false,
         });
+        setShowForm(false);
         
       })
       .catch((error) => {
