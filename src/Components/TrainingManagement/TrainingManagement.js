@@ -98,7 +98,7 @@ function TrainingManagement() {
                     icon: 'success',
                     title: 'Training Added',
                     text: 'The new training has been successfully added!',
-                    confirmButtonColor: '#2B2342'
+                    confirmButtonColor: '#2B2342' 
                 });
             }
         });
