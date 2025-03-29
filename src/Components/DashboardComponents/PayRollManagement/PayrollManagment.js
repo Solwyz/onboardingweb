@@ -8,6 +8,7 @@ import UncheckedBox from "../../../Assets/HrTas/uncheckBox.svg";
 import Api from "../../../Services/Api";
 import editIcon from '../../../Assets/Superadmin/edit-svgrepo-com.svg'
 import deleteIcon from '../../../Assets/Superadmin/delete.svg'
+import Swal from "sweetalert2";
 
 const AdminPayrollForm = () => {
   const [payroll, setPayroll] = useState({
@@ -95,7 +96,7 @@ const AdminPayrollForm = () => {
 
     console.log('paydata:', payroll)
     e.preventDefault();
-    alert("Payroll created successfully!");
+ 
   };
 
   const handleDownload = () => {
@@ -141,6 +142,12 @@ const AdminPayrollForm = () => {
           })
           setShowPayrollForm(false);
           console.log('payroll created', response.data)
+          Swal.fire({
+            icon: 'success',
+            title: 'Payroll Created',
+            text: 'The new payroll has been successfully created!',
+            confirmButtonColor: '#2B2342'
+          });
         } else {
           console.error('Invalid response data:', response)
           alert('Can not create Payroll. Please try again')
@@ -220,25 +227,25 @@ const AdminPayrollForm = () => {
           <table className='min-w-full  bg-white rounded-lg'>
             <thead className="bg-[#465062] p-4 text-center font-normal text-sm text-white">
               <tr className='w-full'>
-                <th className="p-4 text-center font-normal text-sm rounded-tl-lg">S No.</th>
-                <th className="p-4 text-center font-normal text-sm">Name</th>
-                <th className="p-4 text-center font-normal text-sm">Employee ID</th>
-                <th className="p-4 text-center font-normal text-sm">Role</th>
-                <th className="p-4 text-center font-normal text-sm">Bank account</th>
-                <th className="p-4 text-center font-normal text-sm">Pay period</th>
-                <th className="p-4 text-center font-normal text-sm rounded-tr-lg">Edit</th>
+                <th className="p-4 text-start font-normal text-sm rounded-tl-lg">S No.</th>
+                <th className="p-4 text-start font-normal text-sm">Name</th>
+                <th className="p-4 text-start font-normal text-sm">Employee ID</th>
+                <th className="p-4 text-start font-normal text-sm">Role</th>
+                <th className="p-4 text-start font-normal text-sm">Bank account</th>
+                <th className="p-4 text-start font-normal text-sm">Pay period</th>
+                <th className="p-4 text-start font-normal text-sm rounded-tr-lg">Edit</th>
               </tr>
             </thead>
 
             <tbody>
               {employees.map((employee, index) => (
                 <tr className="text-sm text-[#464545] font-normal hover:text-[#2B2342] hover:font-extrabold cursor-pointer" onClick={() => handleEmployeeClick(employee.id)}>
-                  <td className='p-4 text-center font-normal '>{index + 1}</td>
-                  <td className='p-4 text-center font-normal '>{employee.name}</td>
-                  <td className='p-4 text-center font-normal '>{employee.id}</td>
-                  <td className='p-4 text-center font-normal '>{employee.salaryDetails?.updatedBy}</td>
-                  <td className='p-4 text-center font-normal '>{employee.salaryDetails?.bankAccount}</td>
-                  <td className='p-4 text-center font-normal '>{employee.salaryDetails?.payPeriod}</td>
+                  <td className='p-4 text-start font-normal '>{index + 1}</td>
+                  <td className='p-4 text-start font-normal '>{employee.name + ' '+ employee.basicDetails?.lastName}</td>
+                  <td className='p-4 text-start font-normal '>{employee.id}</td>
+                  <td className='p-4 text-start font-normal '>{employee.salaryDetails?.updatedBy}</td>
+                  <td className='p-4 text-start font-normal '>{employee.salaryDetails?.bankAccount}</td>
+                  <td className='p-4 text-start font-normal '>{employee.salaryDetails?.payPeriod}</td>
                   <td className='p-4 text-left text-sm'>
                     <div className='flex items-center justify-center gap-4 w-fit'>
                       <img src={editIcon} className='h-3 w-3 hover:cursor-pointer'></img>

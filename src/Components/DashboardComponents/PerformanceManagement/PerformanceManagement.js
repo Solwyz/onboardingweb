@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Api from '../../../Services/Api'; // Adjust the path based on your project structure
+import Swal from 'sweetalert2';
 
 function PerformanceManagement() {
     const initialFormData = {
@@ -70,7 +71,12 @@ function PerformanceManagement() {
                 if(response && response.data){
                     setFormData(initialFormData)
                     console.log('performanceform',response.data)
-                    alert('Performnce form submitted successfully')
+                   Swal.fire({
+                        icon: 'success',
+                        title: 'Performance form submitted',
+                        text: 'Performance form has been submitted successfully!',
+                        confirmButtonColor: '#2B2342'
+                    });
                 } else {
                     console.log('Invalid responce data', response)
                     alert('Performance form not submitted. Please try again.')
