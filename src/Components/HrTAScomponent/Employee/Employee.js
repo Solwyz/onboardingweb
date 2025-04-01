@@ -277,7 +277,31 @@ function Employee() {
                     </tr>
                   </thead>
                   <tbody>
-                    {employees?.map((employee, index) => (
+                    {!searchValue ?  employees?.map((employee, index) => (
+                      <tr key={employee.id}
+
+                        onClick={() => handleEmployeeClick(employee)}
+                        className={` cursor-pointer h-[50px] ${index % 2 === 0 ? 'bg-white ' : 'bg-[#F9F9F9]'}`}>
+                        <td className="p-4 text-start text-sm">{index + 1}</td>
+                        <td className="p-4 text-start text-sm">{employee.basicDetails?.firstName + ' '+ employee.basicDetails?.lastName}</td>
+                        <td className="p-4 text-start text-sm">{employee.id}</td>
+                        <td className="p-4 text-start text-sm">{employee.basicDetails?.designation?.name}</td>
+                        <td className="p-4 text-start text-sm">{employee.basicDetails?.department?.departmentName}</td>
+                        <td className="p-4 text-start text-sm">{employee.professionalDetails?.branch?.name}</td>
+                        <td className="p-4 text-start text-sm">{employee.contactForm?.primaryNumber}</td>
+                        <td className="p-4 text-start">
+                          <button onClick={(e) => handleEditEmployeeClick(e, employee)}>
+                            <img src={editIcon} alt="edit" />
+                          </button>
+                          <button onClick={(e) => openDeleteModal(e, employee.id)}>
+                            <img className="w-6 h-6 ml-6" src={deleteIcon} alt="delete" />
+                          </button>
+
+
+                        </td>
+                      </tr>
+                    )) : 
+                    filteredEmployees?.map((employee, index) => (
                       <tr key={employee.id}
 
                         onClick={() => handleEmployeeClick(employee)}
