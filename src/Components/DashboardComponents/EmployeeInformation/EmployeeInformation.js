@@ -6,6 +6,8 @@ import AddBtn from "../../../Assets/HrTas/addIcon.svg";
 import SearchIcon from "../../../Assets/HrTas/searchIcon.svg";
 import filterIcon from "../../../Assets/HrTas/filterIcon.svg";
 import Api from '../../../Services/Api';
+import arrowLeft from "../../../Assets/HrTas/documentsPage/arrowLeft.svg";
+import arrowRight from "../../../Assets/HrTas/documentsPage/arrowRight.svg";
 
 export const contextItems = createContext();
 
@@ -175,6 +177,30 @@ function EmployeeInformation() {
     );
 
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const employeesPerPage = 10; // Change this to adjust employees per page
+
+  // Calculate total pages
+  const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
+
+  // Get current employees for the page
+  const indexOfLastEmployee = currentPage * employeesPerPage;
+  const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
+  const currentEmployees = filteredEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee);
+
+  // Handle page change
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+
+
   return (
     <contextItems.Provider value={{ showForm, setShowForm }}>
       <div className="h-full w-full p-6 bg-[#F9F9FB]">
@@ -238,28 +264,29 @@ function EmployeeInformation() {
                   </div>
                   <div className="overflow-x-auto">
                     {filteredEmployees.length > 0 ? (
-                      <table className="table-auto mt-6 border-collapse w-full min-w-[700px] h-full">
-                        <thead>
-                          <tr className="bg-[#465062] text-left">
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tl-lg">Sl No</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Name</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Employee ID</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Role</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Department</th>
-                            <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tr-lg">Location</th>
-                            {/* <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tr-lg">Actions</th> */}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {filteredEmployees.map((employee, index) => (
-                            <tr key={index} className="text-sm font-normal">
-                              <td className="px-4 py-2 text-left">{index + 1}</td>
-                              <td className="px-4 py-2 text-left">{employee.name + " " +employee.basicDetails?.lastName}</td>
-                              <td className="px-4 py-2 text-left">{employee.id}</td>
-                              <td className="px-4 py-2 text-left">{employee.basicDetails?.designation?.name}</td>
-                              <td className="px-4 py-2 text-left">{employee.basicDetails?.department?.departmentName}</td>
-                              <td className="px-4 py-2 text-left">{employee.professionalDetails?.branch?.name}</td>
-                              {/* <td className="px-4 py-2 flex justify-left">
+                      <div>
+                        <table className="table-auto mt-6 border-collapse w-full min-w-[700px] h-full">
+                          <thead>
+                            <tr className="bg-[#465062] text-left">
+                              <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tl-lg">Sl No</th>
+                              <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Name</th>
+                              <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Employee ID</th>
+                              <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Role</th>
+                              <th className="px-4 py-2 text-[14px] font-normal text-white text-left">Department</th>
+                              <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tr-lg">Location</th>
+                              {/* <th className="px-4 py-2 text-[14px] font-normal text-white text-left rounded-tr-lg">Actions</th> */}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {currentEmployees.map((employee, index) => (
+                              <tr key={index} className="text-sm font-normal">
+                                <td className="px-4 py-2 text-left">{index + 1}</td>
+                                <td className="px-4 py-2 text-left">{employee.name + " " + employee.basicDetails?.lastName}</td>
+                                <td className="px-4 py-2 text-left">{employee.id}</td>
+                                <td className="px-4 py-2 text-left">{employee.basicDetails?.designation?.name}</td>
+                                <td className="px-4 py-2 text-left">{employee.basicDetails?.department?.departmentName}</td>
+                                <td className="px-4 py-2 text-left">{employee.professionalDetails?.branch?.name}</td>
+                                {/* <td className="px-4 py-2 flex justify-left">
                                 <button
                                   onClick={() => handleEditClick(employee)}
                                   className=""
@@ -274,10 +301,67 @@ function EmployeeInformation() {
                                 </button>
                               </td> */}
 
-                            </tr>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+
+                        {/* <div className="flex justify-between items-center mt-4">
+                          <button
+                            className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                          >
+                            Previous
+                          </button>
+
+                          <span className="text-gray-700">
+                            Page {currentPage} of {totalPages}
+                          </span>
+
+                          <button
+                            className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                          >
+                            Next
+                          </button>
+                        </div> */}
+
+                        {/* Pagination Controls */}
+                        <div className="flex justify-end align-middle mt-8">
+                          <button
+                            onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+                            className={`p-2 ${currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
+                              }`}
+                            disabled={currentPage === 1}
+                          >
+                            <img src={arrowLeft} alt="Previous" />
+                          </button>
+                          {[...Array(totalPages)].map((_, i) => (
+                            <button
+                              key={i}
+                              onClick={() => paginate(i + 1)}
+                              className={`p-2 rounded-md ${currentPage === i + 1 ? "text-[#373737]" : "text-[#C8C8C8]"
+                                }`}
+                            >
+                              {i + 1}
+                            </button>
                           ))}
-                        </tbody>
-                      </table>
+                          <button
+                            onClick={() =>
+                              paginate(currentPage < totalPages ? currentPage + 1 : totalPages)
+                            }
+                            className={`p-2 ${currentPage === totalPages ? "cursor-not-allowed opacity-50" : ""
+                              }`}
+                            disabled={currentPage === totalPages}
+                          >
+                            <img src={arrowRight} alt="Next" />
+                          </button>
+                        </div>
+
+
+                      </div>
                     ) : (
                       <div>No employees found.</div>
                     )}
