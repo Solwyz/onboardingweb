@@ -216,7 +216,7 @@ function Department({ onBack }) {
         </div>
       )}
 
-    </div >
+    </div>
   );
 }
 

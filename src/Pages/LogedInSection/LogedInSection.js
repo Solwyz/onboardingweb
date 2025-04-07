@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Employee from "../../Assets/hrm/person.svg"
 import Leave from "../../Assets/hrm/Frame.svg"
@@ -27,13 +27,18 @@ import PayrollManagment from '../../Components/DashboardComponents/PayRollManage
 import Api from '../../Services/Api';
 import TrainingManagement from '../../Components/TrainingManagement/TrainingManagement';
 
+
 const token = localStorage.getItem('token');
 const refreshToken = localStorage.getItem('refreshToken');
+
 
 
 function LogedInSection() {
   const [activeSidebar, setActiveSidebar] = useState('Employer Information');
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+
+ 
+
 
   const sidebarItems = [
     { name: 'Employees Information', icon: Employee },

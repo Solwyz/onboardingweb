@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Announcement from "../../../../Assets/HrTas/Announcement.svg";
 import AddBtn from "../../../../Assets/HrTas/add.svg";
 import BrandAwareness from "../../../../Assets/HrTas/brand_awareness.svg";
@@ -8,6 +8,7 @@ import editIcon from '../../../../Assets/Superadmin/edit-svgrepo-com.svg'
 import deleteIcon from '../../../../Assets/Superadmin/delete.svg'
 import './AnnouncementPage.css'
 import { ClipLoader } from 'react-spinners';
+import { mainContext } from '../../../../App';
 
 const token = localStorage.getItem('token')
 
@@ -16,6 +17,8 @@ function Modal({ onClose, onSubmit, setIsModalOpen, setRefreshKey }) {
   const [description, setDescription] = useState('');
   const [author, setAuthor] = useState('');
   const [isAdding, setIsAdding] = useState(false)
+
+  const { loginToken } = useContext(mainContext); 
 
   const isValid = headline && description && author
 
@@ -141,6 +144,8 @@ function AnnouncementPage() {
     author: ''
   })
 
+  const { loginToken } = useContext(mainContext);
+
 
   const handleEditClick = (id) => {
     const announcementTobeUpdated = announcements.find(announcement => announcement.id == id)
@@ -216,7 +221,7 @@ function AnnouncementPage() {
 
   useEffect(() => {
     Api.get('api/announcement', {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${loginToken}`
     })
       .then(response => {
         if (response.data && response.data.content) {
