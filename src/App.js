@@ -21,12 +21,15 @@ import ProfessionalDetails from './Components/HrTAScomponent/Employee/EmployeeAd
 import ContactDetailsForm from './Components/HrTAScomponent/Employee/EmployeeAddForms/ContactDetailsForm';
 import PersonalDetailForm from './Components/HrTAScomponent/Employee/EmployeeAddForms/PersonalDetailForm';
 import ScrollToTop from './ScrollToTop';
+import { createContext, useState } from 'react';
 
-
+export const mainContext = createContext();
 
 function App() {
+  const [loginToken, setLoginToken] = useState(localStorage.getItem('token'));
   return (
     <div className="App font-AnekLatin">
+    <mainContext.Provider value={{loginToken, setLoginToken}}>
       <Router>
       <ScrollToTop />
         <Routes>
@@ -38,6 +41,7 @@ function App() {
           <Route path='/forgot' Component={ForgotPassword} />
         </Routes>
       </Router>
+      </mainContext.Provider>
     </div>
   );
 }

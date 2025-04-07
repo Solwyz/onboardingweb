@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { json, Link, useNavigate } from "react-router-dom";
 import medoLogo from "../../Assets/medoLogo.svg"
 import Api from "../../Services/Api";
+import { mainContext } from "../../App";
 function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +14,8 @@ function LoginPage() {
   const [userDetails, setUserDetails] = useState({})
 
   const navigate = useNavigate();
+
+  const { setLoginToken } = useContext(mainContext);
 
   // Define user roles and their credentials
   // const credentials = {
@@ -51,6 +54,7 @@ function LoginPage() {
       .then(response => {
         if (response.data && response.data.jwt) {
           setToken(response.data.jwt);
+          setLoginToken(response.data.jwt);
           console.log('your token is : ', response.data.jwt)
           console.log('refresh token is :', response.data.refreshToken)
           localStorage.setItem('token', response.data.jwt);
@@ -75,25 +79,6 @@ function LoginPage() {
         }
       })
 
-    //   function decodeJWT(token) {
-    //     const base64Url = token.split('.')[1];
-    //     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    //     const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
-    //         '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-    //     ).join(''));
-    //     return JSON.parse(jsonPayload);
-    // }
-
-    // const jwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlcmFkbWluIiwicm9sZXMiOiIiLCJleHAiOjE3Mzg3NjIwMTQsInVzZXJEZXRhaWxzIjp7InBhc3N3b3JkIjoiIiwidXNlcm5hbWUiOiJzdXBlcmFkbWluIiwiYXV0aG9yaXRpZXMiOltdLCJhY2NvdW50Tm9uRXhwaXJlZCI6dHJ1ZSwiYWNjb3VudE5vbkxvY2tlZCI6dHJ1ZSwiY3JlZGVudGlhbHNOb25FeHBpcmVkIjp0cnVlLCJlbmFibGVkIjp0cnVlLCJpZCI6IjdmMDAwMDAxLTgzMDMtMTJiMi04MTgzLTAzNDkxNDYwMDAwMCIsInVzZXJOYW1lIjoic3VwZXJhZG1pbiJ9LCJpYXQiOjE3Mzg3NTg0MTR9.TsWdfOrpx49EZQyYAg2m0y_MOE3GqBdx4EJf-BSPczQ";
-
-    // console.log('decoded',decodeJWT(jwt));
-
-
-
-    // .catch(error => {
-    //   console.error('Error occurred during authentication:', error);
-    //   alert('An error occured while trying to authenticate. Please check your credentials or try again later.')
-    // })
 
 
     let isValid = true;

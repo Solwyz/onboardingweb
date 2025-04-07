@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Api from '../../../Services/Api';
 import addIcon from '../../../Assets/HrTas/addIcon.svg';
 import editIcon from '../../../Assets/HrTas/edit.svg';
@@ -6,6 +6,7 @@ import deleteIcon from '../../../Assets/HrTas/delete (1).svg';
 import BasicDetailsForm from './EmployeeAddForms/BasicDetailsForm';
 import EmployeeDetails from './EmployeeDetails/EmployeeDetails';
 import confirmDeleteIcon from "../../../Assets/HrTas/employeeForms/Featured icon.svg"
+import { mainContext } from '../../../App';
 
 const token = localStorage.getItem('token');
 console.log('Token:', token);
@@ -21,6 +22,8 @@ function Employee() {
   const [selectedEmployee, setSelectedEmployee] = useState(null)
   const [deleteId, setDeleteId] = useState(null);
   const [teams, setTeams] = useState([]);
+
+  const { loginToken } = useContext(mainContext);
 
   const handleApiError = (error, customMessage = "An error occurred while fetching data.") => {
     console.error("API Error:", error);
@@ -67,7 +70,7 @@ function Employee() {
   useEffect(() => {
     {selectedOption ? 
       Api.get(`api/employee/team/${selectedOption}`, {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${loginToken}`
       })
 
       .then((response) => {
@@ -81,7 +84,7 @@ function Employee() {
       })
       :
     Api.get('api/employee/api/employees/active', {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${loginToken}`
     })
 
       .then((response) => {
@@ -205,7 +208,7 @@ function Employee() {
 
   useEffect(() => {
     Api.get('api/teams', {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${loginToken}`
     })
     .then((response) => {
       if(response && response.data){
