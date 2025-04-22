@@ -22,7 +22,7 @@ function EmployeeDetails({employee}) {
     const employeeData = {
         firstName: employee.basicDetails?.firstName,
         lastName: employee.basicDetails?.lastName,
-        employeeId: employee.id,
+        employeeId: employee.employeeCode,
         designation: employee.basicDetails?.designation?.name,
         location: employee.contactForm?.workAddress?.streetName,
         status: 'Active',
