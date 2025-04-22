@@ -23,7 +23,7 @@ function FinalDetailsForm({ setShowFinalForm, showFinalForm, ids }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log('idsssss', ids)
-        Api.post('api/employee', {
+        Api.post('api/employee/create', {
 
             "email": ids.employeeEmail,
             "name": ids.employeeName,
