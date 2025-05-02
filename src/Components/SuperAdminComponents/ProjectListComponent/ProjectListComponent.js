@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import addIcon from "../../../Assets/HrTas/addIcon.svg";
 import CloseBtn from "../../../Assets/HrTas/close.svg";
 import deleteIcon from '../../../Assets/Superadmin/delete.svg';
 import editIcon from '../../../Assets/Superadmin/edit-svgrepo-com.svg'
 import Api from '../../../Services/Api';
 import { ClipLoader } from 'react-spinners';
+import { mainContext } from '../../../App';
 
 
 const token = localStorage.getItem('token')
@@ -25,6 +26,8 @@ function ProjectListComponent() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [isAdding, setIsAdding] = useState(false)
+
+  const { loginToken } = useContext(mainContext);
 
   const handleCreateClick = () => {
     setShowModal(!showModal)
@@ -143,7 +146,7 @@ function ProjectListComponent() {
 
   useEffect(() => {
     Api.get('api/project', {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${loginToken}`
     })
       .then(response => {
         if (response && response.data) {

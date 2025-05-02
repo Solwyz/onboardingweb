@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import approveActive from "../../../Assets/HrTas/leaveRequest/check_circle (1).svg";
 import approveDeactive from "../../../Assets/HrTas/leaveRequest/check_circle (2).svg";
@@ -8,6 +8,7 @@ import arrowLeft from "../../../Assets/HrTas/documentsPage/arrowLeft.svg";
 import arrowRight from "../../../Assets/HrTas/documentsPage/arrowRight.svg";
 import Api from "../../../Services/Api";
 import download from "../../../Assets/HrTas/documentsPage/downloadIcon.svg"
+import { mainContext } from "../../../App";
 
 const token = localStorage.getItem("token");
 console.log("token:", token);
@@ -19,6 +20,8 @@ function Leave() {
   const itemsPerPage = 10;
   const totalPages = Math.ceil(leaveRequests.length / itemsPerPage);
 
+  const { loginToken } = useContext(mainContext);
+
   // Fetch leave requests from the API
   useEffect(() => {
     const fetchLeaveRequests = async () => {
@@ -26,7 +29,7 @@ function Leave() {
         const response = await Api.get(
           "api/leaveRequest?pageNo=0&pageSize=100&sortDir=ASC",
           {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${loginToken}`,
           }
         );
         setLeaveRequests(response.data.content);

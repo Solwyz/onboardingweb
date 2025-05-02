@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import "./TeamPlanner.css";
 import DropDownArrow from "../../../Assets/Superadmin/Team Planner/dropDownArrow-downFace.svg";
 import DropUpArrow from "../../../Assets/Superadmin/Team Planner/dropDownArrow-UpFace.svg";
@@ -6,6 +6,7 @@ import DummyImg from "../../../Assets/HrTas/employeeDetails/5856.jpg";
 import ScaleUp from "../../../Assets/Superadmin/Team Planner/scale-up.svg";
 import Edit from "../../../Assets/Superadmin/Team Planner/Edit-pencil.svg";
 import Api from '../../../Services/Api';
+import { mainContext } from '../../../App';
 
 const token = localStorage.getItem('token');
 console.log('Token:', token);
@@ -16,6 +17,8 @@ const TeamMembers = () => {
   const [selectedSectionData, setSelectedSectionData] = useState([]);
   const [count, setCount] = useState(0);
   const dropdownRef = useRef(null);
+
+  const { loginToken } = useContext(mainContext);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -34,7 +37,7 @@ const TeamMembers = () => {
 
     Api.get('api/teams', {
 
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${loginToken}`
 
     })
       .then((response) => {
@@ -55,7 +58,7 @@ const TeamMembers = () => {
       console.log('expp', teamID)
       Api.get(`api/employee/team/${teamID}`, {
 
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${loginToken}`
 
       })
         .then((response) => {
