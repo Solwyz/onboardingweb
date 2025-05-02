@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import EmployeeInformationDetailed from "../EmployeeInformationDetailed/EmployeeInformationDetailed";
 import deleteIcon from '../../../Assets/HrTas/delete (1).svg';
 import editIcon from '../../../Assets/HrTas/edit.svg';
@@ -8,6 +8,7 @@ import filterIcon from "../../../Assets/HrTas/filterIcon.svg";
 import Api from '../../../Services/Api';
 import arrowLeft from "../../../Assets/HrTas/documentsPage/arrowLeft.svg";
 import arrowRight from "../../../Assets/HrTas/documentsPage/arrowRight.svg";
+import { mainContext } from '../../../App';
 
 export const contextItems = createContext();
 
@@ -25,6 +26,8 @@ function EmployeeInformation() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const { loginToken } = useContext(mainContext);
+
 
 
   useEffect(() => {
@@ -32,7 +35,7 @@ function EmployeeInformation() {
     setError(null);
 
     Api.get('api/employee/api/employees/active', {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${loginToken}`
     })
       .then((response) => {
         console.log('API Response', response.data)
